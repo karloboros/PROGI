@@ -12,7 +12,8 @@
     "enforce-branch-name": "enforce-branch-name '(feature|task|chore|fix)/.+' --ignore 'staging'"
   },
   "dependencies": {
-    "vue": "^3.2.37"
+    "vue": "^3.2.37",
+    "vue-router": "^4.1.6"
   },
   "devDependencies": {
     "@babel/core": "^7.19.6",
