@@ -11,40 +11,101 @@
 			
 			\noindent \textbf{Dionici:}
 			
-			\begin{packed_enum}
+	\begin{packed_enum}
+				\item  Neregistrirani korisnik
+				\item  Registrirani korisnik 
+					\begin{packed_enum}
+						
+						\item  klijent
+						\item  klub
+						\item  trener
+						\item administrator
 				
-				\item Dionik 1
-				\item Dionik 2				
-				\item ...
-				
+					\end{packed_enum}
+
+				\item Razvojni tim
+				\item Asistenti
+										
 			\end{packed_enum}
 			
 			\noindent \textbf{Aktori i njihovi funkcionalni zahtjevi:}
 			
 			
 			\begin{packed_enum}
-				\item  \underbar{Aktor 1 (inicijator) može:}
+				\item  \underbar{ Neregistrirani korisnik (inicijator) može:}
 				
 				\begin{packed_enum}
-					
-					\item funkcionalnost 1
-					\item funkcionalnost 2
-					\begin{packed_enum}
-						
-						\item  podfunkcionalnost 1 
-						\item  podfunkcionalnost 2
-				
-					\end{packed_enum}
-					\item  funkcionalnost 3
+					\item pregledati na karti dostupne plesnjake i lokacije klubova
+					\item odabrati profile klubova (ime kluba, kontakt telefon, email adresu, kratki opis)  i pregledati tipove plesa (naziv, kratki opis, slika i link na video primjer plesa) koje ti klubovi nude
+					\item registrirati se, kreirati novi korisnički račun za klijenta za koji su mu potrebni korisničko ime, lozinka, ime, prezime, spol, datum rođenja, broj mobitela, email adresa i opcionalno opis plesnog iskustva i fotografija
+					\item kreirati novi korisnički račun za klub za koji su mu potrebni korisničko ime, lozinka, ime kluba, adresa sjedišta, telefon i email
+
 					
 				\end{packed_enum}
 			
-				\item  \underbar{Aktor 2 (sudionik) može:}
+				\item  \underbar{Klijent (inicijator) može:}
 				
 				\begin{packed_enum}
 					
-					\item funkcionalnost 1
-					\item funkcionalnost 2
+					\item pregledavati i mijenjati osobne podatke
+					\item izbrisati svoj korisnički račun
+					\item  pregledati na karti tečajeve slobodne za upis 
+					\item odabrati tečaj/grupu i dobiti prikaz relevantnih informacija (vrsta plesa, kalendar s terminima tečaja i lokacijama s dvoranama, ime i prezime te sliku trenera)
+					\item poslati prijavu klubu da postane trener koja mora sadržavati motivacijsko pismo i potvrdu u pdf formatu da je osposobljen držati tečaj plesa
+					\item pregledati aktivne prijave na tečaj/grupu kluba (informacije o treneru, skupu treninga kroz neko vrijeme, maksimalnom broju sudionika, opis s dodatnim informacijama o težini treninga, uvjetima treniranja i pravilima ponašanja) i prijaviti se
+
+					
+				\end{packed_enum}
+			
+			
+				\item  \underbar{Klub (inicijator) može:}
+				
+				\begin{packed_enum}
+					\item organizirati plesnjak uz odgovarajući opis (lokacija, naziv, opis i slika) – lokacija plesnjaka može biti na lokaciji kluba ili izvan nje 
+					\item potvrditi klijenta kao trenera
+					\item objaviti upise za tečaj/grupu s krajnjim rokom prijave i ograničenjem na dob i spol
+					\item odabrati klijente koji se primaju na tečaj/grupu 
+					\item naknadno mijenjati popis klijenata
+					\item uređivati i brisati tečajeve/grupe
+					\item pregledavati i mijenjati osobne podatke
+					\item izbrisati svoj korisnički račun 
+
+				\end{packed_enum}
+			
+
+			
+				\item  \underbar{Trener (inicijator) može:}
+				
+				\begin{packed_enum}
+					
+					\item imati podstranicu na kojoj vidi popis tečajeva/grupa koje trenira
+					\item vidjeti na kalendaru sve termine tečajeva/grupa koje vodi
+					\item vidjeti opće informacije tečaja/grupe za kojeg je zadužen i popis klijenata koji bi trebali biti nazočni na tečaju/grupi
+
+				\end{packed_enum}
+			
+
+			
+				\item  \underbar{Administrator (inicijator) može:}
+				
+				\begin{packed_enum}
+					
+					\item može dodati, mijenjati i brisati plesove
+					\item  odobriti prijavu kluba za korištenje aplikacije 
+					\item pregledati popis svih klijenata i klubova
+					\item uređivati korisničke račune
+
+					
+				\end{packed_enum}
+			
+			
+				\item  \underbar{Baza podataka(sudionik) može:}
+				
+				\begin{packed_enum}
+					
+					\item pohranjuje sve podatke o korisnicima i njihovim ovlastima
+					\item pohranjuje sve podatke o plesnim tečajevima i plesnjacima, njihovim lokacijama i opisima
+
 					
 				\end{packed_enum}
 			\end{packed_enum}
