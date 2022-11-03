@@ -157,6 +157,151 @@
 						\end{packed_item}
 					\end{packed_item}
 					%kraj template-a
+										\noindent \underbar{\textbf{UC13 -Prijava u sustav}}
+					\begin{packed_item}
+	
+						\item \textbf{Glavni sudionik: }Klijent
+						\item  \textbf{Cilj:} Dobiti pristup korisničkom sučelju
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} Registracija
+						\item  \textbf{Opis osnovnog tijeka:						
+						}
+						
+						\item[] \begin{packed_enum}
+	
+							\item Unos korisničkog imena i lozinke
+							\item Potvrda o ispravnosti unesenih podataka
+							\item Pristup korisničkim funkcijama
+							
+						\end{packed_enum}
+						
+						\item  \textbf{Opis mogućih odstupanja:}
+						
+						\item[] \begin{packed_item}
+	
+							\item[2.a] Neispravno korisničko ime/lozinka
+							\item[] \begin{packed_enum}
+								
+								\item Aplikacija obavještava klijenta da unese ispravne i obavezne podatke
+																
+							\end{packed_enum}
+														
+						\end{packed_item}
+					\end{packed_item}
+
+					\noindent \underbar{\textbf{UC14 -Pregled osobnih podataka}}
+					\begin{packed_item}
+	
+						\item \textbf{Glavni sudionik: }Klijent
+						\item  \textbf{Cilj:} Pregledati osobne podatke
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+	
+							\item Klijent odabire opciju prikaza osobnih podataka
+							\item Aplikacija prikazuje osobne podatke
+						\end{packed_enum}
+						
+					\end{packed_item}
+
+					\noindent \underbar{\textbf{UC15 -Promjena osobnih podataka}}
+					\begin{packed_item}
+	
+						\item \textbf{Glavni sudionik: }Klijent
+						\item  \textbf{Cilj:} Promijeniti osobne podatke
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+	
+							\item Klijent odabire opciju promjene osobnih podataka
+							\item Klijent mijenja svoje osobne podatke
+							\item Klijent sprema promjene
+							\item Ažuriraju se podatci u bazi podataka
+						\end{packed_enum}
+						
+						\item  \textbf{Opis mogućih odstupanja:}
+						
+						\item[] \begin{packed_item}
+	
+							\item[2.a] Klijent promjeni osobne podatke, ali ne odabere opciju spremanja promjena
+							\item[] \begin{packed_enum}
+								
+								\item Sustav obavještava klijenta da nije spremio podatke prije izlaska iz prozora
+								
+							\end{packed_enum}
+							
+						\end{packed_item}
+					\end{packed_item}
+
+					\noindent \underbar{\textbf{UC16 -Brisanje korisničkog računa}}
+					\begin{packed_item}
+	
+						\item \textbf{Glavni sudionik: }Klijent
+						\item  \textbf{Cilj:} Obrisati korisniički račun
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+	
+							\item Klijent odabire opciju prikaza osobnih podataka
+							\item Otvara se stranica s osobnim podatcima klijenta
+							\item Klijent briše račun
+							\item Korisnički račun briše se iz baze podataka
+							\item Otvara se stranica vidljiva neregistriranom korisniku
+						\end{packed_enum}
+						
+					\end{packed_item}
+					
+					\noindent \underbar{\textbf{UC17 -Pregled tečajeva na karti slobodnih za upis}}
+					\begin{packed_item}
+	
+						\item \textbf{Glavni sudionik: }Klijent
+						\item  \textbf{Cilj:} Pregledati na karti tečajeve slobodne za upis
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Opis osnovnog tijeka:						
+						}
+						
+						\item[] \begin{packed_enum}
+	
+							\item Klijent odabire opciju prikaza slobodnih tečajeva na karti
+							\item Otvara se stranica s kartom i prikazom tečajeva
+							\item Ukoliko želi, klijent filtrira tečajeve prema željenom vremenu i vrsti plesa
+						\end{packed_enum}
+						
+						\item  \textbf{Opis mogućih odstupanja:}
+						
+						\item[] \begin{packed_item}
+	
+							\item[2.a] Nema tečajeva slobodnih za upis 
+							\item[] \begin{packed_enum}
+								
+								\item Sustav obavještava korisnika da trenutno nema tečajeva slobodnih za upis (općenito ili za određeno mjesto i/ili vrstu plesa)
+																
+							\end{packed_enum}
+														
+						\end{packed_item}
+					\end{packed_item}
+				
+					\noindent \underbar{\textbf{UC18 -Odabit tečaja s karte}}
+					\begin{packed_item}
+	
+						\item \textbf{Glavni sudionik: }Klijent
+						\item  \textbf{Cilj:} Odabrati jedan od slobodnih tečajeva
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} Postoji slobodno mjesto za upis na tečaj
+						\item  \textbf{Opis osnovnog tijeka:						
+						}
+						
+						\item[] \begin{packed_enum}
+	
+							\item Klijent odabire željeni tečaj na karti
+							\item Otvara se stranica s prikazom relevantnih informacija o tečaju
+						\end{packed_enum}
+					\end{packed_item}
+				
+
 					
 					\noindent \underbar{\textbf{UC25 -Slanje prijave za trenera}}
 					\begin{packed_item}
@@ -190,7 +335,6 @@
 														
 						\end{packed_item}
 					\end{packed_item}
-					
 					
 					\noindent \underbar{\textbf{UC26 – Potvrda prijave za trenera}}
 					\begin{packed_item}
@@ -285,6 +429,46 @@ $>$
 						
 						\end{packed_item}
 					\end{packed_item}
+
+					\noindent \underbar{\textbf{UC31 - Pregled aktivnih prijava na tečaj kluba }}
+					\begin{packed_item}
+	
+						\item \textbf{Glavni sudionik: }Klijent
+						\item  \textbf{Cilj:} Pregledati aktivne prijave na tečajeve od klubova
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} Postoje aktivne prijave na tečajeve
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+	
+							\item Klijent odabire opciju prikaza aktivnih prijava na tečajeve
+							\item Prikazuje se stranica koja sadrži informacije o treneru, skupu treninga kroz neko vrijeme, maksimalnom broju sudionika, opis s dodatnim informacijama o težini treninga, uvjetima treniranja i pravilima ponašanja
+						\end{packed_enum}
+						
+						\end{packed_item}
+					\end{packed_item}
+
+					\noindent \underbar{\textbf{UC32 -Prijava na tečaj kluba }}
+					\begin{packed_item}
+	
+						\item \textbf{Glavni sudionik: }Klijent
+						\item  \textbf{Cilj:} Prijaviti se na tečaj kluba
+						\item  \textbf{Sudionici:} Baza podataka, klub
+						\item  \textbf{Preduvjet:} Postoje aktivne prijave na tečaj
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+	
+							\item Klijent odabire opciju prikaza aktivnih prijava na tečajeve
+							\item Prikazuje se stranica koja sadrži informacije o treneru, skupu treninga kroz neko vrijeme, maksimalnom broju sudionika, opis s dodatnim informacijama o težini treninga, uvjetima treniranja i pravilima ponašanja
+							\item Klijent odabire opciju prijave na tečaj
+							\item Klijent potvrđuje svoj odabir
+							\item Prijava klijenta sprema se u bazu podataka te na listu prijavljenih kluba
+						\end{packed_enum}
+						
+						\end{packed_item}
+					\end{packed_item}
+					
 					
 				\subsubsection{Dijagrami obrazaca uporabe}
 					
@@ -301,6 +485,12 @@ $>$
 			\includegraphics[scale=0.4]{slike/UC_admin.PNG} %veličina u odnosu na širinu linije
 			\caption{Dijagram obrasca uporabe, funkcionalnost administratora.}
 			\label{fig:UC_admin} %label mora biti drugaciji za svaku sliku
+		\end{figure}
+
+		\begin{figure}[H]
+			\includegraphics[scale=0.8]{slike/UC_client_trainer_unregistered.PNG} %veličina u odnosu na širinu linije
+			\caption{Dijagram obrasca uporabe, funkcionalnost neregistriranog korisnika, klijenta i trenera.}
+			\label{fig:UC_klijent_trener_neregistrirani} %label mora biti drugaciji za svaku sliku
 		\end{figure}
 		
 		
