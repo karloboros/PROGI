@@ -157,6 +157,296 @@
 						\end{packed_item}
 					\end{packed_item}
 					%kraj template-a
+					
+\noindent \underbar{\textbf{UC1 - Registracija korisnika}}
+					\begin{packed_item}
+	
+						\item \textbf{Glavni sudionik: }Neregistrirani korisnik
+						\item  \textbf{Cilj:} Stvoriti korisnički račun za pristup sustavu
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Opis osnovnog tijeka:						
+						}
+						
+						\item[] \begin{packed_enum}
+	
+							\item Korisnik odabire opciju za registraciju
+							\item Korisnik unosi potrebne korisničke podatke
+							\item Korisnik prima obavijest o uspješnoj registraciji
+							
+						\end{packed_enum}
+						
+						\item  \textbf{Opis mogućih odstupanja:}
+						
+						\item[] \begin{packed_item}
+	
+							\item[4.a] Odabir već zauzetog korisničkog imena i/ili e-maila, unos 
+korisničkog podatka u nedozvoljenom formatu ili pružanje 
+neispravnog e-mail
+
+							\item[] \begin{packed_enum}
+								
+								\item Sustav obavještava korisnika o neuspjelom upisu i vraća 
+ga na stranicu za registraciju
+								\item Korisnik mijenja potrebne podatke te završava unos ili 
+odustaje od registracije
+																
+							\end{packed_enum}
+														
+						\end{packed_item}
+					\end{packed_item}
+					
+					\noindent \underbar{\textbf{UC2 - Registracija kluba}}
+					\begin{packed_item}
+	
+						\item \textbf{Glavni sudionik: }Neregistrirani korisnik
+						\item  \textbf{Cilj:} Stvoriti korisnički račun za klub
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Opis osnovnog tijeka:						
+						}
+						
+						\item[] \begin{packed_enum}
+	
+							\item Korisnik odabire opciju za registraciju kluba
+							\item Korisnik unosi podatke vezano za klub
+							\item Korisnik prima obavijest o uspješnoj registraciji
+							
+						\end{packed_enum}
+						
+						\item  \textbf{Opis mogućih odstupanja:}
+						
+						\item[] \begin{packed_item}
+	
+							\item[4.a] . Odabir već zauzetog korisničkog imena i/ili e-maila, unos korisničkog podatka u nedozvoljenom formatu ili pružanje neispravnog e-mail
+
+							\item[] \begin{packed_enum}
+								
+								\item Sustav obavještava korisnika o neuspjelom upisu i vraća ga na stranicu za registraciju
+								\item Korisnik mijenja potrebne podatke te završava unos ili 
+odustaje od registracije
+																
+							\end{packed_enum}
+														
+						\end{packed_item}
+					\end{packed_item}
+					
+					\noindent \underbar{\textbf{UC3 - Registracija kluba}}
+					\begin{packed_item}
+	
+						\item \textbf{Glavni sudionik: }Neregistrirani korisnik
+						\item  \textbf{Cilj:} Pregledati sve dostupne klubove
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Opis osnovnog tijeka:						
+						}
+						
+						\item[] \begin{packed_enum}
+	
+							\item Karta je prikazana prilikom učitavanja aplikacije
+							\item Korisnik na karti odabire klub
+							\item Prikazuju se tipovi plesa koje pojedini klub nudi
+							\item . Klubovi se mogu filtrirati po tipovima plesa za koje organizira 
+tečaj
+							\item Odabir filtra
+							\item Prikazuju se filtrirani plesnjaci
+							
+						\end{packed_enum}
+						
+						
+					\end{packed_item}
+					
+					\noindent \underbar{\textbf{UC4 -Pregled plesnjaka}}
+					\begin{packed_item}
+	
+						\item \textbf{Glavni sudionik: }Neregistrirani korisnik
+						\item  \textbf{Cilj:} Pregledati dostupne plesnjake
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Opis osnovnog tijeka:						
+						}
+						
+						\item[] \begin{packed_enum}
+	
+							\item Korisniku se na karti prikazuju dostupni plesnjaci 
+							\item Dostupni plesnjaci se mogu filtrirati po:
+							
+							\item[] \begin{packed_enum}
+								
+								\item Tipu plesa
+								\item Klubu koji ga organizira
+								
+							\end{packed_enum}
+							
+							\item Odabir filtra
+							\item Prikazuju se filtrirani plesnjaci
+						
+						\end{packed_enum}	
+						
+					\end{packed_item}
+					
+					\noindent \underbar{\textbf{UC5 -Odabir kluba}}
+					\begin{packed_item}
+	
+						\item \textbf{Glavni sudionik: }Neregistrirani korisnik
+						\item  \textbf{Cilj:} Pretraga određenog kluba
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Opis osnovnog tijeka:						
+						}
+						
+						\item[] \begin{packed_enum}
+	
+							\item Pretraživanje kluba odvija se upisom osnovnih podataka o klubu  
+							\item Prikazuju se podatci za traženi klub
+							
+						\end{packed_enum}	
+						
+					\end{packed_item}
+					
+					\noindent \underbar{\textbf{UC6 -Dodavanje plesa}}
+					\begin{packed_item}
+	
+						\item \textbf{Glavni sudionik: }Administrator
+						\item  \textbf{Cilj:} Dodati novi ples
+						\item  \textbf{Preduvjet:} : Korisnik je registriran i dodijeljena su mu prava administratora
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Opis osnovnog tijeka:						
+						}
+						
+						\item[] \begin{packed_enum}
+	
+							\item Prikazuju se dostupni klubovi
+							\item Odabire se klub kojem želi dodati određeni ples
+							\item Unose se osnovni podatci o plesu
+							\item Dodaje se novi ples u bazu podataka
+							\item Ples postaje vidljiv unutar mogućih plesova za određeni klub
+							
+						\end{packed_enum}	
+						
+					\end{packed_item}
+					
+					\noindent \underbar{\textbf{UC7 - Izmjena plesa}}
+					\begin{packed_item}
+	
+						\item \textbf{Glavni sudionik: }Administrator
+						\item  \textbf{Cilj:} Izmjena postojećeg plesa
+						\item  \textbf{Preduvjet:} : Korisnik je registriran i dodijeljena su mu prava administratora
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Opis osnovnog tijeka:						
+						}
+						
+						\item[] \begin{packed_enum}
+	
+							\item Prikazuju se dostupni klubovi 
+							\item Administrator odabire klub
+							\item Administrator odabire ples kojem želi izmijeniti određene 
+podatke
+
+							\item Promjene se upisuju u bazu podataka
+							\item Izmijene postaju vidljive za odabrani ples
+							
+						\end{packed_enum}	
+						
+					\end{packed_item}
+					
+					\noindent \underbar{\textbf{UC8 - Brisanje plesa}}
+					\begin{packed_item}
+	
+						\item \textbf{Glavni sudionik: }Administrator
+						\item  \textbf{Cilj:} Brisanje postojećeg plesa
+						\item  \textbf{Preduvjet:} : Korisnik je registriran i dodijeljena su mu prava administratora
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Opis osnovnog tijeka:						
+						}
+						
+						\item[] \begin{packed_enum}
+	
+							\item Prikazuju se dostupni klubovi 
+							\item Odabir kluba
+							\item Odabir plesa koji se želi obrisati
+							\item Odabrani ples se uklanja iz baze podataka
+							\item Obrisani ples nije više vidljiv u aplikaciji
+							
+						\end{packed_enum}	
+						
+					\end{packed_item}
+					
+					\noindent \underbar{\textbf{UC9 - Odobrenje prijave kluba}}
+					\begin{packed_item}
+	
+						\item \textbf{Glavni sudionik: }Administrator
+						\item  \textbf{Cilj:} Odobrenje prijave kluba za korištenje aplikacije 
+						\item  \textbf{Preduvjet:} : Korisnik je registriran i dodijeljena su mu prava administratora
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Opis osnovnog tijeka:						
+						}
+						
+						\item[] \begin{packed_enum}
+	
+							\item Prikaz svih klubova koji traže pristup sustavu 
+							\item Prijava se može odbiti ili prihvatiti
+							\item U slučaju prihvaćanja, podatci za klub se spremaju u bazu podataka
+							\item Klub je nakon toga vidljiv u aplikaciji
+							
+						\end{packed_enum}	
+						
+					\end{packed_item}
+					
+					\noindent \underbar{\textbf{UC10 - Pregled korisnika}}
+					\begin{packed_item}
+	
+						\item \textbf{Glavni sudionik: }Administrator
+						\item  \textbf{Cilj:} Pregledati registrirane korisnike
+						\item  \textbf{Preduvjet:} : Korisnik je registriran i dodijeljena su mu prava administratora
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Opis osnovnog tijeka:						
+						}
+						
+						\item[] \begin{packed_enum}
+	
+							\item Administrator odabire opciju pregledavanja korisnika 
+							\item Prikaže se lista svih ispravno registriranih korisnika s osobnim podatcima
+							
+						\end{packed_enum}	
+						
+					\end{packed_item}
+					
+					\noindent \underbar{\textbf{UC11 - Pregled klubova}}
+					\begin{packed_item}
+	
+						\item \textbf{Glavni sudionik: }Administrator
+						\item  \textbf{Cilj:} Pregledati registrirane korisnike
+						\item  \textbf{Preduvjet:} : Korisnik je registriran i dodijeljena su mu prava administratora
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Opis osnovnog tijeka:						
+						}
+						
+						\item[] \begin{packed_enum}
+	
+							\item Administrator odabire opciju pregledavanja klubova 
+							\item Prikaže se lista svih ispravno registriranih korisnika s osobnim podatcima
+							
+						\end{packed_enum}	
+						
+					\end{packed_item}
+					
+					\noindent \underbar{\textbf{UC12 - Uređivanje korisničkih računa}}
+					\begin{packed_item}
+	
+						\item \textbf{Glavni sudionik: }Administrator
+						\item  \textbf{Cilj:} Uređivanje korisničkih računa
+						\item  \textbf{Preduvjet:} : Korisnik je registriran i dodijeljena su mu prava administratora
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Opis osnovnog tijeka:						
+						}
+						
+						\item[] \begin{packed_enum}
+	
+							\item Odabir hoće li se urediti korisnički račun kluba ili klijenta 
+							\item Odabir određenog korisničkog računa
+							\item Prikazuju se podatci koje je moguće izmijeniti za određeni korisnički račun
+ 							\item Promjene se spremaju u bazu podataka
+							
+						\end{packed_enum}	
+						
+					\end{packed_item}					
+					
 										\noindent \underbar{\textbf{UC13 -Prijava u sustav}}
 					\begin{packed_item}
 	
