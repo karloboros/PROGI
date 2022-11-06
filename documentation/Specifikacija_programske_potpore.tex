@@ -229,7 +229,7 @@ odustaje od registracije
 						\end{packed_item}
 					\end{packed_item}
 					
-					\noindent \underbar{\textbf{UC3 - Registracija kluba}}
+					\noindent \underbar{\textbf{UC3 - Pregled klubova}}
 					\begin{packed_item}
 	
 						\item \textbf{Glavni sudionik: }Neregistrirani korisnik
@@ -407,26 +407,8 @@ podatke
 						
 					\end{packed_item}
 					
-					\noindent \underbar{\textbf{UC11 - Pregled klubova}}
-					\begin{packed_item}
-	
-						\item \textbf{Glavni sudionik: }Administrator
-						\item  \textbf{Cilj:} Pregledati registrirane korisnike
-						\item  \textbf{Preduvjet:} : Korisnik je registriran i dodijeljena su mu prava administratora
-						\item  \textbf{Sudionici:} Baza podataka
-						\item  \textbf{Opis osnovnog tijeka:						
-						}
-						
-						\item[] \begin{packed_enum}
-	
-							\item Administrator odabire opciju pregledavanja klubova 
-							\item Prikaže se lista svih ispravno registriranih korisnika s osobnim podatcima
-							
-						\end{packed_enum}	
-						
-					\end{packed_item}
 					
-					\noindent \underbar{\textbf{UC12 - Uređivanje korisničkih računa}}
+					\noindent \underbar{\textbf{UC11 - Uređivanje korisničkih računa}}
 					\begin{packed_item}
 	
 						\item \textbf{Glavni sudionik: }Administrator
@@ -447,7 +429,7 @@ podatke
 						
 					\end{packed_item}					
 					
-										\noindent \underbar{\textbf{UC13 -Prijava u sustav}}
+										\noindent \underbar{\textbf{UC12 -Prijava u sustav}}
 					\begin{packed_item}
 	
 						\item \textbf{Glavni sudionik: }Klijent
@@ -479,7 +461,7 @@ podatke
 						\end{packed_item}
 					\end{packed_item}
 
-					\noindent \underbar{\textbf{UC14 -Pregled osobnih podataka}}
+					\noindent \underbar{\textbf{UC13 -Pregled osobnih podataka}}
 					\begin{packed_item}
 	
 						\item \textbf{Glavni sudionik: }Klijent
@@ -495,7 +477,7 @@ podatke
 						
 					\end{packed_item}
 
-					\noindent \underbar{\textbf{UC15 -Promjena osobnih podataka}}
+					\noindent \underbar{\textbf{UC14 -Promjena osobnih podataka}}
 					\begin{packed_item}
 	
 						\item \textbf{Glavni sudionik: }Klijent
@@ -525,7 +507,7 @@ podatke
 						\end{packed_item}
 					\end{packed_item}
 
-					\noindent \underbar{\textbf{UC16 -Brisanje korisničkog računa}}
+					\noindent \underbar{\textbf{UC15 -Brisanje korisničkog računa}}
 					\begin{packed_item}
 	
 						\item \textbf{Glavni sudionik: }Klijent
@@ -544,7 +526,7 @@ podatke
 						
 					\end{packed_item}
 					
-					\noindent \underbar{\textbf{UC17 -Pregled tečajeva na karti slobodnih za upis}}
+					\noindent \underbar{\textbf{UC16 -Pregled tečajeva na karti slobodnih za upis}}
 					\begin{packed_item}
 	
 						\item \textbf{Glavni sudionik: }Klijent
@@ -574,7 +556,7 @@ podatke
 						\end{packed_item}
 					\end{packed_item}
 				
-					\noindent \underbar{\textbf{UC18 -Odabir tečaja s karte}}
+					\noindent \underbar{\textbf{UC17 -Odabir tečaja s karte}}
 					\begin{packed_item}
 	
 						\item \textbf{Glavni sudionik: }Klijent
@@ -592,8 +574,136 @@ podatke
 					\end{packed_item}
 				
 
+					\noindent \underbar{\textbf{UC18 - Organizacija plesnjaka}}
+					\begin{packed_item}
+	
+						\item \textbf{Glavni sudionik: }Vlasnik kluba
+						\item  \textbf{Cilj:} Organizacija plesnjaka uz opis
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Opis osnovnog tijeka:						
+						}
+						
+						\item[] \begin{packed_enum}
+	
+							\item Vlasnik kluba odabirom pretraživanja dolazi na stranicu za unos novog plesnjaka
+							\item Vlasnik kluba putem forme upisuje potrebne podatke o plesnjaku
+							\item Vlasnik kluba potvrđuje izradu plesnjaka
+							\item Potvrdom odabira podaci se spremaju u bazu podataka
+						\end{packed_enum}
+					\end{packed_item}
+
+					\noindent \underbar{\textbf{UC19 - Objava upisa za tečaj}}
+					\begin{packed_item}
+	
+						\item \textbf{Glavni sudionik: }Vlasnik kluba
+						\item  \textbf{Cilj:} Upis klijenata na tečaj
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+	
+							\item Vlasnik kluba na izborniku odabire opciju za objavu novog tečaja
+							\item Vlasnik kluba treba unijeti potrebne podatke o tečaju
+							\item Potvrdnim odabirom podaci o tečaju se spremaju u bazu podataka i postaju dostupni svima na izbor
+						\end{packed_enum}
+						
+						\item  \textbf{Opis mogućih odstupanja:}
+						
+						\item[] \begin{packed_item}
+	
+							\item[2.a] Vlasnik kluba nije ispunio sve podatke
+							\item[] \begin{packed_enum}
+								
+								\item Stranica vraća vlasnika kluba natrag te traži od njega unos svih potrebnih podataka
+								
+							\end{packed_enum}							
+						\end{packed_item}
+					\end{packed_item}
+
+					\noindent \underbar{\textbf{UC20 - Odabir klijenata za tečaj}}
+					\begin{packed_item}
+	
+						\item \textbf{Glavni sudionik: }Vlasnik kluba
+						\item  \textbf{Cilj:} Popuna kvote za tečaj
+						\item  \textbf{Sudionici:} Baza podataka, Klijent
+						\item  \textbf{Preduvjet:} Postoje prijave za tečaj
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+	
+							\item Vlasnik kluba dobiva popis klijenata koji su se prijavili na tečaj
+							\item Vlasnik kluba bira klijente prema ograničenjima koja su postavili
+							\item Klikom na potvrdu odabira lista klijenata za tečaj je završena i sprema se u bazu podataka
+						\end{packed_enum}
+					\end{packed_item}
+
+					\noindent \underbar{\textbf{UC21 - Mijenjanje popisa klijenata}}
+					\begin{packed_item}
+	
+						\item \textbf{Glavni sudionik: }Vlasnik kluba
+						\item  \textbf{Cilj:} Promjena popisa klijenata primljenih na tečaj
+						\item  \textbf{Sudionici:} Baza podataka, Klijent
+						\item  \textbf{Preduvjet:} Postoji popis odabranih klijenata za tečaj
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+	
+							\item Vlasnik kluba iz baze podataka uzima popis trenutnih klijenata na tečaju
+							\item Vlasnik kluba miče klijente sa popisa ili dodaje nove, ovisno o potrebi
+							\item Promijenjeni popis sprema se natrag u bazu podataka
+						\end{packed_enum}
+					\end{packed_item}
+
+					\noindent \underbar{\textbf{UC22 - Uređivanje tečaja}}
+					\begin{packed_item}
+	
+						\item \textbf{Glavni sudionik: }Vlasnik kluba
+						\item  \textbf{Cilj:} Promjena uvjeta nekog tečaja
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} Tečaj postoji i objavljen je
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+	
+							\item Vlasnik kluba na izborniku odabire promjenu tečaja
+							\item Iz baze podataka se dopremaju podaci o tečaju
+							\item Vlasnik kluba mijenja prethodno određene karakteristike
+							\item Vlasnik kluba sprema podatke nakon što je gotov sa izmjenom
+							\item Promijenjene karakteristike se spremaju u bazu podataka
+						\end{packed_enum}
+						
+						\item  \textbf{Opis mogućih odstupanja:}
+						
+						\item[] \begin{packed_item}
+	
+							\item[2.a] Vlasnik kluba unio je neispravne podatke
+							\item[] \begin{packed_enum}
+								
+								\item Stranica od njega zahtjeva da unese ispravne podatke
+								
+							\end{packed_enum}
+						\end{packed_item}
+					\end{packed_item}
+
+					\noindent \underbar{\textbf{UC23 - Brisanje tečaja}}
+					\begin{packed_item}
+	
+						\item \textbf{Glavni sudionik: }Vlasnik kluba
+						\item  \textbf{Cilj:} Obrisati tečaj
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} Tečaj postoji
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+	
+							\item Vlasnik kluba odabire opciju brisanja tečaja
+							\item Tečaj se briše iz baze podataka i nije više dostupan
+						\end{packed_enum}
+						
+					\end{packed_item}
+
 					
-					\noindent \underbar{\textbf{UC25 -Slanje prijave za trenera}}
+					\noindent \underbar{\textbf{UC24 -Slanje prijave za trenera}}
 					\begin{packed_item}
 	
 						\item \textbf{Glavni sudionik: }Klijent
@@ -626,7 +736,7 @@ podatke
 						\end{packed_item}
 					\end{packed_item}
 					
-					\noindent \underbar{\textbf{UC26 – Potvrda prijave za trenera}}
+					\noindent \underbar{\textbf{UC25 – Potvrda prijave za trenera}}
 					\begin{packed_item}
 	
 						\item \textbf{Glavni sudionik: }Klub
@@ -646,7 +756,7 @@ podatke
 						\end{packed_item}
 					\end{packed_item}
 					
-					\noindent \underbar{\textbf{UC27 - Odbijanje prijave za trenera}}
+					\noindent \underbar{\textbf{UC26 - Odbijanje prijave za trenera}}
 					\begin{packed_item}
 	
 						\item \textbf{Glavni sudionik: }Klub
@@ -665,7 +775,7 @@ $>$
 						\end{packed_item}
 					\end{packed_item}
 					
-					\noindent \underbar{\textbf{UC28 – Pregled vođenih tečajeva}}
+					\noindent \underbar{\textbf{UC27 – Pregled vođenih tečajeva}}
 					\begin{packed_item}
 	
 						\item \textbf{Glavni sudionik: }Trener
@@ -686,7 +796,7 @@ $>$
 					\end{packed_item}
 				
 				
-					\noindent \underbar{\textbf{UC29 - Pregled kalendara s vođenim terminima}}
+					\noindent \underbar{\textbf{UC28 - Pregled kalendara s vođenim terminima}}
 					\begin{packed_item}
 	
 						\item \textbf{Glavni sudionik: }Trener
@@ -702,7 +812,7 @@ $>$
 						\end{packed_item}
 					\end{packed_item}
 					
-					\noindent \underbar{\textbf{UC30 - Pregled polaznika }}
+					\noindent \underbar{\textbf{UC29 - Pregled polaznika }}
 					\begin{packed_item}
 	
 						\item \textbf{Glavni sudionik: }Trener
@@ -720,7 +830,7 @@ $>$
 						\end{packed_item}
 					\end{packed_item}
 
-					\noindent \underbar{\textbf{UC31 - Pregled aktivnih prijava na tečaj kluba }}
+					\noindent \underbar{\textbf{UC30 - Pregled aktivnih prijava na tečaj kluba }}
 					\begin{packed_item}
 	
 						\item \textbf{Glavni sudionik: }Klijent
@@ -738,7 +848,7 @@ $>$
 						\end{packed_item}
 					\end{packed_item}
 
-					\noindent \underbar{\textbf{UC32 -Prijava na tečaj kluba }}
+					\noindent \underbar{\textbf{UC31 -Prijava na tečaj kluba }}
 					\begin{packed_item}
 	
 						\item \textbf{Glavni sudionik: }Klijent
