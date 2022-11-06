@@ -87,6 +87,7 @@
 					
 				\end{longtblr}
 				
+  
 				\begin{longtblr}[
 					label=none,
 					entry=none
@@ -95,12 +96,10 @@
 						colspec={|X[6,l]|X[6, l]|X[20, l]|}, 
 						rowhead = 1,
 					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
-					\hline \multicolumn{3}{|c|}{\textbf{Tecaj - ime tablice}}	 \\ \hline[3pt]
-					\SetCell{LightGreen}IDKorisnik & INT	&  	Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod  	\\ \hline
-					korisnickoIme	& VARCHAR &   	\\ \hline 
-					email & VARCHAR &   \\ \hline 
-					ime & VARCHAR	&  		\\ \hline 
-					\SetCell{LightBlue} primjer	& VARCHAR &   	\\ \hline 
+					\hline \multicolumn{3}{|c|}{\textbf{plesnjakPles}}	 \\ \hline[3pt]
+					 \SetCell{LightGreen}id & int	&  jedinstveni	identifikator koji povezuje povezane plsenjake sa plesovima koji se plešu	\\ \hline
+					\SetCell{LightBlue} plesnjakId & int & identifikator plesnjaka [ref: > Plesnjak.id] \\ \hline
+					\SetCell{LightBlue} plesId & int & identifikator plesa [ref: > Ples.id] \\ \hline
 				\end{longtblr}
 				
 				\begin{longtblr}[
