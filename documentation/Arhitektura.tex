@@ -110,14 +110,13 @@
 						colspec={|X[6,l]|X[6, l]|X[20, l]|}, 
 						rowhead = 1,
 					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
-					\hline \multicolumn{3}{|c|}{\textbf{Tecaj - ime tablice}}	 \\ \hline[3pt]
-					\SetCell{LightGreen}IDKorisnik & INT	&  	Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod  	\\ \hline
-					korisnickoIme	& VARCHAR &   	\\ \hline 
-					email & VARCHAR &   \\ \hline 
-					ime & VARCHAR	&  		\\ \hline 
-					\SetCell{LightBlue} primjer	& VARCHAR &   	\\ \hline 
+					\hline \multicolumn{3}{|c|}{\textbf{Trening}}	 \\ \hline[3pt]
+					\SetCell{LightGreen} id & int	& jedinstveni identifikator treninga \\ \hline
+					\SetCell{LightBlue} tecajId	& int & identifikator tečaja[ref: > Tecaj.id]\\ \hline 
+					startTime	& datetime &  vrijeme početka treninga 	\\ \hline 
+					endTime	& datetime &  vrijeme kraja treninga 	\\ \hline 
 				\end{longtblr}
-				
+  
 				\begin{longtblr}[
 					label=none,
 					entry=none
@@ -126,12 +125,13 @@
 						colspec={|X[6,l]|X[6, l]|X[20, l]|}, 
 						rowhead = 1,
 					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
-					\hline \multicolumn{3}{|c|}{\textbf{Tecaj - ime tablice}}	 \\ \hline[3pt]
-					\SetCell{LightGreen}IDKorisnik & INT	&  	Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod  	\\ \hline
-					korisnickoIme	& VARCHAR &   	\\ \hline 
-					email & VARCHAR &   \\ \hline 
-					ime & VARCHAR	&  		\\ \hline 
-					\SetCell{LightBlue} primjer	& VARCHAR &   	\\ \hline 
+					\hline \multicolumn{3}{|c|}{\textbf{Ples}}	 \\ \hline[3pt]
+					\SetCell{LightGreen} id & int	& jedinstveni identifikator plesa \\ \hline
+					name	& varchar & ime plesa\\ \hline 
+					description	& varchar & opis plesa\\ \hline 
+					image& varchar&slika koja opisuje ples \\ \hline
+					videoLink	& varchar &  link na video koji opisuje plesa\\ \hline 
+					
 				\end{longtblr}
 				
 				
