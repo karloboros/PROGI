@@ -17,15 +17,27 @@
 				
 		\section{Baza podataka}
 			
-			\textbf{\textit{dio 1. revizije}}\\
+		\textit{
+		Za potrebe našeg sustava koristit ćemo relacijsku bazu podataka koja je jednostavna za modeliranje naših potreba - upravljanje podacima o klubovima koji organiziraju određene događaje i korisnicima koji ih pohađaju. Sastavni elementi baze su relacije, odnosno tablice koje sadrže svoje atribute. Zadaća baze podataka je jednostavna pohrana,umetanje, izmjena i dohvat podataka za daljnju obradu. Baza podataka ove aplikacije sastoji se od sljedećih tablica:
+			\begin{packed_item}
 			
-		\textit{Potrebno je opisati koju vrstu i implementaciju baze podataka ste odabrali, glavne komponente od kojih se sastoji i slično.}
+			\item  Korisnik
+			\item  Klub
+			\item  Tecaj
+			\item  KorisnikTecaj
+			\item  TrenerPrijava
+			\item  Plesnjak
+			\item  Ples
+			\item  Lokacija
+			\item  PlesnjakPles
+			\item  Trening
+			
+			\end{packed_item}
+		}
 		
 			\subsection{Opis tablica}
-			
-
-				\textit{Svaku tablicu je potrebno opisati po zadanom predlošku. Lijevo se nalazi točno ime varijable u bazi podataka, u sredini se nalazi tip podataka, a desno se nalazi opis varijable. Svjetlozelenom bojom označite primarni ključ. Svjetlo plavom označite strani ključ}
 				
+				\textbf{Tecaj} \textit{Ovaj entitet opisuje tečajeve i sadrži sve informacije o njima. Povezan je sa vezom \textit{Many-to-One} sa Korisnikom preko \textit{trenerId},  {Many-to-One} sa Klubom preko \textit{klubId}, {Many-to-One} sa Lokacijom preko \textit{lokacijaId}, {Many-to-One} sa Plesom preko \textit{plesId}, \textit{One-to-Many} sa KorisnikTecaj preko \textit{tecajId} i \textit{One-to-Many} sa Trening preko \textit{tecajId}.}
 				
 				\begin{longtblr}[
 					label=none,
@@ -35,18 +47,100 @@
 						colspec={|X[6,l]|X[6, l]|X[20, l]|}, 
 						rowhead = 1,
 					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
-					\hline \multicolumn{3}{|c|}{\textbf{korisnik - ime tablice}}	 \\ \hline[3pt]
-					\SetCell{LightGreen}IDKorisnik & INT	&  	Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod  	\\ \hline
-					korisnickoIme	& VARCHAR &   	\\ \hline 
-					email & VARCHAR &   \\ \hline 
-					ime & VARCHAR	&  		\\ \hline 
-					\SetCell{LightBlue} primjer	& VARCHAR &   	\\ \hline 
+					\hline \multicolumn{3}{|c|}{\textbf{Tecaj}}	 \\ \hline[3pt]
+					\SetCell{LightGreen} id & int	&  	jedinstveni identifikator tečaja\\ \hline
+					\SetCell{LightBlue} lokacijaId	& int & identifikator lokacije [ref: > Lokacija.id]\\ \hline 
+					\SetCell{LightBlue} trenerId	& int & identifikator klijenta(trenera) [ref: > Korisnik.id]\\ \hline 		
+					name	& varchar &   ime tečaja	\\ \hline 
+					description & varchar & opis tečaja  \\ \hline 
+					image	& varchar &   url slike za opis tečaja	\\ \hline 
+					capacity & int &  kapacitet polaznika \\ \hline 
+					minAge	& int &   ograničenje za minimalni broj godina polaznika	\\ \hline 
+					maxAge & int &  ograničenje za maksimalni broj godina \\ \hline 
+					sex & enum &  ograničenje za spol polaznika 	\\ \hline
+					applicationDeadline & datetime & datum za krajnji rok prijave  \\ \hline 
+  					maxApplicants & int &  maksimalan broj polaznika \\ \hline 
+  					additionalRules & varchar & dodatne informacije i pravila za tečaj  \\ \hline 
+  					\SetCell{LightBlue} klubId & int  &  identifikator kluba koji organizira tečaj [ref: > Klub.id]\\ \hline 
+  					\SetCell{LightBlue} plesId & int  &   identifikator plesa koji će se plesati na tečaju [ref: > Ples.id]\\ \hline 
+					
+				\end{longtblr}
+				
+				\textit{\textbf{Lokacija} Ovaj entitet opisuje lokaciju sa imenom i koordinatama pomoću kojih se prikazuje na karti. Povezan je sa vezom  \textit{One-to-Many} sa Plesnjakom preko \textit{lokacijaId} i \textit{One-to-Many} sa Tečajem preko \textit{lokacijaId}.}
+				\begin{longtblr}[
+					label=none,
+					entry=none
+					]{
+						width = \textwidth,
+						colspec={|X[6,l]|X[6, l]|X[20, l]|}, 
+						rowhead = 1,
+					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
+					\hline \multicolumn{3}{|c|}{\textbf{Lokacija}}	 \\ \hline[3pt]
+					\SetCell{LightGreen} id & int	&  jedinstveni	identifikator lokacije 	\\ \hline
+					name	 & varchar &   ime lokacije	\\ \hline 
+					coordinates & varchar & geografska širina i dužina lokacije na karti  \\ \hline 
+					
+				\end{longtblr}
+				
+  				\textit{\textbf{PlesnjakPles} Ovaj entitet opisuje identifikatore plesnjaka i identifikatore plesova koji se na njima plešu. Povezan je sa vezom  \textit{Many-to-One} sa Plesnjakom preko \textit{plesnjakId} i \textit{Many-to-One} sa Plesom preko \textit{plesId}.}
+				\begin{longtblr}[
+					label=none,
+					entry=none
+					]{
+						width = \textwidth,
+						colspec={|X[6,l]|X[6, l]|X[20, l]|}, 
+						rowhead = 1,
+					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
+					\hline \multicolumn{3}{|c|}{\textbf{plesnjakPles}}	 \\ \hline[3pt]
+					 \SetCell{LightGreen}id & int	&  jedinstveni identifikator koji povezuje plesnjake i plesove\\ \hline
+					\SetCell{LightBlue} plesnjakId & int & identifikator plesnjaka [ref: > Plesnjak.id] \\ \hline
+					\SetCell{LightBlue} plesId & int & identifikator plesa [ref: > Ples.id] \\ \hline
+				\end{longtblr}
+				
+				\textit{\textbf{Trening} Ovaj entitet definira treninge za pojedini tečaj i informacije o vremenu održavanja. Povezan je sa vezom  \textit{Many-to-One} sa tečajem preko \textit{tecajId}.}
+				\begin{longtblr}[
+					label=none,
+					entry=none
+					]{
+						width = \textwidth,
+						colspec={|X[6,l]|X[6, l]|X[20, l]|}, 
+						rowhead = 1,
+					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
+					\hline \multicolumn{3}{|c|}{\textbf{Trening}}	 \\ \hline[3pt]
+					\SetCell{LightGreen} id & int	& jedinstveni identifikator treninga \\ \hline
+					\SetCell{LightBlue} tecajId	& int & identifikator tečaja[ref: > Tecaj.id]\\ \hline 
+					startTime	& datetime &  vrijeme početka treninga 	\\ \hline 
+					endTime	& datetime &  vrijeme kraja treninga 	\\ \hline 
+				\end{longtblr}
+  
+  \textit{\textbf{Ples} Ovaj entitet opisuje plesove i sadrži informacije o plesovima. Povezan je sa vezom  \textit{One-to-Many} sa PlesnjakPles preko \textit{plesId} i \textit{One-to-Many} sa Tecaj preko \textit{plesId}.}
+				\begin{longtblr}[
+					label=none,
+					entry=none
+					]{
+						width = \textwidth,
+						colspec={|X[6,l]|X[6, l]|X[20, l]|}, 
+						rowhead = 1,
+					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
+					\hline \multicolumn{3}{|c|}{\textbf{Ples}}	 \\ \hline[3pt]
+					\SetCell{LightGreen} id & int	& jedinstveni identifikator plesa \\ \hline
+					name	& varchar & ime plesa\\ \hline 
+					description	& varchar & opis plesa\\ \hline 
+					image & varchar& url slike koja opisuje ples \\ \hline
+					videoLink	& varchar &  url na video koji opisuje ples\\ \hline 
+					
 				\end{longtblr}
 				
 				
 			
 			\subsection{Dijagram baze podataka}
-				\textit{ U ovom potpoglavlju potrebno je umetnuti dijagram baze podataka. Primarni i strani ključevi moraju biti označeni, a tablice povezane. Bazu podataka je potrebno normalizirati. Podsjetite se kolegija "Baze podataka".}
+			
+			\begin{figure}[H]
+			\includegraphics[scale=0.4]{slike/base_diagram.png}
+			\centering
+			\caption{Relacijski dijagram baze podataka.}
+			\label{fig:promjene}
+		\end{figure}
 			
 			\eject
 			
