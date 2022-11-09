@@ -941,8 +941,22 @@ Administrator može dodavati nove plesove i vršiti promjenu nad već postojeći
 		\section{Ostali zahtjevi}
 		
 			\textbf{\textit{dio 1. revizije}}\\
-		 
-			 \textit{Nefunkcionalni zahtjevi i zahtjevi domene primjene dopunjuju funkcionalne zahtjeve. Oni opisuju \textbf{kako se sustav treba ponašati} i koja \textbf{ograničenja} treba poštivati (performanse, korisničko iskustvo, pouzdanost, standardi kvalitete, sigurnost...). Primjeri takvih zahtjeva u Vašem projektu mogu biti: podržani jezici korisničkog sučelja, vrijeme odziva, najveći mogući podržani broj korisnika, podržane web/mobilne platforme, razina zaštite (protokoli komunikacije, kriptiranje...)... Svaki takav zahtjev potrebno je navesti u jednoj ili dvije rečenice.}
+			\begin{packed_item}
+	
+				\item Sustav treba omogućiti rad više korisnika u stvarnom vremenu
+				\item Sustav treba ispravno funkcionirati u svim web preglednicima
+				\item Korisničko sučelje i sustav moraju podržavati hrvatsku abecedu (dijakritičke znakove) pri unosu i prikazu tekstualnog sadržaja
+				\item Potpuno učitavanje početne stranice aplikacije ne smije trajati duže od 3 sekunde
+				\item Izvršavanje dijela programa u kojem se pristupa bazi podataka ne smije trajati duže od 4 sekunde
+				\item Sustav treba biti implementiran kao web aplikacija koristeći objektno-orijentirane jezike
+				\item Neispravno korištenje korisničkog sučelja ne smije narušiti funkcionalnost i rad sustava
+				\item Sustav treba biti jednostavan za korištenje, jasan korisnicima s manje informatičkog iskustva bez opširnih uputa
+				\item Nadogradnja sustava ne smije narušavati postojeće funkcionalnosti sustava
+				\item Veza s bazom podataka mora biti kvalitetno zaštićena, brza i otporna na vanjske greške
+				\item Sustav ne smije omogućiti registraciju korisnika dok nije unesena jaka lozinka (barem jedno veliko slovo, znamenka i specijalni znak)
+				\item Sustav koristi srednjoeuropsko standardno vrijeme, GMT+1 
+				\item Pristup sustavu mora biti omogućen iz javne mreže pomoću HTTPS
+			\end{packed_item}
 			 
 			 
 			 
