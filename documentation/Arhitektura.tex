@@ -36,7 +36,31 @@
 		}
 		
 			\subsection{Opis tablica}
-				
+				\textit{\textbf{Korisnik}} Ovaj entitet opisuje korsnike i sadrži sve informacije o njima. Povezan je sa vezom \textit{One-to-Many} sa TrenerPrijava preko \textit{trenerId}, \textit{One-to-Many} sa KorisnikTecaj preko \textit{korisnikId} i \textit{One-to-Many} sa Klub preko \textit{vlasnikId}.
+				\begin{longtblr}[
+					label=none,
+					entry=none
+					]{
+						width = \textwidth,
+						colspec={|X[6,l]|X[6, l]|X[20, l]|}, 
+						rowhead = 1,
+					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
+					\hline \multicolumn{3}{|c|}{\textbf{Korisnik}}	    \\ \hline[3pt]
+					\SetCell{LightGreen} id & int	& jedinstveni identifikator korisnika \\ \hline
+					username & varchar & jedinstveno korisničko ime korisnika\\ \hline 
+					firstName & varchar & ime korisnika \\ \hline 
+					lastName & varchar & prezime korisnika \\ \hline 
+					password & varchar & zaporka za prijavu korisnika \\ \hline 
+					sex & enum & spol korisnika \\ \hline 
+					dateOfBirth & date & datum rođenja korisnika \\ \hline 
+					phone & varchar & jedinstveni kontakt broj korisnika \\ \hline 
+					email & varchar & jedinstvena email adresa korisnika \\ \hline 
+					experienceDescription & varchar & opis korisnikovog iskustva u različitim plesovima \\ \hline 
+					image & varchar & fotografija korisnika \\ \hline 
+					type & enum & funkcija korisnika \\ \hline 
+				\end{longtblr}
+
+
 				\textbf{Tecaj} \textit{Ovaj entitet opisuje tečajeve i sadrži sve informacije o njima. Povezan je sa vezom \textit{Many-to-One} sa Korisnikom preko \textit{trenerId},  {Many-to-One} sa Klubom preko \textit{klubId}, {Many-to-One} sa Lokacijom preko \textit{lokacijaId}, {Many-to-One} sa Plesom preko \textit{plesId}, \textit{One-to-Many} sa KorisnikTecaj preko \textit{tecajId} i \textit{One-to-Many} sa Trening preko \textit{tecajId}.}
 				
 				\begin{longtblr}[
