@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "dev": "nodemon -r tsconfig-paths/register src/app.ts",
+    "dev": "nodemon --inspect=0.0.0.0 -r tsconfig-paths/register src/app.ts",
     "lint": "eslint ./",
     "db:migration:create": "npx sequelize-cli migration:create --name",
     "db:migration:up": "npx sequelize-cli db:migrate",
