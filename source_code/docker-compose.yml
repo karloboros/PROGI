@@ -1,6 +1,21 @@
-version: '3.9'
+version: '3'
 
 services:
+  server:
+    build: ./server
+    volumes:
+      - ./server:/app
+      - /app/node_modules
+    restart: on-failure
+    environment:
+      POSTGRES_HOST: db
+      POSTGRES_DB: ples
+      POSTGRES_USER: ples
+      POSTGRES_PASSWORD: ples
+      PORT: 3001
+    ports:
+      - 3001:3001
+
   client:
     build: ./client
     volumes:
@@ -8,3 +23,5 @@ services:
       - /app/node_modules
     ports:
       - 3000:3000
+    depends_on:
+      - server
