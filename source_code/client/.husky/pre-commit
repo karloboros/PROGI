@@ -4,3 +4,5 @@
 cd source_code/client
 npm run enforce-branch-name
 npm run lint
+
+(cd ../server && npm run lint)
