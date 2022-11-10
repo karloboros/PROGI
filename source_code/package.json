@@ -1,0 +1,14 @@
+{
+  "name": "source_code",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "prepare": "cd ../ && husky install source_code/.husky"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "husky": "^8.0.2"
+  }
+}
