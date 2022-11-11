@@ -25,4 +25,6 @@ interface IUser {
   refreshToken: string;
 }
 
-export { Role, Gender, IUser };
+type ITokenType = 'ACCESS' | 'REFRESH';
+
+export { Role, Gender, IUser, ITokenType };
