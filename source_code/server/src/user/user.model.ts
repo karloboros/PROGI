@@ -1,4 +1,5 @@
 import { Gender, IUser, Role } from './types';
+import bcrypt from 'bcrypt';
 import { IFields } from 'shared/database/types';
 import { Model } from 'sequelize';
 
@@ -106,6 +107,12 @@ class User extends Model implements IUser {
       tableName: 'users',
       timestamps: false,
     };
+  }
+
+  private async _hashPassword() {
+    const saltRounds = Number(process.env.SALT_ROUNDS as string);
+    const hash = await bcrypt.hash(this.password, saltRounds);
+    this.password = hash;
   }
 }
 
