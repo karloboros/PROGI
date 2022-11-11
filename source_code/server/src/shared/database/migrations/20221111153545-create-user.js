@@ -47,7 +47,7 @@ module.exports = {
         allowNull: false,
       },
       experienceDescription: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
         allowNull: true,
       },
       refreshToken: {
