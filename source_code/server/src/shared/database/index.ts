@@ -3,6 +3,8 @@ import { forEach, invoke } from 'lodash';
 import { Hooks } from 'sequelize/types/hooks';
 import { IModels } from './types';
 
+import UserModel from 'user/user.model';
+
 const sequelize = new Sequelize(
   process.env.POSTGRES_DB || '',
   process.env.POSTGRES_USER || '',
@@ -12,6 +14,10 @@ const sequelize = new Sequelize(
     host: process.env.POSTGRES_HOST,
   },
 );
+
+const models: IModels = {
+  User: defineModel(UserModel),
+};
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function defineModel(Model: any) {
