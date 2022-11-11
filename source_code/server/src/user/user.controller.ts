@@ -1,8 +1,9 @@
-import { CREATED, OK, UNAUTHORIZED } from 'http-status';
+import { CONFLICT, CREATED, OK, UNAUTHORIZED } from 'http-status';
 import { NextFunction, Request, Response } from 'express';
 import errorMessages from 'shared/constants/errorMessages';
 import HttpError from 'shared/error/httpError';
 import { setAuthCookies } from 'shared/helpers/tokens';
+import { UniqueConstraintError } from 'sequelize';
 import { User } from 'shared/database';
 
 const login = async (req: Request, res: Response, next: NextFunction) => {
@@ -28,6 +29,9 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
 
     return res.status(CREATED).json({ ...user.profile });
   } catch (err) {
+    if (err instanceof UniqueConstraintError) {
+      return next(new HttpError(CONFLICT, errorMessages.REGISTER));
+    }
     return next(new Error());
   }
 };
