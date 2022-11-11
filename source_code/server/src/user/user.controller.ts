@@ -1,8 +1,8 @@
 import { BAD_REQUEST, CONFLICT, CREATED, OK, UNAUTHORIZED } from 'http-status';
+import { clearAuthCookies, setAuthCookies } from 'shared/helpers/tokens';
 import { NextFunction, Request, Response } from 'express';
 import errorMessages from 'shared/constants/errorMessages';
 import HttpError from 'shared/error/httpError';
-import { setAuthCookies } from 'shared/helpers/tokens';
 import { UniqueConstraintError } from 'sequelize';
 import { User } from 'shared/database';
 
@@ -36,4 +36,9 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-export { login, register };
+const logout = (_req: Request, res: Response) => {
+  clearAuthCookies(res);
+  res.status(OK).send();
+};
+
+export { login, register, logout };
