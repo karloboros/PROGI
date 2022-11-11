@@ -121,6 +121,10 @@ class UserModel extends Model implements IUser {
     };
   }
 
+  passwordCompare(password: string) {
+    return bcrypt.compare(password, this.password);
+  }
+
   async generateTokens() {
     const accessToken = this._generateToken(authTokens.type.ACCESS);
     const refreshToken = this._generateToken(authTokens.type.REFRESH);
