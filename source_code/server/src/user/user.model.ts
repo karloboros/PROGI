@@ -111,7 +111,7 @@ class UserModel extends Model implements IUser {
 
   static hooks() {
     return {
-      beforeCreate(user: User) {
+      beforeCreate(user: UserModel) {
         return user._hashPassword();
       },
     };
