@@ -92,6 +92,14 @@ class User extends Model implements IUser {
     };
   }
 
+  static scopes() {
+    return {
+      defaultScope: {
+        attributes: { exclude: ['password'] },
+      },
+    };
+  }
+
   static dbOptions() {
     return {
       modelName: 'user',
