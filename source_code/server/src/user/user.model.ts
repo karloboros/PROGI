@@ -109,6 +109,14 @@ class User extends Model implements IUser {
     };
   }
 
+  static hooks() {
+    return {
+      beforeCreate(user: User) {
+        return user._hashPassword();
+      },
+    };
+  }
+
   private async _hashPassword() {
     const saltRounds = Number(process.env.SALT_ROUNDS as string);
     const hash = await bcrypt.hash(this.password, saltRounds);
