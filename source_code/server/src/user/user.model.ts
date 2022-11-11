@@ -1,6 +1,8 @@
-import { Gender, IUser, Role } from './types';
+import { Gender, ITokenType, IUser, Role } from './types';
+import authTokens from 'shared/auth/authTokens';
 import bcrypt from 'bcrypt';
 import { IFields } from 'shared/database/types';
+import jwt from 'jsonwebtoken';
 import { Model } from 'sequelize';
 
 class UserModel extends Model implements IUser {
@@ -117,10 +119,32 @@ class UserModel extends Model implements IUser {
     };
   }
 
+  async generateTokens() {
+    const accessToken = this._generateToken(authTokens.type.ACCESS);
+    const refreshToken = this._generateToken(authTokens.type.REFRESH);
+
+    this.refreshToken = refreshToken;
+    await this.save();
+
+    return { accessToken, refreshToken };
+  }
+
   private async _hashPassword() {
     const saltRounds = Number(process.env.SALT_ROUNDS as string);
     const hash = await bcrypt.hash(this.password, saltRounds);
     this.password = hash;
+  }
+
+  private _generateToken(tokenType: ITokenType) {
+    const { id, username } = this;
+    const payload = { id, username };
+    const secret = authTokens.config[tokenType].secret;
+    const options = {
+      audience: authTokens.config[tokenType].audience,
+      expiresIn: authTokens.config[tokenType].duration,
+    };
+
+    return jwt.sign(payload, secret, options);
   }
 }
 
