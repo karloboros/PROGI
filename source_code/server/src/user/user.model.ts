@@ -61,10 +61,12 @@ class UserModel extends Model implements IUser {
       phone: {
         type: STRING,
         allowNull: false,
+        unique: true,
       },
       email: {
         type: STRING,
         allowNull: false,
+        unique: true,
       },
       role: {
         type: INTEGER,
