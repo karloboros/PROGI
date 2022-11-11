@@ -82,10 +82,7 @@ class User extends Model implements IUser {
     return {
       id: this.id,
       username: this.username,
-      firstName: this.firstName,
-      lastName: this.lastName,
       fullName: this.fullName,
-      password: this.password,
       gender: this.gender,
       dateOfBirth: this.dateOfBirth,
       phone: this.phone,
