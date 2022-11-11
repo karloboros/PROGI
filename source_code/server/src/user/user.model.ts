@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt';
 import { IFields } from 'shared/database/types';
 import { Model } from 'sequelize';
 
-class User extends Model implements IUser {
+class UserModel extends Model implements IUser {
   id!: number;
   username!: string;
   firstName!: string;
@@ -124,4 +124,4 @@ class User extends Model implements IUser {
   }
 }
 
-export default User;
+export default UserModel;
