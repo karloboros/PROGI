@@ -1,5 +1,5 @@
+import { CREATED, OK, UNAUTHORIZED } from 'http-status';
 import { NextFunction, Request, Response } from 'express';
-import { OK, UNAUTHORIZED } from 'http-status';
 import errorMessages from 'shared/constants/errorMessages';
 import HttpError from 'shared/error/httpError';
 import { setAuthCookies } from 'shared/helpers/tokens';
@@ -19,4 +19,17 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
   return res.status(OK).json(user.profile);
 };
 
-export { login };
+const register = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const user = await User.create(req.body);
+
+    const tokens = await user.generateTokens();
+    setAuthCookies(tokens, res);
+
+    return res.status(CREATED).json({ ...user.profile });
+  } catch (err) {
+    return next(new Error());
+  }
+};
+
+export { login, register };
