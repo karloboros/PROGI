@@ -1,4 +1,4 @@
-import { CONFLICT, CREATED, OK, UNAUTHORIZED } from 'http-status';
+import { BAD_REQUEST, CONFLICT, CREATED, OK, UNAUTHORIZED } from 'http-status';
 import { NextFunction, Request, Response } from 'express';
 import errorMessages from 'shared/constants/errorMessages';
 import HttpError from 'shared/error/httpError';
@@ -32,7 +32,7 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
     if (err instanceof UniqueConstraintError) {
       return next(new HttpError(CONFLICT, errorMessages.REGISTER));
     }
-    return next(new Error());
+    return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
   }
 };
 
