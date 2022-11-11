@@ -1,4 +1,5 @@
 import { DataType } from 'sequelize';
+import User from 'user/user.model';
 
 interface IFields {
   DATE?: DataType;
@@ -9,4 +10,8 @@ interface IFields {
   DECIMAL?: DataType;
 }
 
-export { IFields };
+type IModels = {
+  User: typeof User;
+};
+
+export { IFields, IModels };
