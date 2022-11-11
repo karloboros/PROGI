@@ -56,7 +56,6 @@ module.exports = {
       },
     });
   },
-
   down(queryInterface) {
     return queryInterface.dropTable(TABLE_NAME);
   },
