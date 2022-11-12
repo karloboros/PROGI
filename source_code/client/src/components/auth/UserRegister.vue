@@ -63,11 +63,9 @@
 </template>
 
 <script setup>
+import { emailSuggestions, gender, validationRules } from '@/utils';
 import { computed } from '@vue/reactivity';
-import emailSuggestions from '@/utils/emailSuggestions';
-import gender from '@/utils/gender';
 import { ref } from 'vue';
-import validationRules from '@/utils/rules';
 
 const initialValues = {
   username: '',
