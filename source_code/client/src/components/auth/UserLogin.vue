@@ -20,7 +20,7 @@
 
 <script setup>
 import { ref } from 'vue';
-import validationRules from '@/shared/rules';
+import validationRules from '@/utils/rules';
 
 const initialValues = {
   username: '',

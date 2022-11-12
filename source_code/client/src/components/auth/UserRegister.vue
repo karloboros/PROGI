@@ -64,10 +64,10 @@
 
 <script setup>
 import { computed } from '@vue/reactivity';
-import emailSuggestions from '@/shared/emailSuggestions';
-import gender from '@/shared/gender';
+import emailSuggestions from '@/utils/emailSuggestions';
+import gender from '@/utils/gender';
 import { ref } from 'vue';
-import validationRules from '@/shared/rules';
+import validationRules from '@/utils/rules';
 
 const initialValues = {
   username: '',
