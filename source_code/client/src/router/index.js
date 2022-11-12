@@ -24,4 +24,6 @@ const router = createRouter({
   routes,
 });
 
+export const defaultRoute = { name: 'Home' };
+
 export default router;
