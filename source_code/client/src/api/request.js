@@ -4,7 +4,7 @@ import { StatusCodes } from 'http-status-codes';
 const { FORBIDDEN } = StatusCodes;
 
 const config = {
-  baseURL: '/api',
+  baseURL: 'http://localhost:3001/api',
   headers: { 'Content-Type': 'application/json' },
 };
 
