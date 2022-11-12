@@ -20,23 +20,17 @@
 
 <script setup>
 import { ref } from 'vue';
+import validationRules from '@/shared/rules';
 
 const initialValues = {
   username: '',
   password: '',
 };
 
+const { required } = validationRules;
 const rules = {
-  username: {
-    required: true,
-    message: 'Username is required!',
-    trigger: ['input'],
-  },
-  password: {
-    required: true,
-    message: 'Password is required!',
-    trigger: ['input'],
-  },
+  username: required,
+  password: required,
 };
 
 const values = ref(initialValues);
