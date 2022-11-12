@@ -3,6 +3,7 @@ import { clearAuthCookies, setAuthCookies } from 'shared/helpers/tokens';
 import { NextFunction, Request, Response } from 'express';
 import errorMessages from 'shared/constants/errorMessages';
 import HttpError from 'shared/error/httpError';
+import { Role } from './types';
 import { UniqueConstraintError } from 'sequelize';
 import { User } from 'shared/database';
 
@@ -22,6 +23,7 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
 
 const register = async (req: Request, res: Response, next: NextFunction) => {
   try {
+    if (!req.body.role) req.body.role = Role.User;
     const user = await User.create(req.body);
 
     const tokens = await user.generateTokens();
