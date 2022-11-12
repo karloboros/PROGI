@@ -1,11 +1,12 @@
 <template>
-  <n-form @submit.prevent="submit" :model="values" :rules="rules">
+  <n-form ref="formRef" @submit.prevent="submit" :model="values" :rules="rules">
     <n-form-item label="Username" path="username">
       <n-input v-model:value="values.username" placeholder="Username..." autofocus />
     </n-form-item>
     <n-form-item label="Password" path="password">
       <n-input v-model:value="values.password" type="password" show-password-on="mousedown" placeholder="Password..." />
     </n-form-item>
+
     <n-form-item>
       <n-button attr-type="submit">Login</n-button>
     </n-form-item>
@@ -19,7 +20,11 @@
 </template>
 
 <script setup>
+import { auth as authApi } from '@/api';
+import { defaultRoute } from '@/router';
 import { ref } from 'vue';
+import { useMessage } from 'naive-ui';
+import { useRouter } from 'vue-router';
 import validationRules from '@/utils/rules';
 
 const initialValues = {
@@ -34,8 +39,24 @@ const rules = {
 };
 
 const values = ref(initialValues);
+const formRef = ref(null);
 
-const submit = () => {
-  alert('submit');
+const message = useMessage();
+const router = useRouter();
+
+const submit = async () => {
+  formRef.value?.validate(async errors => {
+    if (!errors) {
+      const username = values.value.username;
+      const password = values.value.password;
+
+      try {
+        await authApi.login({ username, password });
+        router.push(defaultRoute);
+      } catch (err) {
+        message.error(err.response.data.message);
+      }
+    }
+  });
 };
 </script>
