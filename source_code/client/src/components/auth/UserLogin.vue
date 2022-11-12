@@ -20,7 +20,7 @@
 </template>
 
 <script setup>
-import { auth as authApi } from '@/api';
+import { authApi } from '@/api';
 import { defaultRoute } from '@/router';
 import { ref } from 'vue';
 import { useMessage } from 'naive-ui';
