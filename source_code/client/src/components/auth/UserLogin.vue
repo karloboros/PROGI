@@ -4,7 +4,7 @@
       <n-input v-model:value="values.username" placeholder="Username..." autofocus />
     </n-form-item>
     <n-form-item label="Password" path="password">
-      <n-input v-model:value="values.password" placeholder="Password..." />
+      <n-input v-model:value="values.password" type="password" show-password-on="mousedown" placeholder="Password..." />
     </n-form-item>
     <n-form-item>
       <n-button attr-type="submit">Login</n-button>
