@@ -47,11 +47,8 @@ const router = useRouter();
 const submit = async () => {
   formRef.value?.validate(async errors => {
     if (!errors) {
-      const username = values.value.username;
-      const password = values.value.password;
-
       try {
-        await authApi.login({ username, password });
+        await authApi.login({ ...values.value });
         router.push(defaultRoute);
       } catch (err) {
         message.error(err.response.data.message);
