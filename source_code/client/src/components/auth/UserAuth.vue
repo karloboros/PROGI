@@ -1,5 +1,19 @@
 <template>
-  <div>User auth</div>
+  <component :is="currentComponent" @swap="swap"></component>
 </template>
 
-<script setup></script>
+<script setup>
+import { computed } from '@vue/reactivity';
+import { ref } from 'vue';
+import UserLogin from './UserLogin.vue';
+import UserRegister from './UserRegister.vue';
+
+const componentIndex = ref(1);
+const components = [UserLogin, UserRegister];
+
+const currentComponent = computed(() => components[componentIndex.value]);
+
+const swap = () => {
+  componentIndex.value = (componentIndex.value + 1) % 2;
+};
+</script>
