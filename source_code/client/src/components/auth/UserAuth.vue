@@ -8,7 +8,7 @@ import { ref } from 'vue';
 import UserLogin from './UserLogin.vue';
 import UserRegister from './UserRegister.vue';
 
-const componentIndex = ref(1);
+const componentIndex = ref(0);
 const components = [UserLogin, UserRegister];
 
 const currentComponent = computed(() => components[componentIndex.value]);
