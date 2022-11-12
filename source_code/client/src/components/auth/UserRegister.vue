@@ -1,5 +1,5 @@
 <template>
-  <n-form @submit.prevent="submit" :model="values" :rules="rules">
+  <n-form ref="formRef" @submit.prevent="submit" :model="values" :rules="rules">
     <n-form-item label="Username" path="username">
       <n-input v-model:value="values.username" placeholder="Username..." autofocus />
     </n-form-item>
@@ -64,8 +64,12 @@
 
 <script setup>
 import { emailSuggestions, gender, validationRules } from '@/utils';
+import { authApi } from '@/api';
 import { computed } from '@vue/reactivity';
+import { defaultRoute } from '@/router';
 import { ref } from 'vue';
+import { useMessage } from 'naive-ui';
+import { useRouter } from 'vue-router';
 
 const initialValues = {
   username: '',
@@ -91,10 +95,23 @@ const rules = {
 };
 
 const values = ref(initialValues);
+const formRef = ref(null);
 
 const emailOptions = computed(() => emailSuggestions(values.value.email));
 
-const submit = () => {
-  alert('submit');
+const message = useMessage();
+const router = useRouter();
+
+const submit = async () => {
+  formRef.value?.validate(async errors => {
+    if (!errors) {
+      try {
+        await authApi.register({ ...values.value });
+        router.push(defaultRoute);
+      } catch (err) {
+        message.error(err.response.data.message);
+      }
+    }
+  });
 };
 </script>
