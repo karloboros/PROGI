@@ -1,4 +1,3 @@
-<!-- eslint-disable vue/no-v-model-argument -->
 <template>
   <n-form @submit.prevent="submit" :model="values" :rules="rules">
     <n-form-item label="Username" path="username">
