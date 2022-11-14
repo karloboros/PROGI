@@ -1,0 +1,16 @@
+{
+  "name": "source_code",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "prepare": "cd ../ && husky install source_code/.husky",
+    "enforce-branch-name": "enforce-branch-name '(feature|task|chore|fix)/.+' --ignore 'staging'"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "enforce-branch-name": "^1.1.2",
+    "husky": "^8.0.2"
+  }
+}
