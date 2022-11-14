@@ -83,12 +83,12 @@ const initialValues = {
   experienceDescription: '',
 };
 
-const { required, dateRequired, phoneRequired } = validationRules;
+const { required, emailRequired, dateRequired, phoneRequired } = validationRules;
 const rules = {
   username: required,
   firstName: required,
   lastName: required,
-  email: required,
+  email: emailRequired,
   password: required,
   dateOfBirth: dateRequired,
   phone: phoneRequired,

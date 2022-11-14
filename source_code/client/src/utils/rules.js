@@ -1,11 +1,22 @@
 const REQUIRED_MESSAGE = 'This field is required!';
-const WRONG_FORMAT_MESSAGE = 'Wrong number format';
+const WRONG_EMAIL_FORMAT_MESSAGE = 'Wrong email format';
+const WRONG_PHONE_FORMAT_MESSAGE = 'Wrong number format';
+
+const emailValidator = (_rule, value) => {
+  console.log(value);
+  if (!value) {
+    return new Error(REQUIRED_MESSAGE);
+  } else if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(value)) {
+    return new Error(WRONG_EMAIL_FORMAT_MESSAGE);
+  }
+  return true;
+};
 
 const phoneNumberValidator = (_rule, value) => {
   if (!value) {
     return new Error(REQUIRED_MESSAGE);
   } else if (!/^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{3,4})$/.test(value)) {
-    return new Error(WRONG_FORMAT_MESSAGE);
+    return new Error(WRONG_PHONE_FORMAT_MESSAGE);
   }
   return true;
 };
@@ -16,6 +27,11 @@ const validationRules = {
     message: REQUIRED_MESSAGE,
     trigger: ['input'],
   },
+  emailRequired: {
+    required: true,
+    validator: emailValidator,
+    trigger: ['blur'],
+  },
   dateRequired: {
     required: true,
     type: 'number',
@@ -25,7 +41,7 @@ const validationRules = {
   phoneRequired: {
     required: true,
     validator: phoneNumberValidator,
-    trigger: ['blue', 'input'],
+    trigger: ['blur', 'input'],
   },
 };
 
