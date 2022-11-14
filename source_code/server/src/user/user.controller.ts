@@ -43,4 +43,8 @@ const logout = (_req: Request, res: Response) => {
   res.status(OK).send();
 };
 
-export { login, register, logout };
+const uploadProfileImage = (req: Request, res: Response) => {
+  res.send(200);
+};
+
+export { login, register, logout, uploadProfileImage };
