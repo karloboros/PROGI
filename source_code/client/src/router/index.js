@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Home from '@/components/home/HomePage.vue';
+import { useAuthStore } from '@/store';
 import UserAuth from '@/components/auth/UserAuth.vue';
 
 const routes = [
@@ -25,5 +26,18 @@ const router = createRouter({
 });
 
 export const defaultRoute = { name: 'Home' };
+
+router.beforeEach((to, from) => {
+  const isLoggedIn = useAuthStore().isLoggedIn;
+  const isAuthRoute = to.name === 'Auth';
+
+  if (!isLoggedIn && !isAuthRoute) {
+    return { name: 'Auth' };
+  }
+
+  if (isLoggedIn && isAuthRoute) {
+    return defaultRoute;
+  }
+});
 
 export default router;
