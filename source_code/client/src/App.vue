@@ -1,7 +1,7 @@
 <template>
-  <n-config-provider :theme="currentTheme.theme">
+  <n-config-provider class="ples-provider" :theme="currentTheme.theme">
     <n-global-style />
-    <n-space class="ples-navigation" align="center" justify="end">
+    <n-space class="ples-nav" align="center">
       <n-affix :top="0">
         <n-button @click="switchTheme" text style="font-size: 24px">
           <n-icon>
@@ -12,7 +12,9 @@
     </n-space>
 
     <n-message-provider>
-      <router-view />
+      <n-space class="ples-main" align="center" justify="center" item-style="width: 100%">
+        <router-view />
+      </n-space>
     </n-message-provider>
   </n-config-provider>
 </template>
@@ -37,7 +39,20 @@ const switchTheme = () => {
 </script>
 
 <style scoped>
-.ples-navigation {
+.ples-provider {
+  height: 100%;
+}
+.ples-nav {
   height: 36px;
+}
+
+.ples-main {
+  height: calc(100% - 36px);
+}
+</style>
+
+<style>
+#app {
+  height: 100vh;
 }
 </style>
