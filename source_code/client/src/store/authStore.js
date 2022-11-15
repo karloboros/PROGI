@@ -1,6 +1,7 @@
 import { computed, ref } from 'vue';
 import { authApi } from '@/api';
 import { defineStore } from 'pinia';
+import { Role } from '@/utils';
 import { useStorage } from '@vueuse/core';
 
 const useAuthStore = defineStore('auth', () => {
@@ -8,6 +9,10 @@ const useAuthStore = defineStore('auth', () => {
 
   const isLoggedIn = computed(() => {
     return !!user.value.id;
+  });
+
+  const isAdmin = computed(() => {
+    return user.value.role === Role.Administrator;
   });
 
   const setUser = userToSet => {
@@ -24,7 +29,7 @@ const useAuthStore = defineStore('auth', () => {
     router.push({ name: 'Auth' });
   };
 
-  return { user, isLoggedIn, setUser, logout };
+  return { user, isLoggedIn, isAdmin, setUser, logout };
 });
 
 export default useAuthStore;
