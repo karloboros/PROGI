@@ -52,6 +52,10 @@ module.exports = {
         type: Sequelize.TEXT,
         allowNull: true,
       },
+      image: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
       refreshToken: {
         type: Sequelize.STRING,
         allowNull: true,

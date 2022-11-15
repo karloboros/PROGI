@@ -17,8 +17,9 @@ class UserModel extends Model implements IUser {
   phone!: string;
   email!: string;
   role!: Role;
-  experienceDescription?: string | undefined;
-  refreshToken!: string;
+  experienceDescription?: string;
+  image?: string;
+  refreshToken?: string;
 
   static fields({ INTEGER, STRING, TEXT, DATE, VIRTUAL }: IFields) {
     return {
@@ -74,6 +75,10 @@ class UserModel extends Model implements IUser {
       },
       experienceDescription: {
         type: TEXT,
+        allowNull: true,
+      },
+      image: {
+        type: STRING,
         allowNull: true,
       },
       refreshToken: {
