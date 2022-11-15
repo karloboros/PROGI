@@ -31,4 +31,9 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-export { create };
+const fetchPending = async (req: Request, res: Response) => {
+  const pendingClubs = await Club.scope('pending').findAll();
+  return res.send(pendingClubs);
+};
+
+export { create, fetchPending };
