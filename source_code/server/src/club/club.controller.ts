@@ -1,7 +1,10 @@
+import { BAD_REQUEST, CONFLICT, OK } from 'http-status';
 import { NextFunction, Request, Response } from 'express';
 import sequelize, { Club, Location } from 'shared/database';
 import { ApprovalStatus } from './types';
-import { OK } from 'http-status';
+import errorMessages from 'shared/constants/errorMessages';
+import HttpError from 'shared/error/httpError';
+import { UniqueConstraintError } from 'sequelize';
 
 const create = async (req: Request, res: Response, next: NextFunction) => {
   const transaction = await sequelize.transaction();
@@ -20,7 +23,11 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
     return res.status(OK).json(club);
   } catch (err) {
     await transaction.rollback();
-    next(err);
+
+    if (err instanceof UniqueConstraintError) {
+      return next(new HttpError(CONFLICT, errorMessages.REGISTER));
+    }
+    return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
   }
 };
 
