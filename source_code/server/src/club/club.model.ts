@@ -59,6 +59,7 @@ class ClubModel extends Model implements IClub {
     });
     this.belongsTo(User, {
       foreignKey: { name: 'ownerId', field: 'ownerId' },
+      as: 'owner',
     });
   }
 
