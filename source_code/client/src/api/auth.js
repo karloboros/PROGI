@@ -1,4 +1,4 @@
-import { extractData } from './helpers';
+import { extractData, headers } from './helpers';
 import request from './request';
 
 const urls = {
@@ -11,6 +11,9 @@ const urls = {
   },
   get logout() {
     return this.root + '/logout';
+  },
+  get upload() {
+    return this.root + '/upload';
   },
 };
 
@@ -26,8 +29,13 @@ const logout = () => {
   return request.post(urls.logout).then(extractData);
 };
 
+const upload = params => {
+  return request.post(urls.upload, params, headers.fileUpload).then(extractData);
+};
+
 export default {
   login,
   register,
   logout,
+  upload,
 };
