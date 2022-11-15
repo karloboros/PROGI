@@ -122,8 +122,8 @@ const submit = async () => {
 
 const upload = async formData => {
   try {
-    const image = await authApi.upload(formData);
-    values.value.image = image;
+    const { path } = await authApi.upload(formData);
+    values.value.image = path;
   } catch (err) {
     message.error(err.response.data.message);
   }
