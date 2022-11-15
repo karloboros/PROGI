@@ -23,6 +23,7 @@
 import { authApi } from '@/api';
 import { defaultRoute } from '@/router';
 import { ref } from 'vue';
+import { useAuthStore } from '@/store';
 import { useMessage } from 'naive-ui';
 import { useRouter } from 'vue-router';
 import validationRules from '@/utils/rules';
@@ -43,12 +44,14 @@ const formRef = ref(null);
 
 const message = useMessage();
 const router = useRouter();
+const authStore = useAuthStore();
 
 const submit = async () => {
   formRef.value?.validate(async errors => {
     if (!errors) {
       try {
-        await authApi.login({ ...values.value });
+        const user = await authApi.login({ ...values.value });
+        authStore.setUser(user);
         router.push(defaultRoute);
       } catch (err) {
         message.error(err.response.data.message);
