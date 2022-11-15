@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import ClubApproval from '@/components/admin/ClubApproval.vue';
 import Home from '@/components/home/HomePage.vue';
 import { useAuthStore } from '@/store';
 import UserAuth from '@/components/auth/UserAuth.vue';
@@ -13,6 +14,11 @@ const routes = [
     path: '/auth',
     name: 'Auth',
     component: UserAuth,
+  },
+  {
+    path: '/admin',
+    name: 'Admin',
+    component: ClubApproval,
   },
   {
     path: '/:catchAll(.*)',
