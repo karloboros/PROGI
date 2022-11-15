@@ -9,7 +9,7 @@ const urls = {
 };
 
 const create = (params = {}) => {
-  return request.post(urls.login, params).then(extractData);
+  return request.post(urls.create, params).then(extractData);
 };
 
 export default {
