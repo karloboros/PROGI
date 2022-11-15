@@ -31,8 +31,10 @@
 
 <script setup>
 import { emailSuggestions, validationRules } from '@/utils';
+import { clubApi } from '@/api';
 import { computed } from '@vue/reactivity';
 import { ref } from 'vue';
+import { useMessage } from 'naive-ui';
 
 const initialValues = {
   name: '',
@@ -54,4 +56,18 @@ const values = ref(initialValues);
 const formRef = ref(null);
 
 const emailOptions = computed(() => emailSuggestions(values.value.email));
+
+const message = useMessage();
+
+const submit = async () => {
+  formRef.value?.validate(async errors => {
+    if (!errors) {
+      try {
+        await clubApi.create({ ...values.value });
+      } catch (err) {
+        message.error(err.response.data.message);
+      }
+    }
+  });
+};
 </script>
