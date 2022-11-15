@@ -1,19 +1,18 @@
 import axios from 'axios';
-import { headers } from './helpers';
+import { headers as headersOptions } from './helpers';
 import { StatusCodes } from 'http-status-codes';
 
 const { FORBIDDEN } = StatusCodes;
 
 const config = {
   baseURL: 'http://localhost:3001/api',
-  headers: headers.default,
 };
 
-const request = axios.create(config);
+const request = (headers = headersOptions.default) => axios.create({ ...config, headers });
 
 const isAuthError = err => [FORBIDDEN].includes(err.response.status);
 
-request.interceptors.response.use(
+request().interceptors.response.use(
   res => res,
   err => {
     if (isAuthError(err)) {
@@ -25,4 +24,5 @@ request.interceptors.response.use(
   },
 );
 
-export default request;
+export { request };
+export default request();

@@ -1,5 +1,5 @@
 import { extractData, headers } from './helpers';
-import request from './request';
+import request, { request as customRequest } from './request';
 
 const urls = {
   root: '/users',
@@ -30,7 +30,7 @@ const logout = () => {
 };
 
 const upload = params => {
-  return request.post(urls.upload, params, headers.fileUpload).then(extractData);
+  return customRequest(headers.fileUpload).post(urls.upload, params).then(extractData);
 };
 
 export default {
