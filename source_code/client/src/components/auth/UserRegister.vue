@@ -88,14 +88,14 @@ const initialValues = {
   image: '',
 };
 
-const { required, emailRequired, dateRequired, phoneRequired } = validationRules;
+const { required, emailRequired, dateRequired, dateOfBirth, phoneRequired } = validationRules;
 const rules = {
   username: required,
   firstName: required,
   lastName: required,
   email: emailRequired,
   password: required,
-  dateOfBirth: dateRequired,
+  dateOfBirth: [dateRequired, dateOfBirth],
   phone: phoneRequired,
 };
 
