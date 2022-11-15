@@ -3,6 +3,9 @@ import { forEach, invoke } from 'lodash';
 import { Hooks } from 'sequelize/types/hooks';
 import { IModels } from './types';
 
+// eslint-disable-next-line sort-imports
+import ClubModel from 'club/club.model';
+import LocationModel from 'location/location.model';
 import UserModel from 'user/user.model';
 
 const sequelize = new Sequelize(
@@ -16,6 +19,8 @@ const sequelize = new Sequelize(
 );
 
 const models: IModels = {
+  Club: defineModel(ClubModel),
+  Location: defineModel(LocationModel),
   User: defineModel(UserModel),
 };
 
@@ -43,7 +48,7 @@ function addScopes(model: ModelStatic<Model>) {
   forEach(scopes, (scope, name) => model.addScope(name, scope, { override: true }));
 }
 
-const { User } = models;
-export { User };
+const { Club, Location, User } = models;
+export { Club, Location, User };
 
 export default sequelize;
