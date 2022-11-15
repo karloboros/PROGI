@@ -2,7 +2,7 @@
   <n-space align="center" justify="center">
     <n-button @click="showModal = true">Create club</n-button>
     <n-modal v-model:show="showModal">
-      <club-modal />
+      <club-modal @created="showModal = false" />
     </n-modal>
   </n-space>
 </template>

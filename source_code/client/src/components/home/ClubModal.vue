@@ -36,6 +36,8 @@ import { computed } from '@vue/reactivity';
 import { ref } from 'vue';
 import { useMessage } from 'naive-ui';
 
+const emit = defineEmits(['created']);
+
 const initialValues = {
   name: '',
   address: '',
@@ -64,6 +66,8 @@ const submit = async () => {
     if (!errors) {
       try {
         await clubApi.create({ ...values.value });
+        message.success('Club successfully created!');
+        emit('created');
       } catch (err) {
         message.error(err.response.data.message);
       }
