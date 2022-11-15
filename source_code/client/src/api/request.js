@@ -5,7 +5,7 @@ import { StatusCodes } from 'http-status-codes';
 const { FORBIDDEN } = StatusCodes;
 
 const config = {
-  baseURL: 'http://localhost:3001/api',
+  baseURL: '/api',
 };
 
 const request = (headers = headersOptions.default) => axios.create({ ...config, headers });
