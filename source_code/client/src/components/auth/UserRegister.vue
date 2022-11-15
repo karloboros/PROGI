@@ -50,11 +50,7 @@
       <n-input v-model:value="values.experienceDescription" type="textarea" placeholder="Dance experience..." />
     </n-form-item>
     <n-form-item label="Profile image">
-      <input ref="file" @change="upload" class="d-none" type="file" accept="image/png, image/jpeg" />
-      <n-space align="center">
-        <n-button @click="file.click()">Upload</n-button>
-        <n-p>{{ fileName }}</n-p>
-      </n-space>
+      <ples-file-upload @upload="upload" accept="image/png, image/jpeg" />
     </n-form-item>
 
     <n-form-item>
@@ -74,6 +70,7 @@ import { emailSuggestions, gender, validationRules } from '@/utils';
 import { authApi } from '@/api';
 import { computed } from '@vue/reactivity';
 import { defaultRoute } from '@/router';
+import PlesFileUpload from '@/components/common/PlesFileUpload.vue';
 import { ref } from 'vue';
 import { useMessage } from 'naive-ui';
 import { useRouter } from 'vue-router';
@@ -88,6 +85,7 @@ const initialValues = {
   dateOfBirth: null,
   phone: '',
   experienceDescription: '',
+  image: '',
 };
 
 const { required, emailRequired, dateRequired, phoneRequired } = validationRules;
@@ -103,26 +101,11 @@ const rules = {
 
 const values = ref(initialValues);
 const formRef = ref(null);
-const file = ref(null);
-const fileName = ref(null);
 
 const emailOptions = computed(() => emailSuggestions(values.value.email));
 
 const message = useMessage();
 const router = useRouter();
-
-const upload = async () => {
-  fileName.value = file.value.files[0].name;
-  const formData = new FormData();
-  formData.append('file', file.value.files[0]);
-
-  try {
-    const image = await authApi.upload(formData);
-    console.log(image);
-  } catch (err) {
-    message.error(err.response.data.message);
-  }
-};
 
 const submit = async () => {
   formRef.value?.validate(async errors => {
@@ -136,10 +119,13 @@ const submit = async () => {
     }
   });
 };
-</script>
 
-<style scoped>
-.d-none {
-  display: none;
-}
-</style>
+const upload = async formData => {
+  try {
+    const image = await authApi.upload(formData);
+    values.value.image = image;
+  } catch (err) {
+    message.error(err.response.data.message);
+  }
+};
+</script>
