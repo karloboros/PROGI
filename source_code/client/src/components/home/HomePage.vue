@@ -1,7 +1,15 @@
 <template>
-  <main>Home</main>
+  <n-space align="center" justify="center">
+    <n-button @click="showModal = true">Create club</n-button>
+    <n-modal v-model:show="showModal">
+      <club-modal @created="showModal = false" />
+    </n-modal>
+  </n-space>
 </template>
 
-<script setup></script>
+<script setup>
+import ClubModal from './ClubModal.vue';
+import { ref } from 'vue';
 
-<style></style>
+const showModal = ref(false);
+</script>

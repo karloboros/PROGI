@@ -1,10 +1,10 @@
-import UserModel from 'user/user.model';
+import { IUser } from 'user/types';
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Express {
     export interface Request {
-      user: typeof UserModel;
+      user: IUser;
     }
   }
 }

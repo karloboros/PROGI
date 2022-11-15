@@ -1,5 +1,9 @@
 import { DataType } from 'sequelize';
-import User from 'user/user.model';
+
+// eslint-disable-next-line sort-imports
+import ClubModel from 'club/club.model';
+import LocationModel from 'location/location.model';
+import UserModel from 'user/user.model';
 
 interface IFields {
   DATE?: DataType;
@@ -11,7 +15,9 @@ interface IFields {
 }
 
 type IModels = {
-  User: typeof User;
+  Club: typeof ClubModel;
+  Location: typeof LocationModel;
+  User: typeof UserModel;
 };
 
 export { IFields, IModels };
