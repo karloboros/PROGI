@@ -1,5 +1,5 @@
 import { ApprovalStatus, IClub } from './types';
-import { IFields } from 'shared/database/types';
+import { IFields, IModels } from 'shared/database/types';
 import { Model } from 'sequelize';
 
 class ClubModel extends Model implements IClub {
@@ -51,6 +51,15 @@ class ClubModel extends Model implements IClub {
         allowNull: false,
       },
     };
+  }
+
+  static associate({ Location, User }: IModels) {
+    this.belongsTo(Location, {
+      foreignKey: { name: 'locationId', field: 'locationId' },
+    });
+    this.belongsTo(User, {
+      foreignKey: { name: 'ownerId', field: 'ownerId' },
+    });
   }
 
   static dbOptions() {

@@ -1,4 +1,4 @@
-import { IFields } from 'shared/database/types';
+import { IFields, IModels } from 'shared/database/types';
 import { ILocation } from './types';
 import { Model } from 'sequelize';
 
@@ -24,6 +24,12 @@ class LocationModel extends Model implements ILocation {
         allowNull: true,
       },
     };
+  }
+
+  static associate({ Club }: IModels) {
+    this.hasMany(Club, {
+      foreignKey: { name: 'locationId', field: 'locationId' },
+    });
   }
 
   static dbOptions() {

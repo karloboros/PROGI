@@ -1,7 +1,7 @@
 import { Gender, ITokenType, IUser, Role } from './types';
+import { IFields, IModels } from 'shared/database/types';
 import authTokens from 'shared/auth/authTokens';
 import bcrypt from 'bcrypt';
-import { IFields } from 'shared/database/types';
 import jwt from 'jsonwebtoken';
 import { Model } from 'sequelize';
 
@@ -100,6 +100,12 @@ class UserModel extends Model implements IUser {
       role: this.role,
       experienceDescription: this.experienceDescription,
     };
+  }
+
+  static associate({ Club }: IModels) {
+    this.hasMany(Club, {
+      foreignKey: { name: 'ownerId', field: 'ownerId' },
+    });
   }
 
   static scopes() {
