@@ -72,6 +72,7 @@ import { computed } from '@vue/reactivity';
 import { defaultRoute } from '@/router';
 import PlesFileUpload from '@/components/common/PlesFileUpload.vue';
 import { ref } from 'vue';
+import { useAuthStore } from '@/store';
 import { useMessage } from 'naive-ui';
 import { useRouter } from 'vue-router';
 
@@ -106,12 +107,14 @@ const emailOptions = computed(() => emailSuggestions(values.value.email));
 
 const message = useMessage();
 const router = useRouter();
+const authStore = useAuthStore();
 
 const submit = async () => {
   formRef.value?.validate(async errors => {
     if (!errors) {
       try {
-        await authApi.register({ ...values.value });
+        const user = await authApi.register({ ...values.value });
+        authStore.setUser(user);
         router.push(defaultRoute);
       } catch (err) {
         message.error(err.response.data.message);
