@@ -50,7 +50,7 @@
       <n-input v-model:value="values.experienceDescription" type="textarea" placeholder="Dance experience..." />
     </n-form-item>
     <n-form-item label="Profile image">
-      <ples-file-upload @upload="upload" accept="image/png, image/jpeg" />
+      <ples-file-upload @update="update" @error="error" accept="image/png, image/jpeg" />
     </n-form-item>
 
     <n-form-item>
@@ -120,12 +120,11 @@ const submit = async () => {
   });
 };
 
-const upload = async formData => {
-  try {
-    const { path } = await authApi.upload(formData);
-    values.value.image = path;
-  } catch (err) {
-    message.error(err.response.data.message);
-  }
+const update = image => {
+  values.value.image = image;
+};
+
+const error = error => {
+  message.error(error);
 };
 </script>
