@@ -22,7 +22,8 @@ interface IUser {
   email: string;
   role: Role;
   experienceDescription?: string;
-  refreshToken: string;
+  image?: string;
+  refreshToken?: string;
 }
 
 type ITokenType = 'ACCESS' | 'REFRESH';

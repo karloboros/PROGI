@@ -1,3 +1,8 @@
 const extractData = res => res.data;
 
-export { extractData };
+const headers = {
+  default: { 'Content-Type': 'application/json' },
+  fileUpload: { 'Content-Type': 'multipart/form-data' },
+};
+
+export { extractData, headers };

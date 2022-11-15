@@ -24,3 +24,7 @@ dist-ssr
 *.sw?
 
 .env
+
+server/.tmp/*.jpg
+server/.tmp/*.jpeg
+server/.tmp/*.png

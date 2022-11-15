@@ -49,6 +49,9 @@
     <n-form-item label="Dance experience" path="experienceDescription">
       <n-input v-model:value="values.experienceDescription" type="textarea" placeholder="Dance experience..." />
     </n-form-item>
+    <n-form-item label="Profile image">
+      <ples-file-upload @upload="upload" accept="image/png, image/jpeg" />
+    </n-form-item>
 
     <n-form-item>
       <n-button attr-type="submit">Register</n-button>
@@ -67,6 +70,7 @@ import { emailSuggestions, gender, validationRules } from '@/utils';
 import { authApi } from '@/api';
 import { computed } from '@vue/reactivity';
 import { defaultRoute } from '@/router';
+import PlesFileUpload from '@/components/common/PlesFileUpload.vue';
 import { ref } from 'vue';
 import { useMessage } from 'naive-ui';
 import { useRouter } from 'vue-router';
@@ -81,16 +85,17 @@ const initialValues = {
   dateOfBirth: null,
   phone: '',
   experienceDescription: '',
+  image: '',
 };
 
-const { required, emailRequired, dateRequired, phoneRequired } = validationRules;
+const { required, emailRequired, dateRequired, dateOfBirth, phoneRequired } = validationRules;
 const rules = {
   username: required,
   firstName: required,
   lastName: required,
   email: emailRequired,
   password: required,
-  dateOfBirth: dateRequired,
+  dateOfBirth: [dateRequired, dateOfBirth],
   phone: phoneRequired,
 };
 
@@ -113,5 +118,14 @@ const submit = async () => {
       }
     }
   });
+};
+
+const upload = async formData => {
+  try {
+    const { path } = await authApi.upload(formData);
+    values.value.image = path;
+  } catch (err) {
+    message.error(err.response.data.message);
+  }
 };
 </script>
