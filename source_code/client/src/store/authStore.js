@@ -1,4 +1,5 @@
 import { computed, ref } from 'vue';
+import { authApi } from '@/api';
 import { defineStore } from 'pinia';
 import { useStorage } from '@vueuse/core';
 
@@ -13,7 +14,17 @@ const useAuthStore = defineStore('auth', () => {
     user.value = userToSet;
   };
 
-  return { user, isLoggedIn, setUser };
+  const clearUser = () => {
+    user.value = {};
+  };
+
+  const logout = async router => {
+    await authApi.logout();
+    clearUser();
+    router.push({ name: 'Auth' });
+  };
+
+  return { user, isLoggedIn, setUser, logout };
 });
 
 export default useAuthStore;
