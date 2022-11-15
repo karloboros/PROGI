@@ -1,5 +1,7 @@
 <template>
-  <component :is="currentComponent" @swap="swap"></component>
+  <n-space class="auth-container" align="center" justify="center" item-style="width: 80%">
+    <component :is="currentComponent" @swap="swap"></component>
+  </n-space>
 </template>
 
 <script setup>
@@ -17,3 +19,9 @@ const swap = () => {
   componentIndex.value = (componentIndex.value + 1) % 2;
 };
 </script>
+
+<style scoped>
+.auth-container {
+  height: 100%;
+}
+</style>
