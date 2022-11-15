@@ -63,6 +63,17 @@ class ClubModel extends Model implements IClub {
     });
   }
 
+  static scopes() {
+    return {
+      includeOwner: {
+        include: ['owner'],
+      },
+      includeLocation: {
+        include: ['location'],
+      },
+    };
+  }
+
   static dbOptions() {
     return {
       modelName: 'club',
