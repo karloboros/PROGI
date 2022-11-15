@@ -7,9 +7,10 @@
 </template>
 
 <script setup>
+import { authApi } from '@/api';
 import { ref } from 'vue';
 
-const emit = defineEmits(['upload']);
+const emit = defineEmits(['update', 'error']);
 const props = defineProps({
   accept: { type: String, default: '' },
 });
@@ -22,7 +23,12 @@ const upload = async () => {
   const formData = new FormData();
   formData.append('file', file.value.files[0]);
 
-  emit('upload', formData);
+  try {
+    const { path } = await authApi.upload(formData);
+    emit('update', path);
+  } catch (err) {
+    emit('error', err.response.data.message);
+  }
 };
 </script>
 
