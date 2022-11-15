@@ -71,6 +71,9 @@ class ClubModel extends Model implements IClub {
       includeLocation: {
         include: ['location'],
       },
+      pending: {
+        where: { approvalStatus: ApprovalStatus.Pending },
+      },
     };
   }
 
