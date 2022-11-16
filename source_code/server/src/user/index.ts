@@ -1,4 +1,4 @@
-import { login, logout, register, remove, uploadProfileImage } from './user.controller';
+import { edit, login, logout, register, remove, uploadProfileImage } from './user.controller';
 import authenticate from 'shared/auth/authenticate';
 import multer from 'multer';
 import refresh from 'shared/auth/refresh';
@@ -25,6 +25,7 @@ router
   .post('/upload', upload.single('file'), uploadProfileImage)
   .use(authenticate)
   .use(refresh)
+  .post('/edit', edit)
   .delete('/', remove);
 
 export default { router, path };
