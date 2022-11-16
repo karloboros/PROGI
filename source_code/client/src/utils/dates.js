@@ -3,4 +3,8 @@ const subtractYears = (date, years) => {
   return date;
 };
 
-export { subtractYears };
+const toDatePicker = dateString => {
+  return new Date(dateString).getTime();
+};
+
+export { subtractYears, toDatePicker };
