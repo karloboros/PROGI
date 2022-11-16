@@ -1,7 +1,7 @@
 enum ApprovalStatus {
   Pending,
   Approved,
-  Denied,
+  Rejected,
 }
 
 interface IClub {
