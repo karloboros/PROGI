@@ -84,4 +84,8 @@ const switchTheme = () => {
 .m-12 {
   margin: 12px;
 }
+
+.d-none {
+  display: none;
+}
 </style>

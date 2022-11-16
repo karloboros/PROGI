@@ -47,9 +47,3 @@ const upload = async () => {
   }
 };
 </script>
-
-<style scoped>
-.d-none {
-  display: none;
-}
-</style>
