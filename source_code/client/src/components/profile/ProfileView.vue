@@ -38,7 +38,7 @@ const confirm = () => {
 const remove = async () => {
   try {
     await authApi.remove();
-    message.info('Successfully deleted');
+    message.success('Successfully deleted');
     await authStore.logout(router);
   } catch (err) {
     message.error(err.response?.data.message || err);
