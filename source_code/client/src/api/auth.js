@@ -12,6 +12,9 @@ const urls = {
   get logout() {
     return this.root + '/logout';
   },
+  get edit() {
+    return this.root + '/edit';
+  },
   get remove() {
     return this.root;
   },
@@ -32,6 +35,10 @@ const logout = () => {
   return request.post(urls.logout).then(extractData);
 };
 
+const edit = user => {
+  return request.post(urls.edit, user).then(extractData);
+};
+
 const remove = () => {
   return request.delete(urls.remove);
 };
@@ -44,6 +51,7 @@ export default {
   login,
   register,
   logout,
+  edit,
   remove,
   upload,
 };
