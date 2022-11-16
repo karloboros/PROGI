@@ -1,3 +1,5 @@
+import { IClub } from 'club/types';
+
 enum Gender {
   Female,
   Male,
@@ -24,6 +26,7 @@ interface IUser {
   experienceDescription?: string;
   image?: string;
   refreshToken?: string;
+  clubs?: IClub[];
 }
 
 type ITokenType = 'ACCESS' | 'REFRESH';
