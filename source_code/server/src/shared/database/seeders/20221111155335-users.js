@@ -8,7 +8,7 @@ const createUser = (index, role = 3) => {
   return {
     username: `example${index}`,
     firstName: `test`,
-    lastName: `user${index}`,
+    lastName: `user ${index}`,
     password,
     gender: 0,
     dateOfBirth: new Date('2001'),
@@ -22,7 +22,7 @@ const createUser = (index, role = 3) => {
 module.exports = {
   up(queryInterface) {
     const users = [createUser('', 0)];
-    for (let i = 1; i < 5; i++) users.push(createUser(i));
+    for (let i = 1; i < 4; i++) users.push(createUser(i, i));
     return queryInterface.bulkInsert(TABLE_NAME, users);
   },
   down(queryInterface) {
