@@ -3,7 +3,7 @@
     <n-global-style />
     <n-space class="ples-nav" align="center">
       <n-affix :top="0">
-        <n-button @click="switchTheme" text style="font-size: 24px">
+        <n-button @click="switchTheme" type="warning" text style="font-size: 24px">
           <n-icon>
             <component :is="currentTheme.icon" />
           </n-icon>
