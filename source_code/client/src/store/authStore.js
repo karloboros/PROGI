@@ -11,9 +11,7 @@ const useAuthStore = defineStore('auth', () => {
     return !!user.value.id;
   });
 
-  const isAdmin = computed(() => {
-    return user.value.role === Role.Administrator;
-  });
+  const isAdmin = computed(() => user.value.role === Role.Administrator);
 
   const setUser = userToSet => {
     user.value = userToSet;
