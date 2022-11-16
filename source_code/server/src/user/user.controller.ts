@@ -43,6 +43,19 @@ const logout = (_req: Request, res: Response) => {
   res.status(OK).send();
 };
 
+const remove = async (req: Request, res: Response, next: NextFunction) => {
+  const { user } = req;
+  try {
+    const userToRemove = await User.findByPk(user.id);
+    if (!userToRemove) return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
+
+    await userToRemove.destroy();
+    res.status(OK).send();
+  } catch (err) {
+    return next();
+  }
+};
+
 const uploadProfileImage = (req: Request, res: Response, next: NextFunction) => {
   const { file } = req;
   if (!file) return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
@@ -50,4 +63,4 @@ const uploadProfileImage = (req: Request, res: Response, next: NextFunction) => 
   return res.status(OK).json({ path: file.path });
 };
 
-export { login, register, logout, uploadProfileImage };
+export { login, register, logout, remove, uploadProfileImage };
