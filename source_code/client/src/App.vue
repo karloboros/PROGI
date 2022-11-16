@@ -34,7 +34,10 @@ import { useStorage } from '@vueuse/core';
 
 const router = useRouter();
 
-const isAuthRoute = computed(() => router.currentRoute.value.name !== 'Auth');
+const isAuthRoute = computed(() => {
+  const { name } = router.currentRoute.value;
+  return name !== 'Auth' && name !== 'Home';
+});
 
 const goHome = () => {
   router.push({ name: 'Home' });
