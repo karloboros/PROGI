@@ -11,11 +11,13 @@
       </n-affix>
     </n-space>
 
-    <n-message-provider>
-      <n-space class="ples-main" align="center" justify="center" item-style="width: 100%">
-        <router-view />
-      </n-space>
-    </n-message-provider>
+    <n-dialog-provider>
+      <n-message-provider>
+        <n-space class="ples-main" align="center" justify="center" item-style="width: 100%">
+          <router-view />
+        </n-space>
+      </n-message-provider>
+    </n-dialog-provider>
   </n-config-provider>
 </template>
 

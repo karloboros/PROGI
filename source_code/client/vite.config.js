@@ -19,6 +19,11 @@ export default defineConfig({
         secure: false,
         rewrite: path => path.replace(/^\/api/, ''),
       },
+      '/images': {
+        target: 'http://server:3001/',
+        changeOrigin: true,
+        secure: false,
+      },
     },
   },
 });

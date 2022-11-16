@@ -2,6 +2,7 @@ import { Gender, ITokenType, IUser, Role } from './types';
 import { IFields, IModels } from 'shared/database/types';
 import authTokens from 'shared/auth/authTokens';
 import bcrypt from 'bcrypt';
+import { IClub } from 'club/types';
 import jwt from 'jsonwebtoken';
 import { Model } from 'sequelize';
 
@@ -20,6 +21,7 @@ class UserModel extends Model implements IUser {
   experienceDescription?: string;
   image?: string;
   refreshToken?: string;
+  clubs?: IClub[];
 
   static fields({ INTEGER, STRING, TEXT, DATE, VIRTUAL }: IFields) {
     return {
@@ -92,6 +94,8 @@ class UserModel extends Model implements IUser {
     return {
       id: this.id,
       username: this.username,
+      firstName: this.firstName,
+      lastName: this.lastName,
       fullName: this.fullName,
       gender: this.gender,
       dateOfBirth: this.dateOfBirth,
@@ -112,6 +116,9 @@ class UserModel extends Model implements IUser {
     return {
       defaultScope: {
         attributes: { exclude: ['password'] },
+      },
+      includeClub: {
+        include: ['clubs'],
       },
     };
   }

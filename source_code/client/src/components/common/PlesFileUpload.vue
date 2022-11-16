@@ -1,8 +1,11 @@
 <template>
-  <input ref="file" @change="upload" class="d-none" type="file" :accept="props.accept" />
-  <n-space align="center">
-    <n-button @click="file.click()">Upload</n-button>
-    <n-text :type="fileTypeColor">{{ fileName }}</n-text>
+  <n-space vertical size="large">
+    <input ref="file" @change="upload" class="d-none" type="file" :accept="props.accept" />
+    <n-space align="center">
+      <n-button @click="file.click()">Upload</n-button>
+      <n-text :type="fileTypeColor">{{ fileName }}</n-text>
+    </n-space>
+    <n-image width="100" :src="filePath" />
   </n-space>
 </template>
 
@@ -18,6 +21,7 @@ const props = defineProps({
 
 const file = ref(null);
 const fileName = ref(null);
+const filePath = ref(null);
 const error = ref(false);
 const isLoading = ref(false);
 
@@ -33,6 +37,7 @@ const upload = async () => {
 
   try {
     const { path } = await authApi.upload(formData);
+    filePath.value = path;
     emit('update', path);
   } catch (err) {
     error.value = true;

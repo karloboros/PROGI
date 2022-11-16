@@ -70,7 +70,7 @@ const updateApprovalStatus = async (id, approvalStatus) => {
   try {
     await clubApi.updateApprovalStatus({ id, approvalStatus });
     clubs.value = clubs.value.filter(club => club.id !== id);
-    message.info('Success');
+    message.success('Success');
   } catch (err) {
     message.error(err.response.data.message);
   }

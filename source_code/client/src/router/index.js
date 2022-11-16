@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import ClubApproval from '@/components/admin/ClubApproval.vue';
 import Home from '@/components/home/HomePage.vue';
+import ProfileView from '@/components/profile/ProfileView.vue';
 import { Role } from '@/constants';
 import { useAuthStore } from '@/store';
 import UserAuth from '@/components/auth/UserAuth.vue';
@@ -21,6 +22,11 @@ const routes = [
     name: 'Admin',
     meta: { role: Role.Administrator },
     component: ClubApproval,
+  },
+  {
+    path: '/profile',
+    name: 'Profile',
+    component: ProfileView,
   },
   {
     path: '/:catchAll(.*)',

@@ -7,8 +7,10 @@ const router = Router();
 const path = '/clubs';
 
 router
-  .post('/create', authenticate, refresh, create)
-  .get('/pending', authenticate, refresh, fetchPending)
-  .post('/update-approval', authenticate, refresh, updateApprovalStatus);
+  .use(authenticate)
+  .use(refresh)
+  .post('/create', create)
+  .get('/pending', fetchPending)
+  .post('/update-approval', updateApprovalStatus);
 
 export default { router, path };
