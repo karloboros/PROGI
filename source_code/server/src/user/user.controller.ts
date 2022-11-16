@@ -87,7 +87,7 @@ const uploadProfileImage = (req: Request, res: Response, next: NextFunction) => 
   const { file } = req;
   if (!file) return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
 
-  return res.status(OK).json({ path: file.filename });
+  return res.status(OK).json({ path: `/images/${file.filename}` });
 };
 
 export { login, register, logout, edit, remove, uploadProfileImage };
