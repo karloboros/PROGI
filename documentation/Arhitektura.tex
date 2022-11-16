@@ -49,18 +49,20 @@
 					\SetCell{LightGreen} id & int	& jedinstveni identifikator korisnika \\ \hline
 					username & varchar & jedinstveno korisničko ime korisnika\\ \hline 
 					firstName & varchar & ime korisnika \\ \hline 
-					lastName & varchar & prezime korisnika \\ \hline 
+					lastName & varchar & prezime korisnika \\ \hline
+					fullName & varchar & ime i prezime korisnika \\ \hline 
 					password & varchar & zaporka za prijavu korisnika \\ \hline 
-					sex & enum & spol korisnika \\ \hline 
+					gender & enum & spol korisnika \\ \hline 
 					dateOfBirth & date & datum rođenja korisnika \\ \hline 
 					phone & varchar & jedinstveni kontakt broj korisnika \\ \hline 
 					email & varchar & jedinstvena email adresa korisnika \\ \hline 
+					role & enum & uloga korisnika \\ \hline
 					experienceDescription & varchar & opis korisnikovog iskustva u različitim plesovima \\ \hline 
 					image & varchar & fotografija korisnika \\ \hline 
-					type & enum & funkcija korisnika \\ \hline 
+					refreshToken & varchar & korisnikov refresh token \\ \hline 
 				\end{longtblr}
 
-				\textit{\textbf{Klub}} Ovaj entitet opisuje klubove i sadrži sve informacije o njima. Povezan je sa vezom \textit{One-to-Many} sa TrenerPrijava preko \textit{klubId}, \textit{One-to-Many} sa Plesnjak preko \textit{id}, {One-to-Many} sa Tečajem preko \textit{klubId} i \textit{Many-to-One} sa Korisnikom preko \textit{vlasnikId}.
+				\textit{\textbf{Klub}} Ovaj entitet opisuje klubove i sadrži sve informacije o njima. Povezan je sa vezom \textit{One-to-Many} sa TrenerPrijava preko \textit{klubId}, \textit{One-to-Many} sa Plesnjak preko \textit{id}, {One-to-Many} sa Tečajem preko \textit{klubId}, \textit{Many-to-One} sa Korisnikom preko \textit{vlasnikId}, \textit{Many-to-One} sa Lokacijom preko \textit{lokacijaId}.
 				\begin{longtblr}[
 					label=none,
 					entry=none
@@ -71,12 +73,13 @@
 					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
 					\hline \multicolumn{3}{|c|}{\textbf{Klub}}	 \\ \hline[3pt]
 					\SetCell{LightGreen} id & int	& jedinstveni identifikator treninga \\ \hline
-					\SetCell{LightBlue} vlasnikId & int & identifikator korsnika [ref: $>$ korisnik.id]\\ \hline 
+					\SetCell{LightBlue} ownerId & int & identifikator korsnika [ref: $>$ korisnik.id]\\ \hline 
 					name & varchar & ime kluba \\ \hline 
 					phone & varchar & kontakt broj kluba \\ \hline 
 					email & varchar & kontakt mail kluba \\ \hline 
 					description & varchar & opis kluba \\ \hline 
 					approvalStatus & enum & status odobrenja kluba\\ \hline 
+					locationId & int & identifikator lokacije\\ \hline 
 				\end{longtblr}
 
 				\textit{\textbf{Tecaj}} Ovaj entitet opisuje tečajeve i sadrži sve informacije o njima. Povezan je sa vezom \textit{Many-to-One} sa Korisnikom preko \textit{trenerId},  {Many-to-One} sa Klubom preko \textit{klubId}, {Many-to-One} sa Lokacijom preko \textit{lokacijaId}, {Many-to-One} sa Plesom preko \textit{plesId}, \textit{One-to-Many} sa KorisnikTecaj preko \textit{tecajId} i \textit{One-to-Many} sa Trening preko \textit{tecajId}.
@@ -159,7 +162,7 @@
 					image & varchar & slika plesnjaka \\ \hline 
 				\end{longtblr}
 
-				\textit{\textbf{Lokacija}} Ovaj entitet opisuje lokaciju sa imenom i koordinatama pomoću kojih se prikazuje na karti. Povezan je sa vezom  \textit{One-to-Many} sa Plesnjakom preko \textit{lokacijaId} i \textit{One-to-Many} sa Tečajem preko \textit{lokacijaId}.
+				\textit{\textbf{Lokacija}} Ovaj entitet opisuje lokaciju sa imenom i koordinatama pomoću kojih se prikazuje na karti. Povezan je sa vezom  \textit{One-to-Many} sa Plesnjakom preko \textit{lokacijaId}, \textit{One-to-Many} sa Tečajem preko \textit{lokacijaId} i \textit{One-to-Many} sa Klubom preko \textit{lokacijaId}.
 				\begin{longtblr}[
 					label=none,
 					entry=none
