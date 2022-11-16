@@ -125,9 +125,11 @@ const submit = async () => {
     if (!errors) {
       try {
         const method = isProfileForm.value ? authApi.edit : authApi.register;
+
         const user = await method({ ...values.value });
         authStore.setUser(user);
-        router.push(defaultRoute);
+        if (!isProfileForm.value) router.push(defaultRoute);
+        message.success('Success');
       } catch (err) {
         message.error(err.response.data.message);
       }
