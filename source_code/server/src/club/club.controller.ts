@@ -32,7 +32,7 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 const fetchPending = async (req: Request, res: Response) => {
-  const pendingClubs = await Club.scope('pending').findAll();
+  const pendingClubs = await Club.scope(['pending', 'includeOwner', 'includeLocation']).findAll();
   return res.send(pendingClubs);
 };
 
