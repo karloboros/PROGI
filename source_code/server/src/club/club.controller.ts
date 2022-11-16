@@ -1,4 +1,4 @@
-import { BAD_REQUEST, CONFLICT, OK } from 'http-status';
+import { BAD_REQUEST, CONFLICT, NOT_FOUND, OK } from 'http-status';
 import { NextFunction, Request, Response } from 'express';
 import sequelize, { Club, Location } from 'shared/database';
 import { ApprovalStatus } from './types';
@@ -31,4 +31,26 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-export { create };
+const fetchPending = async (req: Request, res: Response) => {
+  const pendingClubs = await Club.scope(['pending', 'includeOwner', 'includeLocation']).findAll();
+  return res.send(pendingClubs);
+};
+
+const updateApprovalStatus = async (req: Request, res: Response, next: NextFunction) => {
+  const { id, approvalStatus } = req.body;
+  if (!approvalStatus) return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
+
+  const club = await Club.findByPk(id);
+  if (!club) return next(new HttpError(NOT_FOUND, errorMessages.NOT_FOUND));
+
+  try {
+    club.approvalStatus = approvalStatus;
+    club.save();
+
+    return res.sendStatus(OK);
+  } catch {
+    return next();
+  }
+};
+
+export { create, fetchPending, updateApprovalStatus };
