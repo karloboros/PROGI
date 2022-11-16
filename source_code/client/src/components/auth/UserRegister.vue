@@ -66,10 +66,11 @@
 </template>
 
 <script setup>
-import { emailSuggestions, gender, validationRules } from '@/utils';
+import { emailSuggestions, validationRules } from '@/utils';
 import { authApi } from '@/api';
 import { computed } from '@vue/reactivity';
 import { defaultRoute } from '@/router';
+import { gender } from '@/constants';
 import PlesFileUpload from '@/components/common/PlesFileUpload.vue';
 import { ref } from 'vue';
 import { useAuthStore } from '@/store';

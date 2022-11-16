@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import ClubApproval from '@/components/admin/ClubApproval.vue';
 import Home from '@/components/home/HomePage.vue';
-import { Role } from '@/utils';
+import { Role } from '@/constants';
 import { useAuthStore } from '@/store';
 import UserAuth from '@/components/auth/UserAuth.vue';
 

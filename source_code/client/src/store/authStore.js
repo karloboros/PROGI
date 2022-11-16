@@ -1,7 +1,7 @@
 import { computed, ref } from 'vue';
 import { authApi } from '@/api';
 import { defineStore } from 'pinia';
-import { Role } from '@/utils';
+import { Role } from '@/constants';
 import { useStorage } from '@vueuse/core';
 
 const useAuthStore = defineStore('auth', () => {
