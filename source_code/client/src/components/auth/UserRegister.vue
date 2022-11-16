@@ -23,17 +23,17 @@
     <n-form-item label="Gender" path="gender">
       <n-space>
         <n-radio
-          @change="values.gender = gender.male"
-          :checked="values.gender === gender.male"
-          :value="gender.male"
+          @change="values.gender = gender.Male"
+          :checked="values.gender === gender.Male"
+          :value="gender.Male"
           name="gender"
         >
           Male
         </n-radio>
         <n-radio
-          @change="values.gender = gender.female"
-          :checked="values.gender === gender.female"
-          :value="gender.female"
+          @change="values.gender = gender.Female"
+          :checked="values.gender === gender.Female"
+          :value="gender.Female"
           name="gender"
         >
           Female
@@ -83,7 +83,7 @@ const initialValues = {
   lastName: '',
   email: '',
   password: '',
-  gender: gender.male,
+  gender: gender.Male,
   dateOfBirth: null,
   phone: '',
   experienceDescription: '',
