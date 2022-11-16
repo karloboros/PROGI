@@ -23,17 +23,17 @@
     <n-form-item label="Gender" path="gender">
       <n-space>
         <n-radio
-          @change="values.gender = gender.Male"
-          :checked="values.gender === gender.Male"
-          :value="gender.Male"
+          @change="values.gender = Gender.Male"
+          :checked="values.gender === Gender.Male"
+          :value="Gender.Male"
           name="gender"
         >
           Male
         </n-radio>
         <n-radio
-          @change="values.gender = gender.Female"
-          :checked="values.gender === gender.Female"
-          :value="gender.Female"
+          @change="values.gender = Gender.Female"
+          :checked="values.gender === Gender.Female"
+          :value="Gender.Female"
           name="gender"
         >
           Female
@@ -70,7 +70,7 @@ import { emailSuggestions, validationRules } from '@/utils';
 import { authApi } from '@/api';
 import { computed } from '@vue/reactivity';
 import { defaultRoute } from '@/router';
-import { gender } from '@/constants';
+import { Gender } from '@/constants';
 import PlesFileUpload from '@/components/common/PlesFileUpload.vue';
 import { ref } from 'vue';
 import { useAuthStore } from '@/store';
@@ -83,7 +83,7 @@ const initialValues = {
   lastName: '',
   email: '',
   password: '',
-  gender: gender.Male,
+  gender: Gender.Male,
   dateOfBirth: null,
   phone: '',
   experienceDescription: '',
