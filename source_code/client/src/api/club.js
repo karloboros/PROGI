@@ -9,6 +9,9 @@ const urls = {
   get fetchPending() {
     return this.root + '/pending';
   },
+  get updateApprovalStatus() {
+    return this.root + '/update-approval';
+  },
 };
 
 const create = (params = {}) => {
@@ -19,7 +22,12 @@ const fetchPending = () => {
   return request.get(urls.fetchPending).then(extractData);
 };
 
+const updateApprovalStatus = params => {
+  return request.post(urls.updateApprovalStatus, params).then(extractData);
+};
+
 export default {
   create,
   fetchPending,
+  updateApprovalStatus,
 };
