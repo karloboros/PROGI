@@ -4,7 +4,9 @@
     <n-space class="ples-nav" align="center">
       <n-affix :top="0">
         <n-button v-if="isAuthRoute" @click="goHome" type="warning" text style="font-size: 24px">
-          <n-icon><home-icon /></n-icon>
+          <n-icon>
+            <component :is="currentTheme.homeIcon" />
+          </n-icon>
         </n-button>
         <n-button @click="switchTheme" type="warning" text style="font-size: 24px">
           <n-icon>
@@ -26,7 +28,12 @@
 
 <script setup>
 import { darkTheme, lightTheme } from 'naive-ui';
-import { HomeOutline as HomeIcon, MoonOutline as MoonIcon, SunnyOutline as SunIcon } from '@vicons/ionicons5';
+import {
+  HomeOutline as HomeDarkIcon,
+  Home as HomeLightIcon,
+  Moon as MoonIcon,
+  SunnyOutline as SunIcon,
+} from '@vicons/ionicons5';
 import { computed } from '@vue/reactivity';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
@@ -45,8 +52,8 @@ const goHome = () => {
 
 const themeIndex = ref(useStorage('themeIndex', 0));
 const themes = [
-  { theme: darkTheme, icon: SunIcon },
-  { theme: lightTheme, icon: MoonIcon },
+  { theme: darkTheme, icon: SunIcon, homeIcon: HomeDarkIcon },
+  { theme: lightTheme, icon: MoonIcon, homeIcon: HomeLightIcon },
 ];
 
 const currentTheme = computed(() => themes[themeIndex.value]);
