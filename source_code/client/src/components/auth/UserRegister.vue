@@ -17,7 +17,7 @@
         placeholder="Email..."
       />
     </n-form-item>
-    <n-form-item label="Password" path="password">
+    <n-form-item v-if="!isProfileForm" label="Password" path="password">
       <n-input v-model:value="values.password" type="password" show-password-on="mousedown" placeholder="Password..." />
     </n-form-item>
     <n-form-item label="Gender" path="gender">
@@ -53,10 +53,13 @@
       <ples-file-upload @update="update" @error="error" accept="image/png, image/jpeg" />
     </n-form-item>
 
-    <n-form-item>
+    <n-form-item v-if="!isProfileForm">
       <n-button attr-type="submit">Register</n-button>
     </n-form-item>
-    <n-form-item>
+    <n-form-item v-else>
+      <n-button attr-type="submit">Save changes</n-button>
+    </n-form-item>
+    <n-form-item v-if="!isProfileForm">
       <n-p>
         Already have an account?
         <n-a @click="$emit('swap')" quaternary>Click here to log in!</n-a>
@@ -77,18 +80,25 @@ import { useAuthStore } from '@/store';
 import { useMessage } from 'naive-ui';
 import { useRouter } from 'vue-router';
 
-const initialValues = {
-  username: '',
-  firstName: '',
-  lastName: '',
-  email: '',
-  password: '',
-  gender: Gender.Male,
-  dateOfBirth: null,
-  phone: '',
-  experienceDescription: '',
-  image: '',
-};
+const props = defineProps({
+  initialValues: {
+    type: Object,
+    default: () => ({
+      username: '',
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: '',
+      gender: Gender.Male,
+      dateOfBirth: null,
+      phone: '',
+      experienceDescription: '',
+      image: '',
+    }),
+  },
+});
+
+const isProfileForm = computed(() => !!props.initialValues.username.length);
 
 const { required, emailRequired, dateRequired, dateOfBirth, phoneRequired } = validationRules;
 const rules = {
@@ -101,7 +111,7 @@ const rules = {
   phone: phoneRequired,
 };
 
-const values = ref(initialValues);
+const values = ref(props.initialValues);
 const formRef = ref(null);
 
 const emailOptions = computed(() => emailSuggestions(values.value.email));
@@ -114,7 +124,8 @@ const submit = async () => {
   formRef.value?.validate(async errors => {
     if (!errors) {
       try {
-        const user = await authApi.register({ ...values.value });
+        const method = isProfileForm.value ? authApi.edit : authApi.register;
+        const user = await method({ ...values.value });
         authStore.setUser(user);
         router.push(defaultRoute);
       } catch (err) {
