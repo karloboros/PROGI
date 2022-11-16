@@ -8,8 +8,8 @@ const storage = multer.diskStorage({
   destination: (_req, _file, cb) => {
     cb(null, '.tmp');
   },
-  filename: (_req, _file, cb) => {
-    cb(null, Date.now() + '_' + _file.originalname);
+  filename: (_req, file, cb) => {
+    cb(null, Date.now() + '_' + file.originalname);
   },
 });
 
