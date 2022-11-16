@@ -4,7 +4,7 @@
     <n-space class="ples-nav" align="center">
       <n-affix :top="0">
         <n-button @click="switchTheme" type="warning" text style="font-size: 24px">
-          <n-icon>
+          <n-icon class="m-12">
             <component :is="currentTheme.icon" />
           </n-icon>
         </n-button>
@@ -79,5 +79,9 @@ const switchTheme = () => {
 <style>
 #app {
   height: 100vh;
+}
+
+.m-12 {
+  margin: 12px;
 }
 </style>
