@@ -1,7 +1,8 @@
 <template>
-  <n-space align="center" justify="center">
+  <n-space class="club-approval" align="center" justify="center" item-style="width: 80%">
     <n-card title="Pending clubs" size="huge">
-      <n-data-table :columns="columns" :data="clubs" :bordered="false" />
+      <n-skeleton v-if="loading" text :repeat="6" />
+      <n-data-table v-else :columns="columns" :data="clubs" :bordered="false" />
     </n-card>
   </n-space>
 </template>
@@ -50,6 +51,7 @@ const columns = [
 ];
 
 const clubs = ref([]);
+const loading = ref(true);
 
 const message = useMessage();
 
@@ -60,6 +62,8 @@ onMounted(async () => {
     ownerName: club.owner.fullName,
     locationName: club.location.name,
   }));
+
+  loading.value = false;
 });
 
 const updateApprovalStatus = async (id, approvalStatus) => {
@@ -72,3 +76,10 @@ const updateApprovalStatus = async (id, approvalStatus) => {
   }
 };
 </script>
+
+<style scoped>
+.club-approval ::v-deep(.n-data-table-th),
+.club-approval ::v-deep(.n-data-table-td) {
+  white-space: nowrap;
+}
+</style>
