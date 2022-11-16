@@ -1,14 +1,6 @@
 \chapter{Specifikacija programske potpore}
 		
 	\section{Funkcionalni zahtjevi}
-			
-			\textbf{\textit{dio 1. revizije}}\\
-			
-			\textit{Navesti \textbf{dionike} koji imaju \textbf{interes u ovom sustavu} ili  \textbf{su nositelji odgovornosti}. To su prije svega korisnici, ali i administratori sustava, naručitelji, razvojni tim.}\\
-				
-			\textit{Navesti \textbf{aktore} koji izravno \textbf{koriste} ili \textbf{komuniciraju sa sustavom}. Oni mogu imati inicijatorsku ulogu, tj. započinju određene procese u sustavu ili samo sudioničku ulogu, tj. obavljaju određeni posao. Za svakog aktora navesti funkcionalne zahtjeve koji se na njega odnose.}\\
-			
-			
 			\noindent \textbf{Dionici:}
 			
 	\begin{packed_enum}
@@ -119,45 +111,7 @@
 				\textbf{\textit{dio 1. revizije}}
 				
 				\subsubsection{Opis obrazaca uporabe}
-					\textit{Funkcionalne zahtjeve razraditi u obliku obrazaca uporabe. Svaki obrazac je potrebno razraditi prema donjem predlošku. Ukoliko u nekom koraku može doći do odstupanja, potrebno je to odstupanje opisati i po mogućnosti ponuditi rješenje kojim bi se tijek obrasca vratio na osnovni tijek.}\\
-					
-					%ovaj dio cu ostaviti za copy-paste template
-					\noindent \underbar{\textbf{UC$<$broj obrasca$>$ -$<$ime obrasca$>$}}
-					\begin{packed_item}
-	
-						\item \textbf{Glavni sudionik: }$<$sudionik$>$
-						\item  \textbf{Cilj:} $<$cilj$>$
-						\item  \textbf{Sudionici:} $<$sudionici$>$
-						\item  \textbf{Preduvjet:} $<$preduvjet$>$
-						\item  \textbf{Opis osnovnog tijeka:}
-						
-						\item[] \begin{packed_enum}
-	
-							\item $<$opis korak jedan$>$
-							\item $<$opis korak dva$>$
-							\item $<$opis korak tri$>$
-							\item $<$opis korak četiri$>$
-							\item $<$opis korak pet$>$
-						\end{packed_enum}
-						
-						\item  \textbf{Opis mogućih odstupanja:}
-						
-						\item[] \begin{packed_item}
-	
-							\item[2.a] $<$opis mogućeg scenarija odstupanja u koraku 2$>$
-							\item[] \begin{packed_enum}
-								
-								\item $<$opis rješenja mogućeg scenarija korak 1$>$
-								\item $<$opis rješenja mogućeg scenarija korak 2$>$
-								
-							\end{packed_enum}
-							\item[2.b] $<$opis mogućeg scenarija odstupanja u koraku 2$>$
-							\item[3.a] $<$opis mogućeg scenarija odstupanja  u koraku 3$>$
-							
-						\end{packed_item}
-					\end{packed_item}
-					%kraj template-a
-					
+
 \noindent \underbar{\textbf{UC1 - Registracija korisnika}}
 					\begin{packed_item}
 	
@@ -871,8 +825,6 @@ $>$
 					
 					
 				\subsubsection{Dijagrami obrazaca uporabe}
-					
-					\textit{Prikazati odnos aktora i obrazaca uporabe odgovarajućim UML dijagramom. Nije nužno nacrtati sve na jednom dijagramu. Modelirati po razinama apstrakcije i skupovima srodnih funkcionalnosti.}
 				\eject		
 				
 				\begin{figure}[H]
@@ -896,14 +848,6 @@ $>$
 		
 				
 			\subsection{Sekvencijski dijagrami}
-				
-				\textbf{\textit{dio 1. revizije}}\\
-				
-				\textit{Nacrtati sekvencijske dijagrame koji modeliraju najvažnije dijelove sustava (max. 4 dijagrama). Ukoliko postoji nedoumica oko odabira, razjasniti s asistentom. Uz svaki dijagram napisati detaljni opis dijagrama.}
-
-
-
-
 				\noindent \textbf {Obrasci uporabe – UC25, UC26, UC27, UC28, UC29, UC30 - Slanje prijave za trenera, Potvrda prijave za trenera, Odbijanje prijave za trenera, Pregled vođenih tečajeva, Pregled kalendara s vođenim terminima, Pregled polaznika}
 Klijent odabire opciju prijave trenera na poslužitelju, a poslužitelj mu vraća formu koju je potrebno ispuniti. Klijent unosi podatke potrebne za prijavu kako bi postao trener, poslužitelj provjerava ispravnost podataka te ih, ako su ispravni, pohranjuje u bazu podataka kao novu prijavu. Vlasnik kluba ima mogućnost pregleda svih prijava za trenere, odabire pregled prijava na poslužitelju, poslužitelj dohvaća podatke iz baze podataka te ih prikazuje vlasniku kluba. Novu prijavu za trenera vlasnik kluba može potvrditi ili odbiti. U slučaju ispunjenih kriterija vlasnik kluba odabire opciju potvrde trenera na poslužitelju, poslužitelj generira objekt novog trenera i unosi podatke o novom treneru u bazu podataka te vraća potvrdu o obavljenim akcijama. Ukoliko kriteriji nisu zadovoljeni, vlasnik kluba odabire opciju odbijanja nove prijave na poslužitelju, poslužitelj mijenja podatke vezane uz tu prijavu u bazi podataka te šalje potvrdu o obavljanju navedenih promjena.  Klijent koji ima potvrđenu ulogu trenera može na poslužitelju zatražiti pregled vođenih tečajeva, poslužitelj dohvaća podatke o njegovim tečajevima iz baze podataka te mu ih prikazuje. Također, može vidjeti prikaz kalendara s terminima tečajeva koje vodi, šalje zahtjev na poslužitelj, poslužitelj dohvaća podatke iz baze podataka, generira kalendar s dohvaćeni podacima te ih prikazuje treneru. Treneru je na poslužitelju omogućen i odabir pregleda popisa klijenata nazočnih na pojedinom terminu, poslužitelj u tom slučaju dohvaća podatke iz baze podataka, generira odgovarajući popis i prikazuje ih treneru. 
 				
@@ -939,8 +883,7 @@ Administrator može dodavati nove plesove i vršiti promjenu nad već postojeći
 				\eject
 	
 		\section{Ostali zahtjevi}
-		
-			\textbf{\textit{dio 1. revizije}}\\
+	
 			\begin{packed_item}
 	
 				\item Sustav treba omogućiti rad više korisnika u stvarnom vremenu
