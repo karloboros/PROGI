@@ -33,7 +33,7 @@ const logout = () => {
 };
 
 const remove = () => {
-  return request.delete(urls.remove).then(extractData);
+  return request.delete(urls.remove);
 };
 
 const upload = params => {
