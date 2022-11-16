@@ -1,10 +1,10 @@
 <template>
   <n-space align="center" justify="center">
-    <n-button @click="showModal = true">Create club</n-button>
     <n-modal v-model:show="showModal">
       <club-modal @created="showModal = false" />
     </n-modal>
-
+    <n-button @click="showModal = true">Create club</n-button>
+    <n-button @click="router.push({ name: 'Profile' })">Profile</n-button>
     <n-button @click="authStore.logout(router)">Logout</n-button>
   </n-space>
 </template>
