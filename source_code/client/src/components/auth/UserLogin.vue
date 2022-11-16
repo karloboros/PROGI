@@ -8,7 +8,7 @@
     </n-form-item>
 
     <n-form-item>
-      <n-button attr-type="submit">Login</n-button>
+      <n-button type="primary" attr-type="submit">Login</n-button>
     </n-form-item>
     <n-form-item>
       <n-p>

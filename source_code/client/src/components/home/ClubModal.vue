@@ -23,7 +23,7 @@
       </n-form-item>
 
       <n-form-item>
-        <n-button attr-type="submit">Create</n-button>
+        <n-button type="primary" attr-type="submit">Create</n-button>
       </n-form-item>
     </n-form>
   </n-card>
