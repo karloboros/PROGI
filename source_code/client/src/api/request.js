@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { headers as headersOptions } from './helpers';
 import { StatusCodes } from 'http-status-codes';
+import { useAuthStore } from '@/store';
 
 const { FORBIDDEN } = StatusCodes;
 
@@ -12,12 +13,14 @@ const request = (headers = headersOptions.default) => axios.create({ ...config, 
 
 const isAuthError = err => [FORBIDDEN].includes(err.response.status);
 
-request().interceptors.response.use(
+const req = request();
+
+req.interceptors.response.use(
   res => res,
   err => {
     if (isAuthError(err)) {
-      // add logout action
-      console.log('user logout');
+      useAuthStore().removeUser();
+      return window.location.reload();
     }
 
     throw err;
@@ -25,4 +28,4 @@ request().interceptors.response.use(
 );
 
 export { request };
-export default request();
+export default req;
