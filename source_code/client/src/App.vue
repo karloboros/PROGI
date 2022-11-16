@@ -3,7 +3,7 @@
     <n-global-style />
     <n-space class="ples-nav" align="center">
       <n-affix :top="0">
-        <n-button @click="switchTheme" text style="font-size: 24px">
+        <n-button @click="switchTheme" type="warning" text style="font-size: 24px">
           <n-icon>
             <component :is="currentTheme.icon" />
           </n-icon>
@@ -24,8 +24,9 @@ import { darkTheme, lightTheme } from 'naive-ui';
 import { Moon, SunnyOutline as Sun } from '@vicons/ionicons5';
 import { computed } from '@vue/reactivity';
 import { ref } from 'vue';
+import { useStorage } from '@vueuse/core';
 
-const themeIndex = ref(0);
+const themeIndex = ref(useStorage('themeIndex', 0));
 const themes = [
   { theme: darkTheme, icon: Sun },
   { theme: lightTheme, icon: Moon },
