@@ -46,13 +46,14 @@ const logout = (_req: Request, res: Response) => {
 const remove = async (req: Request, res: Response, next: NextFunction) => {
   const { user } = req;
   try {
-    const userToRemove = await User.findByPk(user.id);
+    const userToRemove = await User.scope('includeClub').findByPk(user.id);
     if (!userToRemove) return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
+    if (userToRemove.clubs?.length) return next(new HttpError(CONFLICT, errorMessages.CLUB_OWNER_DELETE));
 
     await userToRemove.destroy();
     res.status(OK).send();
   } catch (err) {
-    return next();
+    return next(err);
   }
 };
 

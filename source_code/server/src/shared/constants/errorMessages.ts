@@ -6,6 +6,7 @@ const errorMessages = {
   BAD_REQUEST: 'Cannot proccess the request.',
   UNIQUE: 'Values already in use, try different ones.',
   NOT_FOUND: 'Cannot find the resource, try refreshing the page.',
+  CLUB_OWNER_DELETE: 'As a club owner you need delete your club first to delete your account.',
 };
 
 export default errorMessages;
