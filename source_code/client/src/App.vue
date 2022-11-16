@@ -3,14 +3,14 @@
     <n-global-style />
     <n-space class="ples-nav" align="center">
       <n-affix :top="0">
-        <n-button v-if="isAuthRoute" @click="goHome" type="warning" text style="font-size: 24px">
-          <n-icon>
-            <component :is="currentTheme.homeIcon" />
-          </n-icon>
-        </n-button>
         <n-button @click="switchTheme" type="warning" text style="font-size: 24px">
           <n-icon>
             <component :is="currentTheme.icon" />
+          </n-icon>
+        </n-button>
+        <n-button v-if="isAuthRoute" @click="goHome" type="warning" text style="font-size: 24px">
+          <n-icon>
+            <component :is="currentTheme.homeIcon" />
           </n-icon>
         </n-button>
       </n-affix>
