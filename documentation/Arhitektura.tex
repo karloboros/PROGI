@@ -2,11 +2,65 @@
 		
 		\textbf{\textit{dio 1. revizije}}\\
 
-		\textit{ Potrebno je opisati stil arhitekture te identificirati: podsustave, preslikavanje na radnu platformu, spremišta podataka, mrežne protokole, globalni upravljački tok i sklopovsko-programske zahtjeve. Po točkama razraditi i popratiti odgovarajućim skicama:}
 	\begin{itemize}
-		\item 	\textit{izbor arhitekture temeljem principa oblikovanja pokazanih na predavanjima (objasniti zašto ste baš odabrali takvu arhitekturu)}
-		\item 	\textit{organizaciju sustava s najviše razine apstrakcije (npr. klijent-poslužitelj, baza podataka, datotečni sustav, grafičko sučelje)}
-		\item 	\textit{organizaciju aplikacije (npr. slojevi frontend i backend, MVC arhitektura) }		
+		\item \textbf{Proces odabira arhitekture}
+
+Razmatrajući cilj projektnog zadatka, koji je izrada web aplikacije koja olakšava pronalaženje i organizaciju plesnih tečajeva i plesnjaka, specifikacijom svih dionika i njihovih mogućnosti prilikom korištenja aplikacije te definiranjem funkcionalnih zahtjeva zaključili smo da naša aplikacija mora imati tri osnovne razine – \underbar{razinu klijenta, razinu web-aplikacije te razinu baze podataka.} Također, prateća tri sloja koja odgovaraju navedenoj podjeli – \underbar{sloj korisničkog sučelja, sloj aplikacijske logike te sloj pristupa podacima.} 
+
+Nadalje, slijedeći principe dobrog oblikovanja, kako bi povećali koheziju i smanjili nepotrebne međuovisnosti, kod koji obavlja pojedinu operaciju vezanu uz određeni entitet je grupiran, dok se sve ostalo što nije izravno vezano uz tu funkcionalnost stavlja izvan te operacije. 
+
+Razine također trebaju formirati hijerarhiju, tako da su svi resursi za pristup skupu povezanih usluga na jednom mjestu, čime se omogućuje da viša razina može putem programskog sučelja pristupiti nižoj. 
+
+Također, kako bi si olakšali snalaženje cilj je grupirati sve dijelove programa koji pristupaju ili mijenjaju određene podatke te grupirati procedure koje se izvode slijedno i izmjenjuju podatke. Pomoćne programe primjenjive na više različitih grupa, koji se logički ne mogu smjestiti u ostale grupe odvajamo u grupu pomoćnih programa (utils/shared/common).
+
+Ovisnosti između pojedinih modula želimo smanjiti kako nam neke jednostavnije izmjene ne bi zahtijevale promjene na velikom broju ostalih modula te želimo da nam se jasno vidi povezanost određenih entiteta i njihovih odgovarajućih sučelja. 
+
+U aplikaciji također želimo ostvariti povećanje ponovne uporabivosti što ćemo postići korištenjem programskih knjižnica i radnih okvira. 
+
+Nakon svih razmatranja odabrali smo višeslojnu arhitekturu temeljenu na odnosu klijent-poslužitelj, najsličniju MVC stilu arhitekture.
+
+
+		\item  \textbf{Višeslojna arhitektura}
+
+Karakteristika klijent-poslužitelj opisuje odnos programa koji surađuju u aplikaciji. Ovaj model arhitekture uključuje razmatranje funkcioniranja klijenta i poslužitelja prije, tijekom i po završetku zajedničke komunikacije.
+
+
+Aplikacija ima tri osnovna sloja:
+
+1.\textit{Klijentsku komponentu} – sloj s korisničkim sučeljem
+
+2.\textit{Poslužiteljsku komponentu} – sloj aplikacijske logike s implementacijom poslovnih procesa i izračuna
+
+3.\textit{Bazu podataka} – podatkovni sloj za pohranu podataka
+
+
+\underbar{Klijentska komponenta} predstavljena je web preglednikom, programom koji klijentu omogućuje pregled web-stranica i multimedijskih sadržaja vezanih uz te stranice odnosno ima mogućnost pristupa informacijama i zahtijevanja usluga poslužitelja. Web preglednik je prevoditelj koji web stranicu pisanu u kodu interpretira i prikazuje u klijentu razumljivom obliku. Koristeći web preglednik klijent šalje zahtjeve web poslužitelju.
+
+\underbar{Poslužiteljska komponenta} predstavlja web poslužitelj, program čija je osnovni zadatak pohrana, obrada i dostava web stranica klijentu te nam ona predstavlja centar za razmjenu informacija i pružanje usluga. Komunikacija se odvija na aplikacijskoj razini OSI modela koristeći HTTP protokol prijenosa informacija na webu temeljen na izmjeni poruka zahtjev-odgovor. Sam poslužitelj pokreće web aplikaciju i prosljeđuje joj klijentske zahtjeve. 
+
+Web aplikacija obrađuje klijentske zahtjeve pri čemu prema potrebi pristupa bazi podataka te preko poslužitelja, klijentu vraća odgovor vidljiv u web pregledniku.
+
+Prednosti odabrane arhitekture su te što se slojevi mogu oblikovati odvojeno te sve komponente mogu biti jednostavnije i razumljivije, ostvaruje se podjela brige(separation of concerns) time što svaki sloj brine o svojoj funkcionalnosti i ne miješa se u brige nekog drugog sloja, a njihova međuovisnost ostvaruje se komunikacijom putem sučelja čija se implementacija može prilagoditi u određenom sloju.
+
+Za izradu aplikacije kao radni okvir na klijentskoj strani odabrali smo Vue.js zasnovan na JavaScriptu koji pruža učinkoviti razvoj klijentskog sučelja koristeći već dostupne web komponente. 
+
+Za radni okvir na poslužiteljskoj strani odabrali smo radni okvir Node.js Express koji pruža funkcionalnosti posredniče arhitekture (middleware) i usmjeravanja te Sequlize koji apstrahira pristup bazi podataka i omogućuje jednostavnije kreiranje upita bez obzira koja se baza koristi.
+
+Članovi tima kod pišu u razvojnom okruženju Visual Studio Code, no to razvojno okruženje nije nužno i može se koristiti bilo kojim drugim uređivačem teksta. Jednostavno pokretanje, konfiguraciju i puštanje u pogon te neovisnost o računalu na kojem se kod izvršava omogućava korištenje platforme Docker. Kroz 3 Docker kontejnera pokriveni su svi ključni djelovi/slojevi aplikacije - klijent, poslužitelj i baza podataka te su osigurane točne verzije svih vanjskih biblioteka i alata.
+
+
+		\item \textbf{MVC stil arhitekture}
+
+Arhitektura je  detaljnije razrađena najsličnija stilu arhitekture MVC (Model-View-Controller).
+
+Osnovna karakteristika ovog stila je nezavisan razvoj pojedinih dijelova aplikacije što omogućuje jednostavnije testiranje i razvijanje dijelova sustava te njihove dorade. Korisničko sučelje je odvojeno od ostatka sustava,  a kohezija elemenata se postiže kroz tri sloja, jednog sloja na klijentskoj strani - pogled (View) te dva na poslužiteljskoj strani – nadglednik (Controller) i model (Model).
+
+1.\textit{Model} – predstavlja glavnu komponentu sustava koja sadrži dinamičke strukture podataka odnosno razrede koji opisuju domenu primjene te sadrže pravila i aplikacijsku logiku. Blisko je povezan s bazom podataka aplikacije.
+
+2.\textit{Pogled (View)} – komponenta koja sadrži niz drugih komponente koje služe za prikaz podataka modela i interakciju s korisnikom kroz grafičko sučelje.
+
+3.\textit{Nadglednik (Controller)}  – komponenta koja upravljaja korisničkim zahtjevima prema modelu i odgovorima modela natrag prema pogledima. Omogućuje poveznicu korisničke strane s poslužiteljskom.
+
 	\end{itemize}
 
 	
@@ -21,22 +75,22 @@
 		Za potrebe našeg sustava koristit ćemo relacijsku bazu podataka koja je jednostavna za modeliranje naših potreba - upravljanje podacima o klubovima koji organiziraju određene događaje i korisnicima koji ih pohađaju. Sastavni elementi baze su relacije, odnosno tablice koje sadrže svoje atribute. Zadaća baze podataka je jednostavna pohrana,umetanje, izmjena i dohvat podataka za daljnju obradu. Baza podataka ove aplikacije sastoji se od sljedećih tablica:
 			\begin{packed_item}
 			
-			\item  Korisnik
-			\item  Klub
-			\item  Tecaj
-			\item  KorisnikTecaj
-			\item  TrenerPrijava
-			\item  Plesnjak
-			\item  Ples
-			\item  Lokacija
-			\item  PlesnjakPles
-			\item  Trening
+			\item  User
+			\item  Club
+			\item  Course
+			\item  UserCourse
+			\item  TrainerAplication
+			\item  Event
+			\item  Dance
+			\item  Location
+			\item  EventDance
+			\item  Lesson
 			
 			\end{packed_item}
 		}
 		
 			\subsection{Opis tablica}
-				\textit{\textbf{Korisnik}} Ovaj entitet opisuje korsnike i sadrži sve informacije o njima. Povezan je sa vezom \textit{One-to-Many} sa TrenerPrijava preko \textit{trenerId}, \textit{One-to-Many} sa KorisnikTecaj preko \textit{korisnikId} i \textit{One-to-Many} sa Klub preko \textit{vlasnikId}.
+				\textit{\textbf{User}} Ovaj entitet opisuje korisnike i sadrži sve informacije o njima. Povezan je sa vezom \textit{One-to-Many} sa TrainerAplication preko \textit{trainerId}, \textit{One-to-Many} sa UserCourse preko \textit{userId} i \textit{One-to-Many} sa Club preko \textit{ownerId}.
 				\begin{longtblr}[
 					label=none,
 					entry=none
@@ -45,7 +99,7 @@
 						colspec={|X[6,l]|X[6, l]|X[20, l]|}, 
 						rowhead = 1,
 					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
-					\hline \multicolumn{3}{|c|}{\textbf{Korisnik}}	    \\ \hline[3pt]
+					\hline \multicolumn{3}{|c|}{\textbf{User}}	    \\ \hline[3pt]
 					\SetCell{LightGreen} id & int	& jedinstveni identifikator korisnika \\ \hline
 					username & varchar & jedinstveno korisničko ime korisnika\\ \hline 
 					firstName & varchar & ime korisnika \\ \hline 
@@ -62,7 +116,7 @@
 					refreshToken & varchar & korisnikov refresh token \\ \hline 
 				\end{longtblr}
 
-				\textit{\textbf{Klub}} Ovaj entitet opisuje klubove i sadrži sve informacije o njima. Povezan je sa vezom \textit{One-to-Many} sa TrenerPrijava preko \textit{klubId}, \textit{One-to-Many} sa Plesnjak preko \textit{id}, {One-to-Many} sa Tečajem preko \textit{klubId}, \textit{Many-to-One} sa Korisnikom preko \textit{vlasnikId}, \textit{Many-to-One} sa Lokacijom preko \textit{lokacijaId}.
+				\textit{\textbf{Club}} Ovaj entitet opisuje klubove i sadrži sve informacije o njima. Povezan je sa vezom \textit{One-to-Many} sa TrainerApplocation preko \textit{id}, \textit{One-to-Many} sa Event preko \textit{id}, {One-to-Many} sa Course preko \textit{id}, \textit{Many-to-One} sa User preko \textit{ownerId}, \textit{Many-to-One} sa Location preko \textit{locationId}.
 				\begin{longtblr}[
 					label=none,
 					entry=none
@@ -71,8 +125,8 @@
 						colspec={|X[6,l]|X[6, l]|X[20, l]|}, 
 						rowhead = 1,
 					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
-					\hline \multicolumn{3}{|c|}{\textbf{Klub}}	 \\ \hline[3pt]
-					\SetCell{LightGreen} id & int	& jedinstveni identifikator treninga \\ \hline
+					\hline \multicolumn{3}{|c|}{\textbf{Club}}	 \\ \hline[3pt]
+					\SetCell{LightGreen} id & int & jedinstveni identifikator treninga \\ \hline
 					\SetCell{LightBlue} ownerId & int & identifikator korsnika [ref: $>$ korisnik.id]\\ \hline 
 					name & varchar & ime kluba \\ \hline 
 					phone & varchar & kontakt broj kluba \\ \hline 
@@ -82,7 +136,7 @@
 					locationId & int & identifikator lokacije\\ \hline 
 				\end{longtblr}
 
-				\textit{\textbf{Tecaj}} Ovaj entitet opisuje tečajeve i sadrži sve informacije o njima. Povezan je sa vezom \textit{Many-to-One} sa Korisnikom preko \textit{trenerId},  {Many-to-One} sa Klubom preko \textit{klubId}, {Many-to-One} sa Lokacijom preko \textit{lokacijaId}, {Many-to-One} sa Plesom preko \textit{plesId}, \textit{One-to-Many} sa KorisnikTecaj preko \textit{tecajId} i \textit{One-to-Many} sa Trening preko \textit{tecajId}.
+				\textit{\textbf{Course}} Ovaj entitet opisuje tečajeve i sadrži sve informacije o njima. Povezan je sa vezom \textit{Many-to-One} sa User preko \textit{trainerId},  {Many-to-One} sa Club preko \textit{clubId}, {Many-to-One} sa Location preko \textit{locationId}, {Many-to-One} sa Dance preko \textit{danceId}, \textit{One-to-Many} sa UserCourse preko \textit{courseId} i \textit{One-to-Many} sa Lesson preko \textit{id}.
 				\begin{longtblr}[
 					label=none,
 					entry=none
@@ -91,26 +145,26 @@
 						colspec={|X[6,l]|X[6, l]|X[20, l]|}, 
 						rowhead = 1,
 					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
-					\hline \multicolumn{3}{|c|}{\textbf{Tecaj}}	 \\ \hline[3pt]
+					\hline \multicolumn{3}{|c|}{\textbf{Course}}	 \\ \hline[3pt]
 					\SetCell{LightGreen} id & int	&  	jedinstveni identifikator tečaja\\ \hline
-					\SetCell{LightBlue} lokacijaId	& int & identifikator lokacije [ref: $>$ Lokacija.id]\\ \hline 
-					\SetCell{LightBlue} trenerId	& int & identifikator klijenta(trenera) [ref: $>$ Korisnik.id]\\ \hline 		
+					\SetCell{LightBlue} locationId	& int & identifikator lokacije [ref: $>$ Lokacija.id]\\ \hline 
+					\SetCell{LightBlue} trainerId	& int & identifikator klijenta(trenera) [ref: $>$ Korisnik.id]\\ \hline 		
 					name	& varchar &   ime tečaja	\\ \hline 
 					description & varchar & opis tečaja  \\ \hline 
 					image	& varchar &   url slike za opis tečaja	\\ \hline 
 					capacity & int &  kapacitet polaznika \\ \hline 
 					minAge	& int &   ograničenje za minimalni broj godina polaznika	\\ \hline 
 					maxAge & int &  ograničenje za maksimalni broj godina \\ \hline 
-					sex & enum &  ograničenje za spol polaznika 	\\ \hline
+					gender & enum &  ograničenje za spol polaznika 	\\ \hline
 					applicationDeadline & datetime & datum za krajnji rok prijave  \\ \hline 
   					maxApplicants & int &  maksimalan broj polaznika \\ \hline 
   					additionalRules & varchar & dodatne informacije i pravila za tečaj  \\ \hline 
-  					\SetCell{LightBlue} klubId & int  &  identifikator kluba koji organizira tečaj [ref: $>$ Klub.id]\\ \hline 
-  					\SetCell{LightBlue} plesId & int  &   identifikator plesa koji će se plesati na tečaju [ref: $>$ Ples.id]\\ \hline 
+  					\SetCell{LightBlue} clubId & int  &  identifikator kluba koji organizira tečaj [ref: $>$ Klub.id]\\ \hline 
+  					\SetCell{LightBlue} danceId & int  &   identifikator plesa koji će se plesati na tečaju [ref: $>$ Ples.id]\\ \hline 
 					
 				\end{longtblr}
 				
-				\textit{\textbf{KorisnikTecaj}} Ovaj entitet opisuje korisnike tečaja i sadrži sve potrebne informacije i reference o njima. Povezan je sa vezom \textit{Many-to-One} sa Korisnikom preko \textit{korisnikId} i \textit{Many-to-One} sa Tečajem preko \textit{tecajId}.
+				\textit{\textbf{UserCourse}} Ovaj entitet opisuje korisnike tečaja i sadrži sve potrebne informacije i reference o njima. Povezan je sa vezom \textit{Many-to-One} sa User preko \textit{userId} i \textit{Many-to-One} sa Course preko \textit{courseId}.
 				\begin{longtblr}[
 					label=none,
 					entry=none
@@ -119,14 +173,14 @@
 						colspec={|X[6,l]|X[6, l]|X[20, l]|}, 
 						rowhead = 1,
 					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
-					\hline \multicolumn{3}{|c|}{\textbf{KorisnikTecaj}}	 \\ \hline[3pt]
+					\hline \multicolumn{3}{|c|}{\textbf{UserCourse}}	 \\ \hline[3pt]
 					\SetCell{LightGreen} id & int	& jedinstveni identifikator  \\ \hline
-					\SetCell{LightBlue} korisnikId	& int & identifikator korisnika [ref: $>$ Korisnik.id]\\ \hline 
-					\SetCell{LightBlue} tecajId	& int & identifikator tečaja[ref: $>$ Tecaj.id]\\ \hline 
+					\SetCell{LightBlue} userId	& int & identifikator korisnika [ref: $>$ Korisnik.id]\\ \hline 
+					\SetCell{LightBlue} courseId	& int & identifikator tečaja[ref: $>$ Tecaj.id]\\ \hline 
 					status & enum & status je li korisnik primljen na tečaj \\ \hline 
 				\end{longtblr}
 
-				\textit{\textbf{TrenerPrijava}} Ovaj entitet opisuje korisnike koji su se prijavili za trenera i sadrži potrebne informacije o njima. Povezan je sa vezom \textit{Many-to-One} sa Korisnikom preko \textit{trenerId} i  \textit{Many-to-One} sa Klubom preko \textit{klubId}.
+				\textit{\textbf{TrainerApplication}} Ovaj entitet opisuje korisnike koji su se prijavili za trenera i sadrži potrebne informacije o njima. Povezan je sa vezom \textit{Many-to-One} sa User preko \textit{trainerId} i  \textit{Many-to-One} sa Club preko \textit{clubId}.
 				\begin{longtblr}[
 					label=none,
 					entry=none
@@ -135,16 +189,16 @@
 						colspec={|X[6,l]|X[6, l]|X[20, l]|}, 
 						rowhead = 1,
 					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
-					\hline \multicolumn{3}{|c|}{\textbf{TrenerPrijava}}	 \\ \hline[3pt]
+					\hline \multicolumn{3}{|c|}{\textbf{TrainerApplication}}	 \\ \hline[3pt]
 					\SetCell{LightGreen} id & int	& jedinstveni identifikator trenera \\ \hline
-					\SetCell{LightBlue} trenerId	& int & identifikator korisnika [ref: $>$ Korisnik.id]\\ \hline 
-					\SetCell{LightBlue} klubId & int & identifikator kluba [ref: $>$ Klub.id] \\ \hline 
+					\SetCell{LightBlue} trainerId	& int & identifikator korisnika [ref: $>$ Korisnik.id]\\ \hline 
+					\SetCell{LightBlue} clubId & int & identifikator kluba [ref: $>$ Klub.id] \\ \hline 
 					motivationLetter & varchar & motivacijsko pismo ___ \\ \hline 
 					certificate & varchar & položeni certifikat za trenera \\ \hline 
 					status & enum & status odobrenja trenera \\ \hline 
 				\end{longtblr}
 
-				\textit{\textbf{Plesnjak}} Ovaj entitet opisuje plesnjake i sadrži sve informacije o njima. Povezan je sa vezom \textit{Many-to-One} sa Lokacijom preko \textit{lokacijaId}, \textit{Many-to-One} sa Klub preko \textit{klubId} i \textit{One-to-Many} sa PlesnjakPles preko \textit{id}.
+				\textit{\textbf{Event}} Ovaj entitet opisuje plesnjake i sadrži sve informacije o njima. Povezan je sa vezom \textit{Many-to-One} sa Location preko \textit{locationId}, \textit{Many-to-One} sa Club preko \textit{clubId} i \textit{One-to-Many} sa EventDance preko \textit{id}.
 				\begin{longtblr}[
 					label=none,
 					entry=none
@@ -153,16 +207,16 @@
 						colspec={|X[6,l]|X[6, l]|X[20, l]|}, 
 						rowhead = 1,
 					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
-					\hline \multicolumn{3}{|c|}{\textbf{Plesnjak}}	 \\ \hline[3pt]
+					\hline \multicolumn{3}{|c|}{\textbf{Event}}	 \\ \hline[3pt]
 					\SetCell{LightGreen} id & int	& jedinstveni identifikator plesnjaka \\ \hline
-					\SetCell{LightBlue} lokacijaId	& int & identifikator lokacije[ref: $>$ Lokacija.id]\\ \hline 
-					\SetCell{LightBlue} klubId	& int & identifikator kluba[ref: $>$ Klub.id]\\ \hline 
+					\SetCell{LightBlue} locationId	& int & identifikator lokacije[ref: $>$ Lokacija.id]\\ \hline 
+					\SetCell{LightBlue} clubId	& int & identifikator kluba[ref: $>$ Klub.id]\\ \hline 
 					name & varchar & naziv plesnjaka \\ \hline 
 					description & varchar & opis plesnjaka \\ \hline 
 					image & varchar & slika plesnjaka \\ \hline 
 				\end{longtblr}
 
-				\textit{\textbf{Lokacija}} Ovaj entitet opisuje lokaciju sa imenom i koordinatama pomoću kojih se prikazuje na karti. Povezan je sa vezom  \textit{One-to-Many} sa Plesnjakom preko \textit{lokacijaId}, \textit{One-to-Many} sa Tečajem preko \textit{lokacijaId} i \textit{One-to-Many} sa Klubom preko \textit{lokacijaId}.
+				\textit{\textbf{Location}} Ovaj entitet opisuje lokaciju sa imenom i koordinatama pomoću kojih se prikazuje na karti. Povezan je sa vezom  \textit{One-to-Many} sa Event preko \textit{locationId}, \textit{One-to-Many} sa Course preko \textit{courseId} i \textit{One-to-Many} sa Club preko \textit{locationId}.
 				\begin{longtblr}[
 					label=none,
 					entry=none
@@ -171,14 +225,14 @@
 						colspec={|X[6,l]|X[6, l]|X[20, l]|}, 
 						rowhead = 1,
 					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
-					\hline \multicolumn{3}{|c|}{\textbf{Lokacija}}	 \\ \hline[3pt]
+					\hline \multicolumn{3}{|c|}{\textbf{Location}}	 \\ \hline[3pt]
 					\SetCell{LightGreen} id & int	&  jedinstveni	identifikator lokacije 	\\ \hline
 					name	 & varchar &   ime lokacije	\\ \hline 
 					coordinates & varchar & geografska širina i dužina lokacije na karti  \\ \hline 
 					
 				\end{longtblr}
 				
-  				\textit{\textbf{PlesnjakPles}} Ovaj entitet opisuje identifikatore plesnjaka i identifikatore plesova koji se na njima plešu. Povezan je sa vezom  \textit{Many-to-One} sa Plesnjakom preko \textit{plesnjakId} i \textit{Many-to-One} sa Plesom preko \textit{plesId}.
+  				\textit{\textbf{EventDance}} Ovaj entitet opisuje identifikatore plesnjaka i identifikatore plesova koji se na njima plešu. Povezan je sa vezom  \textit{Many-to-One} sa Event preko \textit{eventId} i \textit{Many-to-One} sa Dance preko \textit{danceId}.
 				\begin{longtblr}[
 					label=none,
 					entry=none
@@ -187,13 +241,13 @@
 						colspec={|X[6,l]|X[6, l]|X[20, l]|}, 
 						rowhead = 1,
 					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
-					\hline \multicolumn{3}{|c|}{\textbf{plesnjakPles}}	 \\ \hline[3pt]
+					\hline \multicolumn{3}{|c|}{\textbf{EventDance}}	 \\ \hline[3pt]
 					 \SetCell{LightGreen}id & int	&  jedinstveni identifikator koji povezuje plesnjake i plesove\\ \hline
-					\SetCell{LightBlue} plesnjakId & int & identifikator plesnjaka [ref: $>$ Plesnjak.id] \\ \hline
-					\SetCell{LightBlue} plesId & int & identifikator plesa [ref: $>$ Ples.id] \\ \hline
+					\SetCell{LightBlue} eventId & int & identifikator plesnjaka [ref: $>$ Plesnjak.id] \\ \hline
+					\SetCell{LightBlue} danceId & int & identifikator plesa [ref: $>$ Ples.id] \\ \hline
 				\end{longtblr}
 				
-				\textit{\textbf{Trening}} Ovaj entitet definira treninge za pojedini tečaj i informacije o vremenu održavanja. Povezan je sa vezom  \textit{Many-to-One} sa tečajem preko \textit{tecajId}.
+				\textit{\textbf{Lesson}} Ovaj entitet definira treninge za pojedini tečaj i informacije o vremenu održavanja. Povezan je sa vezom  \textit{Many-to-One} sa Course preko \textit{courseId}.
 				\begin{longtblr}[
 					label=none,
 					entry=none
@@ -202,14 +256,14 @@
 						colspec={|X[6,l]|X[6, l]|X[20, l]|}, 
 						rowhead = 1,
 					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
-					\hline \multicolumn{3}{|c|}{\textbf{Trening}}	 \\ \hline[3pt]
+					\hline \multicolumn{3}{|c|}{\textbf{Lesson}}	 \\ \hline[3pt]
 					\SetCell{LightGreen} id & int	& jedinstveni identifikator treninga \\ \hline
-					\SetCell{LightBlue} tecajId	& int & identifikator tečaja[ref: $>$ Tecaj.id]\\ \hline 
+					\SetCell{LightBlue} courseId	& int & identifikator tečaja[ref: $>$ Tecaj.id]\\ \hline 
 					startTime	& datetime &  vrijeme početka treninga 	\\ \hline 
 					endTime	& datetime &  vrijeme kraja treninga 	\\ \hline 
 				\end{longtblr}
   
-  				\textit{\textbf{Ples}} Ovaj entitet opisuje plesove i sadrži informacije o plesovima. Povezan je sa vezom  \textit{One-to-Many} sa PlesnjakPles preko \textit{plesId} i \textit{One-to-Many} sa Tecaj preko \textit{plesId}.
+  				\textit{\textbf{Dance}} Ovaj entitet opisuje plesove i sadrži informacije o plesovima. Povezan je sa vezom  \textit{One-to-Many} sa EventDance preko \textit{danceId} i \textit{One-to-Many} sa Course preko \textit{danceId}.
 				\begin{longtblr}[
 					label=none,
 					entry=none
@@ -218,7 +272,7 @@
 						colspec={|X[6,l]|X[6, l]|X[20, l]|}, 
 						rowhead = 1,
 					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
-					\hline \multicolumn{3}{|c|}{\textbf{Ples}}	 \\ \hline[3pt]
+					\hline \multicolumn{3}{|c|}{\textbf{Dance}}	 \\ \hline[3pt]
 					\SetCell{LightGreen} id & int	& jedinstveni identifikator plesa \\ \hline
 					name	& varchar & ime plesa\\ \hline 
 					description	& varchar & opis plesa\\ \hline 
@@ -235,7 +289,7 @@
 			\includegraphics[scale=0.4]{slike/base_diagram.png}
 			\centering
 			\caption{Relacijski dijagram baze podataka.}
-			\label{fig:promjene}
+			\label{fig:promjen}
 		\end{figure}
 			
 			\eject
