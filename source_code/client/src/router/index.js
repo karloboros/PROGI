@@ -46,7 +46,7 @@ router.beforeEach((to, from) => {
   const isLoggedIn = authStore.isLoggedIn;
   const isAdmin = authStore.isAdmin;
   const isAuthRoute = to.name === 'Auth';
-  const isAdminRoute = to.meta === Role.Administrator;
+  const isAdminRoute = to.meta.role === Role.Administrator;
 
   if (!isLoggedIn && !isAuthRoute) {
     return { name: 'Auth' };
