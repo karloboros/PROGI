@@ -54,10 +54,10 @@
     </n-form-item>
 
     <n-form-item v-if="!isProfileForm">
-      <n-button attr-type="submit">Register</n-button>
+      <n-button type="primary" attr-type="submit">Register</n-button>
     </n-form-item>
     <n-form-item v-else>
-      <n-button attr-type="submit">Save changes</n-button>
+      <n-button type="primary" attr-type="submit">Save changes</n-button>
     </n-form-item>
     <n-form-item v-if="!isProfileForm">
       <n-p>

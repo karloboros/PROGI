@@ -3,12 +3,14 @@
     <n-global-style />
     <n-space class="ples-nav" align="center">
       <n-affix :top="0">
-        <n-button v-if="isAuthRoute" @click="goHome" type="warning" text style="font-size: 24px">
-          <n-icon><home-icon /></n-icon>
-        </n-button>
         <n-button @click="switchTheme" type="warning" text style="font-size: 24px">
-          <n-icon>
+          <n-icon class="m-12">
             <component :is="currentTheme.icon" />
+          </n-icon>
+        </n-button>
+        <n-button v-if="isAuthRoute" @click="goHome" type="warning" text style="font-size: 24px">
+          <n-icon>
+            <component :is="currentTheme.homeIcon" />
           </n-icon>
         </n-button>
       </n-affix>
@@ -26,7 +28,12 @@
 
 <script setup>
 import { darkTheme, lightTheme } from 'naive-ui';
-import { HomeOutline as HomeIcon, MoonOutline as MoonIcon, SunnyOutline as SunIcon } from '@vicons/ionicons5';
+import {
+  HomeOutline as HomeDarkIcon,
+  Home as HomeLightIcon,
+  Moon as MoonIcon,
+  SunnyOutline as SunIcon,
+} from '@vicons/ionicons5';
 import { computed } from '@vue/reactivity';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
@@ -34,7 +41,10 @@ import { useStorage } from '@vueuse/core';
 
 const router = useRouter();
 
-const isAuthRoute = computed(() => router.currentRoute.value.name !== 'Auth');
+const isAuthRoute = computed(() => {
+  const { name } = router.currentRoute.value;
+  return name !== 'Auth' && name !== 'Home';
+});
 
 const goHome = () => {
   router.push({ name: 'Home' });
@@ -42,8 +52,8 @@ const goHome = () => {
 
 const themeIndex = ref(useStorage('themeIndex', 0));
 const themes = [
-  { theme: darkTheme, icon: SunIcon },
-  { theme: lightTheme, icon: MoonIcon },
+  { theme: darkTheme, icon: SunIcon, homeIcon: HomeDarkIcon },
+  { theme: lightTheme, icon: MoonIcon, homeIcon: HomeLightIcon },
 ];
 
 const currentTheme = computed(() => themes[themeIndex.value]);
@@ -69,5 +79,13 @@ const switchTheme = () => {
 <style>
 #app {
   height: 100vh;
+}
+
+.m-12 {
+  margin: 12px;
+}
+
+.d-none {
+  display: none;
 }
 </style>

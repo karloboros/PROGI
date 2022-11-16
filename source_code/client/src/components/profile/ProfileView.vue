@@ -26,9 +26,9 @@ const dialog = useDialog();
 const user = ref({ ...authStore.user, dateOfBirth: toDatePicker(authStore.user.dateOfBirth) });
 
 const confirm = () => {
-  dialog.warning({
+  dialog.error({
     title: 'Confirm',
-    content: 'Are you sure? you want to delete your account. This is irreversible!',
+    content: 'Are you sure you want to delete your account. This is irreversible!',
     positiveText: 'Yes',
     negativeText: 'No',
     onPositiveClick: remove,
