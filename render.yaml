@@ -4,6 +4,7 @@ services:
     name: ples-prod-server1
     repo: https://gitlab.com/programtvogkompjutera1/ples
     branch: master
+    rootDir: source_code/server
     buildFilter:
       paths:
         - source_code/server/**
@@ -32,6 +33,7 @@ services:
     name: ples-prod-client1
     repo: https://gitlab.com/programtvogkompjutera1/ples
     branch: master
+    rootDir: source_code/client
     buildFilter:
       paths:
         - source_code/client/**
