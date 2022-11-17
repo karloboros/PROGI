@@ -1,3 +1,4 @@
+import * as dotenv from 'dotenv';
 import { JsonWebTokenError, JwtPayload, verify as jwtVerify, TokenExpiredError } from 'jsonwebtoken';
 import { NextFunction, Request, Response } from 'express';
 import Audience from './audience';
@@ -6,6 +7,8 @@ import { FORBIDDEN } from 'http-status';
 import HttpError from 'shared/error/httpError';
 import { setAuthCookies } from 'shared/helpers/tokens';
 import { User } from 'shared/database';
+
+dotenv.config();
 
 const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET as string;
 

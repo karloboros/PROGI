@@ -1,5 +1,8 @@
+import * as dotenv from 'dotenv';
 import Audience from './audience';
 import { ITokenType } from 'user/types';
+
+dotenv.config();
 
 const authTokens = {
   type: {

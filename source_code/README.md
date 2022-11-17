@@ -101,3 +101,11 @@ Add the following config to `source_code/.vscode/launch.json`
   ]
 }
 ```
+
+## Deployment
+
+Auto deploy on master changes - redeploys only the part that changed (either client or server or both)
+Render.yaml file - infrastructure as code / blueprints
+Seeding and migrating through shell
+Through shell on server create .tmp/images for profile image storage
+Add .env file for backend and VITE_SERVER_URL with server prod link

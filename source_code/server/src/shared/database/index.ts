@@ -1,3 +1,4 @@
+import * as dotenv from 'dotenv';
 import { Attributes, DataTypes, Model, ModelStatic, Sequelize } from 'sequelize';
 import { forEach, invoke } from 'lodash';
 import { Hooks } from 'sequelize/types/hooks';
@@ -7,6 +8,8 @@ import { IModels } from './types';
 import ClubModel from 'club/club.model';
 import LocationModel from 'location/location.model';
 import UserModel from 'user/user.model';
+
+dotenv.config();
 
 const sequelize = new Sequelize(
   process.env.POSTGRES_DB || '',
