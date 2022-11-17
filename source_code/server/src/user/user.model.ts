@@ -1,3 +1,4 @@
+import * as dotenv from 'dotenv';
 import { Gender, ITokenType, IUser, Role } from './types';
 import { IFields, IModels } from 'shared/database/types';
 import authTokens from 'shared/auth/authTokens';
@@ -5,6 +6,9 @@ import bcrypt from 'bcrypt';
 import { IClub } from 'club/types';
 import jwt from 'jsonwebtoken';
 import { Model } from 'sequelize';
+import path from 'path';
+
+dotenv.config({ path: path.join(__dirname, '/../../../.env') });
 
 class UserModel extends Model implements IUser {
   id!: number;

@@ -1,8 +1,12 @@
+import * as dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import errorHandler from 'shared/error/errorHandler';
 import express from 'express';
+import path from 'path';
 import router from 'router';
 import sequelize from 'shared/database';
+
+dotenv.config({ path: path.join(__dirname, '/../../.env') });
 
 const app = express();
 const port = process.env.PORT || 3001;
