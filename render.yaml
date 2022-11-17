@@ -5,7 +5,7 @@ services:
     repo: https://gitlab.com/programtvogkompjutera1/ples
     branch: master
     buildFilter:
-      path:
+      paths:
         - source_code/server/**
     envVars:
       - key: POSTGRES_HOST
@@ -29,7 +29,7 @@ services:
     repo: https://gitlab.com/programtvogkompjutera1/ples
     branch: master
     buildFilter:
-      path:
+      paths:
         - source_code/client/**
     envVars:
       - key: PORT
