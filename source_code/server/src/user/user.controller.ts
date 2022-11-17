@@ -63,7 +63,7 @@ const edit = async (req: Request, res: Response, next: NextFunction) => {
     return res.status(CREATED).json({ ...userToEdit.profile });
   } catch (err) {
     if (err instanceof UniqueConstraintError) {
-      return next(new HttpError(CONFLICT, errorMessages.REGISTER));
+      return next(new HttpError(CONFLICT, errorMessages.UNIQUE));
     }
     return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
   }
