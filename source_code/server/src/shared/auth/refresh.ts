@@ -8,7 +8,7 @@ import HttpError from 'shared/error/httpError';
 import { setAuthCookies } from 'shared/helpers/tokens';
 import { User } from 'shared/database';
 
-dotenv.config({ path: '/etc/secrets/.env' });
+dotenv.config();
 
 const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET as string;
 

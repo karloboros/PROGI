@@ -5,7 +5,7 @@ import express from 'express';
 import router from 'router';
 import sequelize from 'shared/database';
 
-dotenv.config({ path: '/etc/secrets/.env' });
+dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3001;

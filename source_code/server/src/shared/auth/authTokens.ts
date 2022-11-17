@@ -2,8 +2,7 @@ import * as dotenv from 'dotenv';
 import Audience from './audience';
 import { ITokenType } from 'user/types';
 
-dotenv.config({ path: '/etc/secrets/.env' });
-console.log(process.env);
+dotenv.config();
 
 const authTokens = {
   type: {

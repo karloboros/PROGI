@@ -7,7 +7,7 @@ import { FORBIDDEN } from 'http-status';
 import HttpError from 'shared/error/httpError';
 import { User } from 'shared/database';
 
-dotenv.config({ path: '/etc/secrets/.env' });
+dotenv.config();
 
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET as string;
 

@@ -7,7 +7,7 @@ import { IClub } from 'club/types';
 import jwt from 'jsonwebtoken';
 import { Model } from 'sequelize';
 
-dotenv.config({ path: '/etc/secrets/.env' });
+dotenv.config();
 
 class UserModel extends Model implements IUser {
   id!: number;

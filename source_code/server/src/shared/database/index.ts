@@ -9,7 +9,7 @@ import ClubModel from 'club/club.model';
 import LocationModel from 'location/location.model';
 import UserModel from 'user/user.model';
 
-dotenv.config({ path: '/etc/secrets/.env' });
+dotenv.config();
 
 const sequelize = new Sequelize(
   process.env.POSTGRES_DB || '',
