@@ -25,6 +25,10 @@ services:
         fromDatabase:
           name: ples-prod-db1
           property: password
+      - key: POSTGRES_PORT
+        fromDatabase:
+          name: ples-prod-db1
+          property: port
       - key: PORT
         value: 3001
 
