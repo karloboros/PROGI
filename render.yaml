@@ -6,7 +6,7 @@ services:
     branch: master
     buildFilter:
       path:
-        - server/**
+        - source_code/server/**
     envVars:
       - key: POSTGRES_HOST
         fromDatabase: ples-prod-db1
@@ -30,7 +30,7 @@ services:
     branch: master
     buildFilter:
       path:
-        - client/**
+        - source_code/client/**
     envVars:
       - key: PORT
         value: 3000
