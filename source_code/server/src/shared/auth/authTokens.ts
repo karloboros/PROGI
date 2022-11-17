@@ -4,6 +4,7 @@ import { ITokenType } from 'user/types';
 import path from 'path';
 
 dotenv.config({ path: path.join(__dirname, '/../../../../.env') });
+console.log(process.env);
 
 const authTokens = {
   type: {
