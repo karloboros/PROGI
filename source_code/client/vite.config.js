@@ -1,6 +1,9 @@
+import * as dotenv from 'dotenv';
 import { defineConfig } from 'vite';
 import path from 'path';
 import vue from '@vitejs/plugin-vue';
+
+dotenv.config();
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -14,13 +17,13 @@ export default defineConfig({
     port: 3000,
     proxy: {
       '/api': {
-        target: 'http://server:3001/api',
+        target: `${process.env.VITE_SERVER_URL}/api`,
         changeOrigin: true,
         secure: false,
         rewrite: path => path.replace(/^\/api/, ''),
       },
       '/images': {
-        target: 'http://server:3001/',
+        target: `${process.env.VITE_SERVER_URL}/`,
         changeOrigin: true,
         secure: false,
       },
