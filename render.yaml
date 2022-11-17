@@ -9,17 +9,21 @@ services:
         - source_code/server/**
     envVars:
       - key: POSTGRES_HOST
-        fromDatabase: ples-prod-db1
-        property: host
+        fromDatabase:
+          name: ples-prod-db1
+          property: host
       - key: POSTGRES_DB
-        fromDatabase: ples-prod-db1
-        property: database
+        fromDatabase:
+          name: ples-prod-db1
+          property: database
       - key: POSTGRES_USER
-        fromDatabase: ples-prod-db1
-        property: user
+        fromDatabase:
+          name: ples-prod-db1
+          property: user
       - key: POSTGRES_PASSWORD
-        fromDatabase: ples-prod-db1
-        property: password
+        fromDatabase:
+          name: ples-prod-db1
+          property: password
       - key: PORT
         value: 3001
 
