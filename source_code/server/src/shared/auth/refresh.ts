@@ -5,11 +5,10 @@ import Audience from './audience';
 import errorMessages from 'shared/constants/errorMessages';
 import { FORBIDDEN } from 'http-status';
 import HttpError from 'shared/error/httpError';
-import path from 'path';
 import { setAuthCookies } from 'shared/helpers/tokens';
 import { User } from 'shared/database';
 
-dotenv.config({ path: path.join(__dirname, '/../../../../.env') });
+dotenv.config({ path: '/etc/secrets/.env' });
 
 const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET as string;
 

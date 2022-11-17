@@ -1,9 +1,8 @@
 import * as dotenv from 'dotenv';
 import Audience from './audience';
 import { ITokenType } from 'user/types';
-import path from 'path';
 
-dotenv.config({ path: path.join(__dirname, '/../../../../.env') });
+dotenv.config({ path: '/etc/secrets/.env' });
 console.log(process.env);
 
 const authTokens = {

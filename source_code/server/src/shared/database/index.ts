@@ -3,14 +3,13 @@ import { Attributes, DataTypes, Model, ModelStatic, Sequelize } from 'sequelize'
 import { forEach, invoke } from 'lodash';
 import { Hooks } from 'sequelize/types/hooks';
 import { IModels } from './types';
-import path from 'path';
 
 // eslint-disable-next-line sort-imports
 import ClubModel from 'club/club.model';
 import LocationModel from 'location/location.model';
 import UserModel from 'user/user.model';
 
-dotenv.config({ path: path.join(__dirname, '/../../../../.env') });
+dotenv.config({ path: '/etc/secrets/.env' });
 
 const sequelize = new Sequelize(
   process.env.POSTGRES_DB || '',
