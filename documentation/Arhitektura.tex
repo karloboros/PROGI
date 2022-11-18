@@ -99,7 +99,7 @@ Osnovna karakteristika ovog stila je nezavisan razvoj pojedinih dijelova aplikac
 			\end{packed_item}
 
 			\subsection{Opis tablica}
-				\textbf{User} Ovaj entitet opisuje korisnike i sadrži sve informacije o njima. Povezan je sa vezom \textit{One-to-Many} sa TrainerAplication preko \textit{trainerId}, \textit{One-to-Many} sa UserCourse preko \textit{userId} i \textit{One-to-Many} sa Club preko \textit{ownerId}.
+				\noindent\textbf{User} Ovaj entitet opisuje korisnike i sadrži sve informacije o njima. Povezan je sa vezom \textit{One-to-Many} sa TrainerAplication preko \textit{trainerId}, \textit{One-to-Many} sa UserCourse preko \textit{userId} i \textit{One-to-Many} sa Club preko \textit{ownerId}.
 				\begin{longtblr}[
 					label=none,
 					entry=none
@@ -124,7 +124,7 @@ Osnovna karakteristika ovog stila je nezavisan razvoj pojedinih dijelova aplikac
 					refreshToken & varchar & korisnikov refresh token \\ \hline 
 				\end{longtblr}
 
-				\textbf{Club} Ovaj entitet opisuje klubove i sadrži sve informacije o njima. Povezan je sa vezom \textit{One-to-Many} sa TrainerApplocation preko \textit{id}, \textit{One-to-Many} sa Event preko \textit{id}, {One-to-Many} sa Course preko \textit{id}, \textit{Many-to-One} sa User preko \textit{ownerId}, \textit{Many-to-One} sa Location preko \textit{locationId}.
+				\noindent\textbf{Club} Ovaj entitet opisuje klubove i sadrži sve informacije o njima. Povezan je sa vezom \textit{One-to-Many} sa TrainerApplocation preko \textit{id}, \textit{One-to-Many} sa Event preko \textit{id}, {One-to-Many} sa Course preko \textit{id}, \textit{Many-to-One} sa User preko \textit{ownerId}, \textit{Many-to-One} sa Location preko \textit{locationId}.
 				\begin{longtblr}[
 					label=none,
 					entry=none
@@ -144,7 +144,7 @@ Osnovna karakteristika ovog stila je nezavisan razvoj pojedinih dijelova aplikac
 					locationId & int & identifikator lokacije\\ \hline 
 				\end{longtblr}
 
-				\textbf{Course} Ovaj entitet opisuje tečajeve i sadrži sve informacije o njima. Povezan je sa vezom \textit{Many-to-One} sa User preko \textit{trainerId},  {Many-to-One} sa Club preko \textit{clubId}, {Many-to-One} sa Location preko \textit{locationId}, {Many-to-One} sa Dance preko \textit{danceId}, \textit{One-to-Many} sa UserCourse preko \textit{courseId} i \textit{One-to-Many} sa Lesson preko \textit{id}.
+				\noindent\textbf{Course} Ovaj entitet opisuje tečajeve i sadrži sve informacije o njima. Povezan je sa vezom \textit{Many-to-One} sa User preko \textit{trainerId},  {Many-to-One} sa Club preko \textit{clubId}, {Many-to-One} sa Location preko \textit{locationId}, {Many-to-One} sa Dance preko \textit{danceId}, \textit{One-to-Many} sa UserCourse preko \textit{courseId} i \textit{One-to-Many} sa Lesson preko \textit{id}.
 				\begin{longtblr}[
 					label=none,
 					entry=none
@@ -172,7 +172,7 @@ Osnovna karakteristika ovog stila je nezavisan razvoj pojedinih dijelova aplikac
 					
 				\end{longtblr}
 				
-				\textbf{UserCourse} Ovaj entitet opisuje korisnike tečaja i sadrži sve potrebne informacije i reference o njima. Povezan je sa vezom \textit{Many-to-One} sa User preko \textit{userId} i \textit{Many-to-One} sa Course preko \textit{courseId}.
+				\noindent\textbf{UserCourse} Ovaj entitet opisuje korisnike tečaja i sadrži sve potrebne informacije i reference o njima. Povezan je sa vezom \textit{Many-to-One} sa User preko \textit{userId} i \textit{Many-to-One} sa Course preko \textit{courseId}.
 				\begin{longtblr}[
 					label=none,
 					entry=none
@@ -188,7 +188,7 @@ Osnovna karakteristika ovog stila je nezavisan razvoj pojedinih dijelova aplikac
 					status & enum & status je li korisnik primljen na tečaj \\ \hline 
 				\end{longtblr}
 
-				\textbf{TrainerApplication} Ovaj entitet opisuje korisnike koji su se prijavili za trenera i sadrži potrebne informacije o njima. Povezan je sa vezom \textit{Many-to-One} sa User preko \textit{trainerId} i  \textit{Many-to-One} sa Club preko \textit{clubId}.
+				\noindent\textbf{TrainerApplication} Ovaj entitet opisuje korisnike koji su se prijavili za trenera i sadrži potrebne informacije o njima. Povezan je sa vezom \textit{Many-to-One} sa User preko \textit{trainerId} i  \textit{Many-to-One} sa Club preko \textit{clubId}.
 				\begin{longtblr}[
 					label=none,
 					entry=none
@@ -206,7 +206,7 @@ Osnovna karakteristika ovog stila je nezavisan razvoj pojedinih dijelova aplikac
 					status & enum & status odobrenja trenera \\ \hline 
 				\end{longtblr}
 
-				\textbf{Event} Ovaj entitet opisuje plesnjake i sadrži sve informacije o njima. Povezan je sa vezom \textit{Many-to-One} sa Location preko \textit{locationId}, \textit{Many-to-One} sa Club preko \textit{clubId} i \textit{One-to-Many} sa EventDance preko \textit{id}.
+				\noindent\textbf{Event} Ovaj entitet opisuje plesnjake i sadrži sve informacije o njima. Povezan je sa vezom \textit{Many-to-One} sa Location preko \textit{locationId}, \textit{Many-to-One} sa Club preko \textit{clubId} i \textit{One-to-Many} sa EventDance preko \textit{id}.
 				\begin{longtblr}[
 					label=none,
 					entry=none
@@ -224,7 +224,7 @@ Osnovna karakteristika ovog stila je nezavisan razvoj pojedinih dijelova aplikac
 					image & varchar & slika plesnjaka \\ \hline 
 				\end{longtblr}
 
-				\textbf{Location} Ovaj entitet opisuje lokaciju sa imenom i koordinatama pomoću kojih se prikazuje na karti. Povezan je sa vezom  \textit{One-to-Many} sa Event preko \textit{locationId}, \textit{One-to-Many} sa Course preko \textit{courseId} i \textit{One-to-Many} sa Club preko \textit{locationId}.
+				\noindent\textbf{Location} Ovaj entitet opisuje lokaciju sa imenom i koordinatama pomoću kojih se prikazuje na karti. Povezan je sa vezom  \textit{One-to-Many} sa Event preko \textit{locationId}, \textit{One-to-Many} sa Course preko \textit{courseId} i \textit{One-to-Many} sa Club preko \textit{locationId}.
 				\begin{longtblr}[
 					label=none,
 					entry=none
@@ -240,7 +240,7 @@ Osnovna karakteristika ovog stila je nezavisan razvoj pojedinih dijelova aplikac
 					
 				\end{longtblr}
 				
-  				\textbf{EventDance} Ovaj entitet opisuje identifikatore plesnjaka i identifikatore plesova koji se na njima plešu. Povezan je sa vezom  \textit{Many-to-One} sa Event preko \textit{eventId} i \textit{Many-to-One} sa Dance preko \textit{danceId}.
+  				\noindent\textbf{EventDance} Ovaj entitet opisuje identifikatore plesnjaka i identifikatore plesova koji se na njima plešu. Povezan je sa vezom  \textit{Many-to-One} sa Event preko \textit{eventId} i \textit{Many-to-One} sa Dance preko \textit{danceId}.
 				\begin{longtblr}[
 					label=none,
 					entry=none
@@ -255,7 +255,7 @@ Osnovna karakteristika ovog stila je nezavisan razvoj pojedinih dijelova aplikac
 					\SetCell{LightBlue} danceId & int & identifikator plesa [ref: $>$ Ples.id] \\ \hline
 				\end{longtblr}
 				
-				\textbf{Lesson} Ovaj entitet definira treninge za pojedini tečaj i informacije o vremenu održavanja. Povezan je sa vezom  \textit{Many-to-One} sa Course preko \textit{courseId}.
+				\noindent\textbf{Lesson} Ovaj entitet definira treninge za pojedini tečaj i informacije o vremenu održavanja. Povezan je sa vezom  \textit{Many-to-One} sa Course preko \textit{courseId}.
 				\begin{longtblr}[
 					label=none,
 					entry=none
@@ -271,7 +271,7 @@ Osnovna karakteristika ovog stila je nezavisan razvoj pojedinih dijelova aplikac
 					endTime	& datetime &  vrijeme kraja treninga 	\\ \hline 
 				\end{longtblr}
   
-  				\textbf{Dance} Ovaj entitet opisuje plesove i sadrži informacije o plesovima. Povezan je sa vezom  \textit{One-to-Many} sa EventDance preko \textit{danceId} i \textit{One-to-Many} sa Course preko \textit{danceId}.
+  				\noindent\textbf{Dance} Ovaj entitet opisuje plesove i sadrži informacije o plesovima. Povezan je sa vezom  \textit{One-to-Many} sa EventDance preko \textit{danceId} i \textit{One-to-Many} sa Course preko \textit{danceId}.
 				\begin{longtblr}[
 					label=none,
 					entry=none
@@ -305,7 +305,7 @@ Osnovna karakteristika ovog stila je nezavisan razvoj pojedinih dijelova aplikac
 			
 		\section{Dijagram razreda}
 		
-			Na slikama su prikazani razredi koji pripadaju serverskoj strani aplikacije - konkretno modelima i 
+			\noindent Na slikama su prikazani razredi koji pripadaju serverskoj strani aplikacije - konkretno modelima i 
 			sučeljima koje oni nasljeđuju. Controlleri nisu definirani kao klase nego samo sadrže funkcije za upravljanje, stoga nisu 
 			prikazani na klasnom dijagramu.
 			Svi modeli nasljeđuju klasu Model. Model razredi preslikavaju strukturu baze podataka u aplikaciji
@@ -317,7 +317,7 @@ Osnovna karakteristika ovog stila je nezavisan razvoj pojedinih dijelova aplikac
 			% \textbf{generičku funkcionalnost} sustava. Ostale funkcionalnosti trebaju biti idejno razrađene u dijagramu 
 			% sa sljedećim komponentama: nazivi razreda, nazivi metoda i vrste pristupa metodama (npr. javni, zaštićeni), 
 			% nazivi atributa razreda, veze i odnosi između razreda.}\\
-			Dijagram koji slijedi prikazuje modele Korisnika i Lokacije koji su implementirani u aplikaciji te 
+			\noindent Dijagram koji slijedi prikazuje modele Korisnika i Lokacije koji su implementirani u aplikaciji te 
 			model TecajModel koji još nije implemetirann te je sklon promjenama. Postoji mogućnost dodavanja novih metoda tijekom implementacije.
 			Model User implementira sučelje IUser, koje definira njegove atribute, i koristi enumeraciju Role i Gender. Role definira ulogu korisnika, a
 			Gender spol korisnika. Model Tecaj implementira sučelje ITecaj i korisni enumeraciju Gender za definiranje spola kojem je tečaj namijenjen.
@@ -330,7 +330,7 @@ Osnovna karakteristika ovog stila je nezavisan razvoj pojedinih dijelova aplikac
 			\end{figure}
 		% 	\textbf{\textit{dio 2. revizije}}\\			
 			
-			Dijagram koji slijedi prikazuje model Kluba koji je implementiran u aplikaciji te modele TrainerApplication i KorisnikTecaj
+			\noindent Dijagram koji slijedi prikazuje model Kluba koji je implementiran u aplikaciji te modele TrainerApplication i KorisnikTecaj
 			koji još nisu implemetirani te su skloni promjenama. Postoji mogućnost dodavanja novih metoda tijekom implementacije.
 			Model Klub implemetnira sučelje IKlub koji definira njegove atribute te korisni enumeraciju ApprovalStatus koja opisuje je li 
 			administrator prihvatio tog kluba u sustavu ili ne. Klasa HttpError implementira sučelje IHttpError kojom lovimo moguće iznimke 
@@ -342,7 +342,7 @@ Osnovna karakteristika ovog stila je nezavisan razvoj pojedinih dijelova aplikac
 				\label{fig:class1}
 			\end{figure}
 
-			Dijagram koji slijedi prikazuje okvirno stanje modela zato što oni još nisu implementirani. Popisane metode su 
+			\noindent Dijagram koji slijedi prikazuje okvirno stanje modela zato što oni još nisu implementirani. Popisane metode su 
 			ugrubo navedene i sklone su promjenama. Postoji mogućnost dodavanja novih metoda tijekom implementacije.\\
 			\begin{figure}[H]
 				\includegraphics[scale=1.0]{slike/class3.png}
