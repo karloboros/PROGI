@@ -306,7 +306,7 @@ Osnovna karakteristika ovog stila je nezavisan razvoj pojedinih dijelova aplikac
 		\section{Dijagram razreda}
 		
 			Na slikama su prikazani razredi koji pripadaju serverskoj strani aplikacije - konkretno modelima i 
-			sučeljima koje oni nasljeđuju. Controlleri nisu definirani kao klase nego samoo sadrže funkcije za upravljanje stoga nisu 
+			sučeljima koje oni nasljeđuju. Controlleri nisu definirani kao klase nego samo sadrže funkcije za upravljanje, stoga nisu 
 			prikazani na klasnom dijagramu.
 			Svi modeli nasljeđuju klasu Model. Model razredi preslikavaju strukturu baze podataka u aplikaciji
 			Zbog lakše organizacije, dijagram je podijeljen u tri skupine, razredi su podijeljeni logički po dijelovima koji međusobno čine 
@@ -317,10 +317,10 @@ Osnovna karakteristika ovog stila je nezavisan razvoj pojedinih dijelova aplikac
 			% \textbf{generičku funkcionalnost} sustava. Ostale funkcionalnosti trebaju biti idejno razrađene u dijagramu 
 			% sa sljedećim komponentama: nazivi razreda, nazivi metoda i vrste pristupa metodama (npr. javni, zaštićeni), 
 			% nazivi atributa razreda, veze i odnosi između razreda.}\\
-			Dijagram koji slijedi prikazuje model Korisnika i Lokacije koji su implementirani u aplikaciji te 
-			model TecajModel koji još nije implemetirann te je sklon promjenama. Postoji mogućnost dodavanja novih metoda tijkom implementacije.
-			Model User implementira sučelje IUser koji definira njegove atribute i koristi enumeraciju Role i Gender. Role definira ulogu korisnika, a
-			Gender spol korisnika. Model Tecaj implementira sučelje ITecaj i korisni enumeraciju Gendr za definiranje spola kojem je tečaj namijenjen.
+			Dijagram koji slijedi prikazuje modele Korisnika i Lokacije koji su implementirani u aplikaciji te 
+			model TecajModel koji još nije implemetirann te je sklon promjenama. Postoji mogućnost dodavanja novih metoda tijekom implementacije.
+			Model User implementira sučelje IUser, koje definira njegove atribute, i koristi enumeraciju Role i Gender. Role definira ulogu korisnika, a
+			Gender spol korisnika. Model Tecaj implementira sučelje ITecaj i korisni enumeraciju Gender za definiranje spola kojem je tečaj namijenjen.
 			\\
 			\begin{figure}[H]
 				\includegraphics[scale=1.0]{slike/class1.png}
@@ -331,7 +331,7 @@ Osnovna karakteristika ovog stila je nezavisan razvoj pojedinih dijelova aplikac
 		% 	\textbf{\textit{dio 2. revizije}}\\			
 			
 			Dijagram koji slijedi prikazuje model Kluba koji je implementiran u aplikaciji te modele TrainerApplication i KorisnikTecaj
-			koji još nisu implemetirani te su skloni promjenama. Postoji mogućnost dodavanja novih metoda tijkom implementacije.
+			koji još nisu implemetirani te su skloni promjenama. Postoji mogućnost dodavanja novih metoda tijekom implementacije.
 			Model Klub implemetnira sučelje IKlub koji definira njegove atribute te korisni enumeraciju ApprovalStatus koja opisuje je li 
 			administrator prihvatio tog kluba u sustavu ili ne. Klasa HttpError implementira sučelje IHttpError kojom lovimo moguće iznimke 
 			nastale u kodu.\\
