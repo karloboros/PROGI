@@ -824,8 +824,6 @@ $>$
 					
 					
 				\subsubsection{Dijagrami obrazaca uporabe}
-				\eject		
-				
 				\begin{figure}[H]
 			\includegraphics[scale=0.4]{slike/UC_klub.PNG} %veličina u odnosu na širinu linije
 			\caption{Dijagram obrasca uporabe, funkcionalnost vlasnika kluba.}
@@ -848,6 +846,7 @@ $>$
 				
 			\subsection{Sekvencijski dijagrami}
 				\noindent \textbf {Obrasci uporabe – UC25, UC26, UC27, UC28, UC29, UC30 - Slanje prijave za trenera, Potvrda prijave za trenera, Odbijanje prijave za trenera, Pregled vođenih tečajeva, Pregled kalendara s vođenim terminima, Pregled polaznika}
+
 Klijent odabire opciju prijave trenera na poslužitelju, a poslužitelj mu vraća formu koju je potrebno ispuniti. Klijent unosi podatke potrebne za prijavu kako bi postao trener, poslužitelj provjerava ispravnost podataka te ih, ako su ispravni, pohranjuje u bazu podataka kao novu prijavu. Vlasnik kluba ima mogućnost pregleda svih prijava za trenere, odabire pregled prijava na poslužitelju, poslužitelj dohvaća podatke iz baze podataka te ih prikazuje vlasniku kluba. Novu prijavu za trenera vlasnik kluba može potvrditi ili odbiti. U slučaju ispunjenih kriterija vlasnik kluba odabire opciju potvrde trenera na poslužitelju, poslužitelj generira objekt novog trenera i unosi podatke o novom treneru u bazu podataka te vraća potvrdu o obavljenim akcijama. Ukoliko kriteriji nisu zadovoljeni, vlasnik kluba odabire opciju odbijanja nove prijave na poslužitelju, poslužitelj mijenja podatke vezane uz tu prijavu u bazi podataka te šalje potvrdu o obavljanju navedenih promjena.  Klijent koji ima potvrđenu ulogu trenera može na poslužitelju zatražiti pregled vođenih tečajeva, poslužitelj dohvaća podatke o njegovim tečajevima iz baze podataka te mu ih prikazuje. Također, može vidjeti prikaz kalendara s terminima tečajeva koje vodi, šalje zahtjev na poslužitelj, poslužitelj dohvaća podatke iz baze podataka, generira kalendar s dohvaćeni podacima te ih prikazuje treneru. Treneru je na poslužitelju omogućen i odabir pregleda popisa klijenata nazočnih na pojedinom terminu, poslužitelj u tom slučaju dohvaća podatke iz baze podataka, generira odgovarajući popis i prikazuje ih treneru. 
 				
 				%unos slike
@@ -859,6 +858,7 @@ Klijent odabire opciju prijave trenera na poslužitelju, a poslužitelj mu vrać
 		\end{figure}
 		
 				\noindent \textbf {Obrasci uporabe - UC17, UC20, UC21, UC22, UC32 - Objava upisa na tečaj, pregled tečajeva, prijava na tečaj, odabir klijenata za tečaj i mijenjanje popisa klijenata} 
+
 Vlasnik kluba šalje zahtjev za izradu tečaja, nakon čega mu poslužitelj vraća formu za upis podataka o tečaju. Poslužitelj zatim podatke o tečaju upisuje u bazu. Klijent šalje zahtjev za pregledom tečajeva. Poslužitelj iz baze dohvaća podatke o tečajevima i prikazuje ih klijentu. Klijent odabire jedan tečaj i prijavi se na njega, nakon čega poslužitelj vrši provjeru ispravnosti. Ako je klijent unio ispravne podatke, poslužitelj u bazu unosi podatke o prijavi i vraća korisniku povratnu informaciju o uspješnosti prijave. Vlasnik kluba šalje zahtjev poslužitelju za pregled prijava. Poslužitelj dohvaća prijave iz baze i šalje ih vlasniku kluba na pregled. Vlasnik kluba zatim odlučuje o potencijalnoj potvrdi klijenta na tečaj, nakon čega poslužitelj ažurira status prijave u bazi podataka. Vlasnik kluba po volji može izmijeniti popis klijenata za tečaj, za što prvo mora poslati zahtjev poslužitelju za dohvat podataka o tečaju. Poslužitelj dohvaća podatke iz baze i šalje ih vlasniku kluba. Vlasnik kluba zatim vrši izmjene i potvrđuje ih, nakon čega poslužitelj ažurira podatke o tečaju u bazi.
 
 		\begin{figure}[H]
@@ -869,6 +869,7 @@ Vlasnik kluba šalje zahtjev za izradu tečaja, nakon čega mu poslužitelj vra�
 		\end{figure}
 
 				\noindent \textbf {Obrasci uporabe UC6, UC7 i UC8 – dodavanje plesova, izmjena plesova i brisanje plesova }
+
 Administrator može dodavati nove plesove i vršiti promjenu nad već postojećim plesovima. Ukoliko se administrator odluči za dodavanje plesa, on šalje poslužitelju zahtjev za stvaranje novog plesa, nakon čega web aplikacija vrši dohvat podataka iz baze te vraća administratoru formu za unos podataka. Administrator ispunjava podatke o novom plesu, a zatim poslužitelj provjerava ispravnost unesenih podataka i šalje ih u bazu podataka. Ukoliko se administrator odluči za izmjenu plesova, on šalje zahtjev poslužitelju za odabir dostupnih plesova. Poslužitelj dohvaća dostupne plesove iz baze te ih vraća poslužitelju. Poslužitelj zatim nad dostupnim plesovima vrši promjene ili briše ples, nakon čega poslužitelj pohranjuje izmjene u bazu podataka
 		
 		\begin{figure}[H]
