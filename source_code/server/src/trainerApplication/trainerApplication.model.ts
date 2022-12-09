@@ -18,7 +18,7 @@ class TrainerApplicationModel extends Model implements ITrainerApplication {
         primaryKey: true,
         autoIncrement: true,
       },
-      motvivationalLetter: {
+      motivationalLetter: {
         type: STRING,
         allowNull: false,
       },
