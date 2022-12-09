@@ -7,6 +7,7 @@ import { IModels } from './types';
 // eslint-disable-next-line sort-imports
 import ClubModel from 'club/club.model';
 import LocationModel from 'location/location.model';
+import TrainerApplicationModel from 'trainerApplication/trainerApplication.model';
 import UserModel from 'user/user.model';
 
 dotenv.config();
@@ -25,6 +26,7 @@ const models: IModels = {
   Club: defineModel(ClubModel),
   Location: defineModel(LocationModel),
   User: defineModel(UserModel),
+  TrainerApplication: defineModel(TrainerApplicationModel),
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
