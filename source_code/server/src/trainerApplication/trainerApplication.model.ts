@@ -1,7 +1,7 @@
-import { ApprovalStatus, IClub } from 'club/types';
 import { IFields, IModels } from 'shared/database/types';
+import { Model, TEXT } from 'sequelize';
+import { ApprovalStatus } from 'club/types';
 import { ITrainerApplication } from './types';
-import { Model } from 'sequelize';
 
 class TrainerApplicationModel extends Model implements ITrainerApplication {
   id!: number;
@@ -9,7 +9,7 @@ class TrainerApplicationModel extends Model implements ITrainerApplication {
   certificate!: string;
   status!: ApprovalStatus;
   trainerId!: number;
-  clubId!: IClub;
+  clubId!: number;
 
   static fields({ INTEGER, STRING }: IFields) {
     return {
@@ -19,7 +19,7 @@ class TrainerApplicationModel extends Model implements ITrainerApplication {
         autoIncrement: true,
       },
       motivationalLetter: {
-        type: STRING,
+        type: TEXT,
         allowNull: false,
       },
       certificate: {
@@ -42,32 +42,14 @@ class TrainerApplicationModel extends Model implements ITrainerApplication {
   }
 
   static associate({ Club, User }: IModels) {
-    this.belongsTo(User, {
-      foreignKey: { name: 'ownerId', field: 'ownerId' },
-    });
-    this.belongsTo(Club, {
-      foreignKey: { name: 'clubId', field: 'clubId' },
-    });
-  }
-
-  static scopes() {
-    return {
-      includeOwner: {
-        include: ['userId'],
-      },
-      includeClub: {
-        include: ['clubId'],
-      },
-      pending: {
-        where: { status: ApprovalStatus.Pending },
-      },
-    };
+    Club.hasMany(TrainerApplicationModel, { foreignKey: { name: 'clubId', field: 'clubId' } });
+    User.hasMany(TrainerApplicationModel, { foreignKey: { name: 'trainerId', field: 'trainerId' } });
   }
 
   static dbOptions() {
     return {
       modelName: 'trainerApplication',
-      tableName: 'trainerApplications',
+      tableName: 'trainer_applications',
       timestamps: false,
     };
   }
