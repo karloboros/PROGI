@@ -36,8 +36,8 @@ class DanceModel extends Model implements IDance {
     };
   }
 
-  static associate({ EventDance }: IModels) {
-    this.hasMany(EventDance, {
+  static associate({ DanceBallDance }: IModels) {
+    this.hasMany(DanceBallDance, {
       foreignKey: { name: 'danceId', field: 'danceId' },
     });
   }
