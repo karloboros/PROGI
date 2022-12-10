@@ -1,4 +1,4 @@
-const TABLE_NAME = 'trainerApplications';
+const TABLE_NAME = 'trainer_applications';
 
 module.exports = {
   up(queryInterface, Sequelize) {
@@ -10,7 +10,7 @@ module.exports = {
         allowNull: false,
       },
       motivationalLetter: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
         allowNull: false,
       },
       certificate: {
@@ -24,11 +24,22 @@ module.exports = {
       trainerId: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        unique: true,
+        references: {
+          model: {
+            tableName: 'users',
+          },
+          key: 'id',
+        },
       },
       clubId: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        references: {
+          model: {
+            tableName: 'clubs',
+          },
+          key: 'id',
+        },
       },
     });
   },

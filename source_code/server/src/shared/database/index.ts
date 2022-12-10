@@ -25,8 +25,8 @@ const sequelize = new Sequelize(
 const models: IModels = {
   Club: defineModel(ClubModel),
   Location: defineModel(LocationModel),
-  User: defineModel(UserModel),
   TrainerApplication: defineModel(TrainerApplicationModel),
+  User: defineModel(UserModel),
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

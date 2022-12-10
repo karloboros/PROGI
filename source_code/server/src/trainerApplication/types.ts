@@ -1,4 +1,4 @@
-import { ApprovalStatus, IClub } from 'club/types';
+import { ApprovalStatus } from 'club/types';
 
 interface ITrainerApplication {
   id: number;
@@ -6,7 +6,7 @@ interface ITrainerApplication {
   certificate: string;
   status: ApprovalStatus;
   trainerId: number;
-  clubId: IClub;
+  clubId: number;
 }
 
 export { ITrainerApplication };

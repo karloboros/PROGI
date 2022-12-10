@@ -18,8 +18,8 @@ interface IFields {
 type IModels = {
   Club: typeof ClubModel;
   Location: typeof LocationModel;
-  User: typeof UserModel;
   TrainerApplication: typeof TrainerApplicationModel;
+  User: typeof UserModel;
 };
 
 export { IFields, IModels };
