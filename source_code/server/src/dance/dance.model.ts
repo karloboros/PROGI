@@ -29,7 +29,7 @@ class DanceModel extends Model implements IDance {
         type: STRING,
         allowNull: true,
       },
-      videoLink: {
+      videoUrl: {
         type: STRING,
         allowNull: true,
       },

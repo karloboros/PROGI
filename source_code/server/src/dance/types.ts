@@ -3,7 +3,7 @@ interface IDance {
   name: string;
   description?: string;
   image?: string;
-  videoLink?: string;
+  videoUrl?: string;
 }
 
 export { IDance };
