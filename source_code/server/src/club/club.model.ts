@@ -53,7 +53,10 @@ class ClubModel extends Model implements IClub {
     };
   }
 
-  static associate({ Location, User, TrainerApplication }: IModels) {
+  static associate({ Course, Location, User, TrainerApplication }: IModels) {
+    this.hasMany(Course, {
+      foreignKey: { name: 'clubId', field: 'clubId' },
+    });
     this.belongsTo(Location, {
       foreignKey: { name: 'locationId', field: 'locationId' },
     });
