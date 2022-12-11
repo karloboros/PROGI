@@ -42,8 +42,13 @@ class TrainerApplicationModel extends Model implements ITrainerApplication {
   }
 
   static associate({ Club, User }: IModels) {
-    Club.hasMany(TrainerApplicationModel, { foreignKey: { name: 'clubId', field: 'clubId' } });
-    User.hasMany(TrainerApplicationModel, { foreignKey: { name: 'trainerId', field: 'trainerId' } });
+    this.belongsTo(Club, {
+      foreignKey: { name: 'clubId', field: 'clubId' },
+    });
+    this.belongsTo(User, {
+      foreignKey: { name: 'trainerId', field: 'trainerId' },
+      as: 'trainer',
+    });
   }
 
   static dbOptions() {
