@@ -62,7 +62,7 @@ class ClubModel extends Model implements IClub {
       as: 'owner',
     });
     this.hasMany(TrainerApplication, {
-      foreignKey: { name: 'trainerId', field: 'trainerId' },
+      foreignKey: { name: 'clubId', field: 'clubId' },
     });
   }
 

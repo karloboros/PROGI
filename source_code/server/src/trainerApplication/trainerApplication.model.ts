@@ -1,7 +1,7 @@
 import { IFields, IModels } from 'shared/database/types';
-import { Model, TEXT } from 'sequelize';
 import { ApprovalStatus } from 'club/types';
 import { ITrainerApplication } from './types';
+import { Model } from 'sequelize';
 
 class TrainerApplicationModel extends Model implements ITrainerApplication {
   id!: number;
@@ -11,7 +11,7 @@ class TrainerApplicationModel extends Model implements ITrainerApplication {
   trainerId!: number;
   clubId!: number;
 
-  static fields({ INTEGER, STRING }: IFields) {
+  static fields({ INTEGER, STRING, TEXT }: IFields) {
     return {
       id: {
         type: INTEGER,
