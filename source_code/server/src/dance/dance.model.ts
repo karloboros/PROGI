@@ -5,9 +5,9 @@ import { Model } from 'sequelize';
 class DanceModel extends Model implements IDance {
   id!: number;
   name!: string;
-  description: string;
-  image: string;
-  videoLink: string;
+  description!: string;
+  image!: string;
+  videoUrl!: string;
 
   static fields({ INTEGER, STRING, TEXT }: IFields) {
     return {
@@ -36,8 +36,8 @@ class DanceModel extends Model implements IDance {
     };
   }
 
-  static associate({ DanceBallDance }: IModels) {
-    this.hasMany(DanceBallDance, {
+  static associate({ EventDance }: IModels) {
+    this.hasMany(EventDance, {
       foreignKey: { name: 'danceId', field: 'danceId' },
     });
   }

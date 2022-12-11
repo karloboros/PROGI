@@ -4,6 +4,8 @@ const createDance = index => {
   return {
     name: `Dance #${index}`,
     description: `Short dance description`,
+    image: `Image #${index}`,
+    videoUrl: `videoUrl #${index}`,
   };
 };
 
