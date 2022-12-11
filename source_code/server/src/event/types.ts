@@ -1,9 +1,10 @@
-interface IBallDance {
+interface IEvent {
   id: number;
-  locationId: number;
   name: string;
-  description?: string;
-  image?: string;
+  description: string;
+  image: string;
+  clubId: number;
+  locationId: number;
 }
 
-export { IBallDance };
+export { IEvent };

@@ -4,6 +4,7 @@ const createEvent = index => {
   return {
     name: `Event #${index}`,
     description: `Short event description`,
+    image: `image #${index}`,
     clubId: 1,
     locationId: (index % 3) + 1,
   };

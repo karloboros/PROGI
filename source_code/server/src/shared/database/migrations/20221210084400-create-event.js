@@ -5,28 +5,17 @@ module.exports = {
     return queryInterface.createTable(TABLE_NAME, {
       id: {
         type: Sequelize.INTEGER,
-        allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-      },
-      locationId: {
-        type: Sequelize.INTEGER,
         allowNull: false,
-        references: {
-          model: {
-            tableName: 'locations',
-          },
-          key: 'id',
-        },
       },
       name: {
         type: Sequelize.STRING,
         allowNull: false,
-        unique: true,
       },
       description: {
         type: Sequelize.TEXT,
-        allowNull: true,
+        allowNull: false,
       },
       image: {
         type: Sequelize.STRING,
@@ -38,6 +27,16 @@ module.exports = {
         references: {
           model: {
             tableName: 'clubs',
+          },
+          key: 'id',
+        },
+      },
+      locationId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: {
+            tableName: 'locations',
           },
           key: 'id',
         },

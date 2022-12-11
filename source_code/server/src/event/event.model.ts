@@ -1,12 +1,12 @@
 import { IFields, IModels } from 'shared/database/types';
-import { IBallDance } from './types';
+import { IEvent } from './types';
 import { Model } from 'sequelize';
 
-class BallDanceModel extends Model implements IBallDance {
+class EventModel extends Model implements IEvent {
   id!: number;
   name!: string;
-  description?: string;
-  image?: string;
+  description!: string;
+  image!: string;
   clubId!: number;
   locationId!: number;
 
@@ -17,25 +17,23 @@ class BallDanceModel extends Model implements IBallDance {
         primaryKey: true,
         autoIncrement: true,
       },
-      locationId: {
-        type: INTEGER,
-        allowNull: false,
-        autoIncrement: true,
-      },
       name: {
         type: STRING,
         allowNull: false,
-        unique: true,
       },
       description: {
         type: TEXT,
-        allowNull: true,
+        allowNull: false,
       },
       image: {
         type: STRING,
-        allowNull: true,
+        allowNull: false,
       },
       clubId: {
+        type: INTEGER,
+        allowNull: false,
+      },
+      locationId: {
         type: INTEGER,
         allowNull: false,
       },
@@ -43,11 +41,11 @@ class BallDanceModel extends Model implements IBallDance {
   }
 
   static associate({ Location, Club }: IModels) {
-    this.belongsTo(Location, {
-      foreignKey: { name: 'locationId', field: 'locationId' },
-    });
     this.belongsTo(Club, {
       foreignKey: { name: 'clubId', field: 'clubId' },
+    });
+    this.belongsTo(Location, {
+      foreignKey: { name: 'locationId', field: 'locationId' },
     });
   }
 
@@ -60,4 +58,4 @@ class BallDanceModel extends Model implements IBallDance {
   }
 }
 
-export default BallDanceModel;
+export default EventModel;
