@@ -1,14 +1,11 @@
 const TABLE_NAME = 'trainer_applications';
 
-const createTrainerApplication = (data = {}) => {
-  const { id, status, trainerId, clubId } = data;
-
+const createTrainerApplication = ({ status, clubId }) => {
   return {
-    id,
-    motivationalLetter: '',
+    motivationalLetter: 'Trust me, I am a good trainer!',
     certificate: '',
     status,
-    trainerId,
+    trainerId: 8,
     clubId,
   };
 };
@@ -16,11 +13,15 @@ const createTrainerApplication = (data = {}) => {
 module.exports = {
   up(queryInterface) {
     const trainerApplications = [];
-    trainerApplications.push(createTrainerApplication({ id: 1, status: 0, trainerId: 1, clubId: 5 }));
-    trainerApplications.push(createTrainerApplication({ id: 2, status: 1, trainerId: 1, clubId: 4 }));
-    trainerApplications.push(createTrainerApplication({ id: 3, status: 2, trainerId: 4, clubId: 3 }));
-    trainerApplications.push(createTrainerApplication({ id: 4, status: 3, trainerId: 9, clubId: 2 }));
-    trainerApplications.push(createTrainerApplication({ id: 5, status: 1, trainerId: 2, clubId: 1 }));
+    trainerApplications.push(createTrainerApplication({ status: 0, clubId: 1 }));
+    trainerApplications.push(createTrainerApplication({ status: 1, clubId: 1 }));
+    trainerApplications.push(createTrainerApplication({ status: 2, clubId: 1 }));
+    trainerApplications.push(createTrainerApplication({ status: 0, clubId: 2 }));
+    trainerApplications.push(createTrainerApplication({ status: 1, clubId: 2 }));
+    trainerApplications.push(createTrainerApplication({ status: 2, clubId: 2 }));
+    trainerApplications.push(createTrainerApplication({ status: 0, clubId: 3 }));
+    trainerApplications.push(createTrainerApplication({ status: 1, clubId: 3 }));
+    trainerApplications.push(createTrainerApplication({ status: 2, clubId: 3 }));
     return queryInterface.bulkInsert(TABLE_NAME, trainerApplications);
   },
   down(queryInterface) {
