@@ -5,9 +5,9 @@ import { Model } from 'sequelize';
 class DanceModel extends Model implements IDance {
   id!: number;
   name!: string;
-  description?: string;
-  image?: string;
-  videoLink?: string;
+  description: string;
+  image: string;
+  videoLink: string;
 
   static fields({ INTEGER, STRING, TEXT }: IFields) {
     return {
@@ -23,15 +23,15 @@ class DanceModel extends Model implements IDance {
       },
       description: {
         type: TEXT,
-        allowNull: true,
+        allowNull: false,
       },
       image: {
         type: STRING,
-        allowNull: true,
+        allowNull: false,
       },
       videoUrl: {
         type: STRING,
-        allowNull: true,
+        allowNull: false,
       },
     };
   }
