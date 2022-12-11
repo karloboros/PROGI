@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { test } from './trainerApplication.controller';
 
 const router = Router();
-const path = '/trainerApplications';
+const path = '/trainer-applications';
 
 router.get('/test', test);
 
