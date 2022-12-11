@@ -3,13 +3,13 @@ const TABLE_NAME = 'courses';
 const createCourse = index => {
   return {
     name: `Course #${index}`,
-    description: `Opis klasa`,
+    description: `Description #${index}`,
     capacity: 20,
     applicationDeadline: new Date('2023'),
     clubId: 1,
     danceId: 2,
     locationId: (index % 3) + 1,
-    trainerId: (index % 3) + 1,
+    trainerId: 8,
   };
 };
 module.exports = {

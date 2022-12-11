@@ -1,4 +1,5 @@
 const TABLE_NAME = 'courses';
+
 module.exports = {
   up(queryInterface, Sequelize) {
     return queryInterface.createTable(TABLE_NAME, {
@@ -11,15 +12,10 @@ module.exports = {
       name: {
         type: Sequelize.STRING,
         allowNull: false,
-        unique: false,
       },
       description: {
         type: Sequelize.TEXT,
         allowNull: false,
-      },
-      image: {
-        type: Sequelize.STRING,
-        allowNull: true,
       },
       capacity: {
         type: Sequelize.INTEGER,
@@ -41,10 +37,6 @@ module.exports = {
         type: Sequelize.DATE,
         allowNull: false,
       },
-      maxApplicants: {
-        type: Sequelize.INTEGER,
-        allowNull: true,
-      },
       additionalRules: {
         type: Sequelize.TEXT,
         allowNull: true,
@@ -62,6 +54,7 @@ module.exports = {
       danceId: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        // TODO: add reference when dances table is added
       },
       locationId: {
         type: Sequelize.INTEGER,
