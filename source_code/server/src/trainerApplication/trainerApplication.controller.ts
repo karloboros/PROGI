@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
-import TrainerApplicationModel from './trainerApplication.model';
+import { TrainerApplication } from 'shared/database';
 
 const test = async (req: Request, res: Response) => {
-  const trainerApplications = await TrainerApplicationModel.findAll();
+  const trainerApplications = await TrainerApplication.findAll({ include: 'trainer' });
   return res.send(trainerApplications);
 };
 
