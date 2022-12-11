@@ -1,9 +1,9 @@
-const TABLE_NAME = 'eventDances';
+const TABLE_NAME = 'event_dances';
 
 const createEventDance = index => {
   return {
     danceId: `${index}`,
-    danceballId: `${index}`,
+    eventId: `${index}`,
   };
 };
 

@@ -1,4 +1,4 @@
-const TABLE_NAME = 'eventDances';
+const TABLE_NAME = 'event_dances';
 
 module.exports = {
   async up(queryInterface, Sequelize) {
@@ -12,12 +12,22 @@ module.exports = {
       danceId: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        unique: true,
+        references: {
+          model: {
+            tableName: 'dances',
+          },
+          key: 'id',
+        },
       },
-      danceballId: {
+      eventId: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        unique: true,
+        references: {
+          model: {
+            tableName: 'events',
+          },
+          key: 'id',
+        },
       },
     });
   },

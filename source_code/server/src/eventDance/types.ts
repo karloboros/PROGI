@@ -1,7 +1,7 @@
-interface IDanceBall {
+interface IEventDance {
   id: number;
   danceId: number;
-  danceballId: number;
+  eventId: number;
 }
 
-export { IDanceBall };
+export { IEventDance };

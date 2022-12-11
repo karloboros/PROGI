@@ -1,11 +1,11 @@
 import { IFields, IModels } from 'shared/database/types';
-import { IDanceBall } from './types';
+import { IEventDance } from './types';
 import { Model } from 'sequelize';
 
-class DanceBallDanceModel extends Model implements IDanceBall {
+class EventDanceModel extends Model implements IEventDance {
   id!: number;
   danceId!: number;
-  danceballId!: number;
+  eventId!: number;
 
   static fields({ INTEGER }: IFields) {
     return {
@@ -14,35 +14,33 @@ class DanceBallDanceModel extends Model implements IDanceBall {
         primaryKey: true,
         autoIncrement: true,
       },
+      eventId: {
+        type: INTEGER,
+        allowNull: false,
+      },
       danceId: {
         type: INTEGER,
         allowNull: false,
-        unique: true,
-      },
-      danceballId: {
-        type: INTEGER,
-        allowNull: false,
-        unique: true,
       },
     };
   }
 
-  static associate({ Dance, BallDance }: IModels) {
+  static associate({ Dance, Event }: IModels) {
+    this.belongsTo(Event, {
+      foreignKey: { name: 'eventId', field: 'eventId' },
+    });
     this.belongsTo(Dance, {
       foreignKey: { name: 'danceId', field: 'danceId' },
-    });
-    this.belongsTo(BallDance, {
-      foreignKey: { name: 'eventId', field: 'eventId' },
     });
   }
 
   static dbOptions() {
     return {
-      modelName: 'danceball',
-      tableName: 'danceballs',
+      modelName: 'eventDance',
+      tableName: 'event_dances ',
       timestamps: false,
     };
   }
 }
 
-export default DanceBallDanceModel;
+export default EventDanceModel;
