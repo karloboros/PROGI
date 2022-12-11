@@ -1,10 +1,10 @@
 import { DataType } from 'sequelize';
 
 // eslint-disable-next-line sort-imports
-import BallDanceModel from 'event/event.model';
 import ClubModel from 'club/club.model';
-import DanceBallDanceModel from 'eventDance/eventDance.model';
-import DanceModel from 'dance/dance.models';
+import DanceModel from 'dance/dance.model';
+import EventDanceModel from 'eventDance/eventDance.model';
+import EventModel from 'event/event.model';
 import LocationModel from 'location/location.model';
 import UserModel from 'user/user.model';
 
@@ -18,12 +18,12 @@ interface IFields {
 }
 
 type IModels = {
+  Event: typeof EventModel;
   Club: typeof ClubModel;
+  EventDance: typeof EventDanceModel;
+  Dance: typeof DanceModel;
   Location: typeof LocationModel;
   User: typeof UserModel;
-  BallDance: typeof BallDanceModel;
-  Dance: typeof DanceModel;
-  DanceBallDance: typeof DanceBallDanceModel;
 };
 
 export { IFields, IModels };

@@ -6,6 +6,9 @@ import { IModels } from './types';
 
 // eslint-disable-next-line sort-imports
 import ClubModel from 'club/club.model';
+import DanceModel from 'dance/dance.model';
+import EventDanceModel from 'eventDance/eventDance.model';
+import EventModel from 'event/event.model';
 import LocationModel from 'location/location.model';
 import UserModel from 'user/user.model';
 
@@ -23,6 +26,9 @@ const sequelize = new Sequelize(
 
 const models: IModels = {
   Club: defineModel(ClubModel),
+  Dance: defineModel(DanceModel),
+  EventDance: defineModel(EventDanceModel),
+  Event: defineModel(EventModel),
   Location: defineModel(LocationModel),
   User: defineModel(UserModel),
 };
@@ -51,7 +57,7 @@ function addScopes(model: ModelStatic<Model>) {
   forEach(scopes, (scope, name) => model.addScope(name, scope, { override: true }));
 }
 
-const { Club, Location, User } = models;
-export { Club, Location, User };
+const { Club, Dance, EventDance, Event, Location, User } = models;
+export { Club, Dance, EventDance, Event, Location, User };
 
 export default sequelize;
