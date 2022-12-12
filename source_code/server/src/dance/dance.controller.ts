@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
-import DanceModel from './dance.model';
+import { Dance } from 'shared/database';
 
 const test = async (req: Request, res: Response) => {
-  const trainerApplications = await DanceModel.findAll();
-  return res.send(trainerApplications);
+  const dances = await Dance.findAll();
+  return res.send(dances);
 };
 
 export { test };
