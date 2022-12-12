@@ -61,7 +61,7 @@ function addScopes(model: ModelStatic<Model>) {
   forEach(scopes, (scope, name) => model.addScope(name, scope, { override: true }));
 }
 
-const { Club, Course, Dance, EventDance, Event, Location, User } = models;
-export { Club, Course, Dance, EventDance, Event, Location, User };
+const { Club, Course, Dance, EventDance, Event, Location, TrainerApplication, User } = models;
+export { Club, Course, Dance, EventDance, Event, Location, TrainerApplication, User };
 
 export default sequelize;
