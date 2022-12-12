@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
-import EventModel from './event.model';
+import { Event } from 'shared/database';
 
 const test = async (req: Request, res: Response) => {
-  const trainerApplications = await EventModel.findAll();
-  return res.send(trainerApplications);
+  const events = await Event.findAll();
+  return res.send(events);
 };
 
 export { test };
