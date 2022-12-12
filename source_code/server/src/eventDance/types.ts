@@ -1,7 +1,7 @@
 interface IEventDance {
   id: number;
-  danceId: number;
   eventId: number;
+  danceId: number;
 }
 
 export { IEventDance };

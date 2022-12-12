@@ -1,16 +1,22 @@
 const TABLE_NAME = 'event_dances';
 
-const createEventDance = index => {
+const createEventDance = (danceId, eventId) => {
   return {
-    danceId: `${index}`,
-    eventId: `${index}`,
+    danceId,
+    eventId,
   };
 };
 
 module.exports = {
   async up(queryInterface) {
-    const eventDances = [];
-    for (let i = 1; i < 6; i++) eventDances.push(createEventDance(i, ((i + 1) % 3) + 1));
+    const eventDances = [
+      createEventDance(1, 1),
+      createEventDance(5, 1),
+      createEventDance(2, 2),
+      createEventDance(3, 3),
+      createEventDance(4, 4),
+      createEventDance(5, 5),
+    ];
     return queryInterface.bulkInsert(TABLE_NAME, eventDances);
   },
 
