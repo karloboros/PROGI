@@ -1,6 +1,6 @@
 const TABLE_NAME = 'event_dances';
 
-const createEventDance = (danceId, eventId) => {
+const createEventDance = (eventId, danceId) => {
   return {
     eventId,
     danceId,
