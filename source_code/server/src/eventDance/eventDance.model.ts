@@ -37,7 +37,7 @@ class EventDanceModel extends Model implements IEventDance {
   static dbOptions() {
     return {
       modelName: 'eventDance',
-      tableName: 'event_dances ',
+      tableName: 'event_dances',
       timestamps: false,
     };
   }
