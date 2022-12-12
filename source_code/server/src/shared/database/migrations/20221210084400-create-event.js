@@ -19,7 +19,7 @@ module.exports = {
       },
       image: {
         type: Sequelize.STRING,
-        allowNull: true,
+        allowNull: false,
       },
       clubId: {
         type: Sequelize.INTEGER,

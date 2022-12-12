@@ -9,22 +9,22 @@ module.exports = {
         autoIncrement: true,
         primaryKey: true,
       },
-      danceId: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references: {
-          model: {
-            tableName: 'dances',
-          },
-          key: 'id',
-        },
-      },
       eventId: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
           model: {
             tableName: 'events',
+          },
+          key: 'id',
+        },
+      },
+      danceId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: {
+            tableName: 'dances',
           },
           key: 'id',
         },
