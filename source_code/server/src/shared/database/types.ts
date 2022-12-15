@@ -8,6 +8,7 @@ import EventDanceModel from 'eventDance/eventDance.model';
 import EventModel from 'event/event.model';
 import LocationModel from 'location/location.model';
 import TrainerApplicationModel from 'trainerApplication/trainerApplication.model';
+import UserCourseModel from 'userCourse/userCourse.model';
 import UserModel from 'user/user.model';
 
 interface IFields {
@@ -28,6 +29,7 @@ type IModels = {
   Location: typeof LocationModel;
   TrainerApplication: typeof TrainerApplicationModel;
   User: typeof UserModel;
+  UserCourse: typeof UserCourseModel;
 };
 
 export { IFields, IModels };
