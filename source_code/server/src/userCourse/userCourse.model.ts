@@ -43,7 +43,7 @@ class UserCourseModel extends Model implements IUserCourse {
   static dbOptions() {
     return {
       modelName: 'userCourse',
-      tableName: 'user_course',
+      tableName: 'user_courses',
       timestamps: false,
     };
   }
