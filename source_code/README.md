@@ -47,8 +47,8 @@ Docker container needs to be running!
 
 ```cmd
 cd server
-npm db:migration:up
-npm db:seed
+npm run db:migration:up
+npm run db:seed
 ```
 
 ### Working with migrations and seeders
@@ -56,13 +56,13 @@ npm db:seed
 ```cmd
 cd server
 
-npm db:migrations:create <name>   // creates a new file in src/shared/database/migrations(look at current migrations for reference)
-npm db:seed:create <name>         // creates a new file in src/shared/database/seeders (look at current seeders for reference)
+npm run db:migration:create <name>   // creates a new file in src/shared/database/migrations(look at current migrations for reference)
+npm run db:seed:create <name>         // creates a new file in src/shared/database/seeders (look at current seeders for reference)
 
-npm db:migration:undo             // reverts the last migration run
-npm db:migration:down             // reverts all the migrations
-npm db:seed:undo                  // reverts the last seeder run
-npm db:seed:undo:all              // reverts all the seeders
+npm run db:migration:undo             // reverts the last migration run
+npm run db:migration:down             // reverts all the migrations
+npm run db:seed:undo                  // reverts the last seeder run
+npm run db:seed:undo:all              // reverts all the seeders
 ```
 
 ## Extensions, settings...
