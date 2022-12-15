@@ -12,6 +12,7 @@ import EventDanceModel from 'eventDance/eventDance.model';
 import EventModel from 'event/event.model';
 import LocationModel from 'location/location.model';
 import TrainerApplicationModel from 'trainerApplication/trainerApplication.model';
+import UserCourseModel from 'userCourse/userCourse.model';
 import UserModel from 'user/user.model';
 
 dotenv.config();
@@ -34,6 +35,7 @@ const models: IModels = {
   Event: defineModel(EventModel),
   Location: defineModel(LocationModel),
   TrainerApplication: defineModel(TrainerApplicationModel),
+  UserCourse: defineModel(UserCourseModel),
   User: defineModel(UserModel),
 };
 
@@ -61,7 +63,7 @@ function addScopes(model: ModelStatic<Model>) {
   forEach(scopes, (scope, name) => model.addScope(name, scope, { override: true }));
 }
 
-const { Club, Course, Dance, EventDance, Event, Location, TrainerApplication, User } = models;
-export { Club, Course, Dance, EventDance, Event, Location, TrainerApplication, User };
+const { Club, Course, Dance, EventDance, Event, Location, TrainerApplication, UserCourse, User } = models;
+export { Club, Course, Dance, EventDance, Event, Location, TrainerApplication, UserCourse, User };
 
 export default sequelize;
