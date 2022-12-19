@@ -5,6 +5,9 @@
       <n-data-table v-else :columns="columns" :data="clubs" :bordered="false" />
     </n-card>
   </n-space>
+  <n-space class="club-approval" align="center" justify="center" item-style="width: 100%">
+    <dances-list />
+  </n-space>
 </template>
 
 <script setup>
@@ -12,6 +15,7 @@ import { h, onMounted, ref } from 'vue';
 import { NButton, useMessage } from 'naive-ui';
 import { ApprovalStatus } from '@/constants';
 import { clubApi } from '@/api';
+import DancesList from '@/components/admin/ListDances.vue';
 
 const ApproveButton = club => {
   return h(
@@ -62,7 +66,6 @@ onMounted(async () => {
     ownerName: club.owner.fullName,
     locationName: club.location.name,
   }));
-
   loading.value = false;
 });
 
