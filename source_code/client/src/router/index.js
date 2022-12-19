@@ -1,6 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import AddDance from '@/components/admin/AddDance.vue';
 import ClubApproval from '@/components/admin/ClubApproval.vue';
+import DanceView from '@/components/admin/DanceView.vue';
 import Home from '@/components/home/HomePage.vue';
+import ListDances from '@/components/admin/ListDances.vue';
 import ProfileView from '@/components/profile/ProfileView.vue';
 import { Role } from '@/constants';
 import { useAuthStore } from '@/store';
@@ -16,6 +19,24 @@ const routes = [
     path: '/auth',
     name: 'Auth',
     component: UserAuth,
+  },
+  {
+    path: '/admin/dances/create',
+    name: 'Add dance',
+    meta: { role: Role.Administrator },
+    component: AddDance,
+  },
+  {
+    path: '/admin/dances/all',
+    name: 'List dances',
+    meta: { role: Role.Administrator },
+    component: ListDances,
+  },
+  {
+    path: '/admin/dances/edit/:id',
+    name: 'Edit dance',
+    meta: { role: Role.Administrator },
+    component: DanceView,
   },
   {
     path: '/admin',
