@@ -3,6 +3,7 @@
     <n-card title="All dances" size="huge">
       <n-skeleton v-if="loading" text :repeat="6" />
       <n-data-table v-else :columns="columns" :data="dances" :bordered="false" />
+      <n-button @click="router.push({ name: 'Add dance' })" margin-left="10px">Add dance</n-button>
     </n-card>
   </n-space>
 </template>
