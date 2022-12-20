@@ -6,6 +6,7 @@ import CourseModel from 'course/course.model';
 import DanceModel from 'dance/dance.model';
 import EventDanceModel from 'eventDance/eventDance.model';
 import EventModel from 'event/event.model';
+import LessonModel from 'lesson/lesson.model';
 import LocationModel from 'location/location.model';
 import TrainerApplicationModel from 'trainerApplication/trainerApplication.model';
 import UserCourseModel from 'userCourse/userCourse.model';
@@ -26,10 +27,11 @@ type IModels = {
   Dance: typeof DanceModel;
   EventDance: typeof EventDanceModel;
   Event: typeof EventModel;
+  Lesson: typeof LessonModel;
   Location: typeof LocationModel;
   TrainerApplication: typeof TrainerApplicationModel;
-  User: typeof UserModel;
   UserCourse: typeof UserCourseModel;
+  User: typeof UserModel;
 };
 
 export { IFields, IModels };

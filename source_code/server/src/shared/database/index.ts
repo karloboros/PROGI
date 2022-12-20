@@ -10,6 +10,7 @@ import CourseModel from 'course/course.model';
 import DanceModel from 'dance/dance.model';
 import EventDanceModel from 'eventDance/eventDance.model';
 import EventModel from 'event/event.model';
+import LessonModel from 'lesson/lesson.model';
 import LocationModel from 'location/location.model';
 import TrainerApplicationModel from 'trainerApplication/trainerApplication.model';
 import UserCourseModel from 'userCourse/userCourse.model';
@@ -33,6 +34,7 @@ const models: IModels = {
   Dance: defineModel(DanceModel),
   EventDance: defineModel(EventDanceModel),
   Event: defineModel(EventModel),
+  Lesson: defineModel(LessonModel),
   Location: defineModel(LocationModel),
   TrainerApplication: defineModel(TrainerApplicationModel),
   UserCourse: defineModel(UserCourseModel),
@@ -63,7 +65,7 @@ function addScopes(model: ModelStatic<Model>) {
   forEach(scopes, (scope, name) => model.addScope(name, scope, { override: true }));
 }
 
-const { Club, Course, Dance, EventDance, Event, Location, TrainerApplication, UserCourse, User } = models;
-export { Club, Course, Dance, EventDance, Event, Location, TrainerApplication, UserCourse, User };
+const { Club, Course, Dance, EventDance, Event, Lesson, Location, TrainerApplication, UserCourse, User } = models;
+export { Club, Course, Dance, EventDance, Event, Lesson, Location, TrainerApplication, UserCourse, User };
 
 export default sequelize;
