@@ -7,6 +7,7 @@ import event from 'event';
 import eventDance from 'eventDance';
 import trainerApplication from 'trainerApplication';
 import user from 'user';
+import userCourse from 'userCourse';
 
 const router = Router();
 
@@ -16,5 +17,6 @@ router.use(event.path, event.router);
 router.use(eventDance.path, eventDance.router);
 router.use(trainerApplication.path, trainerApplication.router);
 router.use(user.path, user.router);
+router.use(userCourse.path, userCourse.router);
 
 export default router;
