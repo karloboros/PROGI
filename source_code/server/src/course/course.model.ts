@@ -77,11 +77,7 @@ class CourseModel extends Model implements ICourse {
     };
   }
 
-<<<<<<< HEAD
-  static associate({ Club, Lesson, Location, User }: IModels) {
-=======
-  static associate({ Club, Location, User, UserCourse }: IModels) {
->>>>>>> bb310ed10a866afafcfd9c2480c126f2b8716450
+  static associate({ Club, Lesson, Location, User, UserCourse }: IModels) {
     this.belongsTo(Club, {
       foreignKey: { name: 'clubId', field: 'clubId' },
     });
