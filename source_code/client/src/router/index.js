@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import AddDance from '@/components/admin/AddDance.vue';
+import AddEvent from '@/components/clubOwner/AddEvent.vue';
 import ClubApproval from '@/components/admin/ClubApproval.vue';
 import DanceView from '@/components/admin/DanceView.vue';
 import Home from '@/components/home/HomePage.vue';
@@ -21,19 +22,19 @@ const routes = [
     component: UserAuth,
   },
   {
-    path: '/admin/dances/create',
+    path: '/dances/create',
     name: 'Add dance',
     meta: { role: Role.Administrator },
     component: AddDance,
   },
   {
-    path: '/admin/dances/all',
+    path: '/dances/all',
     name: 'List dances',
     meta: { role: Role.Administrator },
     component: ListDances,
   },
   {
-    path: '/admin/dances/edit/:id',
+    path: '/dances/edit/:id',
     name: 'Edit dance',
     meta: { role: Role.Administrator },
     component: DanceView,
@@ -43,6 +44,12 @@ const routes = [
     name: 'Admin',
     meta: { role: Role.Administrator },
     component: ClubApproval,
+  },
+  {
+    path: '/events/create',
+    name: 'Add Event',
+    meta: { role: Role.ClubOwner },
+    component: AddEvent,
   },
   {
     path: '/profile',
@@ -66,6 +73,8 @@ router.beforeEach((to, from) => {
   const authStore = useAuthStore();
   const isLoggedIn = authStore.isLoggedIn;
   const isAdmin = authStore.isAdmin;
+  const isClubOwner = authStore.isClubOwner;
+  const isClubOwnerRoute = to.meta.role === Role.ClubOwner;
   const isAuthRoute = to.name === 'Auth';
   const isAdminRoute = to.meta.role === Role.Administrator;
 
@@ -78,6 +87,10 @@ router.beforeEach((to, from) => {
   }
 
   if (isAdminRoute && !isAdmin) {
+    return defaultRoute;
+  }
+
+  if (isClubOwnerRoute && !isClubOwner) {
     return defaultRoute;
   }
 });
