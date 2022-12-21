@@ -1,91 +1,68 @@
 <template>
-  <n-config-provider class="ples-provider" :theme="currentTheme.theme">
-    <n-global-style />
-    <n-space class="ples-nav" align="center">
-      <n-affix :top="0">
-        <n-button @click="switchTheme" type="warning" text style="font-size: 24px">
-          <n-icon class="m-12">
-            <component :is="currentTheme.icon" />
-          </n-icon>
-        </n-button>
-        <n-button v-if="isAuthRoute" @click="goHome" type="warning" text style="font-size: 24px">
-          <n-icon>
-            <component :is="currentTheme.homeIcon" />
-          </n-icon>
-        </n-button>
-      </n-affix>
-    </n-space>
-
-    <n-dialog-provider>
-      <n-message-provider>
-        <n-space class="ples-main" align="center" justify="center" item-style="width: 100%">
-          <router-view />
-        </n-space>
-      </n-message-provider>
-    </n-dialog-provider>
-  </n-config-provider>
+  <div id="app" class="container mt-3 mt-sm-5">
+    <div class="row">
+      <div class="col-md-9">
+        <div id="map" class="map"></div>
+      </div>
+      <div class="col-md-3">
+        <div v-for="layer in layers" :key="layer.id" class="form-check">
+          <label class="form-check-label">
+            <input
+              v-model="layer.active"
+              @change="layerChanged(layer.id, layer.active)"
+              class="form-check-input"
+              type="checkbox"
+            />
+            {{ layer.name }}
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup>
-import { darkTheme, lightTheme } from 'naive-ui';
-import {
-  HomeOutline as HomeDarkIcon,
-  Home as HomeLightIcon,
-  Moon as MoonIcon,
-  SunnyOutline as SunIcon,
-} from '@vicons/ionicons5';
-import { computed } from '@vue/reactivity';
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
-import { useStorage } from '@vueuse/core';
+import 'leaflet/dist/leaflet.css';
+import { attribution, layers, mapBackground, view } from './constants';
+import { onMounted, ref } from 'vue';
+import L from 'leaflet';
 
-const router = useRouter();
+const map = ref(null);
+const tileLayer = ref(null);
 
-const isAuthRoute = computed(() => {
-  const { name } = router.currentRoute.value;
-  return name !== 'Auth' && name !== 'Home';
+const layerChanged = (layerId, active) => {
+  const layer = layers.find(layer => layer.id === layerId);
+
+  layer.features.forEach(feature => {
+    if (active) {
+      feature.leafletObject.addTo(map.value);
+    } else {
+      feature.leafletObject.removeFrom(map.value);
+    }
+  });
+};
+
+const initLayers = () => {
+  layers.forEach(layer => {
+    layer.features.forEach(feature => {
+      feature.leafletObject = L.marker(feature.coords).bindPopup(feature.name);
+    });
+  });
+};
+const initMap = () => {
+  map.value = L.map('map').setView(view, 12);
+  tileLayer.value = L.tileLayer(mapBackground, { attribution });
+  tileLayer.value.addTo(map.value);
+};
+
+onMounted(() => {
+  initMap();
+  initLayers();
 });
-
-const goHome = () => {
-  router.push({ name: 'Home' });
-};
-
-const themeIndex = ref(useStorage('themeIndex', 0));
-const themes = [
-  { theme: darkTheme, icon: SunIcon, homeIcon: HomeDarkIcon },
-  { theme: lightTheme, icon: MoonIcon, homeIcon: HomeLightIcon },
-];
-
-const currentTheme = computed(() => themes[themeIndex.value]);
-
-const switchTheme = () => {
-  themeIndex.value = (themeIndex.value + 1) % 2;
-};
 </script>
 
 <style scoped>
-.ples-provider {
-  height: 100%;
-}
-.ples-nav {
-  height: 36px;
-}
-
-.ples-main {
-  height: calc(100% - 36px);
-}
-</style>
-
-<style>
-#app {
-  height: 100vh;
-}
-
-.m-12 {
-  margin: 12px;
-}
-
-.d-none {
-  display: none;
+.map {
+  height: 600px;
 }
 </style>
