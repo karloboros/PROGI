@@ -1,6 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import ClubApproval from '@/components/admin/ClubApproval.vue';
+import CoursesShow from '@/components/clubowner/CoursesShow.vue';
 import Home from '@/components/home/HomePage.vue';
+import HomeOwner from '@/components/clubowner/HomeOwner.vue';
+import LessonCreate from '@/components/clubowner/LessonCreate.vue';
 import ProfileView from '@/components/profile/ProfileView.vue';
 import { Role } from '@/constants';
 import { useAuthStore } from '@/store';
@@ -22,6 +25,24 @@ const routes = [
     name: 'Admin',
     meta: { role: Role.Administrator },
     component: ClubApproval,
+  },
+  {
+    path: '/owner',
+    name: 'Owner',
+    meta: { role: Role.ClubOwner || Role.Administrator },
+    component: HomeOwner,
+  },
+  {
+    path: '/courses',
+    name: 'Courses',
+    meta: { role: Role.ClubOwner || Role.Administrator },
+    component: CoursesShow,
+  },
+  {
+    path: '/lesson-create',
+    name: 'LessonCreate',
+    meta: { role: Role.ClubOwner || Role.Administrator },
+    component: LessonCreate,
   },
   {
     path: '/profile',

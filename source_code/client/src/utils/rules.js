@@ -34,6 +34,12 @@ const phoneNumberValidator = (_rule, value) => {
   }
   return true;
 };
+const numberValidator = (_rule, value) => {
+  if (!/^\(?(\d)$/.test(value)) {
+    return new Error(WRONG_PHONE_FORMAT_MESSAGE);
+  }
+  return true;
+};
 
 const validationRules = {
   required: {
@@ -60,6 +66,10 @@ const validationRules = {
   phoneRequired: {
     required: true,
     validator: phoneNumberValidator,
+    trigger: ['blur', 'input'],
+  },
+  number: {
+    validator: numberValidator,
     trigger: ['blur', 'input'],
   },
 };
