@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import ClubApproval from '@/components/admin/ClubApproval.vue';
+import CourseMap from '@/components/course/CourseMap.vue';
 import Home from '@/components/home/HomePage.vue';
 import ProfileView from '@/components/profile/ProfileView.vue';
 import { Role } from '@/constants';
@@ -27,6 +28,11 @@ const routes = [
     path: '/profile',
     name: 'Profile',
     component: ProfileView,
+  },
+  {
+    path: '/map',
+    name: 'Map',
+    component: CourseMap,
   },
   {
     path: '/:catchAll(.*)',
