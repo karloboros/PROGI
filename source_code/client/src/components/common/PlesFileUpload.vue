@@ -10,14 +10,16 @@
 </template>
 
 <script setup>
-import { authApi } from '@/api';
+import { authApi, danceApi, eventApi } from '@/api';
 import { computed } from '@vue/reactivity';
 import { ref } from 'vue';
+import { useRoute } from 'vue-router';
 
 const emit = defineEmits(['update', 'error']);
 const props = defineProps({
   accept: { type: String, default: '' },
 });
+const route = useRoute();
 
 const file = ref(null);
 const fileName = ref(null);
@@ -36,9 +38,19 @@ const upload = async () => {
   formData.append('file', file.value.files[0]);
 
   try {
-    const { path } = await authApi.upload(formData);
-    filePath.value = path;
-    emit('update', path);
+    if (route.name.includes('event')) {
+      const { path } = await eventApi.upload(formData);
+      filePath.value = path;
+      emit('update', path);
+    } else if (route.name.includes('dance')) {
+      const { path } = await danceApi.upload(formData);
+      filePath.value = path;
+      emit('update', path);
+    } else {
+      const { path } = await authApi.upload(formData);
+      filePath.value = path;
+      emit('update', path);
+    }
   } catch (err) {
     error.value = true;
     emit('error', err.response.data.message);
