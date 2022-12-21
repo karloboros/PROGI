@@ -1,6 +1,6 @@
 import { BAD_REQUEST, CONFLICT, NOT_FOUND, OK } from 'http-status';
 import { NextFunction, Request, Response } from 'express';
-import sequelize, { Club, Location } from 'shared/database';
+import sequelize, { Club, Location, User } from 'shared/database';
 import { ApprovalStatus } from './types';
 import errorMessages from 'shared/constants/errorMessages';
 import HttpError from 'shared/error/httpError';
@@ -20,6 +20,17 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
     };
     const club = await Club.create(newClub, { transaction });
     await transaction.commit();
+
+    const user = await User.findByPk(req.user.id);
+    if (!user) return next(new HttpError(NOT_FOUND, errorMessages.NOT_FOUND));
+    try {
+      user.role = 1;
+      user.save();
+      return res.sendStatus(OK);
+    } catch {
+      return next();
+    }
+
     return res.status(OK).json(club);
   } catch (err) {
     await transaction.rollback();
