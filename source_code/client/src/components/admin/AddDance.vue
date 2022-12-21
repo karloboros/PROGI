@@ -1,21 +1,23 @@
 <template>
-  <n-form ref="formRef" @submit.prevent="submit" :model="values" :rules="rules">
-    <n-form-item label="Name" path="name">
-      <n-input v-model:value="values.name" placeholder="Name..." autofocus />
-    </n-form-item>
-    <n-form-item label="Description" path="description">
-      <n-input v-model:value="values.description" type="textarea" placeholder="Description..." />
-    </n-form-item>
-    <n-form-item label="Dance image">
-      <ples-file-upload @update="update" @error="error" accept="image/png, image/jpeg" />
-    </n-form-item>
-    <n-form-item label="Video url" path="videoUrl">
-      <n-input v-model:value="values.videoUrl" placeholder="Video url..." />
-    </n-form-item>
-    <n-form-item>
-      <n-button type="primary" attr-type="submit">Save</n-button>
-    </n-form-item>
-  </n-form>
+  <n-space class="club-approval" align="center" justify="center" item-style="width: 80%">
+    <n-form ref="formRef" @submit.prevent="submit" :model="values" :rules="rules">
+      <n-form-item label="Name" path="name">
+        <n-input v-model:value="values.name" placeholder="Name..." autofocus />
+      </n-form-item>
+      <n-form-item label="Description" path="description">
+        <n-input v-model:value="values.description" type="textarea" placeholder="Description..." />
+      </n-form-item>
+      <n-form-item label="Dance image" path="image">
+        <ples-file-upload @update="update" @error="error" accept="image/png, image/jpeg" />
+      </n-form-item>
+      <n-form-item label="Video url" path="videoUrl">
+        <n-input v-model:value="values.videoUrl" placeholder="Video url..." />
+      </n-form-item>
+      <n-form-item>
+        <n-button type="primary" attr-type="submit">Save</n-button>
+      </n-form-item>
+    </n-form>
+  </n-space>
 </template>
 
 <script setup>
@@ -43,7 +45,6 @@ const { required } = validationRules;
 const rules = {
   name: required,
   description: required,
-  image: required,
   videoUrl: required,
 };
 
