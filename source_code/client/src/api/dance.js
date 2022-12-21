@@ -7,10 +7,13 @@ const urls = {
     return this.root + '/create';
   },
   get remove() {
-    return this.root + '/:id';
+    return this.root + '/remove/:id';
   },
   get fetchAll() {
     return this.root + '/all';
+  },
+  get fetchById() {
+    return this.root + '/:id';
   },
   get upload() {
     return this.root + '/upload';
@@ -24,8 +27,12 @@ const create = (params = {}) => {
   return request.post(urls.create, params).then(extractData);
 };
 
-const edit = (params = {}) => {
+const edit = params => {
   return request.post(urls.edit, params).then(extractData);
+};
+
+const fetchById = params => {
+  return request.get(urls.fetchById, params).then(extractData);
 };
 
 const fetchAll = () => {
@@ -46,4 +53,5 @@ export default {
   remove,
   edit,
   upload,
+  fetchById,
 };
