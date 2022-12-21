@@ -23,7 +23,7 @@
 
 <script setup>
 import 'leaflet/dist/leaflet.css';
-import { attribution, layers, mapBackground, view } from './constants';
+import { attribution, layers, mapBackground, view } from './constants1';
 import { onMounted, ref } from 'vue';
 import L from 'leaflet';
 
