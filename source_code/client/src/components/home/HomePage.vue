@@ -12,7 +12,6 @@
 
 <script setup>
 import ClubModal from './ClubModal.vue';
-import CoursesMap from '@/components/course/CoursesMap.vue';
 import { ref } from 'vue';
 import { useAuthStore } from '@/store';
 import { useRouter } from 'vue-router';
