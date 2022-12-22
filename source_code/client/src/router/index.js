@@ -1,10 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import ClubApproval from '@/components/admin/ClubApproval.vue';
-<<<<<<< Updated upstream
-import CourseMap from '@/components/course/CourseMap.vue';
-=======
 import CourseMap from '@/components/common/CourseMap.vue';
->>>>>>> Stashed changes
 import Home from '@/components/home/HomePage.vue';
 import ProfileView from '@/components/profile/ProfileView.vue';
 import { Role } from '@/constants';
