@@ -1,9 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import ClubApproval from '@/components/admin/ClubApproval.vue';
+import CourseEdit from '@/components/clubowner/CourseEdit.vue';
 import CoursesShow from '@/components/clubowner/CoursesShow.vue';
 import Home from '@/components/home/HomePage.vue';
 import HomeOwner from '@/components/clubowner/HomeOwner.vue';
 import LessonCreate from '@/components/clubowner/LessonCreate.vue';
+import LessonsShow from '@/components/common/LessonsShow.vue';
 import ProfileView from '@/components/profile/ProfileView.vue';
 import { Role } from '@/constants';
 import { useAuthStore } from '@/store';
@@ -27,19 +29,30 @@ const routes = [
     component: ClubApproval,
   },
   {
+    path: '/lessons',
+    name: 'Lessons',
+    component: LessonsShow,
+  },
+  {
     path: '/owner',
     name: 'Owner',
     meta: { role: Role.ClubOwner || Role.Administrator },
     component: HomeOwner,
   },
   {
-    path: '/courses',
+    path: '/owner/courses/all',
     name: 'Courses',
     meta: { role: Role.ClubOwner || Role.Administrator },
     component: CoursesShow,
   },
   {
-    path: '/lesson-create',
+    path: '/owner/courses/edit',
+    name: 'CourseEdit',
+    meta: { role: Role.ClubOwner || Role.Administrator },
+    component: CourseEdit,
+  },
+  {
+    path: '/lesson/create',
     name: 'LessonCreate',
     meta: { role: Role.ClubOwner || Role.Administrator },
     component: LessonCreate,
