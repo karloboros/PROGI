@@ -43,7 +43,8 @@ const layerChanged = (layerId, active) => {
 const initLayers = () => {
   layers.forEach(layer => {
     layer.features.forEach(feature => {
-      feature.leafletObject = L.marker(feature.coords).bindPopup(feature.name);
+      feature.leafletObject = L.marker(feature.coords).bindPopup(`
+        ${feature.name}</br><a href="/profile"><button>Go to</button></a>`);
     });
   });
 };
