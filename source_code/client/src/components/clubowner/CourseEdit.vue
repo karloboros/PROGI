@@ -1,12 +1,12 @@
 <template>
-  <n-card style="width: 80%" title="Edit course" size="huge" role="dialog" aria-modal="true">
-    <n-space class="club-approval" align="center" justify="center" item-style="width: 80%">
-      <template #header-extra>
-        <n-button @click="confirm" type="error">Delete course</n-button>
-      </template>
-      <course-create :initial-values="course" />
-    </n-space>
-  </n-card>
+  <!-- <n-card style="width: 80%" title="Edit course" size="huge" role="dialog" aria-modal="true"> -->
+  <n-space class="club-approval" align="center" justify="center" item-style="width: 80%">
+    <template #header-extra>
+      <n-button @click="confirm" type="error">Delete course</n-button>
+    </template>
+    <course-create :initial-values="course" />
+  </n-space>
+  <!-- </n-card> -->
 </template>
 
 <script setup>
