@@ -1,9 +1,14 @@
+import { create, edit, remove, test } from './course.controller';
 import { Router } from 'express';
-import { test } from './course.controller';
 
 const router = Router();
 const path = '/courses';
 
-router.get('/test', test);
+// eslint-disable-next-line prettier/prettier
+router
+  .get('/test', test)
+  .post('/create/:id', create)
+  .post('/edit/:id', edit)
+  .delete('/remove/:id', remove);
 
 export default { router, path };
