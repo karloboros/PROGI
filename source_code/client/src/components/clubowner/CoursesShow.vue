@@ -52,7 +52,7 @@ const ShowButton = course => {
       secondary: true,
       type: 'info',
       size: 'small',
-      onClick: () => router.push({ name: 'Lessons' }),
+      onClick: () => viewLessonDetails(course.id),
     },
     { default: () => 'See lessons' },
   );
@@ -117,6 +117,12 @@ onMounted(async () => {
 const viewCourseDetails = id => {
   router.push({
     name: 'CourseEdit',
+    params: { id },
+  });
+};
+const viewLessonDetails = id => {
+  router.push({
+    name: 'Lessons',
     params: { id },
   });
 };

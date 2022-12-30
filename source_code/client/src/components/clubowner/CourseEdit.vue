@@ -11,7 +11,7 @@
 
 <script setup>
 import { useDialog, useMessage } from 'naive-ui';
-import { authApi } from '@/api';
+import { courseApi } from '@/api';
 import CourseCreate from '@/components/clubowner/CourseCreate.vue';
 // import { ref } from 'vue';
 // import { toDatePicker } from '@/utils';
@@ -37,9 +37,9 @@ const confirm = () => {
 
 const remove = async () => {
   try {
-    await authApi.remove();
+    await courseApi.remove();
     message.success('Successfully deleted');
-    await authStore.logout(router);
+    await authStore.logout(router); // ?
   } catch (err) {
     message.error(err.response?.data.message || err);
   }

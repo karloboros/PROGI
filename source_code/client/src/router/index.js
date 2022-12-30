@@ -29,7 +29,7 @@ const routes = [
     component: ClubApproval,
   },
   {
-    path: '/lessons',
+    path: '/lessons/:id',
     name: 'Lessons',
     component: LessonsShow,
   },
