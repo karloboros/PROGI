@@ -1,7 +1,5 @@
 import { create, uploadEventImage } from './event.controller';
-import authenticate from 'shared/auth/authenticate';
 import multer from 'multer';
-import refresh from 'shared/auth/refresh';
 import { Router } from 'express';
 
 const storage = multer.diskStorage({
@@ -18,6 +16,6 @@ const path = '/events';
 
 const upload = multer({ storage });
 
-router.use(authenticate).use(refresh).post('/create', create).post('/upload', upload.single('file'), uploadEventImage);
+router.post('/create', create).post('/upload', upload.single('file'), uploadEventImage);
 
 export default { router, path };
