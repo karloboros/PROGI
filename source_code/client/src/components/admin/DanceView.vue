@@ -1,6 +1,7 @@
 <template>
-  <n-space class="club-approval" align="center" justify="center" item-style="width: 80%">
-    <n-card title="Dance" size="huge">
+  <n-space class="dance-adding" align="center" justify="center" item-style="width: 80%">
+    <n-card title="Dance" size="huge" loading="loading">
+      <n-skeleton v-if="loading" />
       <template #header-extra>
         <n-button @click="confirm" type="error">Delete dance</n-button>
       </template>
@@ -10,7 +11,7 @@
 </template>
 
 <script setup>
-import { onBeforeMount, ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useDialog, useMessage } from 'naive-ui';
 import DanceAdd from '@/components/admin/AddDance.vue';
 import { danceApi } from '@/api';
@@ -22,17 +23,15 @@ const dialog = useDialog();
 const route = useRoute();
 const id = route.params.id;
 
-// fix editing and deleting - it doesn't work yet
 const dance = ref([]);
+const loading = ref(true);
 
-onBeforeMount(async () => {
+onMounted(async () => {
   const data = await danceApi.fetchById(id);
-  dance.value = data.map(dance => ({
-    ...dance,
-  }));
+  dance.value = { name: data.name, description: data.description, videoUrl: data.videoUrl, image: data.image };
   console.log(dance.value);
+  loading.value = false;
 });
-console.log(dance.value);
 
 const confirm = () => {
   dialog.error({
@@ -49,7 +48,7 @@ const remove = async () => {
     await danceApi.remove(id);
     message.success('Successfully deleted');
   } catch (err) {
-    message.error(err.response?.data.message || err);
+    message.error(err.response.data.message || err);
   }
 };
 </script>
