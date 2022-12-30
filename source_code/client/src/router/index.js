@@ -23,7 +23,7 @@ const routes = [
   },
   {
     path: '/dances/create',
-    name: 'Add dance',
+    name: 'Add Dance',
     meta: { role: Role.Administrator },
     component: AddDance,
   },
