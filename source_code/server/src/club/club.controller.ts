@@ -47,6 +47,11 @@ const fetchPending = async (req: Request, res: Response) => {
   return res.send(pendingClubs);
 };
 
+const fetchAll = async (req: Request, res: Response) => {
+  const clubs = await Club.scope(['includeOwner']).findAll();
+  return res.send(clubs);
+};
+
 const updateApprovalStatus = async (req: Request, res: Response, next: NextFunction) => {
   const { id, approvalStatus } = req.body;
   if (!approvalStatus) return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
@@ -64,4 +69,4 @@ const updateApprovalStatus = async (req: Request, res: Response, next: NextFunct
   }
 };
 
-export { create, fetchPending, updateApprovalStatus };
+export { create, fetchAll, fetchPending, updateApprovalStatus };
