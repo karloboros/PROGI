@@ -1,6 +1,6 @@
 import { BAD_REQUEST, CONFLICT, CREATED, FORBIDDEN, OK } from 'http-status';
 import { NextFunction, Request, Response } from 'express';
-import sequelize, { Lesson } from 'shared/database';
+import sequelize, { Course, Lesson } from 'shared/database';
 import errorMessages from 'shared/constants/errorMessages';
 import HttpError from 'shared/error/httpError';
 import { UniqueConstraintError } from 'sequelize';
@@ -9,12 +9,18 @@ const test = async (req: Request, res: Response) => {
   const lessons = await Lesson.findAll();
   return res.send(lessons);
 };
+const fetchAll = async (req: Request, res: Response) => {
+  const { courseId } = JSON.parse(req.params.courseId);
+  const lessons = await Course.scope('includeLesson').findByPk(courseId);
+  return res.send(lessons);
+};
 const create = async (req: Request, res: Response, next: NextFunction) => {
   const transaction = await sequelize.transaction();
   try {
+    const { course } = JSON.parse(req.params.courseId);
     const newLesson = {
       ...req.body,
-      courseId: req.course.id,
+      courseId: course,
     };
     const lesson = await Lesson.create(newLesson, { transaction });
     await transaction.commit();
@@ -31,7 +37,8 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
 const edit = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const lesson = req.body;
-    const lessonToEdit = await Lesson.findByPk(lesson.id);
+    const { lessonId } = JSON.parse(req.params.id);
+    const lessonToEdit = await Lesson.findByPk(lessonId);
     if (!lessonToEdit) return next(new HttpError(FORBIDDEN, errorMessages.FORBIDDEN));
 
     lessonToEdit.startTime = lesson.startTime;
@@ -48,10 +55,10 @@ const edit = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 const remove = async (req: Request, res: Response, next: NextFunction) => {
-  const { lesson } = req;
+  const { lessonId } = JSON.parse(req.params.id);
   try {
     // edit with scope
-    const lessonToRemove = await Lesson.findByPk(lesson.id);
+    const lessonToRemove = await Lesson.findByPk(lessonId);
     if (!lessonToRemove) return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
     await lessonToRemove.destroy();
     res.status(OK).send();
@@ -59,4 +66,4 @@ const remove = async (req: Request, res: Response, next: NextFunction) => {
     return next(err);
   }
 };
-export { test, create, edit, remove };
+export { test, create, edit, remove, fetchAll };

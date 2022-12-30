@@ -8,9 +8,9 @@
 
 <script setup>
 // import { h, onMounted, ref } from 'vue';
+import { h, onMounted, ref } from 'vue';
 import { NButton, useDialog, useMessage } from 'naive-ui';
 import { courseApi } from '@/api';
-import { h } from 'vue';
 import { useAuthStore } from '@/store';
 import { useRouter } from 'vue-router';
 
@@ -26,7 +26,7 @@ const EditButton = course => {
       secondary: true,
       type: 'primary',
       size: 'small',
-      onClick: () => router.push({ name: 'CourseEdit' }),
+      onClick: () => viewCourseDetails(course.id),
     },
     { default: () => 'Edit course' },
   );
@@ -52,7 +52,7 @@ const ShowButton = course => {
       secondary: true,
       type: 'info',
       size: 'small',
-      onClick: () => router.push({ name: 'Lessons' }),
+      onClick: () => viewLessonDetails(course.id),
     },
     { default: () => 'See lessons' },
   );
@@ -79,7 +79,7 @@ const columns = [
   { title: 'Add Lesson', key: 'add', render: AddButton },
 ];
 
-const courses = [{ name: 'Tecaj sambe' }, { name: 'Tecaj valcera' }];
+// const courses = [{ name: 'Tecaj sambe' }, { name: 'Tecaj valcera' }];
 
 const confirm = () => {
   dialog.error({
@@ -101,7 +101,6 @@ const remove = async () => {
   }
 };
 
-/*
 const courses = ref([]);
 const loading = ref(true);
 
@@ -114,5 +113,17 @@ onMounted(async () => {
 
   loading.value = false;
 });
-*/
+
+const viewCourseDetails = id => {
+  router.push({
+    name: 'CourseEdit',
+    params: { id },
+  });
+};
+const viewLessonDetails = id => {
+  router.push({
+    name: 'Lessons',
+    params: { id },
+  });
+};
 </script>

@@ -9,10 +9,21 @@ const test = async (req: Request, res: Response) => {
   const courses = await Course.findAll();
   return res.send(courses);
 };
+
+const fetchAll = async (req: Request, res: Response) => {
+  const courses = await Course.findAll();
+  return res.send(courses);
+};
+
+const fetchById = async (req: Request, res: Response) => {
+  const course = await Course.findByPk(req.params.id);
+  return res.send(course);
+};
+
 const create = async (req: Request, res: Response, next: NextFunction) => {
   const transaction = await sequelize.transaction();
   try {
-    const { club } = JSON.parse(req.params.id);
+    const { club } = JSON.parse(req.params.clubId);
     const { dance, address, trainer } = req.body;
     const location = await Location.create({ name: address }, { transaction });
 
@@ -82,4 +93,4 @@ const remove = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-export { test, create, edit, remove };
+export { test, create, edit, remove, fetchAll, fetchById };

@@ -29,7 +29,7 @@ const routes = [
     component: ClubApproval,
   },
   {
-    path: '/lessons',
+    path: '/lessons/:id',
     name: 'Lessons',
     component: LessonsShow,
   },
@@ -46,7 +46,7 @@ const routes = [
     component: CoursesShow,
   },
   {
-    path: '/owner/courses/edit',
+    path: '/owner/courses/edit/:id',
     name: 'CourseEdit',
     meta: { role: Role.ClubOwner || Role.Administrator },
     component: CourseEdit,
