@@ -12,13 +12,13 @@
           <ples-file-upload @update="update" @error="error" accept="image/png, image/jpeg" />
         </n-form-item>
         <n-form-item label="Club" path="club">
-          <n-input v-model:value="values.club" placeholder="Club..." />
+          <n-select v-model:value="values.club" :options="clubs" :loading="loading" placeholder="Club..." />
         </n-form-item>
         <n-form-item label="Address" path="address">
           <n-input v-model:value="values.address" placeholder="Address..." />
         </n-form-item>
         <n-form-item label="Dance" path="dance">
-          <n-input v-model:value="values.dance" placeholder="Dance..." />
+          <n-select v-model:value="values.dance" :options="dances" :loading="loading" placeholder="Dance..." />
         </n-form-item>
         <n-form-item>
           <n-button type="primary" attr-type="submit">Create</n-button>
@@ -29,9 +29,10 @@
 </template>
 
 <script setup>
-import { eventApi } from '@/api';
+import { clubApi, danceApi, eventApi } from '@/api';
+import { onMounted, ref } from 'vue';
 import PlesFileUpload from '@/components/common/PlesFileUpload.vue';
-import { ref } from 'vue';
+import { useAuthStore } from '@/store';
 import { useMessage } from 'naive-ui';
 import { validationRules } from '@/utils';
 
@@ -41,9 +42,9 @@ const initialValues = {
   name: '',
   address: '',
   description: '',
-  club: '',
+  club: null,
   image: '',
-  dance: '',
+  dance: null,
 };
 
 const { required } = validationRules;
@@ -54,6 +55,32 @@ const rules = {
   club: required,
   dance: required,
 };
+const authStore = useAuthStore();
+
+const user = ref({ ...authStore.user });
+
+const loading = ref(true);
+const dances = ref([]);
+const clubs = ref([]);
+
+onMounted(async () => {
+  dances.value = await danceApi.fetchAll();
+  dances.value = dances.value.map(v => ({
+    label: v.name,
+    value: v.name,
+  }));
+
+  clubs.value = await clubApi.fetchAll();
+  clubs.value = clubs.value
+    .map(club => ({ ...club }))
+    .filter(club => club.ownerId === user.value.id)
+    .map(c => ({
+      label: c.name,
+      value: c.name,
+    }));
+
+  loading.value = false;
+});
 
 const values = ref(initialValues);
 const formRef = ref(null);
