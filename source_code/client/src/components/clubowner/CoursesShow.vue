@@ -65,7 +65,7 @@ const AddButton = course => {
       secondary: true,
       type: 'primary',
       size: 'small',
-      onClick: () => router.push({ name: 'LessonCreate' }),
+      onClick: () => addLesson(course.id),
     },
     { default: () => 'Add lesson' },
   );
@@ -123,6 +123,12 @@ const viewCourseDetails = id => {
 const viewLessonDetails = id => {
   router.push({
     name: 'Lessons',
+    params: { id },
+  });
+};
+const addLesson = id => {
+  router.push({
+    name: 'LessonsCreate',
     params: { id },
   });
 };

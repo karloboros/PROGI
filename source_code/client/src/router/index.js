@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import ClubApproval from '@/components/admin/ClubApproval.vue';
+import ClubsShow from '@/components/club/ClubsShow.vue';
 import CourseEdit from '@/components/clubowner/CourseEdit.vue';
 import CoursesShow from '@/components/clubowner/CoursesShow.vue';
 import Home from '@/components/home/HomePage.vue';
@@ -40,7 +41,13 @@ const routes = [
     component: HomeOwner,
   },
   {
-    path: '/owner/courses/all',
+    path: '/clubs/all',
+    name: 'Clubs',
+    meta: { role: Role.ClubOwne || Role.Administrator },
+    component: ClubsShow,
+  },
+  {
+    path: '/owner/courses/:id',
     name: 'Courses',
     meta: { role: Role.ClubOwner || Role.Administrator },
     component: CoursesShow,

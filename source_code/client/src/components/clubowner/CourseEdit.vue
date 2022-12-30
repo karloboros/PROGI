@@ -10,20 +10,38 @@
 </template>
 
 <script setup>
+import { onMounted, ref } from 'vue';
 import { useDialog, useMessage } from 'naive-ui';
 import { courseApi } from '@/api';
 import CourseCreate from '@/components/clubowner/CourseCreate.vue';
-// import { ref } from 'vue';
-// import { toDatePicker } from '@/utils';
-import { useAuthStore } from '@/store';
-import { useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 
-const authStore = useAuthStore();
-const router = useRouter();
 const message = useMessage();
 const dialog = useDialog();
 
-// const course = ref({ ...authStore.course, applicationDeadline: toDatePicker(authStore.course.applicationDeadline) });
+const route = useRoute();
+const id = route.params.id;
+
+const course = ref([]);
+
+onMounted(async () => {
+  const data = await courseApi.fetchById(id);
+  course.value = {
+    name: data.name,
+    description: data.description,
+    capacity: data.capacity,
+    dance: data.dance,
+    address: data.address,
+    coordinates: data.coordinates,
+    trainer: data.trainer,
+    minAge: data.minAge,
+    maxAge: data.maxAge,
+    gender: data.gender,
+    applicationDeadline: data.applicationDeadline,
+    additionalRules: data.additionalRules,
+  };
+  console.log(course.value);
+});
 
 const confirm = () => {
   dialog.error({
@@ -37,9 +55,8 @@ const confirm = () => {
 
 const remove = async () => {
   try {
-    await courseApi.remove();
+    await courseApi.remove(id);
     message.success('Successfully deleted');
-    await authStore.logout(router); // ?
   } catch (err) {
     message.error(err.response?.data.message || err);
   }
