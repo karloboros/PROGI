@@ -17,10 +17,8 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
     const data = {
       ...req.body,
     };
-    const user = req.user;
     const club = await Club.findOne({ where: { name: data.club } });
     if (!club) return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
-    if (club.ownerId !== user.id) return next(new HttpError(BAD_REQUEST, errorMessages.NOT_CLUB_OWNER));
 
     let location = await Location.findOne({ where: { name: data.address } });
     if (!location) location = await Location.create({ name: data.address }, { transaction });
@@ -40,6 +38,7 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
       eventId: event.id,
     };
     await EventDance.create(newEventDance, { transaction: transaction2 });
+    await transaction2.commit();
 
     return res.status(OK).json(event);
   } catch (err) {
