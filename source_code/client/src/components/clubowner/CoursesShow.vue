@@ -79,7 +79,7 @@ const columns = [
   { title: 'Add Lesson', key: 'add', render: AddButton },
 ];
 
-// const courses = [{ name: 'Tecaj sambe' }, { name: 'Tecaj valcera' }];
+const courses = [{ name: 'Tecaj sambe' }, { name: 'Tecaj valcera' }];
 
 const confirm = () => {
   dialog.error({
@@ -101,7 +101,7 @@ const remove = async () => {
   }
 };
 
-const courses = ref([]);
+// const courses = ref([]);
 const loading = ref(true);
 
 onMounted(async () => {
