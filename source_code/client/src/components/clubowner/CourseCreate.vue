@@ -17,6 +17,12 @@
       <n-form-item label="Address" path="address">
         <n-input v-model:value="values.address" placeholder="Address..." />
       </n-form-item>
+      <n-form-item label="Coordinates" path="coordinates">
+        <n-input v-model:value="values.coordinates" placeholder="Coordinates..." />
+      </n-form-item>
+      <n-form-item label="Trainer" path="trainer">
+        <n-select v-model:value="values.trainer" :options="trainers" placeholder="Trainer..." />
+      </n-form-item>
       <n-form-item label="Minimal age" path="minAge">
         <n-input v-model:value="values.minAge" placeholder="Minimal age..." />
       </n-form-item>
@@ -67,8 +73,10 @@ const props = defineProps({
       name: '',
       description: '',
       capacity: '',
-      dance: null, // tu ce biti dropdown lista
+      dance: null,
       address: '',
+      coordinates: '',
+      trainer: null,
       minAge: '',
       maxAge: '',
       gender: null,
@@ -83,15 +91,22 @@ const dances = ['samba', 'valcer'].map(v => ({
   value: v,
 }));
 
+const trainers = ['Ivica Perić', 'Marko Markić'].map(v => ({
+  label: v,
+  value: v,
+}));
+
 const isCreateForm = computed(() => !!props.initialValues.name.length);
 
-const { required, dateRequired, number } = validationRules;
+const { required, dateRequired, number, coordinatesRequired } = validationRules;
 const rules = {
   name: required,
   description: required,
   capacity: number,
   dance: required,
   address: required,
+  coordinates: coordinatesRequired,
+  trainer: required,
   minAge: number,
   maxAge: number,
   applicationDeadline: dateRequired,
