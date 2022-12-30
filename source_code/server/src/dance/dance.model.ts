@@ -54,14 +54,6 @@ class DanceModel extends Model implements IDance {
     });
   }
 
-  static scopes() {
-    return {
-      includeEventDance: {
-        include: ['event_dances'],
-      },
-    };
-  }
-
   static dbOptions() {
     return {
       modelName: 'dance',
