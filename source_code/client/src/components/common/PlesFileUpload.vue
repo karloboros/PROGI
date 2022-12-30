@@ -38,11 +38,11 @@ const upload = async () => {
   formData.append('file', file.value.files[0]);
 
   try {
-    if (route.name.includes('event')) {
+    if (route.name.includes('Event')) {
       const { path } = await eventApi.upload(formData);
       filePath.value = path;
       emit('update', path);
-    } else if (route.name.includes('dance')) {
+    } else if (route.name.includes('Dance')) {
       const { path } = await danceApi.upload(formData);
       filePath.value = path;
       emit('update', path);
