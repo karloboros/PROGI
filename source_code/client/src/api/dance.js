@@ -7,19 +7,19 @@ const urls = {
     return this.root + '/create';
   },
   get remove() {
-    return this.root + '/remove/:id';
+    return this.root + '/remove'; // skontaj na koji nacin ces tu proslijedit parametar
   },
   get fetchAll() {
     return this.root + '/all';
   },
   get fetchById() {
-    return this.root + '/:id';
+    return this.root;
   },
   get upload() {
     return this.root + '/upload';
   },
   get edit() {
-    return this.root + '/edit/:id';
+    return this.root + '/edit';
   },
 };
 
@@ -27,12 +27,12 @@ const create = (params = {}) => {
   return request.post(urls.create, params).then(extractData);
 };
 
-const edit = params => {
-  return request.post(urls.edit, params).then(extractData);
+const edit = (params = {}) => {
+  return request.post(urls.edit + `/${params.id}`, params).then(extractData);
 };
 
-const fetchById = params => {
-  return request.get(urls.fetchById, params).then(extractData);
+const fetchById = id => {
+  return request.get(urls.fetchById + `/${id}`).then(extractData);
 };
 
 const fetchAll = () => {
@@ -40,7 +40,7 @@ const fetchAll = () => {
 };
 
 const remove = id => {
-  return request.delete(urls.remove, id);
+  return request.delete(urls.remove + `/${id}`);
 };
 
 const upload = params => {
