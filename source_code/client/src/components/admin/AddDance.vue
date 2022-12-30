@@ -1,5 +1,5 @@
 <template>
-  <n-space class="club-approval" align="center" justify="center" item-style="width: 80%">
+  <n-space class="dance-adding" align="center" justify="center" item-style="width: 80%">
     <n-form ref="formRef" @submit.prevent="submit" :model="values" :rules="rules">
       <n-form-item label="Name" path="name">
         <n-input v-model:value="values.name" placeholder="Name..." autofocus />
@@ -57,8 +57,8 @@ const submit = async () => {
   formRef.value?.validate(async errors => {
     if (!errors) {
       try {
-        const method = route.params.id ? danceApi.edit : danceApi.create;
-        await method({ ...values.value });
+        if (route.params.id) await danceApi.edit({ ...values.value, id: route.params.id });
+        else await danceApi.create({ ...values.value });
         message.success('Dance successfully saved!');
       } catch (err) {
         message.error(err.response.data.message);
