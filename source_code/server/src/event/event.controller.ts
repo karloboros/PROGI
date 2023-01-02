@@ -12,11 +12,11 @@ const test = async (req: Request, res: Response) => {
 
 const create = async (req: Request, res: Response, next: NextFunction) => {
   const transaction = await sequelize.transaction();
-  const transaction2 = await sequelize.transaction();
   try {
     const data = {
       ...req.body,
     };
+
     const club = await Club.findOne({ where: { name: data.club } });
     if (!club) return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
 
@@ -31,19 +31,24 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
     const event = await Event.create(newEvent, { transaction });
     await transaction.commit();
 
-    const dance = await Dance.findOne({ where: { name: data.dance } });
-    if (!dance) return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
-    const newEventDance = {
-      danceId: dance.id,
-      eventId: event.id,
-    };
-    await EventDance.create(newEventDance, { transaction: transaction2 });
-    await transaction2.commit();
-
+    for(const danceName of data.dances){
+      const transaction1 = await sequelize.transaction();;
+      try{
+        const dance = await Dance.findOne({ where: { name: danceName } });
+        if (!dance) return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
+        const newEventDance = {
+          danceId: dance.id,
+          eventId: event.id,
+        };
+        await EventDance.create(newEventDance, { transaction: transaction1 });
+        await transaction1.commit();
+      } catch (err){
+        await transaction1.rollback();
+      }
+    }
     return res.status(OK).json(event);
   } catch (err) {
     await transaction.rollback();
-    await transaction2.rollback();
 
     if (err instanceof UniqueConstraintError) {
       return next(new HttpError(CONFLICT, errorMessages.REGISTER));
