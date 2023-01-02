@@ -17,8 +17,14 @@
         <n-form-item label="Address" path="address">
           <n-input v-model:value="values.address" placeholder="Address..." />
         </n-form-item>
-        <n-form-item label="Dance" path="dance">
-          <n-select v-model:value="values.dance" :options="dances" :loading="loading" placeholder="Dance..." />
+        <n-form-item label="Dances" path="dances">
+          <n-select
+            v-model:value="values.dances"
+            :options="dancesOp"
+            :loading="loading"
+            multiple
+            placeholder="Dance..."
+          />
         </n-form-item>
         <n-form-item>
           <n-button type="primary" attr-type="submit">Create</n-button>
@@ -44,7 +50,7 @@ const initialValues = {
   description: '',
   club: null,
   image: '',
-  dance: null,
+  dances: [],
 };
 
 const { required } = validationRules;
@@ -53,19 +59,20 @@ const rules = {
   address: required,
   description: required,
   club: required,
-  dance: required,
+  // dances: required,
+  image: required,
 };
 const authStore = useAuthStore();
 
 const user = ref({ ...authStore.user });
 
 const loading = ref(true);
-const dances = ref([]);
+const dancesOp = ref([]);
 const clubs = ref([]);
 
 onMounted(async () => {
-  dances.value = await danceApi.fetchAll();
-  dances.value = dances.value.map(v => ({
+  dancesOp.value = await danceApi.fetchAll();
+  dancesOp.value = dancesOp.value.map(v => ({
     label: v.name,
     value: v.name,
   }));
