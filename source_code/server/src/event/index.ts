@@ -1,9 +1,9 @@
+import { fetchEventLocation } from './event.controller';
 import { Router } from 'express';
-import { test } from './event.controller';
 
 const router = Router();
 const path = '/events';
 
-router.get('/test', test);
+router.get('/events-with-location', fetchEventLocation);
 
 export default { router, path };

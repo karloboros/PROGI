@@ -21,6 +21,9 @@ const urls = {
   get upload() {
     return this.root + '/upload';
   },
+  get fetchEventLocation() {
+    return '/events' + '/events-with-location';
+  },
 };
 
 const login = credentials => {
@@ -39,6 +42,10 @@ const edit = user => {
   return request.post(urls.edit, user).then(extractData);
 };
 
+const fetchEventLocation = () => {
+  return request.get(urls.fetchEventLocation).then(extractData);
+};
+
 const remove = () => {
   return request.delete(urls.remove);
 };
@@ -52,6 +59,7 @@ export default {
   register,
   logout,
   edit,
+  fetchEventLocation,
   remove,
   upload,
 };
