@@ -14,6 +14,20 @@ module.exports = {
   up(queryInterface) {
     const events = [];
     for (let i = 1; i < 6; i++) events.push(createEvent(i));
+    events.push({
+      name: `Ples studenata`,
+      description: `tango`,
+      image: `image one`,
+      clubId: 2,
+      locationId: 4,
+    });
+    events.push({
+      name: `Ples u domu`,
+      description: `valcer`,
+      image: `image two`,
+      clubId: 1,
+      locationId: 5,
+    });
     return queryInterface.bulkInsert(TABLE_NAME, events);
   },
 
