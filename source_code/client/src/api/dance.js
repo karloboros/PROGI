@@ -7,7 +7,7 @@ const urls = {
     return this.root + '/create';
   },
   get remove() {
-    return this.root + '/remove'; // skontaj na koji nacin ces tu proslijedit parametar
+    return this.root + '/remove';
   },
   get fetchAll() {
     return this.root + '/all';
