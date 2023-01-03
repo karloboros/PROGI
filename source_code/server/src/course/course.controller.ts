@@ -1,4 +1,4 @@
-import { Course, Location } from 'shared/database';
+import { Course, Dance, Location } from 'shared/database';
 import { Request, Response } from 'express';
 
 const fetchCoursesLocations = async (req: Request, res: Response) => {

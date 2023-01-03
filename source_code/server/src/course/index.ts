@@ -1,9 +1,9 @@
+import { fetchCoursesLocations } from './course.controller';
 import { Router } from 'express';
-import { test } from './course.controller';
 
 const router = Router();
 const path = '/courses';
 
-router.get('/test', test);
+router.get('/all', fetchCoursesLocations);
 
 export default { router, path };
