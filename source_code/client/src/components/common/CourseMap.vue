@@ -3,7 +3,7 @@
     <div class="col-md-9">
       <div id="map" class="map"></div>
     </div>
-    <div class="col-md-3">
+    <!--<div class="col-md-3">
       <div v-for="layer in layers" :key="layer.id" class="form-check">
         <label class="form-check-label">
           <input
@@ -15,19 +15,21 @@
           {{ layer.name }}
         </label>
       </div>
-    </div>
+    </div>-->
   </div>
 </template>
 
 <script setup>
 import 'leaflet/dist/leaflet.css';
-import { attribution, layers, mapBackground, view } from '@/constants';
+import { attribution, mapBackground, view } from '@/constants';
 import { onMounted, ref } from 'vue';
+import { courseApi } from '@/api';
 import L from 'leaflet';
 
 const map = ref(null);
 const tileLayer = ref(null);
 
+/*
 const layerChanged = (layerId, active) => {
   const layer = layers.find(layer => layer.id === layerId);
 
@@ -39,14 +41,41 @@ const layerChanged = (layerId, active) => {
     }
   });
 };
+*/
+const courses = ref([]);
+const coursesToMap = L.layerGroup();
 
-const initLayers = () => {
+const initLayers = async () => {
+  const data = await courseApi.fetchCoursesLocations();
+
+  for (const course of data) {
+    course.value = {
+      id: course.id,
+      name: course.name,
+      description: course.description,
+      clubId: course.clubId,
+      locationId: course.locationId,
+      location: course.location,
+      locationName: course.location.name,
+      coordinates: course.location.coordinates,
+    };
+
+    console.log(course.value);
+    courses.value.push(course);
+    const coords = course.value.coordinates.split(',');
+    const x = Number(coords[0]);
+    const y = Number(coords[1]);
+    coursesToMap.addLayer(L.marker(L.latLng(x, y)).bindPopup(course.value.locationName));
+  }
+
+  /*
   layers.forEach(layer => {
     layer.features.forEach(feature => {
       feature.leafletObject = L.marker(feature.coords).bindPopup(`
         ${feature.name}</br><a href="/profile"><button>Go to</button></a>`);
     });
   });
+  */
 };
 const initMap = () => {
   map.value = L.map('map').setView(view, 12);
