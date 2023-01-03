@@ -1,9 +1,16 @@
+import { Course, Location } from 'shared/database';
 import { Request, Response } from 'express';
-import { Course } from 'shared/database';
+
+const fetchCoursesLocations = async (req: Request, res: Response) => {
+  const courses = await Course.findAll({
+    include: Location,
+  });
+  return res.send(courses);
+};
 
 const test = async (req: Request, res: Response) => {
   const courses = await Course.findAll();
   return res.send(courses);
 };
 
-export { test };
+export { fetchCoursesLocations, test };
