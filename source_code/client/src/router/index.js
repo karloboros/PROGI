@@ -30,7 +30,7 @@ const routes = [
     component: ProfileView,
   },
   {
-    path: '/map',
+    path: '/map/courses-locations',
     name: 'Map',
     component: CourseMap,
   },
