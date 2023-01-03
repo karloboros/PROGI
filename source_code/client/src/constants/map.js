@@ -7,6 +7,9 @@ const layers = [
       {
         id: 0,
         name: "Bogart's Smokehouse",
+        description: 'Neki opis',
+        capacity: 20,
+        locationId: 1,
         coords: [45.801562157821536, 15.97102811303265],
       },
       {
