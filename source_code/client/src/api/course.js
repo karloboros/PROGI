@@ -2,14 +2,14 @@ import { extractData } from './helpers';
 import request from './request';
 
 const urls = {
-  root: '/map',
+  root: '/courses',
   get fetchCoursesLocations() {
-    return this.root + '/courses-locations';
+    return this.root + '/all';
   },
 };
 
 const fetchCoursesLocations = () => {
-  return request.post(urls.fetchCoursesLocations).then(extractData);
+  return request.get(urls.fetchCoursesLocations).then(extractData);
 };
 
 export default { fetchCoursesLocations };

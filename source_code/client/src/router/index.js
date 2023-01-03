@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import ClubApproval from '@/components/admin/ClubApproval.vue';
+import CourseInfo from '@/components/course/CourseInfo.vue';
 import CourseMap from '@/components/common/CourseMap.vue';
 import Home from '@/components/home/HomePage.vue';
 import ProfileView from '@/components/profile/ProfileView.vue';
@@ -30,9 +31,14 @@ const routes = [
     component: ProfileView,
   },
   {
-    path: '/map/courses-locations',
-    name: 'Map',
+    path: '/courses/all',
+    name: 'CourseMap',
     component: CourseMap,
+  },
+  {
+    path: '/courses/:id',
+    name: 'CourseInfo',
+    component: CourseInfo,
   },
   {
     path: '/:catchAll(.*)',
