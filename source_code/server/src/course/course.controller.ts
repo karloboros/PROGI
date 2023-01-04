@@ -1,4 +1,4 @@
-import { Club, Course, Dance, Location, User } from 'shared/database';
+import { Club, Course, Dance, Location } from 'shared/database';
 import { Request, Response } from 'express';
 
 const fetchCoursesLocations = async (req: Request, res: Response) => {
@@ -10,7 +10,7 @@ const fetchCoursesLocations = async (req: Request, res: Response) => {
 
 const fetchById = async (req: Request, res: Response) => {
   const courseId = JSON.parse(req.params.id);
-  const course = await Course.findByPk(courseId, { include: [Dance, Location, Club] });
+  const course = await Course.findByPk(courseId, { include: [Club, Dance, Location] });
   return res.send(course);
 };
 
