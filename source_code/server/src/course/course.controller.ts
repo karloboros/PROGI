@@ -1,11 +1,17 @@
-import { Course, Dance, Location } from 'shared/database';
+import { Club, Course, Dance, Location, User } from 'shared/database';
 import { Request, Response } from 'express';
 
 const fetchCoursesLocations = async (req: Request, res: Response) => {
   const courses = await Course.findAll({
-    include: Location,
+    include: [Location, Dance],
   });
   return res.send(courses);
+};
+
+const fetchById = async (req: Request, res: Response) => {
+  const courseId = JSON.parse(req.params.id);
+  const course = await Course.findByPk(courseId, { include: [Dance, Location, Club] });
+  return res.send(course);
 };
 
 const test = async (req: Request, res: Response) => {
@@ -13,4 +19,4 @@ const test = async (req: Request, res: Response) => {
   return res.send(courses);
 };
 
-export { fetchCoursesLocations, test };
+export { fetchCoursesLocations, fetchById, test };
