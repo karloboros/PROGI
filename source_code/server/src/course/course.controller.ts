@@ -10,6 +10,17 @@ const test = async (req: Request, res: Response) => {
   return res.send(courses);
 };
 
+const fetchByClub = async (req: Request, res: Response) => {
+  const club = req.params.clubId;
+  const courses = await Course.findAll({
+    where: {
+      clubId: club,
+    },
+  });
+  console.log(courses);
+  return res.send(courses);
+};
+
 const fetchAll = async (req: Request, res: Response) => {
   const courses = await Course.findAll();
   return res.send(courses);
@@ -49,7 +60,7 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
 
 const edit = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const course = req.body;
+    const course = { ...req.body };
     const courseId = JSON.parse(req.params.id);
     const courseToEdit = await Course.findByPk(courseId);
     if (!courseToEdit) return next(new HttpError(FORBIDDEN, errorMessages.FORBIDDEN));
@@ -93,4 +104,4 @@ const remove = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-export { test, create, edit, remove, fetchAll, fetchById };
+export { test, create, edit, remove, fetchAll, fetchById, fetchByClub };

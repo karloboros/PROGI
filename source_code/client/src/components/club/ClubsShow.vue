@@ -7,8 +7,8 @@
 </template>
 
 <script setup>
-// import { h, onMounted, ref } from 'vue';
-import { h } from 'vue';
+import { h, onMounted, ref } from 'vue';
+import { clubApi } from '@/api';
 import { NButton } from 'naive-ui';
 import { useRouter } from 'vue-router';
 
@@ -35,7 +35,7 @@ const AddButton = club => {
       size: 'small',
       onClick: () => addCourse(club.id),
     },
-    { default: () => 'Add lesson' },
+    { default: () => 'Add course' },
   );
 };
 
@@ -45,18 +45,25 @@ const columns = [
   { title: 'Add course', key: 'add', render: AddButton },
 ];
 
-const clubs = [{ name: 'Klub1' }, { name: 'Klub2' }];
+const clubs = ref([]);
 
-const viewCourseDetails = id => {
+onMounted(async () => {
+  const data = await clubApi.fetchAll();
+  clubs.value = data.map(club => ({
+    ...club,
+  }));
+});
+
+const viewCourseDetails = clubId => {
   router.push({
-    name: 'CoursesShow',
-    params: { id },
+    name: 'Courses',
+    params: { clubId },
   });
 };
-const addCourse = id => {
+const addCourse = clubId => {
   router.push({
-    name: 'CoursesCreate',
-    params: { id },
+    name: 'CourseCreate',
+    params: { clubId },
   });
 };
 </script>

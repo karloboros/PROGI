@@ -1,5 +1,6 @@
 import { ApprovalStatus, IClub } from './types';
 import { IFields, IModels } from 'shared/database/types';
+import { ICourse } from 'course/types';
 import { Model } from 'sequelize';
 
 class ClubModel extends Model implements IClub {
@@ -11,6 +12,7 @@ class ClubModel extends Model implements IClub {
   approvalStatus!: ApprovalStatus;
   ownerId!: number;
   locationId!: number;
+  courses?: ICourse[];
 
   static fields({ INTEGER, STRING, TEXT }: IFields) {
     return {
@@ -79,6 +81,9 @@ class ClubModel extends Model implements IClub {
       },
       pending: {
         where: { approvalStatus: ApprovalStatus.Pending },
+      },
+      includeCourses: {
+        include: ['courses'],
       },
     };
   }

@@ -61,6 +61,7 @@ import { courseApi } from '@/api';
 import { Gender } from '@/constants';
 import { ref } from 'vue';
 import { useMessage } from 'naive-ui';
+import { useRoute } from 'vue-router';
 import { validationRules } from '@/utils';
 
 const props = defineProps({
@@ -113,12 +114,15 @@ const values = ref(props.initialValues);
 const formRef = ref(null);
 
 const message = useMessage();
+const route = useRoute();
+const clubId = route.params.clubId;
+console.log(clubId);
 
 const submit = async () => {
   formRef.value?.validate(async errors => {
     if (!errors) {
       try {
-        await courseApi.create({ ...values.value });
+        await courseApi.create(clubId, { ...values.value });
         message.success('Success');
       } catch (err) {
         message.error(err.response.data.message);

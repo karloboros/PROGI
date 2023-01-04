@@ -12,6 +12,9 @@ const urls = {
   get fetchAll() {
     return this.root + '/all';
   },
+  get fetchByClub() {
+    return this.root + '/test';
+  },
   get fetchById() {
     return this.root;
   },
@@ -20,20 +23,23 @@ const urls = {
   },
 };
 
-const create = params => {
-  return request.post(urls.create, params).then(extractData);
+const create = (params = {}) => {
+  return request.post(urls.create + `/${params.clubId}`, params).then(extractData);
 };
 
-const edit = params => {
+const edit = (params = {}) => {
   return request.post(urls.edit + `/${params.id}`, params).then(extractData);
 };
 
-const fetchById = params => {
+const fetchById = (params = {}) => {
   return request.get(urls.fetchById + `/${params.id}`, params).then(extractData);
 };
 
 const fetchAll = () => {
   return request.get(urls.fetchAll).then(extractData);
+};
+const fetchByClub = clubId => {
+  return request.get(urls.fetchByClub + `/${clubId}`, clubId).then(extractData);
 };
 
 const remove = id => {
@@ -49,5 +55,6 @@ export default {
   fetchAll,
   remove,
   edit,
+  fetchByClub,
   fetchById,
 };

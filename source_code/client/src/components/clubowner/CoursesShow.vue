@@ -10,9 +10,9 @@
 // import { h, onMounted, ref } from 'vue';
 import { h, onMounted, ref } from 'vue';
 import { NButton, useDialog, useMessage } from 'naive-ui';
+import { useRoute, useRouter } from 'vue-router';
 import { courseApi } from '@/api';
 import { useAuthStore } from '@/store';
-import { useRouter } from 'vue-router';
 
 const authStore = useAuthStore();
 const router = useRouter();
@@ -79,8 +79,6 @@ const columns = [
   { title: 'Add Lesson', key: 'add', render: AddButton },
 ];
 
-const courses = [{ name: 'Tecaj sambe' }, { name: 'Tecaj valcera' }];
-
 const confirm = () => {
   dialog.error({
     title: 'Confirm',
@@ -101,17 +99,17 @@ const remove = async () => {
   }
 };
 
-// const courses = ref([]);
-const loading = ref(true);
+const courses = ref([]);
+const route = useRoute();
+const clubId = route.params.clubId;
+console.log(clubId);
 
 onMounted(async () => {
-  const data = await courseApi.fetchAll();
+  const data = await courseApi.fetchByClub(clubId);
   courses.value = data.map(course => ({
     ...course,
     name: course.name,
   }));
-
-  loading.value = false;
 });
 
 const viewCourseDetails = id => {
