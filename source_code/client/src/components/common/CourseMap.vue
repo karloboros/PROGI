@@ -24,6 +24,9 @@ import L from 'leaflet';
 
 const map = ref(null);
 const tileLayer = ref(null);
+const courses = ref(null);
+const dances = ref([]);
+const coursesToMap = L.layerGroup();
 
 const layerChanged = dance => {
   const coursesToChangeDisplay = courses.value.find(course => course.danceId === dance.id);
@@ -70,9 +73,6 @@ const layerChanged = (layerId, active) => {
   });
 };
 */
-const courses = ref([]);
-const dances = ref([]);
-const coursesToMap = L.layerGroup();
 
 const initLayers = async () => {
   const data = await courseApi.fetchCoursesLocations();
