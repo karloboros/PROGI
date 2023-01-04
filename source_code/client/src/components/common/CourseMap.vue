@@ -4,15 +4,11 @@
       <div id="map" class="map"></div>
     </div>
     <div class="col-md-3">
-      <div v-for="layer in layers" :key="layer.id" class="form-check">
+      <h5>Filtriraj po plesovima</h5>
+      <div v-for="dance in dances" :key="dance.id" class="form-check">
         <label class="form-check-label">
-          <input
-            v-model="layer.active"
-            @change="layerChanged(layer.id, layer.active)"
-            class="form-check-input"
-            type="checkbox"
-          />
-          {{ layer.name }}
+          <input v-model="dance.active" @change="layerChanged(dance)" class="form-check-input" type="checkbox" />
+          {{ dance.name }}
         </label>
       </div>
     </div>
@@ -21,7 +17,7 @@
 
 <script setup>
 import 'leaflet/dist/leaflet.css';
-import { attribution, layers, mapBackground, view } from '@/constants';
+import { attribution, mapBackground, view } from '@/constants';
 import { onMounted, ref } from 'vue';
 import { courseApi } from '@/api';
 import L from 'leaflet';
@@ -29,6 +25,39 @@ import L from 'leaflet';
 const map = ref(null);
 const tileLayer = ref(null);
 
+const layerChanged = dance => {
+  const coursesToChangeDisplay = courses.value.find(course => course.danceId === dance.id);
+
+  console.log(coursesToChangeDisplay.value);
+  for (const course in coursesToChangeDisplay) {
+    if (course.active) {
+      console.log(course.coordinates);
+      const coords = course.coordinates.split(',');
+      const x = Number(coords[0]);
+      const y = Number(coords[1]);
+      coursesToMap.addLayer(
+        L.marker(L.latLng(x, y)).bindPopup(
+          `${course.name}</br><a href="/courses/${course.id}"><button>Go to</button></a>`,
+        ),
+      );
+    } else {
+      const layerToChange = coursesToMap.value.find(c => c.danceId === dance.id);
+
+      coursesToMap.removeLayer(layerToChange);
+    }
+    map.value.addLayer(coursesToMap);
+  }
+  /*
+  coursesToChangeDisplay.value.forEach(course => {
+    if (!course.active) {
+      map.value.addLayer(course);
+    } else {
+      map.value.removeFrom(course);
+    }
+  });
+  */
+};
+/*
 const layerChanged = (layerId, active) => {
   const layer = layers.find(layer => layer.id === layerId);
 
@@ -40,8 +69,9 @@ const layerChanged = (layerId, active) => {
     }
   });
 };
-
+*/
 const courses = ref([]);
+const dances = ref([]);
 const coursesToMap = L.layerGroup();
 
 const initLayers = async () => {
@@ -52,26 +82,40 @@ const initLayers = async () => {
       id: course.id,
       name: course.name,
       description: course.description,
+      applicationDeadline: new Date(data.applicationDeadline),
       clubId: course.clubId,
       locationId: course.locationId,
       locationName: course.location.name,
       coordinates: course.location.coordinates,
+      dance: course.dance,
       danceId: course.danceId,
       danceName: course.dance.name,
+      active: true,
     };
-
-    console.log(course.value);
     courses.value.push(course);
+
+    let find = false;
+    dances.value.forEach(d => {
+      if (d.id === course.dance.id) {
+        find = true;
+      }
+    });
+    if (!find) {
+      dances.value.push({
+        id: course.dance.id,
+        name: course.dance.name,
+        active: true,
+      });
+    }
     const coords = course.value.coordinates.split(',');
     const x = Number(coords[0]);
     const y = Number(coords[1]);
     coursesToMap.addLayer(
       L.marker(L.latLng(x, y)).bindPopup(
-        `${course.value.locationName}</br><a href="/course/:id"><button>Go to</button></a>`,
+        `${course.value.name}</br><a href="/courses/${course.value.id}"><button>Go to</button></a>`,
       ),
     );
   }
-
   /*
   layers.forEach(layer => {
     layer.features.forEach(feature => {
@@ -87,9 +131,9 @@ const initMap = () => {
   tileLayer.value.addTo(map.value);
 };
 
-onMounted(() => {
+onMounted(async () => {
   initMap();
-  initLayers();
+  await initLayers();
   console.log(coursesToMap);
   map.value.addLayer(coursesToMap);
 });
