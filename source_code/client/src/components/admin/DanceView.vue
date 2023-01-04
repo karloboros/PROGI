@@ -1,7 +1,6 @@
 <template>
   <n-space class="dance-adding" align="center" justify="center" item-style="width: 80%">
-    <n-card title="Dance" size="huge" loading="loading">
-      <n-skeleton v-if="loading" />
+    <n-card title="Dance" size="huge">
       <template #header-extra>
         <n-button @click="confirm" type="error">Delete dance</n-button>
       </template>
@@ -24,13 +23,11 @@ const route = useRoute();
 const id = route.params.id;
 
 const dance = ref([]);
-const loading = ref(true);
 
 onMounted(async () => {
   const data = await danceApi.fetchById(id);
   dance.value = { name: data.name, description: data.description, videoUrl: data.videoUrl, image: data.image };
   console.log(dance.value);
-  loading.value = false;
 });
 
 const confirm = () => {
