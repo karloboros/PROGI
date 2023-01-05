@@ -1,8 +1,8 @@
-import { extractData } from './helpers';
-import request from './request';
+import { extractData, headers } from './helpers';
+import request, { request as customRequest } from './request';
 
 const urls = {
-  root: '/courses',
+  root: '/dances',
   get create() {
     return this.root + '/create';
   },
@@ -12,11 +12,11 @@ const urls = {
   get fetchAll() {
     return this.root + '/all';
   },
-  get fetchByClub() {
-    return this.root + '/test';
-  },
   get fetchById() {
     return this.root;
+  },
+  get upload() {
+    return this.root + '/upload';
   },
   get edit() {
     return this.root + '/edit';
@@ -24,7 +24,7 @@ const urls = {
 };
 
 const create = (params = {}) => {
-  return request.post(urls.create + `/${params.clubId}`, params).then(extractData);
+  return request.post(urls.create, params).then(extractData);
 };
 
 const edit = (params = {}) => {
@@ -32,29 +32,26 @@ const edit = (params = {}) => {
 };
 
 const fetchById = id => {
-  return request.get(urls.fetchById + `/${id}`, id).then(extractData);
+  return request.get(urls.fetchById + `/${id}`).then(extractData);
 };
 
 const fetchAll = () => {
   return request.get(urls.fetchAll).then(extractData);
-};
-const fetchByClub = clubId => {
-  return request.get(urls.fetchByClub + `/${clubId}`, clubId).then(extractData);
 };
 
 const remove = id => {
   return request.delete(urls.remove + `/${id}`);
 };
 
-/* const upload = params => {
+const upload = params => {
   return customRequest(headers.fileUpload).post(urls.upload, params).then(extractData);
-}; */
+};
 
 export default {
   create,
   fetchAll,
   remove,
   edit,
-  fetchByClub,
+  upload,
   fetchById,
 };

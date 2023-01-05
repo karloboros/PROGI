@@ -7,14 +7,11 @@
 </template>
 
 <script setup>
-// import { h, onMounted, ref } from 'vue';
 import { h, onMounted, ref } from 'vue';
 import { NButton, useDialog, useMessage } from 'naive-ui';
 import { useRoute, useRouter } from 'vue-router';
 import { courseApi } from '@/api';
-import { useAuthStore } from '@/store';
 
-const authStore = useAuthStore();
 const router = useRouter();
 const message = useMessage();
 const dialog = useDialog();
@@ -39,7 +36,7 @@ const DeleteButton = course => {
       secondary: true,
       type: 'error',
       size: 'small',
-      onClick: () => confirm,
+      onClick: () => confirm(course.id),
     },
     { default: () => 'Delete course' },
   );
@@ -79,21 +76,20 @@ const columns = [
   { title: 'Add Lesson', key: 'add', render: AddButton },
 ];
 
-const confirm = () => {
+const confirm = id => {
   dialog.error({
     title: 'Confirm',
     content: 'Are you sure you want to delete your account. This is irreversible!',
     positiveText: 'Yes',
     negativeText: 'No',
-    onPositiveClick: remove,
+    onPositiveClick: remove(id),
   });
 };
 
-const remove = async () => {
+const remove = async id => {
   try {
-    await courseApi.remove();
+    await courseApi.remove(id);
     message.success('Successfully deleted');
-    await authStore.logout(router);
   } catch (err) {
     message.error(err.response?.data.message || err);
   }
@@ -124,10 +120,10 @@ const viewLessonDetails = id => {
     params: { id },
   });
 };
-const addLesson = id => {
+const addLesson = courseId => {
   router.push({
-    name: 'LessonsCreate',
-    params: { id },
+    name: 'LessonCreate',
+    params: { courseId },
   });
 };
 </script>

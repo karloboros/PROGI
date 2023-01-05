@@ -90,4 +90,10 @@ const uploadProfileImage = (req: Request, res: Response, next: NextFunction) => 
   return res.status(OK).json({ path: `/images/${file.filename}` });
 };
 
-export { login, register, logout, edit, remove, uploadProfileImage };
+const fetchTrainers = async (req: Request, res: Response) => {
+  const approved = await User.scope(['trainers']).findAll();
+  console.log(approved);
+  return res.send(approved);
+};
+
+export { login, register, logout, edit, remove, uploadProfileImage, fetchTrainers };

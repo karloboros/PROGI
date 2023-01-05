@@ -21,6 +21,9 @@ const urls = {
   get upload() {
     return this.root + '/upload';
   },
+  get fetchTrainers() {
+    return this.root + '/trainers';
+  },
 };
 
 const login = credentials => {
@@ -46,6 +49,9 @@ const remove = () => {
 const upload = params => {
   return customRequest(headers.fileUpload).post(urls.upload, params).then(extractData);
 };
+const fetchTrainers = () => {
+  return request.get(urls.fetchTrainers).then(extractData);
+};
 
 export default {
   login,
@@ -54,4 +60,5 @@ export default {
   edit,
   remove,
   upload,
+  fetchTrainers,
 };

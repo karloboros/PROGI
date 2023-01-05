@@ -6,4 +6,10 @@ const test = async (req: Request, res: Response) => {
   return res.send(trainerApplications);
 };
 
-export { test };
+const fetchApproved = async (req: Request, res: Response) => {
+  const approved = await TrainerApplication.scope(['approved', 'includeTrainer']).findAll();
+  console.log(approved);
+  return res.send(approved);
+};
+
+export { test, fetchApproved };

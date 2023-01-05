@@ -1,6 +1,5 @@
 <template>
-  <n-card v-if="!isCreateForm" style="width: 80%" title="Create course" size="huge" role="dialog" aria-modal="true">
-    <!-- <n-space align="center" justify="center"> -->
+  <n-space class="course-adding" align="center" justify="center" item-style="width: 80%">
     <n-form ref="formRef" @submit.prevent="submit" :model="values" :rules="rules">
       <n-form-item label="Name" path="name">
         <n-input v-model:value="values.name" placeholder="Name..." autofocus />
@@ -51,18 +50,20 @@
         <n-button type="primary" attr-type="submit">Save changes</n-button>
       </n-form-item>
     </n-form>
-    <!-- </n-space> -->
-  </n-card>
+  </n-space>
 </template>
 
 <script setup>
-import { computed } from '@vue/reactivity';
-import { courseApi } from '@/api';
 import { Gender } from '@/constants';
-import { ref } from 'vue';
+// eslint-disable-next-line sort-imports
+import { authApi, courseApi, danceApi } from '@/api';
+import { onMounted, ref } from 'vue';
+import { computed } from '@vue/reactivity';
 import { useMessage } from 'naive-ui';
 import { useRoute } from 'vue-router';
 import { validationRules } from '@/utils';
+
+const emit = defineEmits(['created']);
 
 const props = defineProps({
   initialValues: {
@@ -84,18 +85,8 @@ const props = defineProps({
   },
 });
 
-const dances = ['samba', 'valcer'].map(v => ({
-  label: v,
-  value: v,
-}));
-
-const trainers = ['Ivica Perić', 'Marko Markić'].map(v => ({
-  label: v,
-  value: v,
-}));
-
-const isCreateForm = computed(() => !!props.initialValues.name.length);
-
+const isCreateForm = computed(() => !!props.initialValues.name);
+console.log(isCreateForm.value);
 const { required, dateRequired, number, coordinatesRequired } = validationRules;
 const rules = {
   name: required,
@@ -104,35 +95,56 @@ const rules = {
   dance: required,
   address: required,
   coordinates: coordinatesRequired,
-  trainer: required,
+  // trainer: required,
   minAge: number,
   maxAge: number,
   applicationDeadline: dateRequired,
 };
 
-const values = ref(props.initialValues);
-const formRef = ref(null);
-
+const dances = ref([]);
+const trainers = ref([]);
 const message = useMessage();
 const route = useRoute();
-const clubId = route.params.clubId;
-console.log(clubId);
 
+onMounted(async () => {
+  dances.value = await danceApi.fetchAll();
+  console.log(dances.value);
+  dances.value = dances.value.map(v => ({
+    label: v.name,
+    value: v.name,
+  }));
+
+  trainers.value = await authApi.fetchTrainers();
+  console.log(trainers.value);
+  trainers.value = trainers.value.map(t => ({
+    label: t.fullname,
+    value: t.fullname,
+  }));
+});
+
+const values = ref(props.initialValues);
+const formRef = ref(null);
+console.log(route.params.id);
 const submit = async () => {
   formRef.value?.validate(async errors => {
     if (!errors) {
       try {
-        await courseApi.create(clubId, { ...values.value });
+        if (route.params.id) {
+          await courseApi.edit({ ...values.value, id: route.params.id });
+        } else {
+          await courseApi.create({ ...values.value, clubId: route.params.clubId });
+        }
         message.success('Success');
+        emit('created');
       } catch (err) {
         message.error(err.response.data.message);
       }
     }
   });
 };
-/*
-const error = error => {
+
+// eslint-disable-next-line no-unused-vars
+/* const error = error => {
   message.error(error);
-};
-*/
+}; */
 </script>

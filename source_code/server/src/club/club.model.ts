@@ -1,6 +1,7 @@
 import { ApprovalStatus, IClub } from './types';
 import { IFields, IModels } from 'shared/database/types';
 import { ICourse } from 'course/types';
+import { IUser } from 'user/types';
 import { Model } from 'sequelize';
 
 class ClubModel extends Model implements IClub {
@@ -13,6 +14,7 @@ class ClubModel extends Model implements IClub {
   ownerId!: number;
   locationId!: number;
   courses?: ICourse[];
+  trainers?: IUser[];
 
   static fields({ INTEGER, STRING, TEXT }: IFields) {
     return {
@@ -58,6 +60,7 @@ class ClubModel extends Model implements IClub {
   static associate({ Course, Location, User, TrainerApplication }: IModels) {
     this.hasMany(Course, {
       foreignKey: { name: 'clubId', field: 'clubId' },
+      as: 'courses',
     });
     this.belongsTo(Location, {
       foreignKey: { name: 'locationId', field: 'locationId' },
@@ -68,6 +71,7 @@ class ClubModel extends Model implements IClub {
     });
     this.hasMany(TrainerApplication, {
       foreignKey: { name: 'clubId', field: 'clubId' },
+      as: 'trainerApplications',
     });
   }
 
@@ -81,9 +85,6 @@ class ClubModel extends Model implements IClub {
       },
       pending: {
         where: { approvalStatus: ApprovalStatus.Pending },
-      },
-      includeCourses: {
-        include: ['courses'],
       },
     };
   }

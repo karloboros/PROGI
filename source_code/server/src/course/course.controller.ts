@@ -1,14 +1,9 @@
 import { BAD_REQUEST, CONFLICT, CREATED, FORBIDDEN, OK } from 'http-status';
 import { NextFunction, Request, Response } from 'express';
-import sequelize, { Course, Location } from 'shared/database';
+import sequelize, { Course, Dance, Location, User } from 'shared/database';
 import errorMessages from 'shared/constants/errorMessages';
 import HttpError from 'shared/error/httpError';
 import { UniqueConstraintError } from 'sequelize';
-
-const test = async (req: Request, res: Response) => {
-  const courses = await Course.findAll();
-  return res.send(courses);
-};
 
 const fetchByClub = async (req: Request, res: Response) => {
   const club = req.params.clubId;
@@ -34,16 +29,29 @@ const fetchById = async (req: Request, res: Response) => {
 const create = async (req: Request, res: Response, next: NextFunction) => {
   const transaction = await sequelize.transaction();
   try {
-    const { club } = JSON.parse(req.params.clubId);
-    const { dance, address, trainer } = req.body;
-    const location = await Location.create({ name: address }, { transaction });
+    const { id } = JSON.parse(req.params.clubId);
+
+    const data = {
+      ...req.body,
+    };
+    const dance = await Dance.findOne({ where: { name: data.dance } });
+    if (!dance) return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
+
+    const trainer = await User.scope(['trainers']).findOne({
+      where: { fullname: data.trainer },
+    });
+    if (!trainer) return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
+
+    let location = await Location.findOne({ where: { name: data.address } });
+    if (!location)
+      location = await Location.create({ name: data.address, coordinates: data.coordinates }, { transaction });
 
     const newCourse = {
       ...req.body,
-      clubId: club,
-      danceId: dance,
+      clubId: id,
+      danceId: dance.id,
       locationId: location.id,
-      trainerId: trainer,
+      trainerId: trainer.id,
     };
     const course = await Course.create(newCourse, { transaction });
     await transaction.commit();
@@ -73,9 +81,9 @@ const edit = async (req: Request, res: Response, next: NextFunction) => {
     courseToEdit.gender = course.gender;
     courseToEdit.applicationDeadline = course.applicationDeadline;
     courseToEdit.additionalRules = course.additionalRules;
-    courseToEdit.danceId = course.danceId;
-    courseToEdit.locationId = course.locationId;
-    courseToEdit.trainerId = course.trainerId;
+    courseToEdit.danceId = course.dance.id;
+    courseToEdit.locationId = course.location.id;
+    courseToEdit.trainerId = course.trainer.trainerId;
 
     // mogu li se uređivati svi ti parameti ili ipak ne?
 
@@ -104,4 +112,4 @@ const remove = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-export { test, create, edit, remove, fetchAll, fetchById, fetchByClub };
+export { create, edit, remove, fetchAll, fetchById, fetchByClub };

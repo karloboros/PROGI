@@ -2,7 +2,7 @@ import { extractData } from './helpers';
 import request from './request';
 
 const urls = {
-  root: '/courses',
+  root: '/lessons',
   get create() {
     return this.root + '/create';
   },
@@ -11,9 +11,6 @@ const urls = {
   },
   get fetchAll() {
     return this.root + '/all';
-  },
-  get fetchByClub() {
-    return this.root + '/test';
   },
   get fetchById() {
     return this.root;
@@ -24,7 +21,7 @@ const urls = {
 };
 
 const create = (params = {}) => {
-  return request.post(urls.create + `/${params.clubId}`, params).then(extractData);
+  return request.post(urls.create + `/${params.courseId}`, params).then(extractData);
 };
 
 const edit = (params = {}) => {
@@ -35,8 +32,8 @@ const fetchById = id => {
   return request.get(urls.fetchById + `/${id}`, id).then(extractData);
 };
 
-const fetchAll = () => {
-  return request.get(urls.fetchAll).then(extractData);
+const fetchAll = courseId => {
+  return request.get(urls.fetchAll + `/${courseId}`, courseId).then(extractData);
 };
 const fetchByClub = clubId => {
   return request.get(urls.fetchByClub + `/${clubId}`, clubId).then(extractData);

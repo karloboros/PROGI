@@ -82,9 +82,12 @@ class CourseModel extends Model implements ICourse {
   }
   // dodat poveznicu s dance
 
-  static associate({ Club, Lesson, Location, User, UserCourse }: IModels) {
+  static associate({ Club, Dance, Lesson, Location, User, UserCourse }: IModels) {
     this.belongsTo(Club, {
       foreignKey: { name: 'clubId', field: 'clubId' },
+    });
+    this.belongsTo(Dance, {
+      foreignKey: { name: 'danceId', field: 'danceId' },
     });
     this.hasMany(Lesson, {
       foreignKey: { name: 'courseId', field: 'courseId' },

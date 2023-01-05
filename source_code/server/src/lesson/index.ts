@@ -7,8 +7,8 @@ const path = '/lessons';
 // eslint-disable-next-line prettier/prettier
 router
   .get('/test', test)
-  .get('all', fetchAll)
-  .post('/create', create)
+  .get('/all/:courseId', fetchAll)
+  .post('/create/:courseId', create)
   .post('/edit/:id', edit)
   .delete('/remove/:id', remove);
 

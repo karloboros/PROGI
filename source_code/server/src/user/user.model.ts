@@ -4,6 +4,7 @@ import { IFields, IModels } from 'shared/database/types';
 import authTokens from 'shared/auth/authTokens';
 import bcrypt from 'bcrypt';
 import { IClub } from 'club/types';
+import { ITrainerApplication } from 'trainerApplication/types';
 import jwt from 'jsonwebtoken';
 import { Model } from 'sequelize';
 
@@ -25,6 +26,7 @@ class UserModel extends Model implements IUser {
   image?: string;
   refreshToken?: string;
   clubs?: IClub[];
+  applications?: ITrainerApplication[];
 
   static fields({ INTEGER, STRING, TEXT, DATE, VIRTUAL }: IFields) {
     return {
@@ -118,6 +120,7 @@ class UserModel extends Model implements IUser {
     });
     this.hasMany(TrainerApplication, {
       foreignKey: { name: 'trainerId', field: 'trainerId' },
+      as: 'applications',
     });
     this.hasMany(UserCourse, {
       foreignKey: { name: 'userId', field: 'userId' },
@@ -131,6 +134,12 @@ class UserModel extends Model implements IUser {
       },
       includeClub: {
         include: ['clubs'],
+      },
+      includeApplications: {
+        include: ['applications'],
+      },
+      trainers: {
+        where: { role: Role.Coach },
       },
     };
   }

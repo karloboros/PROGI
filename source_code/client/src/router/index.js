@@ -66,7 +66,7 @@ const routes = [
     component: CourseEdit,
   },
   {
-    path: '/lesson/create',
+    path: '/lesson/create/:courseId',
     name: 'LessonCreate',
     meta: { role: Role.ClubOwner || Role.Administrator },
     component: LessonCreate,

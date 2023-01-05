@@ -1,4 +1,4 @@
-import { edit, login, logout, register, remove, uploadProfileImage } from './user.controller';
+import { edit, fetchTrainers, login, logout, register, remove, uploadProfileImage } from './user.controller';
 import authenticate from 'shared/auth/authenticate';
 import multer from 'multer';
 import refresh from 'shared/auth/refresh';
@@ -26,6 +26,7 @@ router
   .use(authenticate)
   .use(refresh)
   .post('/edit', edit)
-  .delete('/', remove);
+  .delete('/', remove)
+  .get('/trainers', fetchTrainers);
 
 export default { router, path };

@@ -21,13 +21,11 @@
 </template>
 
 <script setup>
-import { authApi } from '@/api';
 import { computed } from '@vue/reactivity';
-import { defaultRoute } from '@/router';
+import { LessonApi } from '@/api';
 import { ref } from 'vue';
-import { useAuthStore } from '@/store';
 import { useMessage } from 'naive-ui';
-import { useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 import { validationRules } from '@/utils';
 
 const props = defineProps({
@@ -50,19 +48,15 @@ const rules = {
 
 const values = ref(props.initialValues);
 const formRef = ref(null);
+const route = useRoute();
 
 const message = useMessage();
-const router = useRouter();
-const authStore = useAuthStore();
 
 const submit = async () => {
   formRef.value?.validate(async errors => {
     if (!errors) {
       try {
-        const method = isCreateForm.value ? authApi.edit : authApi.register;
-        const user = await method({ ...values.value });
-        authStore.setUser(user);
-        if (!isCreateForm.value) router.push(defaultRoute);
+        await LessonApi.create({ ...values.value, id: route.params.id });
         message.success('Success');
       } catch (err) {
         message.error(err.response.data.message);

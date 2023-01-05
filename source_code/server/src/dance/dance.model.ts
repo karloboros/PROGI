@@ -1,5 +1,6 @@
 import { IFields, IModels } from 'shared/database/types';
 import { IDance } from './types';
+import { IEvent } from 'event/types';
 import { Model } from 'sequelize';
 
 class DanceModel extends Model implements IDance {
@@ -8,6 +9,7 @@ class DanceModel extends Model implements IDance {
   description!: string;
   image!: string;
   videoUrl!: string;
+  events?: IEvent[];
 
   static fields({ INTEGER, STRING, TEXT }: IFields) {
     return {
@@ -33,6 +35,16 @@ class DanceModel extends Model implements IDance {
         type: STRING,
         allowNull: false,
       },
+    };
+  }
+
+  get profile() {
+    return {
+      id: this.id,
+      name: this.name,
+      videoUrl: this.videoUrl,
+      image: this.image,
+      description: this.description,
     };
   }
 
