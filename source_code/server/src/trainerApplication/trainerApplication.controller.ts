@@ -1,55 +1,59 @@
+import { BAD_REQUEST, CONFLICT, FORBIDDEN, OK } from 'http-status';
+import { NextFunction, Request, Response } from 'express';
+import { ApprovalStatus } from 'club/types';
 import errorMessages from 'shared/constants/errorMessages';
 import HttpError from 'shared/error/httpError';
-// eslint-disable-next-line sort-imports
-import { BAD_REQUEST, CONFLICT, FORBIDDEN } from 'http-status';
-import { NextFunction, Request, Response } from 'express';
 import { TrainerApplication } from 'shared/database';
-import { UniqueConstraintError } from 'sequelize';
 
-const sendApplication = async (req: Request, res: Response) => {
-  if (req.body.motivationalLetter && req.body.certificate) {
-    try {
-      const application = {
-        motivationalLetter: req.body.motivationalLetter,
-        certificate: req.body.certificate,
-        status: 0,
-        trainerId: req.params.userId,
-        clubId: req.params.clubId,
-      };
-      TrainerApplication.create(application);
-      return res.status(200).json({ ...application });
-    } catch {
-      return res.status(CONFLICT);
-    }
-  } else return res.status(CONFLICT);
-};
-
-const acceptApplication = async (req: Request, res: Response, next: NextFunction) => {
+const send = async (req: Request, res: Response, next: NextFunction) => {
+  const { motivationalLetter, certificate } = req.body;
+  const { userId, clubId } = req.params;
+  if (!(motivationalLetter || certificate)) {
+    return res.status(BAD_REQUEST);
+  }
   try {
-    const application = await TrainerApplication.findOne({ where: { id: req.params.id } });
-    if (!application) return next(new HttpError(FORBIDDEN, errorMessages.FORBIDDEN));
-    application.status = 1;
-    await application.save();
-    return res.status(200).json({ ...application });
-  } catch (err) {
-    if (err instanceof UniqueConstraintError) {
-      return next(new HttpError(CONFLICT, errorMessages.UNIQUE));
-    }
+    const application = {
+      motivationalLetter,
+      certificate,
+      status: ApprovalStatus.Pending,
+      trainerId: userId,
+      clubId,
+    };
+    TrainerApplication.create(application);
+    return res.status(OK).send('Uspješno ste poslali prijavu!');
+  } catch {
+    return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
   }
 };
 
-const denyApplication = async (req: Request, res: Response, next: NextFunction) => {
+const updateStatus = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const application = await TrainerApplication.findOne({ where: { id: req.params.id } });
+    const { id, isApproved } = req.params;
+    const application = await TrainerApplication.findOne({ where: { id } });
     if (!application) return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
-    application.status = 2;
-    await application.save();
-    return res.status(200).json({ ...application });
-  } catch (err) {
-    if (err instanceof UniqueConstraintError) {
-      return next(new HttpError(CONFLICT, errorMessages.UNIQUE));
+    if (isApproved === '1') {
+      application.status = ApprovalStatus.Approved;
+    } else if (isApproved === '2') {
+      application.status = ApprovalStatus.Rejected;
+    } else {
+      return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
     }
+    await application.save();
+    return res.status(OK).send('Uspješno promijenjen status trenera!');
+  } catch (err) {
+    return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
   }
 };
 
-export { sendApplication, acceptApplication, denyApplication };
+const get = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const clubId = req.params.clubId;
+    const application = await TrainerApplication.findAll({ where: { clubId } });
+    if (!application) return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
+    return res.status(OK).json({ ...application });
+  } catch (err) {
+    return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
+  }
+};
+
+export { send, updateStatus, get };
