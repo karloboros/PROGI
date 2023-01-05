@@ -1,10 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import AddDance from '@/components/admin/AddDance.vue';
-import AddEvent from '@/components/clubOwner/AddEvent.vue';
 import ClubApproval from '@/components/admin/ClubApproval.vue';
-import DanceView from '@/components/admin/DanceView.vue';
+import DanceCreate from '@/components/admin/DanceCreate.vue';
+import DanceEdit from '@/components/admin/DanceEdit.vue';
+import DancesList from '@/components/admin/DancesList.vue';
+import EventCreate from '@/components/clubOwner/EventCreate.vue';
 import Home from '@/components/home/HomePage.vue';
-import ListDances from '@/components/admin/ListDances.vue';
 import ProfileView from '@/components/profile/ProfileView.vue';
 import { Role } from '@/constants';
 import { useAuthStore } from '@/store';
@@ -25,19 +25,19 @@ const routes = [
     path: '/dances/create',
     name: 'Add Dance',
     meta: { role: Role.Administrator },
-    component: AddDance,
+    component: DanceCreate,
   },
   {
     path: '/dances/all',
-    name: 'List dances',
+    name: 'List Dances',
     meta: { role: Role.Administrator },
-    component: ListDances,
+    component: DancesList,
   },
   {
     path: '/dances/edit/:id',
-    name: 'Edit dance',
+    name: 'Edit Dance',
     meta: { role: Role.Administrator },
-    component: DanceView,
+    component: DanceEdit,
   },
   {
     path: '/admin',
@@ -49,7 +49,7 @@ const routes = [
     path: '/events/create',
     name: 'Add Event',
     meta: { role: Role.ClubOwner },
-    component: AddEvent,
+    component: EventCreate,
   },
   {
     path: '/profile',

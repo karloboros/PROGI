@@ -4,7 +4,7 @@
       <template #header-extra>
         <n-button @click="confirm" type="error">Delete dance</n-button>
       </template>
-      <dance-add :initial-values="dance" />
+      <dance-create v-if="dance" :initial-values="dance" />
     </n-card>
   </n-space>
 </template>
@@ -12,8 +12,8 @@
 <script setup>
 import { onMounted, ref } from 'vue';
 import { useDialog, useMessage } from 'naive-ui';
-import DanceAdd from '@/components/admin/AddDance.vue';
 import { danceApi } from '@/api';
+import DanceCreate from '@/components/admin/DanceCreate.vue';
 import { useRoute } from 'vue-router';
 
 const message = useMessage();
@@ -22,12 +22,11 @@ const dialog = useDialog();
 const route = useRoute();
 const id = route.params.id;
 
-const dance = ref([]);
+const dance = ref(null);
 
 onMounted(async () => {
   const data = await danceApi.fetchById(id);
-  dance.value = { name: data.name, description: data.description, videoUrl: data.videoUrl, image: data.image };
-  console.log(dance.value);
+  dance.value = { ...data };
 });
 
 const confirm = () => {

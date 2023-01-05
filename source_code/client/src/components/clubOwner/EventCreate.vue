@@ -59,7 +59,6 @@ const rules = {
   address: required,
   description: required,
   club: required,
-  // dances: required,
   image: required,
 };
 const authStore = useAuthStore();

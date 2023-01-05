@@ -15,7 +15,7 @@ import { h, onMounted, ref } from 'vue';
 import { NButton, useMessage } from 'naive-ui';
 import { ApprovalStatus } from '@/constants';
 import { clubApi } from '@/api';
-import DancesList from '@/components/admin/ListDances.vue';
+import DancesList from '@/components/admin/DancesList.vue';
 
 const ApproveButton = club => {
   return h(

@@ -51,7 +51,7 @@ onMounted(async () => {
 
 const viewDanceDetails = id => {
   router.push({
-    name: 'Edit dance',
+    name: 'Edit Dance',
     params: { id },
   });
 };

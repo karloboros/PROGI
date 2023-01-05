@@ -46,6 +46,7 @@ const rules = {
   name: required,
   description: required,
   videoUrl: required,
+  image: required,
 };
 
 const values = ref(props.initialValues);
