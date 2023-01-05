@@ -1,12 +1,9 @@
+import { get, send, updateStatus } from './trainerApplication.controller';
 import { Router } from 'express';
-// eslint-disable-next-line sort-imports
-import { acceptApplication, denyApplication, sendApplication } from './trainerApplication.controller';
 
 const router = Router();
 const path = '/trainer-applications';
 
-router.post('/send-application/:userId/:clubId', sendApplication);
-router.get('/accept-application/:id', acceptApplication);
-router.get('/deny-application/:id', denyApplication);
+router.post('/send/:userId/:clubId', send).get('/update-status/:id/:isApproved', updateStatus).get('/get/:clubId', get);
 
 export default { router, path };
