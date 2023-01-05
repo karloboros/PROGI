@@ -5,15 +5,35 @@ import errorMessages from 'shared/constants/errorMessages';
 import HttpError from 'shared/error/httpError';
 import { UserCourse } from 'shared/database';
 
-const get = async (req: Request, res: Response, next: NextFunction) => {
+const getPending = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const courseId = req.params.courseId;
-    const candidates = await UserCourse.findAll({ where: { courseId } });
+    const candidates = await UserCourse.findAll({ where: { courseId, status: ApprovalStatus.Pending } });
     return res.status(OK).json({ ...candidates });
   } catch {
     return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
   }
 };
+
+const getApproved = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const courseId = req.params.courseId;
+    const candidates = await UserCourse.findAll({ where: { courseId, status: ApprovalStatus.Approved } });
+    return res.status(OK).json({ ...candidates });
+  } catch {
+    return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
+  }
+};
+const getRejected = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const courseId = req.params.courseId;
+    const candidates = await UserCourse.findAll({ where: { courseId, status: ApprovalStatus.Rejected } });
+    return res.status(OK).json({ ...candidates });
+  } catch {
+    return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
+  }
+};
+
 const updateStatus = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id, isApproved } = req.params;
@@ -33,7 +53,7 @@ const updateStatus = async (req: Request, res: Response, next: NextFunction) => 
   }
 };
 
-const getForClub = async (req: Request, res: Response, next: NextFunction) => {
+const getForUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const userId = req.params.userId;
     const applications = await UserCourse.findAll({ where: { userId } });
@@ -58,4 +78,4 @@ const send = async (req: Request, res: Response, next: NextFunction) => {
     return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
   }
 };
-export { get, getForClub, send, updateStatus };
+export { getPending, getApproved, getRejected, getForUser, send, updateStatus };

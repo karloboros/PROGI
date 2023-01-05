@@ -1,4 +1,4 @@
-import { BAD_REQUEST, CONFLICT, FORBIDDEN, OK } from 'http-status';
+import { BAD_REQUEST, OK } from 'http-status';
 import { NextFunction, Request, Response } from 'express';
 import { ApprovalStatus } from 'club/types';
 import errorMessages from 'shared/constants/errorMessages';
@@ -9,7 +9,7 @@ const send = async (req: Request, res: Response, next: NextFunction) => {
   const { motivationalLetter, certificate } = req.body;
   const { userId, clubId } = req.params;
   if (!(motivationalLetter || certificate)) {
-    return res.status(BAD_REQUEST, errorMessages.BAD_REQUEST);
+    return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
   }
   try {
     const application = {
@@ -45,10 +45,10 @@ const updateStatus = async (req: Request, res: Response, next: NextFunction) => 
   }
 };
 
-const get = async (req: Request, res: Response, next: NextFunction) => {
+const getPending = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const clubId = req.params.clubId;
-    const application = await TrainerApplication.findAll({ where: { clubId } });
+    const application = await TrainerApplication.findAll({ where: { clubId, status: ApprovalStatus.Pending } });
     if (!application) return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
     return res.status(OK).json({ ...application });
   } catch (err) {
@@ -56,4 +56,26 @@ const get = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-export { send, updateStatus, get };
+const getAccepted = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const clubId = req.params.clubId;
+    const application = await TrainerApplication.findAll({ where: { clubId, status: ApprovalStatus.Approved } });
+    if (!application) return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
+    return res.status(OK).json({ ...application });
+  } catch (err) {
+    return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
+  }
+};
+
+const getRejected = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const clubId = req.params.clubId;
+    const application = await TrainerApplication.findAll({ where: { clubId, status: ApprovalStatus.Rejected } });
+    if (!application) return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
+    return res.status(OK).json({ ...application });
+  } catch (err) {
+    return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
+  }
+};
+
+export { send, updateStatus, getPending, getAccepted, getRejected };
