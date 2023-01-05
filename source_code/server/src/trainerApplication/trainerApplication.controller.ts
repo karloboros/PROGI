@@ -9,7 +9,7 @@ const send = async (req: Request, res: Response, next: NextFunction) => {
   const { motivationalLetter, certificate } = req.body;
   const { userId, clubId } = req.params;
   if (!(motivationalLetter || certificate)) {
-    return res.status(BAD_REQUEST);
+    return res.status(BAD_REQUEST, errorMessages.BAD_REQUEST);
   }
   try {
     const application = {
