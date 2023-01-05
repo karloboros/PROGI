@@ -45,37 +45,28 @@ const updateStatus = async (req: Request, res: Response, next: NextFunction) => 
   }
 };
 
-const getPending = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const clubId = req.params.clubId;
-    const application = await TrainerApplication.findAll({ where: { clubId, status: ApprovalStatus.Pending } });
-    if (!application) return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
-    return res.status(OK).json({ ...application });
-  } catch (err) {
-    return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
-  }
+const getPending = async (req: Request, res: Response) => {
+  const clubId = req.params.clubId;
+  const pendingApplications = await TrainerApplication.scope(['pending', 'includeTrainer']).findAll({
+    where: { clubId },
+  });
+  return res.send(pendingApplications);
 };
 
-const getAccepted = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const clubId = req.params.clubId;
-    const application = await TrainerApplication.findAll({ where: { clubId, status: ApprovalStatus.Approved } });
-    if (!application) return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
-    return res.status(OK).json({ ...application });
-  } catch (err) {
-    return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
-  }
+const getAccepted = async (req: Request, res: Response) => {
+  const clubId = req.params.clubId;
+  const acceptedApplications = await TrainerApplication.scope(['accepted', 'includeTrainer']).findAll({
+    where: { clubId },
+  });
+  return res.send(acceptedApplications);
 };
 
-const getRejected = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const clubId = req.params.clubId;
-    const application = await TrainerApplication.findAll({ where: { clubId, status: ApprovalStatus.Rejected } });
-    if (!application) return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
-    return res.status(OK).json({ ...application });
-  } catch (err) {
-    return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
-  }
+const getRejected = async (req: Request, res: Response) => {
+  const clubId = req.params.clubId;
+  const rejectedApplications = await TrainerApplication.scope(['rejected', 'includeTrainer']).findAll({
+    where: { clubId },
+  });
+  return res.send(rejectedApplications);
 };
 
 export { send, updateStatus, getPending, getAccepted, getRejected };

@@ -51,6 +51,23 @@ class TrainerApplicationModel extends Model implements ITrainerApplication {
     });
   }
 
+  static scopes() {
+    return {
+      includeTrainer: {
+        include: ['trainer'],
+      },
+      pending: {
+        where: { status: ApprovalStatus.Pending },
+      },
+      accepted: {
+        where: { status: ApprovalStatus.Approved },
+      },
+      rejected: {
+        where: { status: ApprovalStatus.Rejected },
+      },
+    };
+  }
+
   static dbOptions() {
     return {
       modelName: 'trainerApplication',
