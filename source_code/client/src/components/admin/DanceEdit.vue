@@ -20,13 +20,12 @@ const message = useMessage();
 const dialog = useDialog();
 
 const route = useRoute();
-const id = route.params.id;
+const { id } = route.params;
 
 const dance = ref(null);
 
 onMounted(async () => {
-  const data = await danceApi.fetchById(id);
-  dance.value = { ...data };
+  dance.value = await danceApi.fetchById(id);
 });
 
 const confirm = () => {

@@ -12,7 +12,7 @@
           <ples-file-upload @update="update" @error="error" accept="image/png, image/jpeg" :api="eventapi" />
         </n-form-item>
         <n-form-item label="Club" path="club">
-          <n-select v-model:value="values.club" :options="clubs" :loading="loading" placeholder="Club..." />
+          <n-select v-model:value="values.clubName" :options="clubs" :loading="loading" placeholder="Club..." />
         </n-form-item>
         <n-form-item label="Address" path="address">
           <n-input v-model:value="values.address" placeholder="Address..." />
@@ -20,7 +20,7 @@
         <n-form-item label="Dances" path="dances">
           <n-select
             v-model:value="values.dances"
-            :options="dancesOp"
+            :options="dances"
             :loading="loading"
             multiple
             placeholder="Dance..."
@@ -48,7 +48,7 @@ const initialValues = {
   name: '',
   address: '',
   description: '',
-  club: null,
+  clubName: null,
   image: '',
   dances: [],
 };
@@ -58,7 +58,7 @@ const rules = {
   name: required,
   address: required,
   description: required,
-  club: required,
+  clubName: required,
   image: required,
 };
 const authStore = useAuthStore();
@@ -66,25 +66,25 @@ const authStore = useAuthStore();
 const user = ref({ ...authStore.user });
 
 const loading = ref(true);
-const dancesOp = ref([]);
+const dances = ref([]);
 const clubs = ref([]);
 const eventapi = eventApi.upload;
 
 onMounted(async () => {
-  dancesOp.value = await danceApi.fetchAll();
-  dancesOp.value = dancesOp.value.map(v => ({
-    label: v.name,
-    value: v.id,
+  const dancesData = await danceApi.fetchAll();
+  dances.value = dancesData.map(({ id, name }) => ({
+    value: id,
+    label: name,
   }));
 
-  clubs.value = await clubApi.fetchApproved();
-  clubs.value = clubs.value
-    .map(club => ({ ...club }))
-    .filter(club => club.ownerId === user.value.id)
-    .map(c => ({
-      label: c.name,
-      value: c.name,
-    }));
+  const clubsData = await clubApi.fetchApproved();
+  clubs.value = clubsData.map(
+    ({ name, ownerId }) =>
+      ownerId === user.value.id && {
+        label: name,
+        value: name,
+      },
+  );
 
   loading.value = false;
 });

@@ -1,6 +1,6 @@
 <template>
   <n-space vertical size="large">
-    <input ref="file" @change="upload" class="d-none" type="file" :accept="props.accept" :api="api" />
+    <input ref="file" @change="upload" class="d-none" type="file" :accept="props.accept" />
     <n-space align="center">
       <n-button @click="file.click()">Upload</n-button>
       <n-text :type="fileTypeColor">{{ fileName }}</n-text>
@@ -28,7 +28,7 @@ const isLoading = ref(false);
 
 const fileTypeColor = computed(() => (error.value && !isLoading.value ? 'error' : ''));
 
-const upload = async params => {
+const upload = async () => {
   isLoading.value = true;
   error.value = false;
 

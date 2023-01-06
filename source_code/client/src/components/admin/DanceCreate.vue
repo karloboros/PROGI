@@ -54,9 +54,9 @@ const values = ref(props.initialValues);
 const formRef = ref(null);
 const route = useRoute();
 const message = useMessage();
-const { id } = route.params;
 
 const submit = async () => {
+  const { id } = route.params;
   formRef.value?.validate(async errors => {
     if (!errors) {
       try {
