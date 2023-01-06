@@ -1,12 +1,15 @@
 import { create, uploadEventImage } from './event.controller';
 import authenticate from 'shared/auth/authenticate';
+import fs from 'fs';
 import multer from 'multer';
 import refresh from 'shared/auth/refresh';
 import { Router } from 'express';
 
 const storage = multer.diskStorage({
   destination: (_req, _file, cb) => {
-    cb(null, '.tmp/images/events');
+    const filePath = '.tmp/images/events';
+    fs.mkdirSync(filePath, { recursive: true });
+    cb(null, filePath);
   },
   filename: (_req, file, cb) => {
     cb(null, Date.now() + '_' + file.originalname);
