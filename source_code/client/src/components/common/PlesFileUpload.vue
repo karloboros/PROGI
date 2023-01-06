@@ -1,6 +1,6 @@
 <template>
   <n-space vertical size="large">
-    <input ref="file" @change="upload" class="d-none" type="file" :accept="props.accept" />
+    <input ref="file" @change="upload" class="d-none" type="file" :accept="props.accept" :api="api" />
     <n-space align="center">
       <n-button @click="file.click()">Upload</n-button>
       <n-text :type="fileTypeColor">{{ fileName }}</n-text>
@@ -10,16 +10,15 @@
 </template>
 
 <script setup>
-import { authApi, danceApi, eventApi } from '@/api';
+import { authApi } from '@/api';
 import { computed } from '@vue/reactivity';
 import { ref } from 'vue';
-import { useRoute } from 'vue-router';
 
 const emit = defineEmits(['update', 'error']);
 const props = defineProps({
   accept: { type: String, default: '' },
+  api: { type: Function, default: authApi.upload },
 });
-const route = useRoute();
 
 const file = ref(null);
 const fileName = ref(null);
@@ -29,7 +28,7 @@ const isLoading = ref(false);
 
 const fileTypeColor = computed(() => (error.value && !isLoading.value ? 'error' : ''));
 
-const upload = async () => {
+const upload = async params => {
   isLoading.value = true;
   error.value = false;
 
@@ -38,19 +37,9 @@ const upload = async () => {
   formData.append('file', file.value.files[0]);
 
   try {
-    if (route.name.includes('Event')) {
-      const { path } = await eventApi.upload(formData);
-      filePath.value = path;
-      emit('update', path);
-    } else if (route.name.includes('Dance')) {
-      const { path } = await danceApi.upload(formData);
-      filePath.value = path;
-      emit('update', path);
-    } else {
-      const { path } = await authApi.upload(formData);
-      filePath.value = path;
-      emit('update', path);
-    }
+    const { path } = await props.api(formData);
+    filePath.value = path;
+    emit('update', path);
   } catch (err) {
     error.value = true;
     emit('error', err.response.data.message);

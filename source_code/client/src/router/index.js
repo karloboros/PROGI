@@ -23,19 +23,19 @@ const routes = [
   },
   {
     path: '/dances/create',
-    name: 'Add Dance',
+    name: 'AddDance',
     meta: { role: Role.Administrator },
     component: DanceCreate,
   },
   {
     path: '/dances/all',
-    name: 'List Dances',
+    name: 'ListDances',
     meta: { role: Role.Administrator },
     component: DancesList,
   },
   {
     path: '/dances/edit/:id',
-    name: 'Edit Dance',
+    name: 'EditDance',
     meta: { role: Role.Administrator },
     component: DanceEdit,
   },
@@ -47,7 +47,7 @@ const routes = [
   },
   {
     path: '/events/create',
-    name: 'Add Event',
+    name: 'AddEvent',
     meta: { role: Role.ClubOwner },
     component: EventCreate,
   },
