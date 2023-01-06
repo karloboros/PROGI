@@ -4,6 +4,7 @@ import sequelize, { Club, Location, User } from 'shared/database';
 import { ApprovalStatus } from './types';
 import errorMessages from 'shared/constants/errorMessages';
 import HttpError from 'shared/error/httpError';
+import { Role } from 'user/types';
 import { UniqueConstraintError } from 'sequelize';
 
 const create = async (req: Request, res: Response, next: NextFunction) => {
@@ -19,18 +20,14 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
       locationId: location.id,
     };
     const club = await Club.create(newClub, { transaction });
-    await transaction.commit();
-
+    
     const user = await User.findByPk(req.user.id);
     if (!user) return next(new HttpError(NOT_FOUND, errorMessages.NOT_FOUND));
-    try {
-      user.role = 1;
-      user.save();
-      return res.sendStatus(OK);
-    } catch {
-      return next();
-    }
+    
+    user.role = Role.ClubOwner;
+    user.save();
 
+    await transaction.commit();
     return res.status(OK).json(club);
   } catch (err) {
     await transaction.rollback();
@@ -42,13 +39,13 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-const fetchPending = async (req: Request, res: Response) => {
+const fetchPending = async (_req: Request, res: Response) => {
   const pendingClubs = await Club.scope(['pending', 'includeOwner', 'includeLocation']).findAll();
   return res.send(pendingClubs);
 };
 
-const fetchAll = async (req: Request, res: Response) => {
-  const clubs = await Club.scope(['includeOwner']).findAll();
+const fetchApproved = async (_req: Request, res: Response) => {
+  const clubs = await Club.scope(['approved', 'includeOwner']).findAll();
   return res.send(clubs);
 };
 
@@ -69,4 +66,4 @@ const updateApprovalStatus = async (req: Request, res: Response, next: NextFunct
   }
 };
 
-export { create, fetchAll, fetchPending, updateApprovalStatus };
+export { create, fetchApproved, fetchPending, updateApprovalStatus };
