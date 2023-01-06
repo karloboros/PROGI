@@ -16,11 +16,6 @@
         <n-a @click="$emit('swap')" quaternary>Click here to register</n-a>
       </n-p>
     </n-form-item>
-    <n-form-item label="Select how you want to see dances on map: " path="filter">
-      <n-space vertical>
-        <n-select v-for="filter in values.filters" :key="filter.key" v-model:value="filter.name"></n-select>
-      </n-space>
-    </n-form-item>
     <n-form-item>
       <div id="app" class="container mt-3 mt-sm-5">
         <div class="row">
@@ -29,15 +24,18 @@
           >
             <div id="map" class="map"></div>
           </div>
+          <div class="col-md-3">
+            <h5>Filtriraj događaje po klubovima:</h5>
+            <div v-for="club in clubs" :key="club.id" class="form-check">
+              <label class="form-check-label">
+                <input v-model="club.active" @change="layerChanged(club)" class="form-check-input" type="checkbox" />
+                {{ club.name }} {{ club.id }}
+              </label>
+            </div>
+          </div>
         </div>
       </div>
     </n-form-item>
-    <n-form-item>
-      <n-space vertical>
-        <n-li v-for="event in values.events" :key="event.id" v-model:value="event.name"></n-li>
-      </n-space>
-    </n-form-item>
-    {{ events }}
   </n-form>
 </template>
 
@@ -54,20 +52,15 @@ import { useMessage } from 'naive-ui';
 import { useRouter } from 'vue-router';
 import validationRules from '@/utils/rules';
 
+const events = ref([]);
+const eventsToMap = L.layerGroup();
+const eventsToChangeDisplay = ref([]);
+const clubs = ref([]);
 const map = ref(null);
-
-const initMap = () => {
-  map.value = L.map('map').setView(view, 12);
-  L.tileLayer(mapBackground, { attribution }).addTo(map.value);
-};
 
 const initialValues = {
   username: '',
   password: '',
-  filters: [
-    { name: 'Clubs', key: '1' },
-    { name: 'Type of Dance', key: '2' },
-  ],
 };
 
 const { required } = validationRules;
@@ -83,24 +76,134 @@ const message = useMessage();
 const router = useRouter();
 const authStore = useAuthStore();
 
-const events = ref([]);
-const eventsToMap = L.layerGroup();
+// const overlays = ref([]);
+// const overlaysTree = L.layerTree();
+// const layer = ref(null);
+
+const initMap = () => {
+  map.value = L.map('map').setView(view, 12);
+  L.tileLayer(mapBackground, { attribution }).addTo(map.value);
+};
+
+const layerChanged = club => {
+  console.log(club);
+  console.log(club.name);
+  console.log(club.id);
+
+  events.value.forEach(event => {
+    if (event.clubId === club.id) {
+      eventsToChangeDisplay.value.push(event.value);
+      console.log(event.value);
+    }
+  });
+
+  console.log(eventsToChangeDisplay.value);
+  eventsToChangeDisplay.value.forEach(event => {
+    const coords = event.coordinates.split(',');
+    const x = Number(coords[0]);
+    const y = Number(coords[1]);
+
+    if (event.active) {
+      event.active = false;
+      eventsToMap.eachLayer(layer => {
+        if (layer._latlng.lat === x && layer._latlng.lng === y) eventsToMap.removeLayer(layer._leaflet_id);
+      });
+      // eventsToMap.addLayer(L.marker(L.latLng(x, y)).bindPopup(`${event.name}`));
+    } else {
+      console.log('IZ NEAKTIVNO U AKTIVNO');
+      event.active = true;
+
+      // console.log(eventsToMap.getLayers());
+      // eventsToMap._layers.forEach(layer => {
+      // if (layer._latlng.lat === x && layer._latlng.lng === y)
+      eventsToMap.addLayer(L.marker(L.latLng(x, y)).bindPopup(`${event.name}`));
+      // });
+      console.log(eventsToMap);
+    }
+    map.value.addLayer(eventsToMap);
+  });
+  // eslint-disable-next-line no-const-assign
+  eventsToChangeDisplay.value.forEach(el => {
+    eventsToChangeDisplay.value.pop(el.value);
+  });
+};
 
 onMounted(async () => {
-  initMap();
+  initMap(); //
   const data = await authApi.fetchEventLocation();
   for (const event of data) {
-    // eslint-disable-next-line prettier/prettier
-    event.value = { name: event.name, description: event.description, image: event.image, clubId: event.clubId, locationId: event.locationId, location: event.location, locationName: event.location.name, coordinates: event.location.coordinates };
+    event.value = {
+      name: event.name,
+      description: event.description,
+      clubId: event.clubId,
+      club: event.club,
+      clubName: event.club.name,
+      locationId: event.locationId,
+      location: event.location,
+      locationName: event.location.name,
+      coordinates: event.location.coordinates,
+      active: true,
+    };
+
+    let find = false;
+    clubs.value.forEach(c => {
+      if (c.id === event.clubId) {
+        find = true;
+      }
+    });
+
+    if (!find) {
+      clubs.value.push({
+        id: event.clubId,
+        name: event.club.name,
+        active: true,
+      });
+    }
+
     console.log(event.value);
     events.value.push(event);
     const coords = event.value.coordinates.split(',');
     const x = Number(coords[0]);
     const y = Number(coords[1]);
-    eventsToMap.addLayer(L.marker(L.latLng(x, y)).bindPopup(event.value.locationName));
+    eventsToMap.addLayer(L.marker(L.latLng(x, y)).bindPopup(`${event.value.name}`));
+
+    /* layer.value = {
+      label: event.value.name,
+      layer: L.marker(L.latLng(x, y)).bindPopup(event.value.locationName),
+    }; */
+    // overlaysTree.value.children.push(layer.value);
   }
   console.log(eventsToMap);
+  console.log(eventsToMap.getLayers());
   map.value.addLayer(eventsToMap);
+  // console.log(overlaysTree);
+  // console.log(overlaysTree.value.children);
+  // eventsToMap.layers.addTo(overlaysTree.value.children); //
+  /* clubs.value = {
+    label: 'Clubs',
+    selectAllCheckbox: false,
+    layer: eventsToMap,
+  }; */
+  // map.value.addLayer(overlaysTree);
+  /* overlays.value = {
+    'All events ': eventsToMap,
+  }; */
+  // console.log(clubs.value.label === 'Clubs');
+
+  /* const layerControl = L.control.layers.tree(null, overlaysTree, {
+    namedToggle: true,
+    selectorBack: false,
+    closedSymbol: '&#8862; &#x1f5c0;',
+    openedSymbol: '&#8863; &#x1f5c1;',
+    collapseAll: 'Collapse all',
+    expandAll: 'Expand all',
+    collapsed: false,
+  });
+  // console.log(layerControl.value.includes('All events'));
+  map.value.addControl(layerControl);
+  layerControl.addOverlay(clubs.value.layer, clubs.value.label, true);
+  // layerControl.value.addOverlay(eventsToMap, 'all Events');
+  */
 });
 
 const submit = async () => {
