@@ -7,8 +7,9 @@ import HttpError from 'shared/error/httpError';
 const create = async (req: Request, res: Response, next: NextFunction) => {
   const transaction = await sequelize.transaction();
   try {
-    const { name, description, image, address, dances } = req.body;
-    const clubName = req.body.club;
+    const { name, description, image, clubName, address, dances } = req.body;
+
+    if (!dances) return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
 
     const club = await Club.findOne({ where: { name: clubName } });
     if (!club) return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
@@ -25,10 +26,8 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
     };
     const event = await Event.create(newEvent, { transaction });
 
-    if (!dances) return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
-
-    const eventDances = dances.map((d: number) => ({
-      danceId: d,
+    const eventDances = dances.map((danceId: number) => ({
+      danceId,
       eventId: event.id,
     }));
 

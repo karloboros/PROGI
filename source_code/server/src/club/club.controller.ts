@@ -11,7 +11,9 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
   const transaction = await sequelize.transaction();
   try {
     const { address } = req.body;
-    const location = await Location.create({ name: address }, { transaction });
+
+    let location = await Location.findOne({ where: { name: address } });
+    if (!location) location = await Location.create({ name: address }, { transaction });
 
     const newClub = {
       ...req.body,
