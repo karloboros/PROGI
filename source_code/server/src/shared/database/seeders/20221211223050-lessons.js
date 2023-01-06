@@ -1,6 +1,6 @@
 const TABLE_NAME = 'lessons';
 
-const createCourse = index => {
+const createCourse = () => {
   return {
     startTime: new Date('2023'),
     endTime: new Date('2024'),
