@@ -7,6 +7,7 @@ const errorMessages = {
   UNIQUE: 'Values already in use, try different ones.',
   NOT_FOUND: 'Cannot find the resource, try refreshing the page.',
   CLUB_OWNER_DELETE: 'As a club owner you need delete your club first to delete your account.',
+  EVENT_DANCE_DELETE: 'As this dance is danced on events, you need to delete events first.',
 };
 
 export default errorMessages;
