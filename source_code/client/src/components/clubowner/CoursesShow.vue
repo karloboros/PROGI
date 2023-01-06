@@ -21,7 +21,7 @@ const EditButton = course => {
       secondary: true,
       type: 'primary',
       size: 'small',
-      onClick: () => viewCourseDetails(course.id),
+      onClick: () => viewCourses(course.id),
     },
     { default: () => 'Edit course' },
   );
@@ -34,7 +34,7 @@ const ShowButton = course => {
       secondary: true,
       type: 'info',
       size: 'small',
-      onClick: () => viewLessonDetails(course.id),
+      onClick: () => viewLessons(course.id),
     },
     { default: () => 'See lessons' },
   );
@@ -73,14 +73,14 @@ onMounted(async () => {
   }));
 });
 
-const viewCourseDetails = id => {
+const viewCourses = id => {
   router.push({
     name: 'CourseEdit',
     params: { id },
   });
 };
 
-const viewLessonDetails = id => {
+const viewLessons = id => {
   router.push({
     name: 'Lessons',
     params: { id },

@@ -12,9 +12,9 @@ router
   .use(refresh)
   .get('/all', fetchAll)
   .get('/:id', fetchById)
-  .get('/test/:clubId', fetchByClub)
+  .get('/byClub/:clubId', fetchByClub)
   .post('/create', create)
-  .post('/edit', edit)
+  .post('/edit/:id', edit)
   .delete('/remove/:id', remove);
 
 export default { router, path };

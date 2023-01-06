@@ -10,7 +10,7 @@ const urls = {
     return `${urls.root}/${id}`;
   },
   fetchByClub(clubId) {
-    return `${urls.root}/test/${clubId}`;
+    return `${urls.root}/byClub/${clubId}`;
   },
   get create() {
     return this.root + '/create';
@@ -45,10 +45,10 @@ const remove = id => {
 };
 
 export default {
-  create,
   fetchAll,
-  remove,
-  edit,
-  fetchByClub,
   fetchById,
+  fetchByClub,
+  create,
+  edit,
+  remove,
 };

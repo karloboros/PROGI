@@ -111,9 +111,6 @@ class CourseModel extends Model implements ICourse {
       includeLocation: {
         include: ['location'],
       },
-      includeTrainer: {
-        include: ['trainer'],
-      },
       includeLesson: {
         include: ['lessons'],
       },

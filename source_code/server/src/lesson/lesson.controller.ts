@@ -1,32 +1,18 @@
 import { BAD_REQUEST, CONFLICT, CREATED, FORBIDDEN, OK } from 'http-status';
 import { NextFunction, Request, Response } from 'express';
-import sequelize, { Course, Lesson } from 'shared/database';
+import sequelize, { Lesson } from 'shared/database';
 import errorMessages from 'shared/constants/errorMessages';
 import HttpError from 'shared/error/httpError';
 import { UniqueConstraintError } from 'sequelize';
 
-const test = async (req: Request, res: Response) => {
-  const lessons = await Lesson.findAll();
-  return res.send(lessons);
-};
-const fetchAll = async (req: Request, res: Response) => {
-  const { courseId } = JSON.parse(req.params.courseId);
-  const lessons = await Course.scope('includeLesson').findByPk(courseId);
-  return res.send(lessons);
-};
 const create = async (req: Request, res: Response, next: NextFunction) => {
-  const transaction = await sequelize.transaction();
   try {
-    console.log(req.body);
     const newLesson = {
       ...req.body,
     };
-    const lesson = await Lesson.create(newLesson, { transaction });
-    await transaction.commit();
+    const lesson = await Lesson.create(newLesson);
     return res.status(OK).json(lesson);
   } catch (err) {
-    await transaction.rollback();
-
     if (err instanceof UniqueConstraintError) {
       return next(new HttpError(CONFLICT, errorMessages.LESSON_CREATE));
     }
@@ -35,14 +21,13 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
 };
 const edit = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const lesson = req.body;
-    const { lessonId } = JSON.parse(req.params.id);
-    const lessonToEdit = await Lesson.findByPk(lessonId);
+    const lesson = { ...req.body };
+    const { id } = req.params;
+    const lessonToEdit = await Lesson.findByPk(id);
     if (!lessonToEdit) return next(new HttpError(FORBIDDEN, errorMessages.FORBIDDEN));
 
     lessonToEdit.startTime = lesson.startTime;
     lessonToEdit.endTime = lesson.endTime;
-    // mogu li se uređivati svi ti parameti ili ipak ne?
 
     await lessonToEdit.save();
     return res.status(CREATED).json({ ...lessonToEdit });
@@ -54,10 +39,9 @@ const edit = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 const remove = async (req: Request, res: Response, next: NextFunction) => {
-  const { lessonId } = JSON.parse(req.params.id);
+  const { id } = req.params;
   try {
-    // edit with scope
-    const lessonToRemove = await Lesson.findByPk(lessonId);
+    const lessonToRemove = await Lesson.findByPk(id);
     if (!lessonToRemove) return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
     await lessonToRemove.destroy();
     res.status(OK).send();
@@ -66,4 +50,4 @@ const remove = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-export { test, create, edit, remove, fetchAll };
+export { create, edit, remove };

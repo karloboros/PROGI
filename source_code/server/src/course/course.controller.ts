@@ -21,7 +21,6 @@ const fetchByClub = async (req: Request, res: Response) => {
       clubId: club,
     },
   });
-  console.log(courses);
   return res.send(courses);
 };
 
@@ -31,12 +30,11 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
     const data = {
       ...req.body,
     };
-    console.log(data);
-    const dance = await Dance.findOne({ where: { name: data.dance } });
+    const dance = await Dance.findOne({ where: { id: data.dance } });
     if (!dance) return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
 
     const trainer = await User.scope(['trainers']).findOne({
-      where: { fullname: data.trainer },
+      where: { id: data.trainer },
     });
     if (!trainer) return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
 
@@ -65,8 +63,8 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
 const edit = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const course = { ...req.body };
-    console.log(course);
-    const courseToEdit = await Course.findByPk(course.id);
+    const { id } = req.params;
+    const courseToEdit = await Course.findByPk(id);
     if (!courseToEdit) return next(new HttpError(FORBIDDEN, errorMessages.FORBIDDEN));
 
     courseToEdit.name = course.name;
@@ -77,11 +75,9 @@ const edit = async (req: Request, res: Response, next: NextFunction) => {
     courseToEdit.gender = course.gender;
     courseToEdit.applicationDeadline = course.applicationDeadline;
     courseToEdit.additionalRules = course.additionalRules;
-    courseToEdit.danceId = course.dance.id;
-    courseToEdit.locationId = course.location.id;
-    courseToEdit.trainerId = course.trainer.id;
-
-    // mogu li se uređivati svi ti parameti ili ipak ne?
+    courseToEdit.danceId = course.danceId;
+    courseToEdit.locationId = course.locationId;
+    courseToEdit.trainerId = course.trainerId;
 
     await courseToEdit.save();
     return res.status(CREATED).json({ ...courseToEdit });
@@ -95,9 +91,8 @@ const edit = async (req: Request, res: Response, next: NextFunction) => {
 
 const remove = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const courseId = JSON.parse(req.params.id);
-    console.log(courseId);
-    const courseToRemove = await Course.scope('includeLesson').findByPk(courseId);
+    const { id } = req.params;
+    const courseToRemove = await Course.scope('includeLesson').findByPk(id);
     if (!courseToRemove) return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
     if (courseToRemove.lessons?.length) return next(new HttpError(CONFLICT, errorMessages.COURSE_DELETE));
 

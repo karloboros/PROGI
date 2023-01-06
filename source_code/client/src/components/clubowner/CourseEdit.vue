@@ -14,19 +14,21 @@ import { onMounted, ref } from 'vue';
 import { useDialog, useMessage } from 'naive-ui';
 import { courseApi } from '@/api';
 import CourseCreate from '@/components/clubowner/CourseCreate.vue';
+import { toDatePicker } from '@/utils';
 import { useRoute } from 'vue-router';
 
 const message = useMessage();
 const dialog = useDialog();
 
 const route = useRoute();
-const id = route.params.id;
+const { id } = route.params;
 
 const course = ref(null);
 
 onMounted(async () => {
-  course.value = await courseApi.fetchById(id);
-  console.log(course.value);
+  const courseData = await courseApi.fetchById(id);
+  console.log(courseData);
+  course.value = { ...courseData, applicationDeadline: toDatePicker(courseData.applicationDeadline) };
 });
 
 const confirm = () => {

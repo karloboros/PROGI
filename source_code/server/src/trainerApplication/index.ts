@@ -1,9 +1,9 @@
-import { fetchApproved, test } from './trainerApplication.controller';
 import { Router } from 'express';
+import { test } from './trainerApplication.controller';
 
 const router = Router();
 const path = '/trainer-applications';
 
-router.get('/test', test).get('/approved', fetchApproved);
+router.get('/test', test);
 
 export default { router, path };

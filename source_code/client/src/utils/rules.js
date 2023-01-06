@@ -38,7 +38,7 @@ const phoneNumberValidator = (_rule, value) => {
   return true;
 };
 const numberValidator = (_rule, value) => {
-  if (!/^\(?(\d)$/.test(value)) {
+  if (!/^\(?(\d+)$/.test(value)) {
     return new Error(WRONG_INT_MESSAGE);
   }
   return true;

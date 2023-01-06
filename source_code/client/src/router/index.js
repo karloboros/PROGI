@@ -48,7 +48,7 @@ const routes = [
     component: ClubsShow,
   },
   {
-    path: '/owner/courses/get/:clubId',
+    path: '/owner/courses/:clubId',
     name: 'Courses',
     meta: { role: Role.ClubOwner || Role.Administrator },
     component: CoursesShow,
