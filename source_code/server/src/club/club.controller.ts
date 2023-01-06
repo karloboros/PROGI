@@ -1,16 +1,19 @@
 import { BAD_REQUEST, CONFLICT, NOT_FOUND, OK } from 'http-status';
 import { NextFunction, Request, Response } from 'express';
-import sequelize, { Club, Location } from 'shared/database';
+import sequelize, { Club, Location, User } from 'shared/database';
 import { ApprovalStatus } from './types';
 import errorMessages from 'shared/constants/errorMessages';
 import HttpError from 'shared/error/httpError';
+import { Role } from 'user/types';
 import { UniqueConstraintError } from 'sequelize';
 
 const create = async (req: Request, res: Response, next: NextFunction) => {
   const transaction = await sequelize.transaction();
   try {
     const { address } = req.body;
-    const location = await Location.create({ name: address }, { transaction });
+
+    let location = await Location.findOne({ where: { name: address } });
+    if (!location) location = await Location.create({ name: address }, { transaction });
 
     const newClub = {
       ...req.body,
@@ -19,6 +22,11 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
       locationId: location.id,
     };
     const club = await Club.create(newClub, { transaction });
+    const user = await User.findByPk(req.user.id);
+    if (!user) return next(new HttpError(NOT_FOUND, errorMessages.NOT_FOUND));
+    user.role = Role.ClubOwner;
+    user.save();
+
     await transaction.commit();
     return res.status(OK).json(club);
   } catch (err) {
@@ -31,14 +39,20 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
+
 const fetchAll = async (req: Request, res: Response) => {
   const allClubs = await Club.findAll();
   return res.send(allClubs);
 };
 
-const fetchPending = async (req: Request, res: Response) => {
+const fetchPending = async (_req: Request, res: Response) => {
   const pendingClubs = await Club.scope(['pending', 'includeOwner', 'includeLocation']).findAll();
   return res.send(pendingClubs);
+};
+
+const fetchApproved = async (_req: Request, res: Response) => {
+  const clubs = await Club.scope(['approved', 'includeOwner']).findAll();
+  return res.send(clubs);
 };
 
 const updateApprovalStatus = async (req: Request, res: Response, next: NextFunction) => {
@@ -58,4 +72,6 @@ const updateApprovalStatus = async (req: Request, res: Response, next: NextFunct
   }
 };
 
-export { create, fetchAll, fetchPending, updateApprovalStatus };
+
+export { create, fetchAll, fetchApproved, fetchPending, updateApprovalStatus };
+

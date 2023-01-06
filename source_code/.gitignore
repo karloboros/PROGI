@@ -25,6 +25,4 @@ dist-ssr
 
 .env
 
-server/.tmp/*/*.jpg
-server/.tmp/*/*.jpeg
-server/.tmp/*/*.png
+server/.tmp/*

@@ -9,6 +9,7 @@ const WRONG_PHONE_FORMAT_MESSAGE = 'Wrong number format';
 const WRONG_INT_MESSAGE = 'Wrong int format';
 const WRONG_COORDINATES_MESSAGE =
   'Wrong coordinates format. Input two decimal numbers divided by comma. Example: 2.3456, 1.3456';
+const WRONG_URL_FORMAT_MESSAGE = 'Wrong url format';
 
 const emailValidator = (_rule, value) => {
   if (!value) {
@@ -53,6 +54,17 @@ const coordinatesValidator = (_rule, value) => {
   return true;
 };
 
+const urlValidator = (_rule, value) => {
+  if (!value) {
+    return new Error(REQUIRED_MESSAGE);
+  } else if (
+    !/^(http(s):\/\/.)[-a-zA-Z0-9@:%._\\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)$/g.test(value)
+  ) {
+    return new Error(WRONG_URL_FORMAT_MESSAGE);
+  }
+  return true;
+};
+
 const validationRules = {
   required: {
     required: true,
@@ -88,6 +100,11 @@ const validationRules = {
     required: true,
     validator: coordinatesValidator,
     trigger: ['blur', 'input'],
+  },
+  urlRequired: {
+    required: true,
+    validator: urlValidator,
+    trigger: ['blur'],
   },
 };
 

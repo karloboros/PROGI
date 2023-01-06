@@ -10,7 +10,7 @@ const errorMessages = {
   COURSE_CREATE: 'Unable to create club, try different credentials.',
   COURSE_DELETE: 'Before deleting course, you need to delete all course lessons',
   LESSON_CREATE: 'Unable to create lesson, try diffrent values',
-  EVENT_DANCE_DELETE: ' ...',
+  EVENT_DANCE_DELETE: 'As this dance is danced on events, you need to delete events first.',
 };
 
 export default errorMessages;
