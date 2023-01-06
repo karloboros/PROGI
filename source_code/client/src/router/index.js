@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import ClubApproval from '@/components/admin/ClubApproval.vue';
+import CreateApplication from '@/components/trainerApplication/CreateApplication.vue';
 import Home from '@/components/home/HomePage.vue';
 import PendingApplications from '@/components/trainerApplication/PendingApplications.vue';
 import ProfileView from '@/components/profile/ProfileView.vue';
@@ -32,6 +33,11 @@ const routes = [
     path: '/trainer-applications/get-pending/:clubId',
     name: 'PendingApplications',
     component: PendingApplications,
+  },
+  {
+    path: '/trainer-applications/send',
+    name: 'CreateApplication',
+    component: CreateApplication,
   },
   {
     path: '/:catchAll(.*)',
