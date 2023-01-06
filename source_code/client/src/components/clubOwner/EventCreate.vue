@@ -9,7 +9,7 @@
           <n-input v-model:value="values.description" type="textarea" placeholder="Description..." />
         </n-form-item>
         <n-form-item label="Event image" path="image">
-          <ples-file-upload @update="update" @error="error" accept="image/png, image/jpeg" />
+          <ples-file-upload @update="update" @error="error" accept="image/png, image/jpeg" :api="eventapi" />
         </n-form-item>
         <n-form-item label="Club" path="club">
           <n-select v-model:value="values.club" :options="clubs" :loading="loading" placeholder="Club..." />
@@ -68,15 +68,16 @@ const user = ref({ ...authStore.user });
 const loading = ref(true);
 const dancesOp = ref([]);
 const clubs = ref([]);
+const eventapi = eventApi.upload;
 
 onMounted(async () => {
   dancesOp.value = await danceApi.fetchAll();
   dancesOp.value = dancesOp.value.map(v => ({
     label: v.name,
-    value: v.name,
+    value: v.id,
   }));
 
-  clubs.value = await clubApi.fetchAll();
+  clubs.value = await clubApi.fetchApproved();
   clubs.value = clubs.value
     .map(club => ({ ...club }))
     .filter(club => club.ownerId === user.value.id)
