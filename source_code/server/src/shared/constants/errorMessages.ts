@@ -8,7 +8,6 @@ const errorMessages = {
   NOT_FOUND: 'Cannot find the resource, try refreshing the page.',
   CLUB_OWNER_DELETE: 'As a club owner you need delete your club first to delete your account.',
   EVENT_DANCE_DELETE: 'As this dance is danced on events, you need to delete events first.',
-  NOT_CLUB_OWNER: 'You have to be owner of the club to add event connected to that club.',
 };
 
 export default errorMessages;
