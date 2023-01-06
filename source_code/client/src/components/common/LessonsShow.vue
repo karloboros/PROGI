@@ -1,5 +1,5 @@
 <template>
-  <n-space class="club-approval" align="center" justify="center" item-style="width: 80%">
+  <n-space align="center" justify="center" item-style="width: 80%">
     <n-calendar
       v-model:value="value"
       @update:value="handleUpdateValue"

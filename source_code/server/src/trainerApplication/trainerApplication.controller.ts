@@ -7,9 +7,9 @@ const test = async (req: Request, res: Response) => {
 };
 
 const fetchApproved = async (req: Request, res: Response) => {
-  const approved = await TrainerApplication.scope(['approved', 'includeTrainer']).findAll();
-  console.log(approved);
-  return res.send(approved);
+  const trainers = await TrainerApplication.scope(['approved', 'includeTrainer']).findAll();
+  console.log(trainers);
+  return res.send(trainers);
 };
 
 export { test, fetchApproved };

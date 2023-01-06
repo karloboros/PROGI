@@ -13,8 +13,8 @@ router
   .get('/all', fetchAll)
   .get('/:id', fetchById)
   .get('/test/:clubId', fetchByClub)
-  .post('/create/:clubId', create)
-  .post('/edit/:id', edit)
+  .post('/create', create)
+  .post('/edit', edit)
   .delete('/remove/:id', remove);
 
 export default { router, path };

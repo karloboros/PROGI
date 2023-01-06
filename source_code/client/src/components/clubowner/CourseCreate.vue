@@ -1,5 +1,5 @@
 <template>
-  <n-space class="course-adding" align="center" justify="center" item-style="width: 80%">
+  <n-space align="center" justify="center" item-style="width: 80%">
     <n-form ref="formRef" @submit.prevent="submit" :model="values" :rules="rules">
       <n-form-item label="Name" path="name">
         <n-input v-model:value="values.name" placeholder="Name..." autofocus />
@@ -87,7 +87,8 @@ const props = defineProps({
 
 const isCreateForm = computed(() => !!props.initialValues.name);
 console.log(isCreateForm.value);
-const { required, dateRequired, number, coordinatesRequired } = validationRules;
+
+const { required, number, coordinatesRequired } = validationRules;
 const rules = {
   name: required,
   description: required,
@@ -95,10 +96,10 @@ const rules = {
   dance: required,
   address: required,
   coordinates: coordinatesRequired,
-  // trainer: required,
+  trainer: required,
   minAge: number,
   maxAge: number,
-  applicationDeadline: dateRequired,
+  applicationDeadline: required,
 };
 
 const dances = ref([]);
@@ -107,24 +108,22 @@ const message = useMessage();
 const route = useRoute();
 
 onMounted(async () => {
-  dances.value = await danceApi.fetchAll();
-  console.log(dances.value);
-  dances.value = dances.value.map(v => ({
-    label: v.name,
-    value: v.name,
+  const dancesData = await danceApi.fetchAll();
+  dances.value = dancesData.map(({ id, name }) => ({
+    value: id,
+    label: name,
   }));
 
-  trainers.value = await authApi.fetchTrainers();
-  console.log(trainers.value);
-  trainers.value = trainers.value.map(t => ({
-    label: t.fullname,
-    value: t.fullname,
-  }));
+  const trainersData = await authApi.fetchTrainers();
+  console.log(trainersData);
+  trainers.value = trainersData.map(({ id, fullname }) => ({
+    value: id,
+    label: fullname,
+  })); // treneri se ne prikazuju u formi, nije ih moguće izabrati
 });
 
 const values = ref(props.initialValues);
 const formRef = ref(null);
-console.log(route.params.id);
 const submit = async () => {
   formRef.value?.validate(async errors => {
     if (!errors) {

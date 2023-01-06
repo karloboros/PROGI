@@ -91,9 +91,9 @@ const uploadProfileImage = (req: Request, res: Response, next: NextFunction) => 
 };
 
 const fetchTrainers = async (req: Request, res: Response) => {
-  const approved = await User.scope(['trainers']).findAll();
-  console.log(approved);
-  return res.send(approved);
+  const trainers = await User.scope(['trainers']).findAll();
+  console.log(trainers);
+  return res.send(trainers);
 };
 
 export { login, register, logout, edit, remove, uploadProfileImage, fetchTrainers };

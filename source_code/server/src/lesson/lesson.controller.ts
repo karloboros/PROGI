@@ -17,13 +17,10 @@ const fetchAll = async (req: Request, res: Response) => {
 const create = async (req: Request, res: Response, next: NextFunction) => {
   const transaction = await sequelize.transaction();
   try {
-    const { course } = JSON.parse(req.params.courseId);
-    console.log(course);
+    console.log(req.body);
     const newLesson = {
       ...req.body,
-      courseId: course,
     };
-    console.log(newLesson);
     const lesson = await Lesson.create(newLesson, { transaction });
     await transaction.commit();
     return res.status(OK).json(lesson);

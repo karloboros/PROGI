@@ -8,7 +8,7 @@ const path = '/lessons';
 router
   .get('/test', test)
   .get('/all/:courseId', fetchAll)
-  .post('/create/:courseId', create)
+  .post('/create', create)
   .post('/edit/:id', edit)
   .delete('/remove/:id', remove);
 

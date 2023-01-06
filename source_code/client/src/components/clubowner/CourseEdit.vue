@@ -1,5 +1,5 @@
 <template>
-  <n-space class="course-adding" align="center" justify="center" item-style="width: 80%">
+  <n-space align="center" justify="center" item-style="width: 80%">
     <n-card title="Course" size="huge">
       <template #header-extra>
         <n-button @click="confirm" type="error">Delete course</n-button>
@@ -25,10 +25,7 @@ const id = route.params.id;
 const course = ref(null);
 
 onMounted(async () => {
-  const data = await courseApi.fetchById(id);
-  course.value = {
-    ...data,
-  };
+  course.value = await courseApi.fetchById(id);
   console.log(course.value);
 });
 
