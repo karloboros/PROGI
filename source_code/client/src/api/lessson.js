@@ -10,7 +10,7 @@ const urls = {
     return this.root + '/remove';
   },
   get fetchAll() {
-    return this.root + '/all';
+    return this.root;
   },
   get fetchById() {
     return this.root;
@@ -33,7 +33,7 @@ const fetchById = id => {
 };
 
 const fetchAll = courseId => {
-  return request.get(urls.fetchAll + `/${courseId}`, courseId).then(extractData);
+  return request.get(urls.fetchAll + `/${courseId}`).then(extractData);
 };
 const fetchByClub = clubId => {
   return request.get(urls.fetchByClub + `/${clubId}`, clubId).then(extractData);

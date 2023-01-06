@@ -31,7 +31,7 @@ const routes = [
     component: ClubApproval,
   },
   {
-    path: '/lessons/:id',
+    path: '/lessons/:courseId',
     name: 'Lessons',
     component: LessonsShow,
   },

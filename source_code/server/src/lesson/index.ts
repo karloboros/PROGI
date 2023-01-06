@@ -4,10 +4,9 @@ import { Router } from 'express';
 const router = Router();
 const path = '/lessons';
 
-// eslint-disable-next-line prettier/prettier
 router
   .get('/test', test)
-  .get('/all/:courseId', fetchAll)
+  .get('/:courseId', fetchAll)
   .post('/create/:courseId', create)
   .post('/edit/:id', edit)
   .delete('/remove/:id', remove);
