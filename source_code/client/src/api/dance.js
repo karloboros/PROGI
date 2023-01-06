@@ -3,24 +3,32 @@ import request, { request as customRequest } from './request';
 
 const urls = {
   root: '/dances',
-  get create() {
-    return this.root + '/create';
-  },
-  get remove() {
-    return this.root + '/remove';
-  },
   get fetchAll() {
     return this.root + '/all';
   },
-  get fetchById() {
-    return this.root;
+  fetchById(id) {
+    return `${urls.root}/${id}`;
+  },
+  get create() {
+    return this.root + '/create';
+  },
+  edit(id) {
+    return `${urls.root}/edit/${id}`;
+  },
+  remove(id) {
+    return `${urls.root}/remove/${id}`;
   },
   get upload() {
     return this.root + '/upload';
   },
-  get edit() {
-    return this.root + '/edit';
-  },
+};
+
+const fetchAll = () => {
+  return request.get(urls.fetchAll).then(extractData);
+};
+
+const fetchById = id => {
+  return request.get(urls.fetchById(id)).then(extractData);
 };
 
 const create = (params = {}) => {
@@ -28,30 +36,22 @@ const create = (params = {}) => {
 };
 
 const edit = (params = {}) => {
-  return request.post(urls.edit + `/${params.id}`, params).then(extractData);
-};
-
-const fetchById = id => {
-  return request.get(urls.fetchById + `/${id}`).then(extractData);
-};
-
-const fetchAll = () => {
-  return request.get(urls.fetchAll).then(extractData);
+  return request.post(urls.edit(params.id), params).then(extractData);
 };
 
 const remove = id => {
-  return request.delete(urls.remove + `/${id}`);
+  return request.delete(urls.remove(id));
 };
 
-const upload = params => {
+const upload = (params = {}) => {
   return customRequest(headers.fileUpload).post(urls.upload, params).then(extractData);
 };
 
 export default {
-  create,
   fetchAll,
-  remove,
-  edit,
-  upload,
   fetchById,
+  create,
+  edit,
+  remove,
+  upload,
 };

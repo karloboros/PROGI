@@ -14,7 +14,7 @@ const urls = {
 const create = (params = {}) => {
   return request.post(urls.create, params).then(extractData);
 };
-const upload = params => {
+const upload = (params = {}) => {
   return customRequest(headers.fileUpload).post(urls.upload, params).then(extractData);
 };
 
