@@ -1,5 +1,7 @@
 import { create, edit, fetchAll, fetchById, remove, uploadDanceImage } from './dance.controller';
+import authenticate from 'shared/auth/authenticate';
 import multer from 'multer';
+import refresh from 'shared/auth/refresh';
 import { Router } from 'express';
 
 const storage = multer.diskStorage({
@@ -17,11 +19,13 @@ const path = '/dances';
 const upload = multer({ storage });
 
 router
-  .post('/create', create)
+  .use(authenticate)
+  .use(refresh)
   .get('/all', fetchAll)
-  .post('/upload', upload.single('file'), uploadDanceImage)
+  .get('/:id', fetchById)
+  .post('/create', create)
   .post('/edit/:id', edit)
   .delete('/remove/:id', remove)
-  .get('/:id', fetchById);
-
+  .post('/upload', upload.single('file'), uploadDanceImage);
+  
 export default { router, path };
