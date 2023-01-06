@@ -10,7 +10,7 @@ const createCourse = () => {
 module.exports = {
   up(queryInterface) {
     const lessons = [];
-    for (let i = 1; i < 4; i++) lessons.push(createCourse(i));
+    for (let i = 1; i < 4; i++) lessons.push(createCourse());
     return queryInterface.bulkInsert(TABLE_NAME, lessons);
   },
 
