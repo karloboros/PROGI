@@ -24,7 +24,7 @@ import L from 'leaflet';
 
 const map = ref(null);
 const tileLayer = ref(null);
-const courses = ref(null);
+const courses = ref([]);
 const dances = ref([]);
 const coursesToMap = L.layerGroup();
 
@@ -32,7 +32,7 @@ const layerChanged = dance => {
   const coursesToChangeDisplay = courses.value.find(course => course.danceId === dance.id);
 
   console.log(coursesToChangeDisplay.value);
-  for (const course in coursesToChangeDisplay) {
+  for (const course in coursesToChangeDisplay.value) {
     if (course.active) {
       console.log(course.coordinates);
       const coords = course.coordinates.split(',');
