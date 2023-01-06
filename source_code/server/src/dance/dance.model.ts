@@ -1,6 +1,5 @@
 import { IFields, IModels } from 'shared/database/types';
 import { IDance } from './types';
-import { IEvent } from 'event/types';
 import { Model } from 'sequelize';
 
 class DanceModel extends Model implements IDance {

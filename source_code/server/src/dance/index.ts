@@ -27,5 +27,5 @@ router
   .post('/edit/:id', edit)
   .delete('/remove/:id', remove)
   .post('/upload', upload.single('file'), uploadDanceImage);
-  
+
 export default { router, path };

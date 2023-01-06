@@ -1,32 +1,30 @@
-import { BAD_REQUEST, CONFLICT, OK } from 'http-status';
+import { BAD_REQUEST, OK } from 'http-status';
 import { NextFunction, Request, Response } from 'express';
-import sequelize, { Club, Dance, Event, EventDance, Location } from 'shared/database';
+import sequelize, { Club, Event, EventDance, Location } from 'shared/database';
 import errorMessages from 'shared/constants/errorMessages';
 import HttpError from 'shared/error/httpError';
 
 const create = async (req: Request, res: Response, next: NextFunction) => {
   const transaction = await sequelize.transaction();
   try {
-
     const { name, description, image, address, dances } = req.body;
     const clubName = req.body.club;
 
-    const club = await Club.findOne({ where: { name: clubName} });
+    const club = await Club.findOne({ where: { name: clubName } });
     if (!club) return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
 
     let location = await Location.findOne({ where: { name: address } });
     if (!location) location = await Location.create({ name: address }, { transaction });
 
     const newEvent = {
-      name: name,
-      description: description,
-      image: image,
+      name,
+      description,
+      image,
       locationId: location.id,
       clubId: club.id,
     };
     const event = await Event.create(newEvent, { transaction });
-    
-  
+
     if (!dances) return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
 
     const eventDances = dances.map((d: number) => ({

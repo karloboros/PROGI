@@ -20,10 +20,8 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
       locationId: location.id,
     };
     const club = await Club.create(newClub, { transaction });
-    
     const user = await User.findByPk(req.user.id);
     if (!user) return next(new HttpError(NOT_FOUND, errorMessages.NOT_FOUND));
-    
     user.role = Role.ClubOwner;
     user.save();
 

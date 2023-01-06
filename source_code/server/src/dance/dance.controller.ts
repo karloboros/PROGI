@@ -1,6 +1,6 @@
 import { BAD_REQUEST, CONFLICT, CREATED, FORBIDDEN, OK } from 'http-status';
+import { Dance, EventDance } from 'shared/database';
 import { NextFunction, Request, Response } from 'express';
-import sequelize, { Dance, EventDance } from 'shared/database';
 import errorMessages from 'shared/constants/errorMessages';
 import HttpError from 'shared/error/httpError';
 import { UniqueConstraintError } from 'sequelize';
@@ -17,7 +17,7 @@ const fetchById = async (req: Request, res: Response) => {
 
 const create = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const newDance = {...req.body,};
+    const newDance = { ...req.body };
     const dance = await Dance.create(newDance);
     return res.status(OK).json(dance);
   } catch (err) {
@@ -74,4 +74,4 @@ const uploadDanceImage = (req: Request, res: Response, next: NextFunction) => {
   return res.status(OK).json({ path: `/images/dances/${file.filename}` });
 };
 
-export { fetchAll, fetchById , create, edit, remove, uploadDanceImage };
+export { fetchAll, fetchById, create, edit, remove, uploadDanceImage };
