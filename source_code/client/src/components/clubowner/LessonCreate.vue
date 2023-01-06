@@ -22,7 +22,7 @@
 
 <script setup>
 import { computed } from '@vue/reactivity';
-import { LessonApi } from '@/api';
+import { lessonApi } from '@/api';
 import { ref } from 'vue';
 import { useMessage } from 'naive-ui';
 import { useRoute } from 'vue-router';
@@ -56,7 +56,7 @@ const submit = async () => {
   formRef.value?.validate(async errors => {
     if (!errors) {
       try {
-        await LessonApi.create({ ...values.value, id: route.params.id });
+        await lessonApi.create({ ...values.value, id: route.params.id });
         message.success('Success');
       } catch (err) {
         message.error(err.response.data.message);
