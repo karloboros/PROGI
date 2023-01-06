@@ -52,17 +52,6 @@ class EventModel extends Model implements IEvent {
     });
   }
 
-  static scopes() {
-    return {
-      includeEventDance: {
-        include: ['event_dances'],
-      },
-      includeClub: {
-        include: ['clubs'],
-      },
-    };
-  }
-
   static dbOptions() {
     return {
       modelName: 'event',
