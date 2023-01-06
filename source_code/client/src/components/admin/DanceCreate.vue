@@ -1,5 +1,5 @@
 <template>
-  <n-space class="dance-adding" align="center" justify="center" item-style="width: 80%">
+  <n-space align="center" justify="center" item-style="width: 80%">
     <n-form ref="formRef" @submit.prevent="submit" :model="values" :rules="rules">
       <n-form-item label="Name" path="name">
         <n-input v-model:value="values.name" placeholder="Name..." autofocus />
@@ -8,7 +8,7 @@
         <n-input v-model:value="values.description" type="textarea" placeholder="Description..." />
       </n-form-item>
       <n-form-item label="Dance image" path="image">
-        <ples-file-upload @update="update" @error="error" accept="image/png, image/jpeg" />
+        <ples-file-upload @update="update" @error="error" accept="image/png, image/jpeg" :api="danceapi" />
       </n-form-item>
       <n-form-item label="Video url" path="videoUrl">
         <n-input v-model:value="values.videoUrl" placeholder="Video url..." />
@@ -40,12 +40,13 @@ const props = defineProps({
   },
 });
 
-const { required } = validationRules;
+const danceapi = danceApi.upload;
+const { required, urlRequired } = validationRules;
 
 const rules = {
   name: required,
   description: required,
-  videoUrl: required,
+  videoUrl: urlRequired,
   image: required,
 };
 
@@ -53,12 +54,13 @@ const values = ref(props.initialValues);
 const formRef = ref(null);
 const route = useRoute();
 const message = useMessage();
+const { id } = route.params;
 
 const submit = async () => {
   formRef.value?.validate(async errors => {
     if (!errors) {
       try {
-        if (route.params.id) await danceApi.edit({ ...values.value, id: route.params.id });
+        if (id) await danceApi.edit({ ...values.value, id });
         else await danceApi.create({ ...values.value });
         message.success('Dance successfully saved!');
       } catch (err) {

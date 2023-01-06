@@ -3,7 +3,7 @@
     <n-card title="All dances" size="huge">
       <n-skeleton v-if="loading" text :repeat="6" />
       <n-data-table v-else :columns="columns" :data="dances" :bordered="false" />
-      <n-button @click="router.push({ name: 'Add Dance' })" margin-left="10px">Add dance</n-button>
+      <n-button @click="router.push({ name: 'AddDance' })">Add dance</n-button>
     </n-card>
   </n-space>
 </template>
@@ -41,17 +41,13 @@ const dances = ref([]);
 const loading = ref(true);
 
 onMounted(async () => {
-  const data = await danceApi.fetchAll();
-  dances.value = data.map(dance => ({
-    ...dance,
-  }));
-
+  dances.value = await danceApi.fetchAll();
   loading.value = false;
 });
 
 const viewDanceDetails = id => {
   router.push({
-    name: 'Edit Dance',
+    name: 'EditDance',
     params: { id },
   });
 };

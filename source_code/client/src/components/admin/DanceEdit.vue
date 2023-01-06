@@ -1,5 +1,5 @@
 <template>
-  <n-space class="dance-adding" align="center" justify="center" item-style="width: 80%">
+  <n-space align="center" justify="center" item-style="width: 80%">
     <n-card title="Dance" size="huge">
       <template #header-extra>
         <n-button @click="confirm" type="error">Delete dance</n-button>
@@ -33,8 +33,8 @@ const confirm = () => {
   dialog.error({
     title: 'Confirm',
     content: 'Are you sure you want to delete this dance. This is irreversible!',
-    positiveText: 'Yes',
-    negativeText: 'No',
+    positiveText: 'Delete',
+    negativeText: 'Cancel',
     onPositiveClick: remove,
   });
 };
