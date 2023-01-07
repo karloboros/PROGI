@@ -35,7 +35,7 @@ const routes = [
     component: PendingApplications,
   },
   {
-    path: '/trainer-applications/send',
+    path: '/trainer-applications',
     name: 'CreateApplication',
     component: CreateApplication,
   },
