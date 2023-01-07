@@ -1,5 +1,5 @@
+import { ApprovalStatus, IClub } from 'club/types';
 import { IFields, IModels } from 'shared/database/types';
-import { ApprovalStatus } from 'club/types';
 import { ITrainerApplication } from './types';
 import { Model } from 'sequelize';
 
@@ -10,6 +10,7 @@ class TrainerApplicationModel extends Model implements ITrainerApplication {
   status!: ApprovalStatus;
   trainerId!: number;
   clubId!: number;
+  club?: IClub;
 
   static fields({ INTEGER, STRING, TEXT }: IFields) {
     return {
@@ -49,6 +50,26 @@ class TrainerApplicationModel extends Model implements ITrainerApplication {
       foreignKey: { name: 'trainerId', field: 'trainerId' },
       as: 'trainer',
     });
+  }
+
+  static scopes() {
+    return {
+      includeTrainer: {
+        include: ['trainer'],
+      },
+      includeClub: {
+        include: ['club'],
+      },
+      pending: {
+        where: { status: ApprovalStatus.Pending },
+      },
+      accepted: {
+        where: { status: ApprovalStatus.Approved },
+      },
+      rejected: {
+        where: { status: ApprovalStatus.Rejected },
+      },
+    };
   }
 
   static dbOptions() {

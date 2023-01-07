@@ -1,4 +1,5 @@
-import { Dance, EventDance } from 'shared/database';
+import { EventDance } from 'shared/database';
+// eslint-disable-next-line sort-imports
 import { Request, Response } from 'express';
 
 const test = async (req: Request, res: Response) => {

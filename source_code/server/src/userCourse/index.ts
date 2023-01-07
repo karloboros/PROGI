@@ -1,10 +1,18 @@
-import { test1, test2 } from './userCourse.controller';
+import { apply, getApproved, getByUser, getPending, updateStatus } from './userCourse.controller';
+import authenticate from 'shared/auth/authenticate';
+import refresh from 'shared/auth/refresh';
 import { Router } from 'express';
 
 const router = Router();
 const path = '/user-courses';
 
-router.get('/test1', test1);
-router.get('/test2', test2);
+router
+  .use(authenticate)
+  .use(refresh)
+  .post('/apply/:courseId', apply)
+  .post('/update-status', updateStatus)
+  .get('/approved/:courseId', getApproved)
+  .get('/pending/:courseId', getPending)
+  .get('/:userId', getByUser);
 
 export default { router, path };
