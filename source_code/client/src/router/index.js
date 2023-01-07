@@ -92,12 +92,12 @@ const routes = [
     name: 'LessonCreate',
     meta: { role: Role.ClubOwner || Role.Administrator },
     component: LessonCreate,
-
+  },
+  {
     path: '/events/create',
     name: 'AddEvent',
     meta: { role: Role.ClubOwner },
     component: EventCreate,
-
   },
   {
     path: '/profile',
