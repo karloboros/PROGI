@@ -5,7 +5,7 @@
             <n-input v-model:value="values.motivationalLetter" type="textarea" placeholder="I want to..." />
         </n-form-item>
         <n-form-item label="Certificate" path="certificate">
-            <input type="file" accept="application/pdf" class="fileinput" @change="onChange">
+            <ples-file-upload @update="update" @error="error" accept="application/pdf" />
         </n-form-item>
         
         <n-form-item>
@@ -15,17 +15,6 @@
 </n-space>
 </template>
 
-methods: {
-async onChange(e) {
-    let file = e.target.files[0];
-    let formData = new FormData();
-    formData.append('pdf', file);
-
-    await axios.post(`/assets/${this.certificate}`, formData)
-        .then( res => console.log(res.data) )
-},
-}
-
 <script setup>
   // eslint-disable-next-line sort-imports
   import { trainerApplicationApi, clubApi, authApi } from '@/api';
@@ -34,7 +23,8 @@ async onChange(e) {
   import { useMessage } from 'naive-ui';
   import { useRoute } from 'vue-router';    
   import { validationRules } from '@/utils';
-  
+  import PlesFileUpload from '@/components/common/PlesFileUpload.vue';
+
   const emit = defineEmits(['sent']);
   
   
@@ -61,7 +51,7 @@ async onChange(e) {
     const { required } = validationRules;
     const rules = {
         motivationalLetter: required,
-//        certificate: required,
+        certificate: required,
     };
     const message = useMessage();
     const route = useRoute();
@@ -83,6 +73,15 @@ async onChange(e) {
         });
     };
   
+    
+const update = certificate => {
+  values.value.certificate = certificate;
+};
+
+const error = error => {
+  message.error(error);
+};
+
   // eslint-disable-next-line no-unused-vars
   /* const error = error => {
     message.error(error);
