@@ -21,15 +21,7 @@ const urls = {
 };
 
 const create = (params = {}) => {
-  return request.post(urls.create + `/${params.courseId}`, params).then(extractData);
-};
-
-const edit = (params = {}) => {
-  return request.post(urls.edit + `/${params.id}`, params).then(extractData);
-};
-
-const fetchById = id => {
-  return request.get(urls.fetchById + `/${id}`, id).then(extractData);
+  return request.post(urls.create, params).then(extractData);
 };
 
 const fetchAll = courseId => {
@@ -46,12 +38,6 @@ const remove = id => {
 /* const upload = params => {
   return customRequest(headers.fileUpload).post(urls.upload, params).then(extractData);
 }; */
-
 export default {
-  create,
-  fetchAll,
-  remove,
-  edit,
-  fetchByClub,
-  fetchById,
+  create, remove, fetchAll, fetchById
 };

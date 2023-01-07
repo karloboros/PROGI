@@ -1,5 +1,5 @@
 <template>
-  <n-space class="course-adding" align="center" justify="center" item-style="width: 80%">
+  <n-space align="center" justify="center" item-style="width: 80%">
     <n-card title="Course" size="huge">
       <template #header-extra>
         <n-button @click="confirm" type="error">Delete course</n-button>
@@ -14,22 +14,21 @@ import { onMounted, ref } from 'vue';
 import { useDialog, useMessage } from 'naive-ui';
 import { courseApi } from '@/api';
 import CourseCreate from '@/components/clubowner/CourseCreate.vue';
+import { toDatePicker } from '@/utils';
 import { useRoute } from 'vue-router';
 
 const message = useMessage();
 const dialog = useDialog();
 
 const route = useRoute();
-const id = route.params.id;
+const { id } = route.params;
 
 const course = ref(null);
 
 onMounted(async () => {
-  const data = await courseApi.fetchById(id);
-  course.value = {
-    ...data,
-  };
-  console.log(course.value);
+  const courseData = await courseApi.fetchById(id);
+  console.log(courseData);
+  course.value = { ...courseData, applicationDeadline: toDatePicker(courseData.applicationDeadline) };
 });
 
 const confirm = () => {

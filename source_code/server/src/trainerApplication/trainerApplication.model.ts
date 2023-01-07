@@ -56,9 +56,6 @@ class TrainerApplicationModel extends Model implements ITrainerApplication {
       includeTrainer: {
         include: ['trainer'],
       },
-      approved: {
-        where: { status: ApprovalStatus.Approved },
-      },
     };
   }
 

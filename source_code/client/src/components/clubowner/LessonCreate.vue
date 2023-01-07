@@ -49,6 +49,7 @@ const rules = {
 const values = ref(props.initialValues);
 const formRef = ref(null);
 const route = useRoute();
+const { courseId } = route.params;
 
 const message = useMessage();
 
@@ -56,7 +57,7 @@ const submit = async () => {
   formRef.value?.validate(async errors => {
     if (!errors) {
       try {
-        await lessonApi.create({ ...values.value, id: route.params.id });
+        await LessonApi.create({ ...values.value, courseId });
         message.success('Success');
       } catch (err) {
         message.error(err.response.data.message);

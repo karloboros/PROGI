@@ -80,7 +80,6 @@ class CourseModel extends Model implements ICourse {
       },
     };
   }
-  // dodat poveznicu s dance
 
   static associate({ Club, Dance, Lesson, Location, User, UserCourse }: IModels) {
     this.belongsTo(Club, {
@@ -111,9 +110,6 @@ class CourseModel extends Model implements ICourse {
       },
       includeLocation: {
         include: ['location'],
-      },
-      includeTrainer: {
-        include: ['trainer'],
       },
       includeLesson: {
         include: ['lessons'],

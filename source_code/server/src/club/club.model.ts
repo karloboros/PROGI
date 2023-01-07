@@ -86,6 +86,9 @@ class ClubModel extends Model implements IClub {
       pending: {
         where: { approvalStatus: ApprovalStatus.Pending },
       },
+      approved: {
+        where: { approvalStatus: ApprovalStatus.Approved },
+      },
     };
   }
 

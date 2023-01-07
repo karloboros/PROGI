@@ -1,37 +1,25 @@
 import { BAD_REQUEST, CONFLICT, CREATED, FORBIDDEN, OK } from 'http-status';
+import { Dance, EventDance } from 'shared/database';
 import { NextFunction, Request, Response } from 'express';
-import sequelize, { Dance, EventDance } from 'shared/database';
 import errorMessages from 'shared/constants/errorMessages';
 import HttpError from 'shared/error/httpError';
 import { UniqueConstraintError } from 'sequelize';
 
-const fetchAll = async (req: Request, res: Response) => {
+const fetchAll = async (_req: Request, res: Response) => {
   const dances = await Dance.findAll();
   return res.send(dances);
 };
 
 const fetchById = async (req: Request, res: Response) => {
-  const danceId = JSON.parse(req.params.id);
-  const dance = await Dance.findByPk(danceId);
+  const dance = await Dance.findByPk(+req.params.id);
   return res.send(dance);
 };
 
-const edit = async (req: Request, res: Response, next: NextFunction) => {
+const create = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const dance = {
-      ...req.body,
-    };
-    console.log(dance);
-    const danceToEdit = await Dance.findByPk(dance.id);
-    if (!danceToEdit) return next(new HttpError(FORBIDDEN, errorMessages.FORBIDDEN));
-
-    danceToEdit.name = dance.name;
-    danceToEdit.description = dance.description;
-    danceToEdit.videoUrl = dance.videoUrl;
-    danceToEdit.image = dance.image;
-
-    await danceToEdit.save();
-    return res.status(CREATED).json({ ...danceToEdit.profile });
+    const newDance = { ...req.body };
+    const dance = await Dance.create(newDance);
+    return res.status(OK).json(dance);
   } catch (err) {
     if (err instanceof UniqueConstraintError) {
       return next(new HttpError(CONFLICT, errorMessages.UNIQUE));
@@ -40,20 +28,23 @@ const edit = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-const create = async (req: Request, res: Response, next: NextFunction) => {
-  const transaction = await sequelize.transaction();
+const edit = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const newDance = {
-      ...req.body,
-    };
-    const dance = await Dance.create(newDance, { transaction });
-    await transaction.commit();
-    return res.status(OK).json(dance);
-  } catch (err) {
-    await transaction.rollback();
+    const { id, name, description, videoUrl, image } = req.body;
 
+    const danceToEdit = await Dance.findByPk(id);
+    if (!danceToEdit) return next(new HttpError(FORBIDDEN, errorMessages.FORBIDDEN));
+
+    danceToEdit.name = name;
+    danceToEdit.description = description;
+    danceToEdit.videoUrl = videoUrl;
+    danceToEdit.image = image;
+
+    await danceToEdit.save();
+    return res.status(CREATED).json(danceToEdit);
+  } catch (err) {
     if (err instanceof UniqueConstraintError) {
-      return next(new HttpError(CONFLICT, errorMessages.REGISTER));
+      return next(new HttpError(CONFLICT, errorMessages.UNIQUE));
     }
     return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
   }
@@ -62,12 +53,13 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
 const remove = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const danceId = JSON.parse(req.params.id);
-    console.log(danceId);
+
+    const events = await EventDance.findOne({ where: { danceId } });
+    if (events) return next(new HttpError(CONFLICT, errorMessages.EVENT_DANCE_DELETE));
+
     const danceToRemove = await Dance.findByPk(danceId);
     if (!danceToRemove) return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
-    const events = await EventDance.findOne({ where: { danceId } });
-    console.log(events);
-    if (events) return next(new HttpError(CONFLICT, errorMessages.EVENT_DANCE_DELETE));
+
     await danceToRemove.destroy();
     res.status(OK).send();
   } catch (err) {
@@ -82,4 +74,4 @@ const uploadDanceImage = (req: Request, res: Response, next: NextFunction) => {
   return res.status(OK).json({ path: `/images/dances/${file.filename}` });
 };
 
-export { edit, fetchAll, create, remove, uploadDanceImage, fetchById };
+export { fetchAll, fetchById, create, edit, remove, uploadDanceImage };

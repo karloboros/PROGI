@@ -4,6 +4,10 @@ import ClubsShow from '@/components/club/ClubsShow.vue';
 import CourseCreate from '@/components/clubowner/CourseCreate.vue';
 import CourseEdit from '@/components/clubowner/CourseEdit.vue';
 import CoursesShow from '@/components/clubowner/CoursesShow.vue';
+import DanceCreate from '@/components/admin/DanceCreate.vue';
+import DanceEdit from '@/components/admin/DanceEdit.vue';
+import DancesList from '@/components/admin/DancesList.vue';
+import EventCreate from '@/components/clubOwner/EventCreate.vue';
 import Home from '@/components/home/HomePage.vue';
 import HomeOwner from '@/components/clubowner/HomeOwner.vue';
 import LessonCreate from '@/components/clubowner/LessonCreate.vue';
@@ -23,6 +27,24 @@ const routes = [
     path: '/auth',
     name: 'Auth',
     component: UserAuth,
+  },
+  {
+    path: '/dances/create',
+    name: 'AddDance',
+    meta: { role: Role.Administrator },
+    component: DanceCreate,
+  },
+  {
+    path: '/dances/all',
+    name: 'ListDances',
+    meta: { role: Role.Administrator },
+    component: DancesList,
+  },
+  {
+    path: '/dances/edit/:id',
+    name: 'EditDance',
+    meta: { role: Role.Administrator },
+    component: DanceEdit,
   },
   {
     path: '/admin',
@@ -48,7 +70,7 @@ const routes = [
     component: ClubsShow,
   },
   {
-    path: '/owner/courses/get/:clubId',
+    path: '/owner/courses/:clubId',
     name: 'Courses',
     meta: { role: Role.ClubOwner || Role.Administrator },
     component: CoursesShow,
@@ -70,6 +92,12 @@ const routes = [
     name: 'LessonCreate',
     meta: { role: Role.ClubOwner || Role.Administrator },
     component: LessonCreate,
+
+    path: '/events/create',
+    name: 'AddEvent',
+    meta: { role: Role.ClubOwner },
+    component: EventCreate,
+
   },
   {
     path: '/profile',
@@ -93,6 +121,8 @@ router.beforeEach((to, from) => {
   const authStore = useAuthStore();
   const isLoggedIn = authStore.isLoggedIn;
   const isAdmin = authStore.isAdmin;
+  const isClubOwner = authStore.isClubOwner;
+  const isClubOwnerRoute = to.meta.role === Role.ClubOwner;
   const isAuthRoute = to.name === 'Auth';
   const isAdminRoute = to.meta.role === Role.Administrator;
 
@@ -105,6 +135,10 @@ router.beforeEach((to, from) => {
   }
 
   if (isAdminRoute && !isAdmin) {
+    return defaultRoute;
+  }
+
+  if (isClubOwnerRoute && !isClubOwner) {
     return defaultRoute;
   }
 });

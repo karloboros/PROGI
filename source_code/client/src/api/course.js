@@ -3,58 +3,52 @@ import request from './request';
 
 const urls = {
   root: '/courses',
-  get create() {
-    return this.root + '/create';
-  },
-  get remove() {
-    return this.root + '/remove';
-  },
   get fetchAll() {
     return this.root + '/all';
   },
-  get fetchByClub() {
-    return this.root + '/test';
+  fetchById(id) {
+    return `${urls.root}/${id}`;
   },
-  get fetchById() {
-    return this.root;
+  fetchByClub(clubId) {
+    return `${urls.root}/byClub/${clubId}`;
   },
-  get edit() {
-    return this.root + '/edit';
+  get create() {
+    return this.root + '/create';
   },
-};
-
-const create = (params = {}) => {
-  return request.post(urls.create + `/${params.clubId}`, params).then(extractData);
-};
-
-const edit = (params = {}) => {
-  return request.post(urls.edit + `/${params.id}`, params).then(extractData);
-};
-
-const fetchById = id => {
-  return request.get(urls.fetchById + `/${id}`, id).then(extractData);
+  edit(id) {
+    return `${urls.root}/edit/${id}`;
+  },
+  remove(id) {
+    return `${urls.root}/remove/${id}`;
+  },
 };
 
 const fetchAll = () => {
   return request.get(urls.fetchAll).then(extractData);
 };
+const fetchById = id => {
+  return request.get(urls.fetchById(id)).then(extractData);
+};
 const fetchByClub = clubId => {
-  return request.get(urls.fetchByClub + `/${clubId}`, clubId).then(extractData);
+  return request.get(urls.fetchByClub(clubId)).then(extractData);
 };
 
+const create = (params = {}) => {
+  return request.post(urls.create, params).then(extractData);
+};
+
+const edit = (params = {}) => {
+  return request.post(urls.edit(params.id), params).then(extractData);
+};
 const remove = id => {
-  return request.delete(urls.remove + `/${id}`);
+  return request.delete(urls.remove(id));
 };
-
-/* const upload = params => {
-  return customRequest(headers.fileUpload).post(urls.upload, params).then(extractData);
-}; */
 
 export default {
-  create,
   fetchAll,
-  remove,
-  edit,
-  fetchByClub,
   fetchById,
+  fetchByClub,
+  create,
+  edit,
+  remove,
 };

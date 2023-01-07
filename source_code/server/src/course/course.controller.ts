@@ -5,6 +5,15 @@ import errorMessages from 'shared/constants/errorMessages';
 import HttpError from 'shared/error/httpError';
 import { UniqueConstraintError } from 'sequelize';
 
+const fetchAll = async (req: Request, res: Response) => {
+  const courses = await Course.findAll();
+  return res.send(courses);
+};
+
+const fetchById = async (req: Request, res: Response) => {
+  const course = await Course.findByPk(+req.params.id);
+  return res.send(course);
+};
 const fetchByClub = async (req: Request, res: Response) => {
   const club = req.params.clubId;
   const courses = await Course.findAll({
@@ -12,33 +21,20 @@ const fetchByClub = async (req: Request, res: Response) => {
       clubId: club,
     },
   });
-  console.log(courses);
   return res.send(courses);
-};
-
-const fetchAll = async (req: Request, res: Response) => {
-  const courses = await Course.findAll();
-  return res.send(courses);
-};
-
-const fetchById = async (req: Request, res: Response) => {
-  const course = await Course.findByPk(req.params.id);
-  return res.send(course);
 };
 
 const create = async (req: Request, res: Response, next: NextFunction) => {
   const transaction = await sequelize.transaction();
   try {
-    const { id } = JSON.parse(req.params.clubId);
-
     const data = {
       ...req.body,
     };
-    const dance = await Dance.findOne({ where: { name: data.dance } });
+    const dance = await Dance.findOne({ where: { id: data.dance } });
     if (!dance) return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
 
     const trainer = await User.scope(['trainers']).findOne({
-      where: { fullname: data.trainer },
+      where: { id: data.trainer },
     });
     if (!trainer) return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
 
@@ -48,7 +44,6 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
 
     const newCourse = {
       ...req.body,
-      clubId: id,
       danceId: dance.id,
       locationId: location.id,
       trainerId: trainer.id,
@@ -58,7 +53,6 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
     return res.status(OK).json(course);
   } catch (err) {
     await transaction.rollback();
-
     if (err instanceof UniqueConstraintError) {
       return next(new HttpError(CONFLICT, errorMessages.COURSE_CREATE));
     }
@@ -69,8 +63,8 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
 const edit = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const course = { ...req.body };
-    const courseId = JSON.parse(req.params.id);
-    const courseToEdit = await Course.findByPk(courseId);
+    const { id } = req.params;
+    const courseToEdit = await Course.findByPk(id);
     if (!courseToEdit) return next(new HttpError(FORBIDDEN, errorMessages.FORBIDDEN));
 
     courseToEdit.name = course.name;
@@ -81,11 +75,9 @@ const edit = async (req: Request, res: Response, next: NextFunction) => {
     courseToEdit.gender = course.gender;
     courseToEdit.applicationDeadline = course.applicationDeadline;
     courseToEdit.additionalRules = course.additionalRules;
-    courseToEdit.danceId = course.dance.id;
-    courseToEdit.locationId = course.location.id;
-    courseToEdit.trainerId = course.trainer.trainerId;
-
-    // mogu li se uređivati svi ti parameti ili ipak ne?
+    courseToEdit.danceId = course.danceId;
+    courseToEdit.locationId = course.locationId;
+    courseToEdit.trainerId = course.trainerId;
 
     await courseToEdit.save();
     return res.status(CREATED).json({ ...courseToEdit });
@@ -98,10 +90,9 @@ const edit = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 const remove = async (req: Request, res: Response, next: NextFunction) => {
-  const { course } = JSON.parse(req.params.id);
   try {
-    // edit with scope
-    const courseToRemove = await Course.scope('includeLesson').findByPk(course);
+    const { id } = req.params;
+    const courseToRemove = await Course.scope('includeLesson').findByPk(id);
     if (!courseToRemove) return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
     if (courseToRemove.lessons?.length) return next(new HttpError(CONFLICT, errorMessages.COURSE_DELETE));
 
@@ -112,4 +103,4 @@ const remove = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-export { create, edit, remove, fetchAll, fetchById, fetchByClub };
+export { fetchAll, fetchById, fetchByClub, create, edit, remove };

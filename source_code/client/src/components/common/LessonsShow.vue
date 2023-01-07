@@ -2,9 +2,6 @@
   <n-space align="center" justify="center" item-style="width: 80%">
     <Qalendar :events="events" />
   </n-space>
-  <!--<n-space class="club-approval" align="center" justify="center" item-style="width: 80%">
-    <Qalendar :events="events" />
-  </n-space>-->
 </template>
 
 <script setup>

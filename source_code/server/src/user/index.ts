@@ -6,7 +6,7 @@ import { Router } from 'express';
 
 const storage = multer.diskStorage({
   destination: (_req, _file, cb) => {
-    cb(null, '.tmp/images');
+    cb(null, '.tmp/images/users');
   },
   filename: (_req, file, cb) => {
     cb(null, Date.now() + '_' + file.originalname);

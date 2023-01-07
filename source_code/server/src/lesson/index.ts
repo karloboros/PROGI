@@ -1,13 +1,12 @@
-import { create, edit, fetchAll, remove, test } from './lesson.controller';
+import { create, edit, remove, fetchAll } from './lesson.controller';
 import { Router } from 'express';
 
 const router = Router();
 const path = '/lessons';
 
 router
-  .get('/test', test)
   .get('/:courseId', fetchAll)
-  .post('/create/:courseId', create)
+  .post('/create', create)
   .post('/edit/:id', edit)
   .delete('/remove/:id', remove);
 

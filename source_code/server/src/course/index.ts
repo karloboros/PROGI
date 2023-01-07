@@ -12,8 +12,8 @@ router
   .use(refresh)
   .get('/all', fetchAll)
   .get('/:id', fetchById)
-  .get('/test/:clubId', fetchByClub)
-  .post('/create/:clubId', create)
+  .get('/byClub/:clubId', fetchByClub)
+  .post('/create', create)
   .post('/edit/:id', edit)
   .delete('/remove/:id', remove);
 
