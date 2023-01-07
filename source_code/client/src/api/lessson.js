@@ -38,6 +38,4 @@ const remove = id => {
 /* const upload = params => {
   return customRequest(headers.fileUpload).post(urls.upload, params).then(extractData);
 }; */
-export default {
-  create, remove, fetchAll, fetchById
-};
+export default { create, remove, fetchAll, fetchByClub };
