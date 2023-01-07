@@ -1,9 +1,22 @@
+import { Dance, EventDance } from 'shared/database';
 import { Request, Response } from 'express';
-import { EventDance } from 'shared/database';
 
 const test = async (req: Request, res: Response) => {
-  const eventDances = await EventDance.findAll();
+  const testt = await EventDance.findAll();
+  return res.send(testt);
+};
+
+const eventDance = async (req: Request, res: Response) => {
+  const eventDances = await EventDance.scope(['includeEventDance']).findAll();
   return res.send(eventDances);
 };
 
-export { test };
+/*
+const eventDance = async (req: Request, res: Response) => {
+  const eventDances = await EventDance.findAll({
+    include: 'includeEventDance',
+  });
+  return res.send(eventDances);
+}; */
+
+export { eventDance, test };

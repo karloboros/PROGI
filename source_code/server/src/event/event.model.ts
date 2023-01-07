@@ -40,7 +40,7 @@ class EventModel extends Model implements IEvent {
     };
   }
 
-  static associate({ Location, Club, EventDance }: IModels) {
+  static associate({ Location, Club, EventDance, Dance }: IModels) {
     this.belongsTo(Club, {
       foreignKey: { name: 'clubId', field: 'clubId' },
     });
@@ -50,6 +50,15 @@ class EventModel extends Model implements IEvent {
     this.hasMany(EventDance, {
       foreignKey: { name: 'eventId', field: 'eventId' },
     });
+    this.belongsToMany(Dance, { through: EventDance });
+  }
+
+  static scopes() {
+    return {
+      includeEventDances: {
+        include: 'event_dances',
+      },
+    };
   }
 
   static dbOptions() {

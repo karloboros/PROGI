@@ -34,6 +34,17 @@ class EventDanceModel extends Model implements IEventDance {
     });
   }
 
+  static scopes() {
+    return {
+      includeEventDance: {
+        include: ['dance'],
+      },
+      includeEvent: {
+        include: ['event'],
+      },
+    };
+  }
+
   static dbOptions() {
     return {
       modelName: 'eventDance',

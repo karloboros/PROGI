@@ -28,8 +28,24 @@
             <h5>Filtriraj događaje po klubovima:</h5>
             <div v-for="club in clubs" :key="club.id" class="form-check">
               <label class="form-check-label">
-                <input v-model="club.active" @change="layerChanged(club)" class="form-check-input" type="checkbox" />
+                <input
+                  v-model="club.active"
+                  @change="layerClubChanged(club)"
+                  class="form-check-input"
+                  type="checkbox"
+                />
                 {{ club.name }} {{ club.id }}
+              </label>
+            </div>
+            <div v-for="dance in dances" :key="dance.id" class="form-check">
+              <label class="form-check-label">
+                <input
+                  v-model="dance.active"
+                  @change="layerDanceChanged(club)"
+                  class="form-check-input"
+                  type="checkbox"
+                />
+                {{ dance.name }} {{ dance.id }}
               </label>
             </div>
           </div>
@@ -56,6 +72,7 @@ const events = ref([]);
 const eventsToMap = L.layerGroup();
 const eventsToChangeDisplay = ref([]);
 const clubs = ref([]);
+const dances = ref([]);
 const map = ref(null);
 
 const initialValues = {
@@ -85,10 +102,12 @@ const initMap = () => {
   L.tileLayer(mapBackground, { attribution }).addTo(map.value);
 };
 
-const layerChanged = club => {
+const layerClubChanged = club => {
   console.log(club);
   console.log(club.name);
   console.log(club.id);
+
+  // map.value.removeLayer(eventsToMap);
 
   events.value.forEach(event => {
     if (event.clubId === club.id) {
@@ -112,7 +131,6 @@ const layerChanged = club => {
     } else {
       console.log('IZ NEAKTIVNO U AKTIVNO');
       event.active = true;
-
       // console.log(eventsToMap.getLayers());
       // eventsToMap._layers.forEach(layer => {
       // if (layer._latlng.lat === x && layer._latlng.lng === y)
@@ -120,12 +138,13 @@ const layerChanged = club => {
       // });
       console.log(eventsToMap);
     }
-    map.value.addLayer(eventsToMap);
+    // map.value.addLayer(eventsToMap);
   });
   // eslint-disable-next-line no-const-assign
   eventsToChangeDisplay.value.forEach(el => {
     eventsToChangeDisplay.value.pop(el.value);
   });
+  map.value.addLayer(eventsToMap);
 };
 
 onMounted(async () => {
