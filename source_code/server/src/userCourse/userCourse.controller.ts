@@ -1,34 +1,26 @@
-import { BAD_REQUEST, CREATED, OK } from 'http-status';
+import { BAD_REQUEST, CREATED, FORBIDDEN, NOT_FOUND, OK } from 'http-status';
+import { Club, User, UserCourse } from 'shared/database';
 import { NextFunction, Request, Response } from 'express';
 import { ApprovalStatus } from 'club/types';
 import errorMessages from 'shared/constants/errorMessages';
 import HttpError from 'shared/error/httpError';
-import { UserCourse } from 'shared/database';
+import { Role } from 'user/types';
 
-const getPending = async (req: Request, res: Response, next: NextFunction) => {
+const apply = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const courseId = req.params.courseId;
-    const candidates = await UserCourse.findAll({ where: { courseId, status: ApprovalStatus.Pending } });
-    return res.status(OK).json({ ...candidates });
-  } catch {
-    return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
-  }
-};
+    const { user } = req;
+    const foundUser = await User.findOne({ where: { id: user.id } });
+    if (!foundUser) return next(new HttpError(NOT_FOUND, errorMessages.NOT_FOUND));
+    if (foundUser.role !== Role.User) return next(new HttpError(FORBIDDEN, errorMessages.FORBIDDEN));
 
-const getApproved = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const courseId = req.params.courseId;
-    const candidates = await UserCourse.findAll({ where: { courseId, status: ApprovalStatus.Approved } });
-    return res.status(OK).json({ ...candidates });
-  } catch {
-    return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
-  }
-};
-const getRejected = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const courseId = req.params.courseId;
-    const candidates = await UserCourse.findAll({ where: { courseId, status: ApprovalStatus.Rejected } });
-    return res.status(OK).json({ ...candidates });
+    const { courseId } = req.params;
+    const application = {
+      status: ApprovalStatus.Pending,
+      userId: user.id,
+      courseId,
+    };
+    UserCourse.create(application);
+    return res.status(CREATED).send('Application sent successfully!');
   } catch {
     return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
   }
@@ -36,46 +28,51 @@ const getRejected = async (req: Request, res: Response, next: NextFunction) => {
 
 const updateStatus = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { id, isApproved } = req.params;
-    const candidate = await UserCourse.findOne({ where: { id } });
-    if (!candidate) return res.status(404).send('Nema takvog UserCoursea');
-    if (isApproved === '1') {
-      candidate.status = ApprovalStatus.Approved;
-    } else if (isApproved === '2') {
-      candidate.status = ApprovalStatus.Rejected;
-    } else {
-      return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
-    }
-    await candidate.save();
-    return res.status(OK).send('Uspješno promjenjen status prihvaćenosti kandidata!');
+    const owner = req.user;
+    const { id, isApproved } = req.body;
+    const userCourse = await UserCourse.scope('includeCourse').findByPk(id);
+    if (!userCourse) return next(new HttpError(NOT_FOUND, errorMessages.NOT_FOUND));
+
+    const club = await Club.findByPk(userCourse.course?.clubId);
+    if (!club) return next(new HttpError(NOT_FOUND, errorMessages.NOT_FOUND));
+    if (club.ownerId !== owner.id) return next(new HttpError(FORBIDDEN, errorMessages.FORBIDDEN));
+    userCourse.status = isApproved ? ApprovalStatus.Approved : ApprovalStatus.Rejected;
+    await userCourse.save();
+
+    return res.status(OK).send('Application status changed successfully!');
   } catch {
     return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
   }
 };
 
-const getForUser = async (req: Request, res: Response, next: NextFunction) => {
+const getApproved = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const userId = req.params.userId;
+    const { courseId } = req.params;
+    const userCourses = await UserCourse.scope(['accepted', 'includeUser']).findAll({ where: { courseId } });
+    return res.status(OK).json({ ...userCourses });
+  } catch {
+    return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
+  }
+};
+
+const getPending = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { courseId } = req.params;
+    const userCourses = await UserCourse.scope(['pending', 'includeUser']).findAll({ where: { courseId } });
+    return res.status(OK).json({ ...userCourses });
+  } catch {
+    return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
+  }
+};
+
+const getByUser = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { userId } = req.params;
     const applications = await UserCourse.findAll({ where: { userId } });
-    if (!applications) return res.send('Trenutno nemate aktivnih prijava na tečajeve!');
     return res.status(OK).json({ ...applications });
   } catch {
     return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
   }
 };
 
-const send = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const { userId, courseId } = req.params;
-    const application = {
-      status: ApprovalStatus.Pending,
-      userId,
-      courseId,
-    };
-    UserCourse.create(application);
-    return res.status(CREATED).send('Uspješno ste poslali prijavu za tečaj!');
-  } catch {
-    return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
-  }
-};
-export { getPending, getApproved, getRejected, getForUser, send, updateStatus };
+export { apply, updateStatus, getApproved, getPending, getByUser };
