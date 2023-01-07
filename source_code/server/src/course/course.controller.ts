@@ -15,9 +15,8 @@ const fetchAll = async (req: Request, res: Response, next: NextFunction) => {
 
 const fetchById = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const courseId = JSON.parse(req.params.id);
     const course = await Course.scope(['includeClub', 'includeDance', 'includeLocation', 'includeTrainer']).findByPk(
-      courseId,
+      +req.params.id,
     );
     return res.status(OK).json(course);
   } catch (err) {
