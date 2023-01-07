@@ -1,21 +1,31 @@
 <template>
-  <n-space class="club-approval" align="center" justify="center" item-style="width: 60%">
+  <n-space align="center" justify="center" item-style="width: 60%">
     <n-card title="Course info" size="huge">
-      <div>
-        <h2>{{ course.name }}</h2>
-        <p>Klub: {{ course.clubName }}</p>
-        <p>Lokacija: {{ course.locationName }}</p>
-        <p>Ples: {{ course.danceName }}</p>
-        <p>Trener: {{ course.trainerName }}</p>
-        <p v-if="course.capacity">Kapacitet polaznika: {{ course.capacity }}</p>
-        <p v-if="course.minAge">Min dob: {{ course.minAge }}</p>
-        <p v-if="course.maxAge">Max dobi: {{ course.maxAge }}</p>
-        <p v-if="course.gender">Spol: {{ course.gender }}</p>
-        <p>Krajnji rok prijave: {{ course.applicationDeadline }}</p>
-        <p>Opis:</p>
-        <p>{{ course.description }}</p>
-        <p v-if="course.additionalRules">Dodatne infomacije: {{ course.additionalRules }}</p>
-      </div>
+      <n-layout>
+        <h2 content-style="padding: 24px;">{{ course.name }}</h2>
+        <n-layout-content content-style="padding: 24px;"> Club: {{ course.clubName }} </n-layout-content>
+        <n-layout-content content-style="padding: 24px;"> Location: {{ course.locationName }} </n-layout-content>
+        <n-layout-content content-style="padding: 24px;"> Trainer: {{ course.trainerName }} </n-layout-content>
+        <n-layout-content content-style="padding: 24px;">
+          Capacity: {{ course.capacity ? course.capacity : '-' }}
+        </n-layout-content>
+        <n-layout-content content-style="padding: 24px;">
+          Min age: {{ course.minAge ? course.minAge : '-' }}
+        </n-layout-content>
+        <n-layout-content content-style="padding: 24px;">
+          Max age: {{ course.maxAge ? course.maxAge : '-' }}
+        </n-layout-content>
+        <n-layout-content content-style="padding: 24px;">
+          Gender: {{ course.gender ? course.gender : 'all' }}
+        </n-layout-content>
+        <n-layout-content content-style="padding: 24px;">
+          Application deadline: {{ course.applicationDeadline }}
+        </n-layout-content>
+        <n-layout-content content-style="padding: 24px;">Description: {{ course.description }}</n-layout-content>
+        <n-layout-content content-style="padding: 24px;">
+          Additional information: {{ course.additionalRules ? course.additionalRules : '-' }}
+        </n-layout-content>
+      </n-layout>
     </n-card>
   </n-space>
 </template>
@@ -25,7 +35,7 @@ import { onMounted, ref } from 'vue';
 import { courseApi } from '@/api';
 import { useRoute } from 'vue-router';
 
-const course = ref([]);
+const course = ref({});
 const route = useRoute();
 const id = route.params.id;
 
@@ -44,17 +54,13 @@ onMounted(async () => {
     clubName: data.club.name,
     danceName: data.dance.name,
     locationName: data.location.name,
-    trainerName: 'ime',
+    trainerName: data.trainer.firstName + ' ' + data.trainer.lastName,
   };
 });
-
-/*
-const course = {
-  name: 'Ples neki',
-  locationName: 'FER',
-  danceName: 'Samba',
-  description: 'Plesat ćemo sambu i učiti nešto novo blabla.',
-  capacity: 20,
-};
-*/
 </script>
+
+<style>
+n-card {
+  margin-top: 10px;
+}
+</style>

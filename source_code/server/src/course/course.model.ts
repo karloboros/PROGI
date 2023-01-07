@@ -99,6 +99,23 @@ class CourseModel extends Model implements ICourse {
     });
   }
 
+  static scopes() {
+    return {
+      includeClub: {
+        include: ['club'],
+      },
+      includeDance: {
+        include: ['dance'],
+      },
+      includeLocation: {
+        include: ['location'],
+      },
+      includeTrainer: {
+        include: ['trainer'],
+      },
+    };
+  }
+
   static dbOptions() {
     return {
       modelName: 'course',

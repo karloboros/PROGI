@@ -75,7 +75,7 @@ const layerChanged = (layerId, active) => {
 */
 
 const initLayers = async () => {
-  const data = await courseApi.fetchCoursesLocations();
+  const data = await courseApi.fetchAll();
 
   for (const course of data) {
     course.value = {
