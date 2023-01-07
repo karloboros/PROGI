@@ -17,6 +17,7 @@ import { ref } from 'vue';
 const emit = defineEmits(['update', 'error']);
 const props = defineProps({
   accept: { type: String, default: '' },
+  api: { type: Function, default: authApi.upload },
 });
 
 const file = ref(null);
@@ -36,7 +37,7 @@ const upload = async () => {
   formData.append('file', file.value.files[0]);
 
   try {
-    const { path } = await authApi.upload(formData);
+    const { path } = await props.api(formData);
     filePath.value = path;
     emit('update', path);
   } catch (err) {

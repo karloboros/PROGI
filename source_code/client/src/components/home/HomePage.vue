@@ -5,6 +5,9 @@
     </n-modal>
     <n-button @click="showModal = true">Create club</n-button>
     <n-button @click="router.push({ name: 'Profile' })">Profile</n-button>
+    <n-form-item v-if="isClubOwner">
+      <n-button @click="router.push({ name: 'AddEvent' })">Create event</n-button>
+    </n-form-item>
     <n-button @click="authStore.logout(router)">Logout</n-button>
     <courses-map></courses-map>
   </n-space>
@@ -20,4 +23,5 @@ const authStore = useAuthStore();
 const router = useRouter();
 
 const showModal = ref(false);
+const isClubOwner = authStore.isClubOwner;
 </script>
