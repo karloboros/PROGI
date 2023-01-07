@@ -1,6 +1,6 @@
 import { BAD_REQUEST, CONFLICT, CREATED, FORBIDDEN, OK } from 'http-status';
 import { NextFunction, Request, Response } from 'express';
-import sequelize, { Course, Lesson } from 'shared/database';
+import sequelize, { Lesson } from 'shared/database';
 import errorMessages from 'shared/constants/errorMessages';
 import HttpError from 'shared/error/httpError';
 import { UniqueConstraintError } from 'sequelize';
@@ -10,11 +10,17 @@ const test = async (req: Request, res: Response) => {
   const lessons = await Lesson.findAll();
   return res.send(lessons);
 };
-const fetchAll = async (req: Request, res: Response) => {
-  // const { cId } = JSON.parse(req.params.courseId);
-  const lessons = await Lesson.findAll({ include: [Course] });
-  // const returnLessons = lessons.filter(lesson => lesson.courseId === courseId);
-  return res.send(lessons);
+const fetchAll = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const lessons = await Lesson.scope(['includeCourse']).findAll({
+      where: {
+        courseId: +req.params.courseId,
+      },
+    });
+    return res.send(lessons);
+  } catch (err) {
+    return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
+  }
 };
 const create = async (req: Request, res: Response, next: NextFunction) => {
   const transaction = await sequelize.transaction();
