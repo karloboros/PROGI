@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "prepare": "cd ../ && husky install source_code/.husky",
     "enforce-branch-name": "enforce-branch-name '(feature|task|chore|fix)/.+' --ignore 'staging'",
