@@ -10,31 +10,7 @@ const fetchEventLocation = async (req: Request, res: Response) => {
   });
   return res.send(events);
 };
-/*
-const fetchEventDance = async (req: Request, res: Response) => {
-  const events = await Event.findAll({
-    include: [
-      {
-        model: 'eventDance',
-        include: [{ model: Dance }],
-      },
-    ],
-  });
-  return res.send(events);
-};
-*/
 
-const fetchEventDance = async (req: Request, res: Response) => {
-  const events = await Event.findAll({ include: [Dance] });
-  return res.send(events);
-};
-
-/*
-const fetchEventDance = async (req: Request, res: Response) => {
-  const eventDances = await EventDance.scope(['eventDance']).findAll();
-  return res.send(eventDances);
-};
-*/
 const create = async (req: Request, res: Response, next: NextFunction) => {
   const transaction = await sequelize.transaction();
   try {
@@ -77,4 +53,4 @@ const uploadEventImage = (req: Request, res: Response, next: NextFunction) => {
 
   return res.status(OK).json({ path: `/images/events/${file.filename}` });
 };
-export { create, uploadEventImage, fetchEventDance, fetchEventLocation };
+export { create, fetchEventLocation, uploadEventImage };

@@ -23,7 +23,6 @@ const upload = multer({ storage });
 
 router
   .get('/events-with-location', fetchEventLocation)
-  .get('/event-Dance', fetchEventDance)
   .use(authenticate)
   .use(refresh)
   .post('/create', create)
