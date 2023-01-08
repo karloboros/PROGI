@@ -21,14 +21,14 @@ const urls = {
   get upload() {
     return this.root + '/upload';
   },
+  get fetchDanceEvents() {
+    return '/dances' + '/dance-events';
+  },
   get fetchEventDance() {
     return '/events' + '/event-Dance';
   },
   get fetchEventLocation() {
     return '/events' + '/events-with-location';
-  },
-  get fetchDanceEvents() {
-    return '/dances' + '/dance-events';
   },
 };
 
@@ -47,14 +47,13 @@ const logout = () => {
 const edit = user => {
   return request.post(urls.edit, user).then(extractData);
 };
-const fetchEventDance = () => {
-  return request.get(urls.fetchEventDance).then(extractData);
-};
-const fetchEventLocation = () => {
-  return request.get(urls.fetchEventLocation).then(extractData);
-};
+
 const fetchDanceEvents = () => {
   return request.get(urls.fetchDanceEvents).then(extractData);
+};
+
+const fetchEventLocation = () => {
+  return request.get(urls.fetchEventLocation).then(extractData);
 };
 
 const remove = () => {
@@ -71,7 +70,6 @@ export default {
   logout,
   edit,
   fetchDanceEvents,
-  fetchEventDance,
   fetchEventLocation,
   remove,
   upload,
