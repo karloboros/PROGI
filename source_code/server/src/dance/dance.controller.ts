@@ -5,11 +5,6 @@ import errorMessages from 'shared/constants/errorMessages';
 import HttpError from 'shared/error/httpError';
 import { UniqueConstraintError } from 'sequelize';
 
-const fetchDanceEvent = async (req: Request, res: Response) => {
-  const events = await Dance.findAll({ include: [Event] });
-  return res.send(events);
-};
-
 const fetchAll = async (_req: Request, res: Response) => {
   const dances = await Dance.findAll();
   return res.send(dances);
@@ -18,6 +13,11 @@ const fetchAll = async (_req: Request, res: Response) => {
 const fetchById = async (req: Request, res: Response) => {
   const dance = await Dance.findByPk(+req.params.id);
   return res.send(dance);
+};
+
+const fetchDanceEvent = async (req: Request, res: Response) => {
+  const events = await Dance.findAll({ include: [Event] });
+  return res.send(events);
 };
 
 const create = async (req: Request, res: Response, next: NextFunction) => {
@@ -79,4 +79,4 @@ const uploadDanceImage = (req: Request, res: Response, next: NextFunction) => {
   return res.status(OK).json({ path: `/images/dances/${file.filename}` });
 };
 
-export { fetchAll, fetchById, fetchDanceEvent, create, edit, remove, uploadDanceImage };
+export { create, edit, fetchAll, fetchById, fetchDanceEvent, remove, uploadDanceImage };
