@@ -1,31 +1,55 @@
 const TABLE_NAME = 'events';
 
-const createEvent = index => {
-  return {
-    name: `Event #${index}`,
-    description: `Short event description`,
-    image: `image #${index}`,
-    clubId: 1,
-    locationId: (index % 3) + 1,
-  };
-};
-
 module.exports = {
   up(queryInterface) {
     const events = [];
-    for (let i = 1; i < 6; i++) events.push(createEvent(i));
+    events.push({
+      name: `Event #1`,
+      description: `bla bla`,
+      image: `image one`,
+      clubId: 1,
+      locationId: 1,
+    });
+    events.push({
+      name: `Event #2`,
+      description: `bla bla`,
+      image: `image one`,
+      clubId: 2,
+      locationId: 2,
+    });
+    events.push({
+      name: `Event #3`,
+      description: `bla bla`,
+      image: `image one`,
+      clubId: 2,
+      locationId: 3,
+    });
+    events.push({
+      name: `Event #4`,
+      description: `bla bla`,
+      image: `image one`,
+      clubId: 3,
+      locationId: 4,
+    });
+    events.push({
+      name: `Event #5`,
+      description: `bla bla`,
+      image: `image one`,
+      clubId: 4,
+      locationId: 5,
+    });
     events.push({
       name: `Ples studenata`,
       description: `tango`,
       image: `image one`,
-      clubId: 2,
+      clubId: 5,
       locationId: 4,
     });
     events.push({
       name: `Ples u domu`,
       description: `valcer`,
       image: `image two`,
-      clubId: 1,
+      clubId: 5,
       locationId: 5,
     });
     return queryInterface.bulkInsert(TABLE_NAME, events);
