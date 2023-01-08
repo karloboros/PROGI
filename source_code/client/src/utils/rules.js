@@ -1,4 +1,4 @@
-import { subtractYears } from './dates';
+import { subtractYears } from './dates.js';
 
 const AGE_MINIMUM = 12;
 
@@ -81,4 +81,4 @@ const validationRules = {
   },
 };
 
-export default validationRules;
+export { validationRules, emailValidator, dateOfBirthValidator, phoneNumberValidator, urlValidator };
