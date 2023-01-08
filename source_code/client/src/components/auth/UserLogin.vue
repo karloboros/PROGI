@@ -29,7 +29,7 @@
               <n-checkbox v-model:checked="disabled1" @change="Clubs(this)" name="chc1" :disabled="disabled2">
                 Clubs
               </n-checkbox>
-              <n-checkbox v-model:checked="disabled2" @change="Dances(this)" name="chc2" :disabled="disable1"
+              <n-checkbox v-model:checked="disabled2" @change="Dances(this)" name="chc2" :disabled="disabled1"
                 >Dances
               </n-checkbox>
             </n-space>
@@ -114,31 +114,56 @@ const initMap = () => {
 };
 
 const Clubs = () => {
-  const checkbox = document.getElementById('chc1');
-  if (checkbox?.checked) map.value.addLayer(eventsToMap);
-  else map.value.removeLayer(eventsToMap);
+  map.value.removeLayer(eventsToMap2);
+  console.log(disabled1.value);
+  // const checkbox = document.getElementById('chc1');
+  if (disabled1.value === false) 
+  //  console.log(eventsToMap);
+    //map.value.addLayer(eventsToMap);
+  //} */
+  // else
+  map.value.removeLayer(eventsToMap);
 };
 
 const Dances = () => {
+
+  map.value.removeLayer(eventsToMap);
+  if (disabled2.value === false) map.value.removeLayer(eventsToMap2);
+  // if (disabled1.value === false) map.value.removeLayer(eventsToMap2);
+  /*
   const checkbox = document.getElementById('chc2');
   if (checkbox?.checked) map.value.addLayer(eventsToMap2);
   else map.value.removeLayer(eventsToMap2);
+  */
 };
+
 const layerDanceChanged = dance => {
+  map.value.addLayer(eventsToMap2);
   dances.value.forEach(d => {
+    console.log(d);
     if (d.id === dance.id) {
+      console.log(true);
       eventsToChangeDisplay2.value.push(d.events);
       console.log(d.events);
     }
   });
 
-  const coordinates = '';
-  eventsToChangeDisplay2.value.forEach(async event => {
-    const eventloc = await authApi.fetchEventLocation();
+  let coordinates = '';
+  eventsToChangeDisplay2.value.forEach(async array => {
+    array.forEach(async event => {
+      const eventloc = await authApi.fetchEventLocation();
     eventloc.forEach(e => {
-      if (e.id === event.id) coordinates.value = event.location.coordinates;
-    });
-
+      console.log(e);
+      console.log(e.location.coordinates);
+      console.log(event);
+      console.log(event.eventDance.id);
+      console.log(e.id);
+      if (e.id === event.eventDance.id) {
+        console.log(e.location.coordinates);
+        // eslint-disable-next-line no-const-assign
+          coordinates = e.location.coordinates;
+      
+          console.log(coordinates);
     const coords = coordinates.split(',');
     const x = Number(coords[0]);
     const y = Number(coords[1]);
@@ -154,7 +179,11 @@ const layerDanceChanged = dance => {
       eventsToMap2.addLayer(L.marker(L.latLng(x, y)).bindPopup(`${event.name}`));
       console.log(eventsToMap2);
     }
-  });
+      
+      }
+    });
+    });
+});
 
   eventsToChangeDisplay2.value.forEach(el => {
     eventsToChangeDisplay2.value.pop(el.value);
@@ -163,10 +192,10 @@ const layerDanceChanged = dance => {
 };
 
 const layerClubChanged = club => {
+  map.value.addLayer(eventsToMap);
   events.value.forEach(event => {
     if (event.clubId === club.id) {
       eventsToChangeDisplay.value.push(event.value);
-      console.log(event.value);
     }
   });
 
@@ -197,6 +226,8 @@ const layerClubChanged = club => {
 
 onMounted(async () => {
   initMap(); //
+  disabled1.value = false;
+  disabled2.value = false;
   const data = await authApi.fetchEventLocation();
   const dataDances = await authApi.fetchDanceEvents();
 
@@ -232,7 +263,7 @@ onMounted(async () => {
       location: event.location,
       locationName: event.location.name,
       coordinates: event.location.coordinates,
-      active: false,
+      active: true,
     };
 
     let find = false;
@@ -246,7 +277,7 @@ onMounted(async () => {
       clubs.value.push({
         id: event.clubId,
         name: event.club.name,
-        active: false,
+        active: true,
       });
     }
 
