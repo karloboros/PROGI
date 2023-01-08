@@ -4,6 +4,6 @@ import { Router } from 'express';
 const router = Router();
 const path = '/event-dances';
 
-router.get('/eventDances', eventDance).get('/test', test);
+router.get('/eventDances', eventDance);
 
 export default { router, path };
