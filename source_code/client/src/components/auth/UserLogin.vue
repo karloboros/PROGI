@@ -25,6 +25,14 @@
             <div id="map" class="map"></div>
           </div>
           <div class="col-md-3">
+            <n-space vertical>
+              <n-checkbox v-model:checked="disabled1" @change="Clubs(this)" name="chc1" :disabled="disabled2">
+                Clubs
+              </n-checkbox>
+              <n-checkbox v-model:checked="disabled2" @change="Dances(this)" name="chc2" :disabled="disable1"
+                >Dances
+              </n-checkbox>
+            </n-space>
             <h5>Filtriraj događaje po klubovima:</h5>
             <div v-for="club in clubs" :key="club.id" class="form-check">
               <label class="form-check-label">
@@ -33,17 +41,20 @@
                   @change="layerClubChanged(club)"
                   class="form-check-input"
                   type="checkbox"
+                  :disabled="disabled2"
                 />
                 {{ club.name }} {{ club.id }}
               </label>
             </div>
+            <h5>Filtriraj događaje po tipu plesa:</h5>
             <div v-for="dance in dances" :key="dance.id" class="form-check">
               <label class="form-check-label">
                 <input
                   v-model="dance.active"
-                  @change="layerDanceChanged(club)"
+                  @change="layerDanceChanged(dance)"
                   class="form-check-input"
                   type="checkbox"
+                  :disabled="disabled1"
                 />
                 {{ dance.name }} {{ dance.id }}
               </label>
@@ -68,9 +79,13 @@ import { useMessage } from 'naive-ui';
 import { useRouter } from 'vue-router';
 import validationRules from '@/utils/rules';
 
+const disabled1 = ref(false);
+const disabled2 = ref(false);
 const events = ref([]);
 const eventsToMap = L.layerGroup();
+const eventsToMap2 = L.layerGroup();
 const eventsToChangeDisplay = ref([]);
+const eventsToChangeDisplay2 = ref([]);
 const clubs = ref([]);
 const dances = ref([]);
 const map = ref(null);
@@ -93,22 +108,61 @@ const message = useMessage();
 const router = useRouter();
 const authStore = useAuthStore();
 
-// const overlays = ref([]);
-// const overlaysTree = L.layerTree();
-// const layer = ref(null);
-
 const initMap = () => {
   map.value = L.map('map').setView(view, 12);
   L.tileLayer(mapBackground, { attribution }).addTo(map.value);
 };
 
+const Clubs = () => {
+  const checkbox = document.getElementById('chc1');
+  if (checkbox?.checked) map.value.addLayer(eventsToMap);
+  else map.value.removeLayer(eventsToMap);
+};
+
+const Dances = () => {
+  const checkbox = document.getElementById('chc2');
+  if (checkbox?.checked) map.value.addLayer(eventsToMap2);
+  else map.value.removeLayer(eventsToMap2);
+};
+const layerDanceChanged = dance => {
+  dances.value.forEach(d => {
+    if (d.id === dance.id) {
+      eventsToChangeDisplay2.value.push(d.events);
+      console.log(d.events);
+    }
+  });
+
+  const coordinates = '';
+  eventsToChangeDisplay2.value.forEach(async event => {
+    const eventloc = await authApi.fetchEventLocation();
+    eventloc.forEach(e => {
+      if (e.id === event.id) coordinates.value = event.location.coordinates;
+    });
+
+    const coords = coordinates.split(',');
+    const x = Number(coords[0]);
+    const y = Number(coords[1]);
+
+    if (event.active) {
+      event.active = false;
+      eventsToMap2.eachLayer(layer => {
+        if (layer._latlng.lat === x && layer._latlng.lng === y) eventsToMap2.removeLayer(layer._leaflet_id);
+      });
+    } else {
+      event.active = true;
+
+      eventsToMap2.addLayer(L.marker(L.latLng(x, y)).bindPopup(`${event.name}`));
+      console.log(eventsToMap2);
+    }
+  });
+
+  eventsToChangeDisplay2.value.forEach(el => {
+    eventsToChangeDisplay2.value.pop(el.value);
+  });
+  map.value.addLayer(eventsToMap2);
+};
+
 const layerClubChanged = club => {
-  console.log(club);
-  console.log(club.name);
-  console.log(club.id);
-
-  // map.value.removeLayer(eventsToMap);
-
   events.value.forEach(event => {
     if (event.clubId === club.id) {
       eventsToChangeDisplay.value.push(event.value);
@@ -127,20 +181,14 @@ const layerClubChanged = club => {
       eventsToMap.eachLayer(layer => {
         if (layer._latlng.lat === x && layer._latlng.lng === y) eventsToMap.removeLayer(layer._leaflet_id);
       });
-      // eventsToMap.addLayer(L.marker(L.latLng(x, y)).bindPopup(`${event.name}`));
     } else {
       console.log('IZ NEAKTIVNO U AKTIVNO');
       event.active = true;
-      // console.log(eventsToMap.getLayers());
-      // eventsToMap._layers.forEach(layer => {
-      // if (layer._latlng.lat === x && layer._latlng.lng === y)
+
       eventsToMap.addLayer(L.marker(L.latLng(x, y)).bindPopup(`${event.name}`));
-      // });
       console.log(eventsToMap);
     }
-    // map.value.addLayer(eventsToMap);
   });
-  // eslint-disable-next-line no-const-assign
   eventsToChangeDisplay.value.forEach(el => {
     eventsToChangeDisplay.value.pop(el.value);
   });
@@ -150,6 +198,29 @@ const layerClubChanged = club => {
 onMounted(async () => {
   initMap(); //
   const data = await authApi.fetchEventLocation();
+  const dataDances = await authApi.fetchDanceEvents();
+
+  for (const dance of dataDances) {
+    dance.value = {
+      id: dance.id,
+      name: dance.name,
+      description: dance.description,
+      image: dance.image,
+      videoUrl: dance.videoUrl,
+      events: dance.events,
+      active: true,
+    };
+
+    console.log(dance.value.events);
+
+    dances.value.push({
+      id: dance.id,
+      name: dance.name,
+      events: dance.value.events,
+      active: false,
+    });
+  }
+
   for (const event of data) {
     event.value = {
       name: event.name,
@@ -161,7 +232,7 @@ onMounted(async () => {
       location: event.location,
       locationName: event.location.name,
       coordinates: event.location.coordinates,
-      active: true,
+      active: false,
     };
 
     let find = false;
@@ -175,7 +246,7 @@ onMounted(async () => {
       clubs.value.push({
         id: event.clubId,
         name: event.club.name,
-        active: true,
+        active: false,
       });
     }
 
@@ -185,44 +256,10 @@ onMounted(async () => {
     const x = Number(coords[0]);
     const y = Number(coords[1]);
     eventsToMap.addLayer(L.marker(L.latLng(x, y)).bindPopup(`${event.value.name}`));
-
-    /* layer.value = {
-      label: event.value.name,
-      layer: L.marker(L.latLng(x, y)).bindPopup(event.value.locationName),
-    }; */
-    // overlaysTree.value.children.push(layer.value);
   }
   console.log(eventsToMap);
   console.log(eventsToMap.getLayers());
   map.value.addLayer(eventsToMap);
-  // console.log(overlaysTree);
-  // console.log(overlaysTree.value.children);
-  // eventsToMap.layers.addTo(overlaysTree.value.children); //
-  /* clubs.value = {
-    label: 'Clubs',
-    selectAllCheckbox: false,
-    layer: eventsToMap,
-  }; */
-  // map.value.addLayer(overlaysTree);
-  /* overlays.value = {
-    'All events ': eventsToMap,
-  }; */
-  // console.log(clubs.value.label === 'Clubs');
-
-  /* const layerControl = L.control.layers.tree(null, overlaysTree, {
-    namedToggle: true,
-    selectorBack: false,
-    closedSymbol: '&#8862; &#x1f5c0;',
-    openedSymbol: '&#8863; &#x1f5c1;',
-    collapseAll: 'Collapse all',
-    expandAll: 'Expand all',
-    collapsed: false,
-  });
-  // console.log(layerControl.value.includes('All events'));
-  map.value.addControl(layerControl);
-  layerControl.addOverlay(clubs.value.layer, clubs.value.label, true);
-  // layerControl.value.addOverlay(eventsToMap, 'all Events');
-  */
 });
 
 const submit = async () => {

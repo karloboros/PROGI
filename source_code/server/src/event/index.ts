@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import { fetchEventDance, fetchEventLocation } from './event.controller';
-import { Router } from 'express';
-=======
-import { create, uploadEventImage } from './event.controller';
+import { create, fetchEventDance, fetchEventLocation, uploadEventImage } from './event.controller';
 import authenticate from 'shared/auth/authenticate';
 import fs from 'fs';
 import multer from 'multer';
@@ -19,17 +15,18 @@ const storage = multer.diskStorage({
     cb(null, Date.now() + '_' + file.originalname);
   },
 });
->>>>>>> develop
 
 const router = Router();
 const path = '/events';
 
-<<<<<<< HEAD
-router.get('/events-with-location', fetchEventLocation).get('/event-Dance', fetchEventDance);
-=======
 const upload = multer({ storage });
 
-router.use(authenticate).use(refresh).post('/create', create).post('/upload', upload.single('file'), uploadEventImage);
->>>>>>> develop
+router
+  .get('/events-with-location', fetchEventLocation)
+  .get('/event-Dance', fetchEventDance)
+  .use(authenticate)
+  .use(refresh)
+  .post('/create', create)
+  .post('/upload', upload.single('file'), uploadEventImage);
 
 export default { router, path };

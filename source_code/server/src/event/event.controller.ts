@@ -5,7 +5,7 @@ import errorMessages from 'shared/constants/errorMessages';
 import HttpError from 'shared/error/httpError';
 
 const fetchEventLocation = async (req: Request, res: Response) => {
-  const events = await Event.scope(['includeEventDances']).findAll({
+  const events = await Event.findAll({
     include: [{ model: Club }, { model: Location }],
   });
   return res.send(events);
@@ -25,14 +25,7 @@ const fetchEventDance = async (req: Request, res: Response) => {
 */
 
 const fetchEventDance = async (req: Request, res: Response) => {
-  const events = await Event.findAll({
-    include: [
-      {
-        model: Dance,
-        through: { attributes: ['danceId'] },
-      },
-    ],
-  });
+  const events = await Event.findAll({ include: [Dance] });
   return res.send(events);
 };
 
@@ -42,8 +35,6 @@ const fetchEventDance = async (req: Request, res: Response) => {
   return res.send(eventDances);
 };
 */
-export { fetchEventDance, fetchEventLocation };
-
 const create = async (req: Request, res: Response, next: NextFunction) => {
   const transaction = await sequelize.transaction();
   try {
@@ -86,4 +77,4 @@ const uploadEventImage = (req: Request, res: Response, next: NextFunction) => {
 
   return res.status(OK).json({ path: `/images/events/${file.filename}` });
 };
-export { create, uploadEventImage };
+export { create, uploadEventImage, fetchEventDance, fetchEventLocation };
