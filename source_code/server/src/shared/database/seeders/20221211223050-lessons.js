@@ -1,6 +1,6 @@
 const TABLE_NAME = 'lessons';
 
-const createCourse = index => {
+const createCourse = () => {
   return {
     startTime: new Date('2023'),
     endTime: new Date('2024'),
@@ -10,7 +10,7 @@ const createCourse = index => {
 module.exports = {
   up(queryInterface) {
     const lessons = [];
-    for (let i = 1; i < 4; i++) lessons.push(createCourse(i));
+    for (let i = 1; i < 4; i++) lessons.push(createCourse());
     return queryInterface.bulkInsert(TABLE_NAME, lessons);
   },
 
