@@ -39,6 +39,6 @@ router
   .delete('/', remove)
   .get('/all', fetchAll)
   .get('/:id', fetchById)
-  .delete('/remove/:id', removeById);
+  .delete('/:id', removeById);
 
 export default { router, path };
