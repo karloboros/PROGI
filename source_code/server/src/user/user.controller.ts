@@ -90,4 +90,29 @@ const uploadProfileImage = (req: Request, res: Response, next: NextFunction) => 
   return res.status(OK).json({ path: `/images/users/${file.filename}` });
 };
 
-export { login, register, logout, edit, remove, uploadProfileImage };
+const fetchAll = async (_req: Request, res: Response) => {
+  const users = await User.findAll();
+  const usersToReturn = users.map(user => user.profile);
+  return res.send(usersToReturn);
+};
+
+const fetchById = async (req: Request, res: Response, next: NextFunction) => {
+  const user = await User.findByPk(+req.params.id);
+  if (!user) return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
+  return res.send(user.profile);
+};
+
+const removeById = async (req: Request, res: Response, next: NextFunction) => {
+  const { id } = req.params;
+  try {
+    const userToRemove = await User.scope('includeClub').findByPk(id);
+    if (!userToRemove) return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
+    if (userToRemove.clubs?.length) return next(new HttpError(CONFLICT, errorMessages.CLUB_OWNER_DELETE_ADMIN));
+
+    await userToRemove.destroy();
+    res.status(OK).send();
+  } catch (err) {
+    return next(err);
+  }
+};
+export { login, register, logout, edit, remove, uploadProfileImage, fetchAll, fetchById, removeById };
