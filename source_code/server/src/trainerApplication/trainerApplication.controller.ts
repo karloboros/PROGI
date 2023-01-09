@@ -43,7 +43,7 @@ const updateStatus = async (req: Request, res: Response, next: NextFunction) => 
     await application.save();
 
     if (isApproved) {
-      const trainer = await User.findByPk(user.id);
+      const trainer = await User.findOne({ where: { id: application.trainerId }});
       if (!trainer) return next(new HttpError(NOT_FOUND, errorMessages.NOT_FOUND));
       trainer.role = Role.Coach;
       await trainer.save();
