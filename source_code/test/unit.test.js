@@ -14,7 +14,7 @@ test('Should get time value in milliseconds', t => {
   const date1 = 'Sun Jan 01 2023 00:00:01 GMT+0100 (Central European Standard Time)';
   const date2 = 'Sun Jan 01 2023 00:00:02 GMT+0100 (Central European Standard Time)';
   const expectedDiff = 1000;
-  t.deepEqual(toDatePicker(date2) - toDatePicker(date1), expectedDiff);
+  t.is(toDatePicker(date2) - toDatePicker(date1), expectedDiff);
 });
 
 test('Should return email suggestions', t => {
