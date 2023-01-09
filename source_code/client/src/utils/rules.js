@@ -8,10 +8,15 @@ export const UNDER_AGE_MINIMUM_MESSAGE = `You need to be at least ${AGE_MINIMUM}
 export const WRONG_PHONE_FORMAT_MESSAGE = 'Wrong number format';
 export const WRONG_URL_FORMAT_MESSAGE = 'Wrong url format';
 
+const emailRegex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
+const phoneNumberRegex = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{3,4})$/;
+const urlRegex =
+  /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_+.~#?&/=]*)$/;
+
 export const emailValidator = (_rule, value) => {
   if (!value) {
     return new Error(REQUIRED_MESSAGE);
-  } else if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(value)) {
+  } else if (!emailRegex.test(value)) {
     return new Error(WRONG_EMAIL_FORMAT_MESSAGE);
   }
   return true;
@@ -30,7 +35,7 @@ export const dateOfBirthValidator = (_rule, value) => {
 export const phoneNumberValidator = (_rule, value) => {
   if (!value) {
     return new Error(REQUIRED_MESSAGE);
-  } else if (!/^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{3,4})$/.test(value)) {
+  } else if (!phoneNumberRegex.test(value)) {
     return new Error(WRONG_PHONE_FORMAT_MESSAGE);
   }
   return true;
@@ -39,9 +44,7 @@ export const phoneNumberValidator = (_rule, value) => {
 export const urlValidator = (_rule, value) => {
   if (!value) {
     return new Error(REQUIRED_MESSAGE);
-  } else if (
-    !/^(http(s):\/\/.)[-a-zA-Z0-9@:%._\\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)$/g.test(value)
-  ) {
+  } else if (!urlRegex.test(value)) {
     return new Error(WRONG_URL_FORMAT_MESSAGE);
   }
   return true;
