@@ -7,6 +7,7 @@ import {
   phoneNumberValidator,
   urlValidator,
   WRONG_EMAIL_FORMAT_MESSAGE,
+  UNDER_AGE_MINIMUM_MESSAGE,
 } from '../client/src/utils/rules.js';
 
 test('Should subtract years from date', t => {
@@ -55,13 +56,15 @@ test('Should validate email address', t => {
 });
 
 test('Should check if user is old enough to register', t => {
-  const date = new Date('Mon Jul 16 2003 22:43:41 GMT+0100 (Central European Standard Time)');
-  let result = dateOfBirthValidator(null, date);
-  t.deepEqual(result, true);
+  const now = new Date().getTime();
+  const validDate = subtractYears(new Date(), 15).getTime();
+  const edgeCase = subtractYears(new Date(), 12).getTime();
 
-  const dateUnderage = new Date('Sat Jun 07 2023 22:43:41 GMT+0100 (Central European Standard Time)');
-  result = dateOfBirthValidator(null, dateUnderage);
-  t.deepEqual(result, Error('You need to be at least 12 years old to register'));
+  const error = Error(UNDER_AGE_MINIMUM_MESSAGE);
+
+  t.deepEqual(dateOfBirthValidator(null, now), error);
+  t.true(dateOfBirthValidator(null, validDate));
+  t.true(dateOfBirthValidator(null, edgeCase));
 });
 
 test('Should validate phone number', t => {
