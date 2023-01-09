@@ -49,7 +49,7 @@ const getApproved = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { courseId } = req.params;
     const userCourses = await UserCourse.scope(['accepted', 'includeUser']).findAll({ where: { courseId } });
-    return res.status(OK).json({ ...userCourses });
+    return res.status(OK).send(userCourses);
   } catch {
     return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
   }
@@ -59,7 +59,7 @@ const getPending = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { courseId } = req.params;
     const userCourses = await UserCourse.scope(['pending', 'includeUser']).findAll({ where: { courseId } });
-    return res.status(OK).json({ ...userCourses });
+    return res.status(OK).send(userCourses);
   } catch {
     return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
   }
@@ -68,8 +68,8 @@ const getPending = async (req: Request, res: Response, next: NextFunction) => {
 const getByUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { userId } = req.params;
-    const applications = await UserCourse.findAll({ where: { userId } });
-    return res.status(OK).json({ ...applications });
+    const applications = await UserCourse.scope('includeCourse').findAll({ where: { userId } });
+    return res.status(OK).send(applications);
   } catch {
     return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
   }
