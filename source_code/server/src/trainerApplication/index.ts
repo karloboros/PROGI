@@ -27,7 +27,7 @@ router
   .post('/apply/:clubId', apply)
   .post('/update-status', updateStatus)
   .post('/upload', upload.single('file'), uploadPDF)
-  .get('/accepted/:clubId', getAccepted)
+  .get('/approved/:clubId', getAccepted)
   .get('/pending/:clubId', getPending);
 
 export default { router, path };
