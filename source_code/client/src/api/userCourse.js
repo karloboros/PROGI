@@ -9,17 +9,14 @@ const urls = {
   get updateStatus() {
     return this.root + '/update-status';
   },
-  get getApproved() {
-    return this.root + '/get-approved';
+  getAccepted(courseId) {
+    return `${urls.root}/approved/${courseId}`;
   },
-  get getPending() {
-    return this.root + '/get-pending';
+  getPending(courseId) {
+    return `${urls.root}/pending/${courseId}`;
   },
-  get getRejected() {
-    return this.root + '/get-rejected';
-  },
-  get getForUser() {
-    return this.root + '/see-aplications';
+  getYourApplications(userId) {
+    return `${urls.root}/${userId}`;
   },
 };
 
@@ -27,24 +24,21 @@ const send = (params = {}) => {
   return request.post(urls.apply, params).then(extractData);
 };
 
-const update = params => {
-  return request.get(urls.updateStatus, params).then(extractData);
+const updateStatus = params => {
+  return request.post(urls.updateStatus, params).then(extractData);
 };
 
-const getApproved = params => {
-  return request.get(urls.getApproved, params).then(extractData);
+const getAccepted = courseId => {
+  return request.get(urls.getAccepted(courseId)).then(extractData);
 };
 
-const getRejected = params => {
-  return request.get(urls.getRejected, params).then(extractData);
+const getPending = courseId => {
+  return request.get(urls.getPending(courseId)).then(extractData);
 };
 
-const getPending = clubId => {
-  return request.get(urls.getPending + `/${clubId}`).then(extractData);
+const getYourApplications = userId => {
+  return request.get(urls.getYourApplications(userId)).then(extractData);
 };
 
-const getForUser = params => {
-    return request.get(urls.getForUser, params).then(extractData);
-  };
 
-export default { send, update, getApproved, getRejected, getPending, getForUser };
+export default { send, updateStatus, getAccepted, getPending, getYourApplications };
