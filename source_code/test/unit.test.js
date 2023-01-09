@@ -1,7 +1,13 @@
 import test from 'ava';
 import { subtractYears, toDatePicker } from '../client/src/utils/dates.js';
 import suggestions from '../client/src/utils/emailSuggestions.js';
-import { emailValidator, dateOfBirthValidator, phoneNumberValidator, urlValidator } from '../client/src/utils/rules.js';
+import {
+  emailValidator,
+  dateOfBirthValidator,
+  phoneNumberValidator,
+  urlValidator,
+  WRONG_EMAIL_FORMAT_MESSAGE,
+} from '../client/src/utils/rules.js';
 
 test('Should subtract years from date', t => {
   const date = new Date('Sat Jan 07 2023 22:43:41 GMT+0100 (Central European Standard Time)');
@@ -29,14 +35,23 @@ test('Should return email suggestions', t => {
 });
 
 test('Should validate email address', t => {
-  const inputMailValid = 'some_username@gmail.com';
-  const inputMailInvalid = 'mailInvalid';
+  const validInput = 'some_username@gmail.com';
+  const onlyName = 'some_username';
+  const missingName = '@gmail.com';
+  const missingAt = 'some_usernamegmail.com';
+  const missingDot = 'some_username@gmailcom';
+  const missingEnd = 'some_username@gmail.';
+  const longEnd = 'some_username@gmail.comercial';
 
-  let result = emailValidator(null, inputMailValid);
-  t.deepEqual(result, true);
+  const error = Error(WRONG_EMAIL_FORMAT_MESSAGE);
 
-  result = emailValidator(null, inputMailInvalid);
-  t.deepEqual(result, Error('Wrong email format'));
+  t.true(emailValidator(null, validInput));
+  t.deepEqual(emailValidator(null, onlyName), error);
+  t.deepEqual(emailValidator(null, missingName), error);
+  t.deepEqual(emailValidator(null, missingAt), error);
+  t.deepEqual(emailValidator(null, missingDot), error);
+  t.deepEqual(emailValidator(null, missingEnd), error);
+  t.deepEqual(emailValidator(null, longEnd), error);
 });
 
 test('Should check if user is old enough to register', t => {
