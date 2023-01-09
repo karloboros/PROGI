@@ -26,10 +26,10 @@
           </div>
           <div class="col-md-3">
             <n-space vertical>
-              <n-checkbox v-model:checked="disabled1" @change="Clubs(this)" name="chc1" :disabled="disabled2">
+              <n-checkbox v-model:checked="disabled1" @change="Clubs()" name="chc1" :disabled="disabled2">
                 Clubs
               </n-checkbox>
-              <n-checkbox v-model:checked="disabled2" @change="Dances(this)" name="chc2" :disabled="disabled1"
+              <n-checkbox v-model:checked="disabled2" @change="Dances()" name="chc2" :disabled="disabled1"
                 >Dances
               </n-checkbox>
             </n-space>
@@ -39,7 +39,7 @@
                 <input
                   v-model="club.active"
                   @change="layerClubChanged(club)"
-                  class="form-check-input"
+                  class="form-check-input1"
                   type="checkbox"
                   :disabled="!disabled1"
                 />
@@ -90,6 +90,7 @@ const clubs = ref([]);
 const dances = ref([]);
 const map = ref(null);
 const locations = ref([]);
+const ch1 = ref(false);
 
 const initialValues = {
   username: '',
@@ -115,17 +116,28 @@ const initMap = () => {
 };
 
 const Clubs = () => {
-  map.value.removeLayer(eventsToMap2);
-  if (disabled1.value === false) map.value.removeLayer(eventsToMap);
+  clubs.value.forEach(e => {
+    e.active = false;
+  });
+  map.value.removeLayer(eventsToMap);
+  eventsToMap.value = eventsToMap.clearLayers();
+  // map.value.removeLayer(eventsToMap2);
+  /* if (disabled1.value === false) {
+    map.value.removeLayer(eventsToMap);
+  } */
 };
 
 const Dances = () => {
+  dances.value.forEach(e => {
+    e.active = false;
+  });
   map.value.removeLayer(eventsToMap);
-  if (disabled2.value === false) map.value.removeLayer(eventsToMap2);
+  eventsToMap.value = eventsToMap.clearLayers();
+  // if (disabled2.value === false) map.value.removeLayer(eventsToMap2);
 };
 
 const layerDanceChanged = dance => {
-  map.value.addLayer(eventsToMap2);
+  // map.value.addLayer(eventsToMap2);
   dances.value.forEach(d => {
     if (d.id === dance.id) {
       eventsToChangeDisplay2.value.push(d.events);
@@ -143,47 +155,53 @@ const layerDanceChanged = dance => {
           const x = Number(coords[0]);
           const y = Number(coords[1]);
 
+          console.log(event.active);
           if (event.active) {
             event.active = false;
-            eventsToMap2.eachLayer(layer => {
-              if (layer._latlng.lat === x && layer._latlng.lng === y) eventsToMap2.removeLayer(layer._leaflet_id);
+            eventsToMap.eachLayer(layer => {
+              if (layer._latlng.lat === x && layer._latlng.lng === y) eventsToMap.removeLayer(layer._leaflet_id);
             });
           } else {
             event.active = true;
-            eventsToMap2.addLayer(L.marker(L.latLng(x, y)).bindPopup(`${event.name}`));
+            eventsToMap.addLayer(L.marker(L.latLng(x, y)).bindPopup(`${event.name}`));
           }
         }
       });
     });
   });
   eventsToChangeDisplay2.value = [];
-  map.value.addLayer(eventsToMap2);
+  map.value.addLayer(eventsToMap.value);
 };
 
 const layerClubChanged = club => {
-  map.value.addLayer(eventsToMap);
+  // map.value.addLayer(eventsToMap);
   events.value.forEach(event => {
     if (event.clubId === club.id) {
       eventsToChangeDisplay.value.push(event.value);
     }
   });
 
+  console.log(eventsToMap.value);
+
   eventsToChangeDisplay.value.forEach(event => {
+    console.log(eventsToChangeDisplay.value);
     const coords = event.coordinates.split(',');
     const x = Number(coords[0]);
     const y = Number(coords[1]);
 
+    console.log(event.active);
     if (event.active) {
       event.active = false;
-      eventsToMap.eachLayer( layer => {
+      eventsToMap.eachLayer(layer => {
         if (layer._latlng.lat === x && layer._latlng.lng === y) eventsToMap.removeLayer(layer._leaflet_id);
       });
     } else {
       event.active = true;
-
       eventsToMap.addLayer(L.marker(L.latLng(x, y)).bindPopup(`${event.name}`));
+      console.log(eventsToMap.value);
     }
   });
+  console.log(eventsToMap.value);
 
   eventsToChangeDisplay.value = [];
   map.value.addLayer(eventsToMap);
@@ -214,6 +232,7 @@ onMounted(async () => {
 
   for (const event of data) {
     event.value = {
+      id: event.id,
       name: event.name,
       description: event.description,
       clubId: event.clubId,
@@ -248,7 +267,17 @@ onMounted(async () => {
       });
     }
     events.value.push(event);
+
+    const coords = event.value.coordinates.split(',');
+    const x = Number(coords[0]);
+    const y = Number(coords[1]);
+    eventsToMap.addLayer(L.marker(L.latLng(x, y)).bindPopup(event.value.locationName));
+    eventsToMap.addLayer(L.marker(L.latLng(x, y)).bindPopup(`${event.value.name}`));
+    // eventsToMap2.addLayer(L.marker(L.latLng(x, y)).bindPopup(event.value.locationName));
+    // eventsToMap2.addLayer(L.marker(L.latLng(x, y)).bindPopup(event.value.locationName));
   }
+  map.value.addLayer(eventsToMap);
+  // map.value.addLayer(eventsToMap2);
 });
 
 const submit = async () => {
