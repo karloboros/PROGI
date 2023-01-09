@@ -9,6 +9,8 @@ import ProfileView from '@/components/profile/ProfileView.vue';
 import { Role } from '@/constants';
 import { useAuthStore } from '@/store';
 import UserAuth from '@/components/auth/UserAuth.vue';
+import UserEdit from '@/components/admin/UserEdit.vue';
+import UsersList from '@/components/admin/UsersList.vue';
 
 const routes = [
   {
@@ -20,6 +22,18 @@ const routes = [
     path: '/auth',
     name: 'Auth',
     component: UserAuth,
+  },
+  {
+    path: '/users/all',
+    name: 'ListUsers',
+    meta: { role: Role.Administrator },
+    component: UsersList,
+  },
+  {
+    path: '/users/edit/:id',
+    name: 'EditUser',
+    meta: { role: Role.Administrator },
+    component: UserEdit,
   },
   {
     path: '/dances/create',
