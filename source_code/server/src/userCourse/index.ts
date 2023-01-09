@@ -1,4 +1,4 @@
-import { apply, getApproved, getByUser, getPending, updateStatus } from './userCourse.controller';
+import { apply, getApproved, getPending, getUsersApplications, updateStatus } from './userCourse.controller';
 import authenticate from 'shared/auth/authenticate';
 import refresh from 'shared/auth/refresh';
 import { Router } from 'express';
@@ -13,6 +13,6 @@ router
   .post('/update-status', updateStatus)
   .get('/approved/:courseId', getApproved)
   .get('/pending/:courseId', getPending)
-  .get('/:userId', getByUser);
+  .get('/:userId', getUsersApplications);
 
 export default { router, path };
