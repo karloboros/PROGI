@@ -39,7 +39,6 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-
 const fetchAll = async (req: Request, res: Response) => {
   const allClubs = await Club.findAll();
   return res.send(allClubs);
@@ -72,6 +71,4 @@ const updateApprovalStatus = async (req: Request, res: Response, next: NextFunct
   }
 };
 
-
 export { create, fetchAll, fetchApproved, fetchPending, updateApprovalStatus };
-

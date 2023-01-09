@@ -7,11 +7,13 @@ import CoursesShow from '@/components/clubowner/CoursesShow.vue';
 import DanceCreate from '@/components/admin/DanceCreate.vue';
 import DanceEdit from '@/components/admin/DanceEdit.vue';
 import DancesList from '@/components/admin/DancesList.vue';
-import EventCreate from '@/components/clubOwner/EventCreate.vue';
+import EventCreate from '@/components/clubowner/EventCreate.vue';
 import Home from '@/components/home/HomePage.vue';
 import HomeOwner from '@/components/clubowner/HomeOwner.vue';
 import LessonCreate from '@/components/clubowner/LessonCreate.vue';
+import LessonEdit from '@/components/clubowner/LessonEdit.vue';
 import LessonsShow from '@/components/common/LessonsShow.vue';
+import LessonsShowTable from '@/components/clubowner/LessonsShowTable.vue';
 import ProfileView from '@/components/profile/ProfileView.vue';
 import { Role } from '@/constants';
 import { useAuthStore } from '@/store';
@@ -65,7 +67,7 @@ const routes = [
   },
   {
     path: '/clubs/all',
-    name: 'Clubs',
+    name: 'ClubsShow',
     meta: { role: Role.ClubOwner || Role.Administrator },
     component: ClubsShow,
   },
@@ -92,12 +94,24 @@ const routes = [
     name: 'LessonCreate',
     meta: { role: Role.ClubOwner || Role.Administrator },
     component: LessonCreate,
-
+  },
+  {
+    path: '/lesson/edit/:id',
+    name: 'LessonEdit',
+    meta: { role: Role.ClubOwner || Role.Administrator },
+    component: LessonEdit,
+  },
+  {
+    path: '/lesson/:courseId',
+    name: 'LessonsShowTable',
+    meta: { role: Role.ClubOwner || Role.Administrator },
+    component: LessonsShowTable,
+  },
+  {
     path: '/events/create',
     name: 'AddEvent',
     meta: { role: Role.ClubOwner },
     component: EventCreate,
-
   },
   {
     path: '/profile',
