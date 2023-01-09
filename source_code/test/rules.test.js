@@ -1,6 +1,5 @@
 import test from 'ava';
-import { subtractYears, toDatePicker } from '../client/src/utils/dates.js';
-import suggestions from '../client/src/utils/emailSuggestions.js';
+import { subtractYears } from '../client/src/utils/dates.js';
 import {
   emailValidator,
   dateOfBirthValidator,
@@ -11,31 +10,6 @@ import {
   WRONG_PHONE_FORMAT_MESSAGE,
   WRONG_URL_FORMAT_MESSAGE,
 } from '../client/src/utils/rules.js';
-
-test('Should subtract years from date', t => {
-  const date = new Date('Sat Jan 07 2023 22:43:41 GMT+0100 (Central European Standard Time)');
-  const expectedDate = new Date('Sat Jan 07 2013 22:43:41 GMT+0100 (Central European Standard Time)');
-  const subtractedDate = subtractYears(date, 10);
-  t.deepEqual(subtractedDate, expectedDate);
-});
-
-test('Should get time value in milliseconds', t => {
-  const date1 = 'Sun Jan 01 2023 00:00:01 GMT+0100 (Central European Standard Time)';
-  const date2 = 'Sun Jan 01 2023 00:00:02 GMT+0100 (Central European Standard Time)';
-  const expectedDiff = 1000;
-  t.is(toDatePicker(date2) - toDatePicker(date1), expectedDiff);
-});
-
-test('Should return email suggestions', t => {
-  const inputMail = 'some_username@';
-  const expectedSuggestions = [
-    { label: 'some_username@gmail.com', value: 'some_username@gmail.com' },
-    { label: 'some_username@fer.hr', value: 'some_username@fer.hr' },
-    { label: 'some_username@outlook.com', value: 'some_username@outlook.com' },
-  ];
-  const suggestedEmails = suggestions(inputMail);
-  t.deepEqual(suggestedEmails, expectedSuggestions);
-});
 
 test('Should validate email address', t => {
   const validInput = 'some_username@gmail.com';
