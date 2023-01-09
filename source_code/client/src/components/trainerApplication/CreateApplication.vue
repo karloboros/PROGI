@@ -17,6 +17,7 @@
 
 <script setup>
 // eslint-disable-next-line sort-imports
+
 import PlesFileUpload from '@/components/common/PlesFileUpload.vue';
 import { ref } from 'vue'; // onMounted,
 import { trainerApplicationApi } from '@/api'; //, clubApi, authApi
@@ -68,7 +69,4 @@ const error = error => {
 };
 
 // eslint-disable-next-line no-unused-vars
-/* const error = error => {
-    message.error(error);
-  }; */
 </script>
