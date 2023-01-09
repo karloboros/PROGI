@@ -26,7 +26,7 @@ const routes = [
   {
     path: '/admin/users/all',
     name: 'UsersList',
-    // meta: { role: Role.Administrator },
+    meta: { role: Role.Administrator },
     component: UsersList,
   },
   {
