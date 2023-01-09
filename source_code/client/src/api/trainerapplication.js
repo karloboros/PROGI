@@ -9,35 +9,38 @@ const urls = {
   get updateStatus() {
     return this.root + '/update-status';
   },
-  get getAccepted() {
-    return this.root + '/get-accepted';
+  get upload() {
+    return this.root + '/upload';
   },
-  get getPending() {
-    return this.root + '/get-pending';
+  getAccepted(clubId) {
+    return `${urls.root}/approved/${clubId}`;
   },
-  get getRejected() {
-    return this.root + '/get-rejected';
+  getPending(clubId) {
+    return `${urls.root}/pending/${clubId}`;
   },
+
 };
 
 const apply = ({ clubId, ...params }) => {
   return request.post(urls.apply(clubId), params).then(extractData);
 };
 
-const update = params => {
-  return request.get(urls.updateStatus, params).then(extractData);
+const updateStatus = (params = {}) => {
+  return request.post(urls.updateStatus, params).then(extractData);
 };
 
-const getAccepted = params => {
-  return request.get(urls.getAccepted, params).then(extractData);
+const upload = params => {
+  return customRequest(headers.fileUpload).post(urls.upload, params).then(extractData);
 };
 
-const getRejected = params => {
-  return request.get(urls.getRejected, params).then(extractData);
+const getAccepted = clubId => {
+  return request.get(urls.getAccepted(clubId)).then(extractData);
 };
 
 const getPending = clubId => {
-  return request.get(urls.getPending + `/${clubId}`).then(extractData);
+  return request.get(urls.getPending(clubId)).then(extractData);
 };
 
-export default { apply, update, getAccepted, getRejected, getPending };
+
+
+export default { apply, updateStatus, getAccepted, upload, getPending };
