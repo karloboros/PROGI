@@ -16,20 +16,14 @@
 </template>
 
 <script setup>
-// eslint-disable-next-line sort-imports
-
 import PlesFileUpload from '@/components/common/PlesFileUpload.vue';
-import { ref } from 'vue'; // onMounted,
-import { trainerApplicationApi } from '@/api'; //, clubApi, authApi
+import { ref } from 'vue';
+import { trainerApplicationApi } from '@/api';
 import { useMessage } from 'naive-ui';
+import { useRoute } from 'vue-router';
 import { validationRules } from '@/utils';
 
-const props = defineProps({
-  clubId: {
-    type: Number,
-    required: true,
-  },
-});
+const route = useRoute();
 
 const initialValues = {
   motivationalLetter: '',
@@ -37,10 +31,12 @@ const initialValues = {
 };
 
 const { required } = validationRules;
+
 const rules = {
   motivationalLetter: required,
   certificate: required,
 };
+
 const message = useMessage();
 const values = ref(initialValues);
 const formRef = ref(null);
@@ -49,8 +45,7 @@ const submit = async () => {
   formRef.value?.validate(async errors => {
     if (!errors) {
       try {
-        const { clubId } = props;
-        // console.log(props);
+        const { clubId } = route.params;
         await trainerApplicationApi.apply({ ...values.value, clubId });
         message.success('Sent');
       } catch (err) {
@@ -67,6 +62,4 @@ const update = certificate => {
 const error = error => {
   message.error(error);
 };
-
-// eslint-disable-next-line no-unused-vars
 </script>

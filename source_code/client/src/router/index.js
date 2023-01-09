@@ -13,8 +13,9 @@ import PendingTrainerApplications from '@/components/trainerApplication/PendingT
 import ProfileView from '@/components/profile/ProfileView.vue';
 import { Role } from '@/constants';
 import { useAuthStore } from '@/store';
-import UsersApplications from '@/components/userCourse/UsersApplications.vue';
 import UserAuth from '@/components/auth/UserAuth.vue';
+import UsersApplications from '@/components/userCourse/UsersApplications.vue';
+
 const routes = [
   {
     path: '/',
@@ -62,10 +63,9 @@ const routes = [
     component: ProfileView,
   },
   {
-    path: '/trainer-application/:clubId',
+    path: '/trainer-application/apply/:clubId',
     name: 'CreateApplication',
     component: CreateApplication,
-    props: route => ({ clubId: Number(route.params.clubId) }),
   },
   {
     path: '/trainer-applications/pending/:clubId',

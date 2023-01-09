@@ -1,5 +1,5 @@
-import { extractData } from './helpers';
-import request from './request';
+import { extractData, headers } from './helpers';
+import request, { request as customRequest } from './request';
 
 const urls = {
   root: '/trainer-applications',
@@ -18,18 +18,17 @@ const urls = {
   getPending(clubId) {
     return `${urls.root}/pending/${clubId}`;
   },
-
 };
 
-const apply = ({ clubId, ...params }) => {
-  return request.post(urls.apply(clubId), params).then(extractData);
+const apply = (params = {}) => {
+  return request.post(urls.apply(params.clubId), params).then(extractData);
 };
 
 const updateStatus = (params = {}) => {
   return request.post(urls.updateStatus, params).then(extractData);
 };
 
-const upload = params => {
+const upload = (params = {}) => {
   return customRequest(headers.fileUpload).post(urls.upload, params).then(extractData);
 };
 
@@ -40,7 +39,5 @@ const getAccepted = clubId => {
 const getPending = clubId => {
   return request.get(urls.getPending(clubId)).then(extractData);
 };
-
-
 
 export default { apply, updateStatus, getAccepted, upload, getPending };

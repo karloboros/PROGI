@@ -10,7 +10,6 @@
 <script setup>
 import { h, onMounted, ref } from 'vue';
 import { NButton, useMessage } from 'naive-ui';
-import { ApprovalStatus } from '@/constants';
 import { trainerApplicationApi } from '@/api';
 import { useRoute } from 'vue-router';
 
@@ -54,11 +53,11 @@ const CertificateButton = trainerApplication => {
 };
 
 const columns = [
-  { title: 'FirstName', key: 'firstName' },
-  { title: 'LastName', key: 'lastName' },
-  { title: 'Date Of Birth', key: 'dateOfBirth' },
-  { title: 'Phone Number', key: 'trainerPhone' },
-  { title: 'Motivational Letter', key: 'motivationalLetter' },
+  { title: 'First name', key: 'firstName' },
+  { title: 'Last name', key: 'lastName' },
+  { title: 'Date of birth', key: 'dateOfBirth' },
+  { title: 'Phone number', key: 'trainerPhone' },
+  { title: 'Motivational letter', key: 'motivationalLetter' },
   { title: 'Certificate', key: 'certificate', render: CertificateButton },
   { title: 'Approve', key: 'approve', render: ApproveButton },
   { title: 'Reject', key: 'reject', render: RejectButton },
@@ -101,4 +100,3 @@ const updateApprovalStatus = async (id, isApproved) => {
   white-space: nowrap;
 }
 </style>
-

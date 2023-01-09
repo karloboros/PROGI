@@ -27,10 +27,10 @@ const RemoveButton = userCourse => {
 };
 
 const columns = [
-  { title: 'FirstName', key: 'firstName' },
-  { title: 'LastName', key: 'lastName' },
-  { title: 'Date Of Birth', key: 'dateOfBirth' },
-  { title: 'Phone Number', key: 'userPhone' },
+  { title: 'First name', key: 'firstName' },
+  { title: 'Last name', key: 'lastName' },
+  { title: 'Date of birth', key: 'dateOfBirth' },
+  { title: 'Phone number', key: 'userPhone' },
   { title: 'Remove', key: 'remove', render: RemoveButton },
 ];
 
