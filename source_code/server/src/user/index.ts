@@ -1,4 +1,14 @@
-import { edit, login, logout, register, remove, uploadProfileImage } from './user.controller';
+import {
+  edit,
+  fetchAll,
+  fetchById,
+  login,
+  logout,
+  register,
+  remove,
+  removeById,
+  uploadProfileImage,
+} from './user.controller';
 import authenticate from 'shared/auth/authenticate';
 import fs from 'fs';
 import multer from 'multer';
@@ -29,6 +39,9 @@ router
   .use(authenticate)
   .use(refresh)
   .post('/edit', edit)
-  .delete('/', remove);
+  .delete('/', remove)
+  .get('/all', fetchAll)
+  .get('/:id', fetchById)
+  .delete('/:id', removeById);
 
 export default { router, path };

@@ -9,6 +9,8 @@ import ProfileView from '@/components/profile/ProfileView.vue';
 import { Role } from '@/constants';
 import { useAuthStore } from '@/store';
 import UserAuth from '@/components/auth/UserAuth.vue';
+import UserEdit from '@/components/admin/UserEdit.vue';
+import UsersList from '@/components/admin/UsersList.vue';
 
 const routes = [
   {
@@ -22,20 +24,32 @@ const routes = [
     component: UserAuth,
   },
   {
-    path: '/dances/create',
-    name: 'AddDance',
+    path: '/admin/users/all',
+    name: 'UsersList',
+    meta: { role: Role.Administrator },
+    component: UsersList,
+  },
+  {
+    path: '/admin/users/edit/:id',
+    name: 'UserEdit',
+    meta: { role: Role.Administrator },
+    component: UserEdit,
+  },
+  {
+    path: '/admin/dances/create',
+    name: 'DanceAdd',
     meta: { role: Role.Administrator },
     component: DanceCreate,
   },
   {
-    path: '/dances/all',
-    name: 'ListDances',
+    path: '/admin/dances/all',
+    name: 'DancesList',
     meta: { role: Role.Administrator },
     component: DancesList,
   },
   {
-    path: '/dances/edit/:id',
-    name: 'EditDance',
+    path: '/admin/dances/edit/:id',
+    name: 'DanceEdit',
     meta: { role: Role.Administrator },
     component: DanceEdit,
   },
@@ -47,7 +61,7 @@ const routes = [
   },
   {
     path: '/events/create',
-    name: 'AddEvent',
+    name: 'EventAdd',
     meta: { role: Role.ClubOwner },
     component: EventCreate,
   },

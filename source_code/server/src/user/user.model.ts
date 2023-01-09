@@ -132,6 +132,9 @@ class UserModel extends Model implements IUser {
       includeClub: {
         include: ['clubs'],
       },
+      orderByRole: {
+        order: [['role', 'ASC']],
+      },
     };
   }
 
