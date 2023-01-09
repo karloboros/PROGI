@@ -3,8 +3,8 @@ import request from './request';
 
 const urls = {
   root: '/trainer-applications',
-  get sendApplication() {
-    return this.root + '/send';
+  apply(clubId) {
+    return `${urls.root}/apply/${clubId}`;
   },
   get updateStatus() {
     return this.root + '/update-status';
@@ -20,8 +20,8 @@ const urls = {
   },
 };
 
-const send = (params = {}) => {
-  return request.post(urls.sendApplication, params).then(extractData);
+const apply = ({ clubId, ...params }) => {
+  return request.post(urls.apply(clubId), params).then(extractData);
 };
 
 const update = params => {
@@ -40,4 +40,4 @@ const getPending = clubId => {
   return request.get(urls.getPending + `/${clubId}`).then(extractData);
 };
 
-export default { send, update, getAccepted, getRejected, getPending };
+export default { apply, update, getAccepted, getRejected, getPending };
