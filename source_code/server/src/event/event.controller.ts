@@ -1,6 +1,6 @@
 import { BAD_REQUEST, OK } from 'http-status';
 import { NextFunction, Request, Response } from 'express';
-import sequelize, { Club, Dance, Event, EventDance, Location } from 'shared/database';
+import sequelize, { Club, Event, EventDance, Location } from 'shared/database';
 import errorMessages from 'shared/constants/errorMessages';
 import HttpError from 'shared/error/httpError';
 

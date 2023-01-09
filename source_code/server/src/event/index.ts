@@ -1,4 +1,4 @@
-import { create, fetchEventDance, fetchEventLocation, uploadEventImage } from './event.controller';
+import { create, fetchEventLocation, uploadEventImage } from './event.controller';
 import authenticate from 'shared/auth/authenticate';
 import fs from 'fs';
 import multer from 'multer';

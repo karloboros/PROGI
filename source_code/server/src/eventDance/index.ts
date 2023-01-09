@@ -1,4 +1,4 @@
-import { eventDance, test } from './eventDance.controller';
+import { eventDance } from './eventDance.controller';
 import { Router } from 'express';
 
 const router = Router();
