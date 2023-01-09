@@ -20,49 +20,37 @@
 import PlesFileUpload from '@/components/common/PlesFileUpload.vue';
 import { ref } from 'vue'; // onMounted,
 import { trainerApplicationApi } from '@/api'; //, clubApi, authApi
-// import { computed } from '@vue/reactivity';
 import { useMessage } from 'naive-ui';
-import { useRoute } from 'vue-router';
 import { validationRules } from '@/utils';
 
-// const emit = defineEmits(['sent']);
-
 const props = defineProps({
-  initialValues: {
-    type: Object,
-    default: () => ({
-      motivationalLetter: '',
-      certificate: '',
-    }),
+  clubId: {
+    type: Number,
+    required: true,
   },
 });
 
-/*  
-  onMounted(async () => {
-    clubs.value = await clubApi.fetchAll();
-    console.log(clubs.value);
-    clubs.value = clubs.value.map(v => ({
-        label: v.name,
-        value: v.name,
-      }));
-  });
-*/
+const initialValues = {
+  motivationalLetter: '',
+  certificate: '',
+};
+
 const { required } = validationRules;
 const rules = {
   motivationalLetter: required,
   certificate: required,
 };
 const message = useMessage();
-const route = useRoute();
-const values = ref(props.initialValues);
+const values = ref(initialValues);
 const formRef = ref(null);
-console.log(route.params.id);
 
 const submit = async () => {
   formRef.value?.validate(async errors => {
     if (!errors) {
       try {
-        await trainerApplicationApi.send({ ...values.value, id: route.params.id, clubId: route.params.clubId });
+        const { clubId } = props;
+        // console.log(props);
+        await trainerApplicationApi.apply({ ...values.value, clubId });
         message.success('Sent');
       } catch (err) {
         message.error(err.message);
