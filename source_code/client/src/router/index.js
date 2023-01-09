@@ -63,9 +63,10 @@ const routes = [
     component: PendingApplications,
   },
   {
-    path: '/trainer-applications',
+    path: '/trainer-application/:clubId',
     name: 'CreateApplication',
     component: CreateApplication,
+    props: route => ({ clubId: Number(route.params.clubId) }),
   },
   {
     path: '/:catchAll(.*)',
