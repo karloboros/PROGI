@@ -30,7 +30,7 @@ const editButton = user => {
 
 const editUser = id => {
   router.push({
-    name: 'EditUser',
+    name: 'UserEdit',
     params: { id },
   });
 };

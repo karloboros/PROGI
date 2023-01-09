@@ -28,7 +28,7 @@ const urls = {
     return `${urls.root}/${id}`;
   },
   removeById(id) {
-    return `${urls.root}/remove/${id}`;
+    return `${urls.root}/${id}`;
   },
 };
 
