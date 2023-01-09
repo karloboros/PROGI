@@ -75,16 +75,16 @@ import { useMessage } from 'naive-ui';
 import { useRouter } from 'vue-router';
 import validationRules from '@/utils/rules';
 
+const clubs = ref([]);
+const dances = ref([]);
+const data = ref([]);
 const disabled1 = ref(false);
 const disabled2 = ref(false);
 const events = ref([]);
 const eventsToMap = L.layerGroup();
 const eventsToChangeDisplay = ref([]);
 const eventsToChangeDisplay2 = ref([]);
-const clubs = ref([]);
-const dances = ref([]);
 const map = ref(null);
-const locations = ref([]);
 
 const initialValues = {
   username: '',
@@ -118,52 +118,15 @@ const Clubs = () => {
 };
 
 const Dances = () => {
-  dances.value.forEach(e => {
-    e.active = false;
+  dances.value.forEach(d => {
+    d.active = false;
   });
   map.value.removeLayer(eventsToMap);
   eventsToMap.value = eventsToMap.clearLayers();
 };
 
-const layerDanceChanged = dance => {
-  // map.value.addLayer(eventsToMap2);
-  dances.value.forEach(d => {
-    if (d.id === dance.id) {
-      eventsToChangeDisplay2.value.push(d.events);
-    }
-  });
-
-  let coordinates = '';
-  eventsToChangeDisplay2.value.forEach(async array => {
-    array.forEach(async event => {
-      const eventloc = await authApi.fetchEventLocation();
-      eventloc.forEach(e => {
-        if (e.id === event.eventDance.id) {
-          coordinates = e.location.coordinates;
-          const coords = coordinates.split(',');
-          const x = Number(coords[0]);
-          const y = Number(coords[1]);
-
-          console.log(event.active);
-          if (event.active) {
-            event.active = false;
-            eventsToMap.eachLayer(layer => {
-              if (layer._latlng.lat === x && layer._latlng.lng === y) eventsToMap.removeLayer(layer._leaflet_id);
-            });
-          } else {
-            event.active = true;
-            eventsToMap.addLayer(L.marker(L.latLng(x, y)).bindPopup(`${event.name}`));
-          }
-        }
-      });
-    });
-  });
-  eventsToChangeDisplay2.value = [];
-  map.value.addLayer(eventsToMap.value);
-};
-
 const layerClubChanged = club => {
-  // map.value.addLayer(eventsToMap);
+  map.value.addLayer(eventsToMap);
   events.value.forEach(event => {
     if (event.clubId === club.id) {
       eventsToChangeDisplay.value.push(event.value);
@@ -191,30 +154,57 @@ const layerClubChanged = club => {
   map.value.addLayer(eventsToMap);
 };
 
+const layerDanceChanged = dance => {
+  dances.value.forEach(d => console.log(d.active));
+  map.value.addLayer(eventsToMap);
+  dances.value.forEach(d => {
+    if (d.id === dance.id) {
+      eventsToChangeDisplay2.value.push(d.events);
+    }
+  });
+
+  let coordinates = '';
+  eventsToChangeDisplay2.value.forEach(async array => {
+    for (const event of array) {
+      data.value.forEach(e => {
+        console.log(e.id);
+        if (e.id === event.eventDance.eventId) {
+          coordinates = e.location.coordinates;
+          const coords = coordinates.split(',');
+          const x = Number(coords[0]);
+          const y = Number(coords[1]);
+
+          console.log(dance.active);
+          if (dance.active === false) {
+            eventsToMap.eachLayer(layer => {
+              if (layer._latlng.lat === x && layer._latlng.lng === y) eventsToMap.removeLayer(layer._leaflet_id);
+            });
+          } else {
+            eventsToMap.addLayer(L.marker(L.latLng(x, y)).bindPopup(`${event.name}`));
+          }
+        }
+      });
+    }
+  });
+
+  eventsToChangeDisplay2.value = [];
+  map.value.addLayer(eventsToMap.value);
+};
+
 onMounted(async () => {
   initMap();
-  const data = await authApi.fetchEventLocation();
+  data.value = await authApi.fetchEventLocation();
   const dataDances = await authApi.fetchDanceEvents();
 
   for (const dance of dataDances) {
     dance.value = {
-      id: dance.id,
-      name: dance.name,
-      description: dance.description,
-      image: dance.image,
-      videoUrl: dance.videoUrl,
-      events: dance.events,
+      ...dance,
       active: false,
     };
-    dances.value.push({
-      id: dance.id,
-      name: dance.name,
-      events: dance.value.events,
-      active: false,
-    });
+    dances.value.push(dance.value);
   }
 
-  for (const event of data) {
+  data.value.forEach(event => {
     event.value = {
       id: event.id,
       name: event.name,
@@ -228,13 +218,6 @@ onMounted(async () => {
       coordinates: event.location.coordinates,
       active: false,
     };
-
-    locations.value.push({
-      locationId: event.locationId,
-      eventId: event.id,
-      clubId: event.clubId,
-      locationcoord: event.coordinates,
-    });
 
     let find = false;
     clubs.value.forEach(c => {
@@ -255,9 +238,8 @@ onMounted(async () => {
     const coords = event.value.coordinates.split(',');
     const x = Number(coords[0]);
     const y = Number(coords[1]);
-    eventsToMap.addLayer(L.marker(L.latLng(x, y)).bindPopup(event.value.locationName));
     eventsToMap.addLayer(L.marker(L.latLng(x, y)).bindPopup(`${event.value.name}`));
-  }
+  });
   map.value.addLayer(eventsToMap);
 });
 
