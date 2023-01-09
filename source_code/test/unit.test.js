@@ -9,6 +9,7 @@ import {
   WRONG_EMAIL_FORMAT_MESSAGE,
   UNDER_AGE_MINIMUM_MESSAGE,
   WRONG_PHONE_FORMAT_MESSAGE,
+  WRONG_URL_FORMAT_MESSAGE,
 } from '../client/src/utils/rules.js';
 
 test('Should subtract years from date', t => {
@@ -91,11 +92,21 @@ test('Should validate phone number', t => {
 });
 
 test('Should validate url', t => {
-  const url = 'https://gitlab.com/programtvogkompjutera1/ples/';
-  let result = urlValidator(null, url);
-  t.deepEqual(result, true);
+  const https = 'https://gitlab.com/programtvogkompjutera1/ples/';
+  const http = 'http://gitlab.com/programtvogkompjutera1/ples/';
+  const noProtocol = '://gitlab.com/programtvogkompjutera1/ples/';
+  const missingDot = 'https//gitlab.com/programtvogkompjutera1/ples/';
+  const missingSlash = 'https:/gitlab.com/programtvogkompjutera1/ples/';
+  const missingSlashes = 'https:gitlab.com/programtvogkompjutera1/ples/';
+  const missingTopLevelDomain = 'https://gitlab/programtvogkompjutera1/ples/';
 
-  const wrongUrl = 'videoUrl#2';
-  result = urlValidator(null, wrongUrl);
-  t.deepEqual(result, Error('Wrong url format'));
+  const error = Error(WRONG_URL_FORMAT_MESSAGE);
+
+  t.true(urlValidator(null, https));
+  t.true(urlValidator(null, http));
+  t.deepEqual(urlValidator(null, noProtocol), error);
+  t.deepEqual(urlValidator(null, missingDot), error);
+  t.deepEqual(urlValidator(null, missingSlash), error);
+  t.deepEqual(urlValidator(null, missingSlashes), error);
+  t.deepEqual(urlValidator(null, missingTopLevelDomain), error);
 });
