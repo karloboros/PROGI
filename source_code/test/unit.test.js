@@ -8,6 +8,7 @@ import {
   urlValidator,
   WRONG_EMAIL_FORMAT_MESSAGE,
   UNDER_AGE_MINIMUM_MESSAGE,
+  WRONG_PHONE_FORMAT_MESSAGE,
 } from '../client/src/utils/rules.js';
 
 test('Should subtract years from date', t => {
@@ -68,13 +69,25 @@ test('Should check if user is old enough to register', t => {
 });
 
 test('Should validate phone number', t => {
-  const phoneNum = '0953333333';
-  let result = phoneNumberValidator(null, phoneNum);
-  t.deepEqual(result, true);
+  const nineLength = '123456789';
+  const tenLength = '1234567890';
+  const spaces = '123 123 123';
+  const dashes = '123-123-1234';
+  const tooLong = '12345678910';
+  const tooShort = '1234';
+  const alpha = '1234b1234';
+  const nonAlphaNumeric = '123#123#12';
 
-  const invalidNum = '0911111111111';
-  result = phoneNumberValidator(null, invalidNum);
-  t.deepEqual(result, Error('Wrong number format'));
+  const error = Error(WRONG_PHONE_FORMAT_MESSAGE);
+
+  t.true(phoneNumberValidator(null, nineLength));
+  t.true(phoneNumberValidator(null, tenLength));
+  t.true(phoneNumberValidator(null, spaces));
+  t.true(phoneNumberValidator(null, dashes));
+  t.deepEqual(phoneNumberValidator(null, tooLong), error);
+  t.deepEqual(phoneNumberValidator(null, tooShort), error);
+  t.deepEqual(phoneNumberValidator(null, alpha), error);
+  t.deepEqual(phoneNumberValidator(null, nonAlphaNumeric), error);
 });
 
 test('Should validate url', t => {
