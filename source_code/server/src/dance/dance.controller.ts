@@ -1,4 +1,4 @@
-import { BAD_REQUEST, CONFLICT, CREATED, FORBIDDEN, OK } from 'http-status';
+import { BAD_REQUEST, CONFLICT, CREATED, NOT_FOUND, OK } from 'http-status';
 import { Dance, Event, EventDance } from 'shared/database';
 import { NextFunction, Request, Response } from 'express';
 import errorMessages from 'shared/constants/errorMessages';
@@ -38,7 +38,7 @@ const edit = async (req: Request, res: Response, next: NextFunction) => {
     const { id, name, description, videoUrl, image } = req.body;
 
     const danceToEdit = await Dance.findByPk(id);
-    if (!danceToEdit) return next(new HttpError(FORBIDDEN, errorMessages.FORBIDDEN));
+    if (!danceToEdit) return next(new HttpError(NOT_FOUND, errorMessages.NOT_FOUND));
 
     danceToEdit.name = name;
     danceToEdit.description = description;
