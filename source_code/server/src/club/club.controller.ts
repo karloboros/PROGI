@@ -1,6 +1,6 @@
 import { BAD_REQUEST, CONFLICT, NOT_FOUND, OK } from 'http-status';
 import { NextFunction, Request, Response } from 'express';
-import sequelize, { Club, Location, User } from 'shared/database';
+import sequelize, { Club, Course, Location, TrainerApplication, User } from 'shared/database';
 import { ApprovalStatus } from './types';
 import errorMessages from 'shared/constants/errorMessages';
 import HttpError from 'shared/error/httpError';
@@ -49,6 +49,62 @@ const fetchApproved = async (_req: Request, res: Response) => {
   return res.send(clubs);
 };
 
+const fetchAll = async (_req: Request, res: Response) => {
+  const clubs = await Club.scope(['includeLocation', 'includeOwner']).findAll();
+  return res.send(clubs);
+};
+
+const fetchById = async (req: Request, res: Response) => {
+  const club = await Club.findByPk(+req.params.id);
+  return res.send(club);
+};
+
+const edit = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { id, name, description, address, email, phone } = req.body;
+
+    const clubToEdit = await Club.findByPk(id);
+    if (!clubToEdit) return next(new HttpError(NOT_FOUND, errorMessages.NOT_FOUND));
+
+    let location = await Location.findOne({ where: { name: address } });
+    if (!location) location = await Location.create({ name: address });
+
+    clubToEdit.name = name;
+    clubToEdit.description = description;
+    clubToEdit.locationId = location.id;
+    clubToEdit.email = email;
+    clubToEdit.phone = phone;
+
+    await clubToEdit.save();
+    return res.status(OK).json(clubToEdit);
+  } catch (err) {
+    if (err instanceof UniqueConstraintError) {
+      return next(new HttpError(CONFLICT, errorMessages.UNIQUE));
+    }
+    return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
+  }
+};
+
+const remove = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const clubId = JSON.parse(req.params.id);
+
+    const courses = await Course.findOne({ where: { clubId } });
+    if (courses) return next(new HttpError(CONFLICT, errorMessages.COURSE_CLUB_DELETE));
+
+    const trainerApplications = await TrainerApplication.findOne({ where: { clubId } });
+    if (trainerApplications) return next(new HttpError(CONFLICT, errorMessages.TRAINER_CLUB_DELETE));
+
+    const clubToRemove = await Club.findByPk(clubId);
+    if (!clubToRemove) return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
+
+    await clubToRemove.destroy();
+    res.status(OK).send();
+  } catch (err) {
+    return next(err);
+  }
+};
+
 const updateApprovalStatus = async (req: Request, res: Response, next: NextFunction) => {
   const { id, approvalStatus } = req.body;
   if (!approvalStatus) return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
@@ -66,4 +122,4 @@ const updateApprovalStatus = async (req: Request, res: Response, next: NextFunct
   }
 };
 
-export { create, fetchApproved, fetchPending, updateApprovalStatus };
+export { create, edit, fetchAll, fetchApproved, fetchById, fetchPending, remove, updateApprovalStatus };
