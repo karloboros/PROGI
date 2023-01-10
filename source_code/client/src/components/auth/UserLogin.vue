@@ -1,10 +1,16 @@
 <template>
   <n-form ref="formRef" @submit.prevent="submit" :model="values" :rules="rules">
     <n-form-item label="Username" path="username">
-      <n-input v-model:value="values.username" placeholder="Username..." autofocus />
+      <n-input v-model:value="values.username" placeholder="Username..." aria-label="username" autofocus />
     </n-form-item>
     <n-form-item label="Password" path="password">
-      <n-input v-model:value="values.password" type="password" show-password-on="mousedown" placeholder="Password..." />
+      <n-input
+        v-model:value="values.password"
+        type="password"
+        show-password-on="mousedown"
+        placeholder="Password..."
+        aria-label="password"
+      />
     </n-form-item>
 
     <n-form-item>
