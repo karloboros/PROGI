@@ -21,27 +21,6 @@ const urls = {
   get upload() {
     return this.root + '/upload';
   },
-  get fetchTrainers() {
-    return this.root + '/trainers';
-  },
-  get fetchAll() {
-    return this.root + '/all';
-  },
-  fetchById(id) {
-    return `${urls.root}/${id}`;
-  },
-  removeById(id) {
-    return `${urls.root}/${id}`;
-  },
-  get fetchDanceEvents() {
-    return '/dances' + '/dance-events';
-  },
-  get fetchEventDance() {
-    return '/events' + '/event-Dance';
-  },
-  get fetchEventLocation() {
-    return '/events' + '/events-with-location';
-  },
 };
 
 const login = credentials => {
@@ -60,14 +39,6 @@ const edit = user => {
   return request.post(urls.edit, user).then(extractData);
 };
 
-const fetchDanceEvents = () => {
-  return request.get(urls.fetchDanceEvents).then(extractData);
-};
-
-const fetchEventLocation = () => {
-  return request.get(urls.fetchEventLocation).then(extractData);
-};
-
 const remove = () => {
   return request.delete(urls.remove);
 };
@@ -76,33 +47,11 @@ const upload = params => {
   return customRequest(headers.fileUpload).post(urls.upload, params).then(extractData);
 };
 
-const fetchTrainers = () => {
-  return request.get(urls.fetchTrainers).then(extractData);
-};
-
-const fetchAll = () => {
-  return request.get(urls.fetchAll).then(extractData);
-};
-
-const fetchById = id => {
-  return request.get(urls.fetchById(id)).then(extractData);
-};
-
-const removeById = id => {
-  return request.delete(urls.removeById(id));
-};
-
 export default {
   login,
   register,
   logout,
   edit,
-  fetchDanceEvents,
-  fetchEventLocation,
   remove,
   upload,
-  fetchTrainers,
-  fetchAll,
-  fetchById,
-  removeById,
 };

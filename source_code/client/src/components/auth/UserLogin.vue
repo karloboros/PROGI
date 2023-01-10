@@ -65,8 +65,8 @@
 <script setup>
 import 'leaflet/dist/leaflet.css';
 import { attribution, mapBackground, view } from '@/constants';
+import { authApi, userApi } from '@/api';
 import { onMounted, ref } from 'vue';
-import { authApi } from '@/api';
 import { defaultRoute } from '@/router';
 import L from 'leaflet';
 import { useAuthStore } from '@/store';
@@ -192,8 +192,8 @@ const layerDanceChanged = dance => {
 
 onMounted(async () => {
   initMap();
-  data.value = await authApi.fetchEventLocation();
-  const dataDances = await authApi.fetchDanceEvents();
+  data.value = await userApi.fetchEventLocation();
+  const dataDances = await userApi.fetchDanceEvents();
 
   for (const dance of dataDances) {
     dance.value = {

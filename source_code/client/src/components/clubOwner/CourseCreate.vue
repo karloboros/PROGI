@@ -54,7 +54,7 @@
 </template>
 
 <script setup>
-import { authApi, courseApi, danceApi } from '@/api';
+import { courseApi, danceApi, userApi } from '@/api';
 import { onMounted, ref } from 'vue';
 import { computed } from '@vue/reactivity';
 import { Gender } from '@/constants';
@@ -110,7 +110,7 @@ onMounted(async () => {
     label: name,
   }));
 
-  const trainersData = await authApi.fetchTrainers();
+  const trainersData = await userApi.fetchTrainers();
   trainers.value = trainersData.map(({ id, fullName }) => ({
     value: id,
     label: fullName,

@@ -10,9 +10,9 @@
 </template>
 
 <script setup>
+import { authApi, userApi } from '@/api';
 import { onMounted, ref } from 'vue';
 import { useDialog, useMessage } from 'naive-ui';
-import { authApi } from '@/api';
 import { toDatePicker } from '@/utils';
 import { useAuthStore } from '@/store';
 import { useRoute } from 'vue-router';
@@ -26,7 +26,7 @@ const message = useMessage();
 const dialog = useDialog();
 
 onMounted(async () => {
-  user.value = await authApi.fetchById(id);
+  user.value = await userApi.fetchById(id);
   user.value = { ...user.value, dateOfBirth: toDatePicker(user.value.dateOfBirth) };
 });
 
@@ -42,7 +42,7 @@ const confirm = () => {
 
 const remove = async () => {
   try {
-    await authApi.removeById(id);
+    await userApi.removeById(id);
     if (authStore.user.id === id) await authApi.logout();
     message.success('Successfully deleted');
   } catch (err) {

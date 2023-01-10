@@ -9,8 +9,8 @@
 
 <script setup>
 import { h, onMounted, ref } from 'vue';
-import { authApi } from '@/api';
 import { NButton } from 'naive-ui';
+import { userApi } from '@/api';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
@@ -46,7 +46,7 @@ const users = ref([]);
 const loading = ref(true);
 
 onMounted(async () => {
-  users.value = await authApi.fetchAll();
+  users.value = await userApi.fetchAll();
   loading.value = false;
 });
 </script>
