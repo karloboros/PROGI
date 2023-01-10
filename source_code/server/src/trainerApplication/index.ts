@@ -24,10 +24,10 @@ const path = '/trainer-applications';
 router
   .use(authenticate)
   .use(refresh)
-  .post('/apply/:clubId', apply)
-  .post('/update-status', updateStatus)
-  .post('/upload', upload.single('file'), uploadPDF)
   .get('/approved/:clubId', fetchAccepted)
-  .get('/pending/:clubId', fetchPending);
+  .get('/pending/:clubId', fetchPending)
+  .post('/apply/:clubId', apply)
+  .post('/update-status/:id', updateStatus)
+  .post('/upload', upload.single('file'), uploadPDF);
 
 export default { router, path };

@@ -6,6 +6,22 @@ import errorMessages from 'shared/constants/errorMessages';
 import HttpError from 'shared/error/httpError';
 import { Role } from 'user/types';
 
+const fetchAccepted = async (req: Request, res: Response) => {
+  const { clubId } = req.params;
+  const acceptedApplications = await TrainerApplication.scope(['accepted', 'includeTrainer']).findAll({
+    where: { clubId },
+  });
+  return res.send(acceptedApplications);
+};
+
+const fetchPending = async (req: Request, res: Response) => {
+  const { clubId } = req.params;
+  const pendingApplications = await TrainerApplication.scope(['pending', 'includeTrainer']).findAll({
+    where: { clubId },
+  });
+  return res.send(pendingApplications);
+};
+
 const apply = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { motivationalLetter, certificate } = req.body;
@@ -32,7 +48,8 @@ const apply = async (req: Request, res: Response, next: NextFunction) => {
 
 const updateStatus = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { id, isApproved } = req.body;
+    const { isApproved } = req.body;
+    const { id } = req.params;
     const application = await TrainerApplication.scope('includeClub').findByPk(id);
     if (!application) return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
     application.status = isApproved ? ApprovalStatus.Approved : ApprovalStatus.Rejected;
@@ -50,22 +67,6 @@ const updateStatus = async (req: Request, res: Response, next: NextFunction) => 
   }
 };
 
-const fetchPending = async (req: Request, res: Response) => {
-  const { clubId } = req.params;
-  const pendingApplications = await TrainerApplication.scope(['pending', 'includeTrainer']).findAll({
-    where: { clubId },
-  });
-  return res.send(pendingApplications);
-};
-
-const fetchAccepted = async (req: Request, res: Response) => {
-  const { clubId } = req.params;
-  const acceptedApplications = await TrainerApplication.scope(['accepted', 'includeTrainer']).findAll({
-    where: { clubId },
-  });
-  return res.send(acceptedApplications);
-};
-
 const uploadPDF = (req: Request, res: Response, next: NextFunction) => {
   const { file } = req;
   if (!file) return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
@@ -73,4 +74,4 @@ const uploadPDF = (req: Request, res: Response, next: NextFunction) => {
   return res.status(OK);
 };
 
-export { apply, updateStatus, fetchPending, fetchAccepted, uploadPDF };
+export { fetchAccepted, fetchPending, apply, updateStatus, uploadPDF };
