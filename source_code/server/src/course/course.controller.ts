@@ -5,7 +5,7 @@ import errorMessages from 'shared/constants/errorMessages';
 import HttpError from 'shared/error/httpError';
 import { UniqueConstraintError } from 'sequelize';
 
-const fetchAll = async (req: Request, res: Response) => {
+const fetchAll = async (_req: Request, res: Response) => {
   const courses = await Course.findAll();
   return res.send(courses);
 };
@@ -14,6 +14,7 @@ const fetchById = async (req: Request, res: Response) => {
   const course = await Course.findByPk(+req.params.id);
   return res.send(course);
 };
+
 const fetchByClub = async (req: Request, res: Response) => {
   const club = req.params.clubId;
   const courses = await Course.findAll({

@@ -4,13 +4,13 @@ import request from './request';
 const urls = {
   root: '/courses',
   get fetchAll() {
-    return this.root + '/all';
+    return this.root;
   },
   fetchById(id) {
     return `${urls.root}/${id}`;
   },
   fetchByClub(clubId) {
-    return `${urls.root}/byClub/${clubId}`;
+    return `${urls.root}/club-id/${clubId}`;
   },
   get create() {
     return this.root + '/create';
@@ -19,7 +19,7 @@ const urls = {
     return `${urls.root}/edit/${id}`;
   },
   remove(id) {
-    return `${urls.root}/remove/${id}`;
+    return `${urls.root}/${id}`;
   },
 };
 

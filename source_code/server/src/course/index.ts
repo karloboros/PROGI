@@ -9,11 +9,11 @@ const path = '/courses';
 router
   .use(authenticate)
   .use(refresh)
-  .get('/all', fetchAll)
+  .get('/', fetchAll)
   .get('/:id', fetchById)
-  .get('/byClub/:clubId', fetchByClub)
+  .get('/club-id/:clubId', fetchByClub)
   .post('/create', create)
   .post('/edit/:id', edit)
-  .delete('/remove/:id', remove);
+  .delete('/:id', remove);
 
 export default { router, path };
