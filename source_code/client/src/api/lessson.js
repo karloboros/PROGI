@@ -3,11 +3,11 @@ import request from './request';
 
 const urls = {
   root: '/lessons',
-  fetchAll(courseId) {
-    return `${urls.root}/${courseId}`;
+  fetchByCourseId(courseId) {
+    return `${urls.root}/course/${courseId}`;
   },
   fetchById(id) {
-    return `${urls.root}/one/${id}`;
+    return `${urls.root}/${id}`;
   },
   get create() {
     return this.root + '/create';
@@ -16,12 +16,12 @@ const urls = {
     return `${urls.root}/edit/${id}`;
   },
   remove(id) {
-    return `${urls.root}/remove/${id}`;
+    return `${urls.root}/${id}`;
   },
 };
 
-const fetchAll = courseId => {
-  return request.get(urls.fetchAll(courseId)).then(extractData);
+const fetchByCourseId = courseId => {
+  return request.get(urls.fetchByCourseId(courseId)).then(extractData);
 };
 
 const fetchById = id => {
@@ -41,7 +41,7 @@ const remove = id => {
 };
 
 export default {
-  fetchAll,
+  fetchByCourseId,
   fetchById,
   create,
   edit,

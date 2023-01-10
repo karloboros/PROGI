@@ -5,7 +5,7 @@ import HttpError from 'shared/error/httpError';
 import { Lesson } from 'shared/database';
 import { UniqueConstraintError } from 'sequelize';
 
-const fetchAll = async (req: Request, res: Response, next: NextFunction) => {
+const fetchByCourseId = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const lessons = await Lesson.scope(['includeCourse']).findAll({ where: { courseId: +req.params.courseId } });
     return res.status(OK).json(lessons);
@@ -66,4 +66,4 @@ const remove = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-export { fetchAll, fetchById, create, edit, remove };
+export { fetchByCourseId, fetchById, create, edit, remove };

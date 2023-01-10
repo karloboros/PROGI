@@ -51,7 +51,7 @@ const layerChanged = dance => {
 };
 
 const initLayers = async () => {
-  const data = await courseApi.fetchAll();
+  const data = await courseApi.fetchByCourseId();
 
   for (const course of data) {
     course.value = {
