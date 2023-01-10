@@ -13,6 +13,12 @@ const fetchAll = async (req: Request, res: Response, next: NextFunction) => {
     return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
   }
 };
+
+const fetchById = async (req: Request, res: Response) => {
+  const lesson = await Lesson.findByPk(+req.params.id);
+  return res.status(OK).send(lesson);
+};
+
 const create = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const newLesson = {
@@ -27,6 +33,7 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
     return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
   }
 };
+
 const edit = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const lesson = { ...req.body };
@@ -46,6 +53,7 @@ const edit = async (req: Request, res: Response, next: NextFunction) => {
     return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
   }
 };
+
 const remove = async (req: Request, res: Response, next: NextFunction) => {
   const { id } = req.params;
   try {
@@ -58,4 +66,4 @@ const remove = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-export { fetchAll, create, edit, remove };
+export { fetchAll, fetchById, create, edit, remove };

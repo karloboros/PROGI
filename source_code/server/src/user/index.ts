@@ -1,12 +1,26 @@
-import { edit, fetchTrainers, login, logout, register, remove, uploadProfileImage } from './user.controller';
+import {
+  edit,
+  fetchAll,
+  fetchById,
+  fetchTrainers,
+  login,
+  logout,
+  register,
+  remove,
+  removeById,
+  uploadProfileImage,
+} from './user.controller';
 import authenticate from 'shared/auth/authenticate';
+import fs from 'fs';
 import multer from 'multer';
 import refresh from 'shared/auth/refresh';
 import { Router } from 'express';
 
 const storage = multer.diskStorage({
   destination: (_req, _file, cb) => {
-    cb(null, '.tmp/images/users');
+    const filePath = '.tmp/images/users';
+    fs.mkdirSync(filePath, { recursive: true });
+    cb(null, filePath);
   },
   filename: (_req, file, cb) => {
     cb(null, Date.now() + '_' + file.originalname);
@@ -27,6 +41,9 @@ router
   .use(refresh)
   .post('/edit', edit)
   .delete('/', remove)
-  .get('/trainers', fetchTrainers);
+  .get('/trainers', fetchTrainers)
+  .get('/all', fetchAll)
+  .get('/:id', fetchById)
+  .delete('/:id', removeById);
 
 export default { router, path };

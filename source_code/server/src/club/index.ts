@@ -1,4 +1,3 @@
-
 import { create, fetchAll, fetchApproved, fetchPending, updateApprovalStatus } from './club.controller';
 import authenticate from 'shared/auth/authenticate';
 import refresh from 'shared/auth/refresh';

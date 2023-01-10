@@ -6,33 +6,44 @@ const urls = {
   fetchAll(courseId) {
     return `${urls.root}/${courseId}`;
   },
-  get fetchById() {
-    return this.root;
+  fetchById(id) {
+    return `${urls.root}/one/${id}`;
   },
   get create() {
     return this.root + '/create';
   },
-  get edit() {
-    return this.root + '/edit';
+  edit(id) {
+    return `${urls.root}/edit/${id}`;
   },
-  get remove() {
-    return this.root + '/remove';
+  remove(id) {
+    return `${urls.root}/remove/${id}`;
   },
 };
 
 const fetchAll = courseId => {
   return request.get(urls.fetchAll(courseId)).then(extractData);
 };
-const fetchByClub = clubId => {
-  return request.get(urls.fetchByClub + `/${clubId}`, clubId).then(extractData);
+
+const fetchById = id => {
+  return request.get(urls.fetchById(id)).then(extractData);
 };
 
 const create = (params = {}) => {
   return request.post(urls.create, params).then(extractData);
 };
 
-const remove = id => {
-  return request.delete(urls.remove + `/${id}`);
+const edit = (params = {}) => {
+  return request.post(urls.edit(params.id), params).then(extractData);
 };
 
-export default { fetchAll, fetchByClub, create, remove };
+const remove = id => {
+  return request.delete(urls.remove(id));
+};
+
+export default {
+  fetchAll,
+  fetchById,
+  create,
+  edit,
+  remove,
+};

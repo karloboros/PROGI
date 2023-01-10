@@ -6,7 +6,6 @@ import { Router } from 'express';
 const router = Router();
 const path = '/courses';
 
-// eslint-disable-next-line prettier/prettier
 router
   .use(authenticate)
   .use(refresh)

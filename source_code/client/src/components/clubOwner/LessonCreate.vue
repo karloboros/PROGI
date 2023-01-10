@@ -1,6 +1,6 @@
 <template>
   <n-space align="center" justify="center">
-    <n-card style="width: 80%" title="Create lesson" size="huge" role="dialog" aria-modal="true">
+    <n-card style="width: 80%" title="Lesson" size="huge" role="dialog" aria-modal="true">
       <n-form ref="formRef" @submit.prevent="submit" :model="values" :rules="rules">
         <n-form-item label="startTime" path="startTime">
           <n-date-picker v-model:value="values.startTime" type="date" />
@@ -49,7 +49,6 @@ const rules = {
 const values = ref(props.initialValues);
 const formRef = ref(null);
 const route = useRoute();
-const { courseId } = route.params;
 
 const message = useMessage();
 
@@ -57,7 +56,11 @@ const submit = async () => {
   formRef.value?.validate(async errors => {
     if (!errors) {
       try {
-        await LessonApi.create({ ...values.value, courseId });
+        if (route.params.id) {
+          await lessonApi.edit({ ...values.value, id: route.params.id });
+        } else {
+          await lessonApi.create({ ...values.value, courseId: route.params.courseId });
+        }
         message.success('Success');
       } catch (err) {
         message.error(err.response.data.message);

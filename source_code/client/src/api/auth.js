@@ -24,6 +24,15 @@ const urls = {
   get fetchTrainers() {
     return this.root + '/trainers';
   },
+  get fetchAll() {
+    return this.root + '/all';
+  },
+  fetchById(id) {
+    return `${urls.root}/${id}`;
+  },
+  removeById(id) {
+    return `${urls.root}/${id}`;
+  },
 };
 
 const login = credentials => {
@@ -53,6 +62,18 @@ const fetchTrainers = () => {
   return request.get(urls.fetchTrainers).then(extractData);
 };
 
+const fetchAll = () => {
+  return request.get(urls.fetchAll).then(extractData);
+};
+
+const fetchById = id => {
+  return request.get(urls.fetchById(id)).then(extractData);
+};
+
+const removeById = id => {
+  return request.delete(urls.removeById(id));
+};
+
 export default {
   login,
   register,
@@ -61,4 +82,7 @@ export default {
   remove,
   upload,
   fetchTrainers,
+  fetchAll,
+  fetchById,
+  removeById,
 };

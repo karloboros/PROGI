@@ -16,6 +16,26 @@ module.exports = {
   async up(queryInterface) {
     const courses = [];
     for (let i = 1; i < 4; i++) courses.push(createCourse(i));
+    courses.push({
+      name: `Cha cha`,
+      description: `Description blabla}`,
+      capacity: 12,
+      applicationDeadline: new Date('2024'),
+      clubId: 1,
+      danceId: 1,
+      locationId: 5,
+      trainerId: 2,
+    });
+    courses.push({
+      name: `Cha cha`,
+      description: `Description blabla`,
+      capacity: 12,
+      applicationDeadline: new Date('2024'),
+      clubId: 2,
+      danceId: 3,
+      locationId: 4,
+      trainerId: 3,
+    });
     return queryInterface.bulkInsert(TABLE_NAME, courses);
   },
 

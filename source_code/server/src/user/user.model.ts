@@ -135,6 +135,9 @@ class UserModel extends Model implements IUser {
       trainers: {
         where: { role: Role.Coach },
       },
+      orderByRole: {
+        order: [['role', 'ASC']],
+      },
     };
   }
 

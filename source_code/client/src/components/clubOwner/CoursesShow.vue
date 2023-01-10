@@ -80,10 +80,10 @@ const viewCourses = id => {
   });
 };
 
-const viewLessons = id => {
+const viewLessons = courseId => {
   router.push({
-    name: 'Lessons',
-    params: { id },
+    name: 'LessonsShowTable',
+    params: { courseId },
   });
 };
 

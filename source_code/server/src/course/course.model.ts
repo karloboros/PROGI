@@ -105,11 +105,20 @@ class CourseModel extends Model implements ICourse {
 
   static scopes() {
     return {
+      includeClub: {
+        include: ['club'],
+      },
+      includeDance: {
+        include: ['dance'],
+      },
       includeClubOwner: {
         include: ['clubOwner'],
       },
       includeLocation: {
         include: ['location'],
+      },
+      includeTrainer: {
+        include: ['trainer'],
       },
       includeLesson: {
         include: ['lessons'],

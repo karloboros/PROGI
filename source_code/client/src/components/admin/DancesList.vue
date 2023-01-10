@@ -3,7 +3,7 @@
     <n-card title="All dances" size="huge">
       <n-skeleton v-if="loading" text :repeat="6" />
       <n-data-table v-else :columns="columns" :data="dances" :bordered="false" />
-      <n-button @click="router.push({ name: 'AddDance' })">Add dance</n-button>
+      <n-button @click="router.push({ name: 'DanceAdd' })">Add dance</n-button>
     </n-card>
   </n-space>
 </template>
@@ -47,7 +47,7 @@ onMounted(async () => {
 
 const viewDanceDetails = id => {
   router.push({
-    name: 'EditDance',
+    name: 'DanceEdit',
     params: { id },
   });
 };
