@@ -1,4 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import AcceptedCourseApplications from '@/components/userCourse/AcceptedCourseApplications.vue';
+import AcceptedTrainerApplications from '@/components/trainerApplication/AcceptedTrainerApplications.vue';
 import ClubApproval from '@/components/admin/ClubApproval.vue';
 import ClubsShow from '@/components/club/ClubsShow.vue';
 import CourseCreate from '@/components/clubowner/CourseCreate.vue';
@@ -6,6 +8,7 @@ import CourseEdit from '@/components/clubowner/CourseEdit.vue';
 import CourseInfo from '@/components/course/CourseInfo.vue';
 import CourseMap from '@/components/common/CourseMap.vue';
 import CoursesShow from '@/components/clubowner/CoursesShow.vue';
+import CreateApplication from '@/components/trainerApplication/CreateApplication.vue';
 import DanceCreate from '@/components/admin/DanceCreate.vue';
 import DanceEdit from '@/components/admin/DanceEdit.vue';
 import DancesList from '@/components/admin/DancesList.vue';
@@ -16,11 +19,14 @@ import LessonCreate from '@/components/clubowner/LessonCreate.vue';
 import LessonEdit from '@/components/clubowner/LessonEdit.vue';
 import LessonsShow from '@/components/common/LessonsShow.vue';
 import LessonsShowTable from '@/components/clubowner/LessonsShowTable.vue';
+import PendingCourseApplications from '@/components/userCourse/PendingCourseApplications.vue';
+import PendingTrainerApplications from '@/components/trainerApplication/PendingTrainerApplications.vue';
 import ProfileView from '@/components/profile/ProfileView.vue';
 import { Role } from '@/constants';
 import { useAuthStore } from '@/store';
 import UserAuth from '@/components/auth/UserAuth.vue';
 import UserEdit from '@/components/admin/UserEdit.vue';
+import UsersApplications from '@/components/userCourse/UsersApplications.vue';
 import UsersList from '@/components/admin/UsersList.vue';
 
 const routes = [
@@ -143,6 +149,41 @@ const routes = [
     path: '/courses/:id',
     name: 'CourseInfo',
     component: CourseInfo,
+  },
+  {
+    path: '/trainer-application/apply/:clubId',
+    name: 'CreateApplication',
+    component: CreateApplication,
+  },
+  {
+    path: '/trainer-applications/pending/:clubId',
+    name: 'PendingTrainerApplications',
+    meta: { role: Role.Administrator || Role.ClubOwner },
+    component: PendingTrainerApplications,
+  },
+  {
+    path: '/trainer-applications/approved/:clubId',
+    name: 'AcceptedTrainerApplications',
+    meta: { role: Role.Administrator || Role.ClubOwner },
+    component: AcceptedTrainerApplications,
+  },
+  {
+    path: '/user-courses/pending/:courseId',
+    name: 'PendingCourseApplications',
+    meta: { role: Role.Administrator || Role.ClubOwner },
+    component: PendingCourseApplications,
+  },
+  {
+    path: '/user-courses/approved/:courseId',
+    name: 'ApprovedCourseApplications',
+    meta: { role: Role.Administrator || Role.ClubOwner },
+    component: AcceptedCourseApplications,
+  },
+  {
+    path: '/user-courses/:userId',
+    name: 'YourApplications',
+    meta: { role: Role.Administrator || Role.ClubOwner },
+    component: UsersApplications,
   },
   {
     path: '/:catchAll(.*)',
