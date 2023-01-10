@@ -1,4 +1,4 @@
-import { create, fetchEventLocation, uploadEventImage } from './event.controller';
+import { create, fetchAll, uploadEventImage } from './event.controller';
 import authenticate from 'shared/auth/authenticate';
 import fs from 'fs';
 import multer from 'multer';
@@ -22,7 +22,7 @@ const path = '/events';
 const upload = multer({ storage });
 
 router
-  .get('/events-with-location', fetchEventLocation)
+  .get('/', fetchAll)
   .use(authenticate)
   .use(refresh)
   .post('/create', create)

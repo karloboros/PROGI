@@ -4,7 +4,7 @@ import sequelize, { Club, Event, EventDance, Location } from 'shared/database';
 import errorMessages from 'shared/constants/errorMessages';
 import HttpError from 'shared/error/httpError';
 
-const fetchEventLocation = async (req: Request, res: Response) => {
+const fetchAll = async (_req: Request, res: Response) => {
   const events = await Event.findAll({
     include: [{ model: Club }, { model: Location }],
   });
@@ -53,4 +53,5 @@ const uploadEventImage = (req: Request, res: Response, next: NextFunction) => {
 
   return res.status(OK).json({ path: `/images/events/${file.filename}` });
 };
-export { create, fetchEventLocation, uploadEventImage };
+
+export { fetchAll, create, uploadEventImage };

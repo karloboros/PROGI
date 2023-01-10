@@ -3,12 +3,19 @@ import request, { request as customRequest } from './request';
 
 const urls = {
   root: '/events',
+  get fetchAll() {
+    return this.urls;
+  },
   get create() {
     return this.root + '/create';
   },
   get upload() {
     return this.root + '/upload';
   },
+};
+
+const fetchAll = () => {
+  return request.get(urls.fetchAll).then(extractData);
 };
 
 const create = (params = {}) => {
@@ -20,6 +27,7 @@ const upload = (params = {}) => {
 };
 
 export default {
+  fetchAll,
   create,
   upload,
 };
