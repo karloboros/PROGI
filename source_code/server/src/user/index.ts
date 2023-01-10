@@ -11,26 +11,14 @@ import {
   uploadProfileImage,
 } from './user.controller';
 import authenticate from 'shared/auth/authenticate';
-import fs from 'fs';
-import multer from 'multer';
+import { createUpload } from 'shared/helpers/upload';
 import refresh from 'shared/auth/refresh';
 import { Router } from 'express';
 
-const storage = multer.diskStorage({
-  destination: (_req, _file, cb) => {
-    const filePath = '.tmp/images/users';
-    fs.mkdirSync(filePath, { recursive: true });
-    cb(null, filePath);
-  },
-  filename: (_req, file, cb) => {
-    cb(null, Date.now() + '_' + file.originalname);
-  },
-});
-
-const upload = multer({ storage });
-
 const router = Router();
 const path = '/users';
+
+const upload = createUpload('images', 'users');
 
 router
   .post('/login', login)

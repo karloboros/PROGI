@@ -1,25 +1,13 @@
 import { create, edit, fetchAll, fetchById, fetchDanceEvents, remove, uploadDanceImage } from './dance.controller';
 import authenticate from 'shared/auth/authenticate';
-import fs from 'fs';
-import multer from 'multer';
+import { createUpload } from 'shared/helpers/upload';
 import refresh from 'shared/auth/refresh';
 import { Router } from 'express';
-
-const storage = multer.diskStorage({
-  destination: (_req, _file, cb) => {
-    const filePath = '.tmp/images/dances';
-    fs.mkdirSync(filePath, { recursive: true });
-    cb(null, filePath);
-  },
-  filename: (_req, file, cb) => {
-    cb(null, Date.now() + '_' + file.originalname);
-  },
-});
 
 const router = Router();
 const path = '/dances';
 
-const upload = multer({ storage });
+const upload = createUpload('images', 'dances');
 
 router
   .get('/', fetchAll)
