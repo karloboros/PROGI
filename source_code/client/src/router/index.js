@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import AcceptedCourseApplications from '@/components/userCourse/AcceptedCourseApplications.vue';
-import AcceptedTrainerApplications from '@/components/trainerApplication/AcceptedTrainerApplications.vue';
+import ApprovedCourseApplications from '@/components/userCourse/ApprovedCourseApplications.vue';
+import ApprovedTrainerApplications from '@/components/trainerApplication/ApprovedTrainerApplications.vue';
 import ClubApproval from '@/components/admin/ClubApproval.vue';
 import ClubEdit from '@/components/admin/ClubEdit.vue';
 import ClubsList from '@/components/admin/ClubsList.vue';
@@ -177,9 +177,9 @@ const routes = [
   },
   {
     path: '/trainer-applications/approved/:clubId',
-    name: 'AcceptedTrainerApplications',
+    name: 'ApprovedTrainerApplications',
     meta: { role: Role.Administrator || Role.ClubOwner },
-    component: AcceptedTrainerApplications,
+    component: ApprovedTrainerApplications,
   },
   {
     path: '/user-courses/pending/:courseId',
@@ -191,7 +191,7 @@ const routes = [
     path: '/user-courses/approved/:courseId',
     name: 'ApprovedCourseApplications',
     meta: { role: Role.Administrator || Role.ClubOwner },
-    component: AcceptedCourseApplications,
+    component: ApprovedCourseApplications,
   },
   {
     path: '/user-courses/:userId',

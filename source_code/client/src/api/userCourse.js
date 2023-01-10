@@ -3,7 +3,7 @@ import request from './request';
 
 const urls = {
   root: '/user-courses',
-  fetchAccepted(courseId) {
+  fetchApproved(courseId) {
     return `${urls.root}/approved/${courseId}`;
   },
   fetchPending(courseId) {
@@ -17,8 +17,8 @@ const urls = {
   },
 };
 
-const fetchAccepted = courseId => {
-  return request.get(urls.fetchAccepted(courseId)).then(extractData);
+const fetchApproved = courseId => {
+  return request.get(urls.fetchApproved(courseId)).then(extractData);
 };
 
 const fetchPending = courseId => {
@@ -33,4 +33,4 @@ const updateStatus = params => {
   return request.post(urls.updateStatus(params.id), params).then(extractData);
 };
 
-export default { apply, updateStatus, fetchAccepted, fetchPending };
+export default { apply, updateStatus, fetchApproved, fetchPending };

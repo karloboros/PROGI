@@ -3,7 +3,7 @@ import request, { request as customRequest } from './request';
 
 const urls = {
   root: '/trainer-applications',
-  fetchAccepted(clubId) {
+  fetchApproved(clubId) {
     return `${urls.root}/approved/${clubId}`;
   },
   fetchPending(clubId) {
@@ -20,8 +20,8 @@ const urls = {
   },
 };
 
-const fetchAccepted = clubId => {
-  return request.get(urls.fetchAccepted(clubId)).then(extractData);
+const fetchApproved = clubId => {
+  return request.get(urls.fetchApproved(clubId)).then(extractData);
 };
 
 const fetchPending = clubId => {
@@ -40,4 +40,4 @@ const upload = (params = {}) => {
   return customRequest(headers.fileUpload).post(urls.upload, params).then(extractData);
 };
 
-export default { fetchAccepted, fetchPending, apply, updateStatus, upload };
+export default { fetchApproved, fetchPending, apply, updateStatus, upload };

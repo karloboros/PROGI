@@ -6,12 +6,12 @@ import errorMessages from 'shared/constants/errorMessages';
 import HttpError from 'shared/error/httpError';
 import { Role } from 'user/types';
 
-const fetchAccepted = async (req: Request, res: Response) => {
+const fetchApproved = async (req: Request, res: Response) => {
   const { clubId } = req.params;
-  const acceptedApplications = await TrainerApplication.scope(['accepted', 'includeTrainer']).findAll({
+  const approvedApplications = await TrainerApplication.scope(['approved', 'includeTrainer']).findAll({
     where: { clubId },
   });
-  return res.send(acceptedApplications);
+  return res.send(approvedApplications);
 };
 
 const fetchPending = async (req: Request, res: Response) => {
@@ -74,4 +74,4 @@ const uploadPDF = (req: Request, res: Response, next: NextFunction) => {
   return res.status(OK);
 };
 
-export { fetchAccepted, fetchPending, apply, updateStatus, uploadPDF };
+export { fetchApproved, fetchPending, apply, updateStatus, uploadPDF };

@@ -8,7 +8,7 @@ import HttpError from 'shared/error/httpError';
 const fetchApproved = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { courseId } = req.params;
-    const userCourses = await UserCourse.scope(['accepted', 'includeUser']).findAll({ where: { courseId } });
+    const userCourses = await UserCourse.scope(['approved', 'includeUser']).findAll({ where: { courseId } });
     return res.status(OK).json(userCourses);
   } catch {
     return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));

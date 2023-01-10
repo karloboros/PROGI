@@ -57,7 +57,7 @@ const clubId = route.params.clubId;
 const message = useMessage();
 
 onMounted(async () => {
-  const data = await trainerApplicationApi.fetchAccepted(clubId);
+  const data = await trainerApplicationApi.fetchApproved(clubId);
   trainerApplications.value = data.map(trainerApplication => ({
     ...trainerApplication,
     firstName: trainerApplication.trainer.firstName,

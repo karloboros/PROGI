@@ -42,7 +42,7 @@ const courseId = route.params.courseId;
 const message = useMessage();
 
 onMounted(async () => {
-  const data = await userCourseApi.fetchAccepted(courseId);
+  const data = await userCourseApi.fetchApproved(courseId);
   userCourses.value = data.map(userCourse => ({
     ...userCourse,
     firstName: userCourse.user.firstName,

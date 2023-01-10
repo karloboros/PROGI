@@ -52,7 +52,7 @@ class UserCourseModel extends Model implements IUserCourse {
       includeUser: {
         include: ['user'],
       },
-      accepted: {
+      approved: {
         where: { status: ApprovalStatus.Approved },
       },
       pending: {

@@ -1,4 +1,4 @@
-import { apply, fetchAccepted, fetchPending, updateStatus, uploadPDF } from './trainerApplication.controller';
+import { apply, fetchApproved, fetchPending, updateStatus, uploadPDF } from './trainerApplication.controller';
 import authenticate from 'shared/auth/authenticate';
 import fs from 'fs';
 import multer from 'multer';
@@ -24,7 +24,7 @@ const path = '/trainer-applications';
 router
   .use(authenticate)
   .use(refresh)
-  .get('/approved/:clubId', fetchAccepted)
+  .get('/approved/:clubId', fetchApproved)
   .get('/pending/:clubId', fetchPending)
   .post('/apply/:clubId', apply)
   .post('/update-status/:id', updateStatus)
