@@ -4,6 +4,10 @@ const clubOwnerUsername = 'owner';
 const adminUsername = 'admin';
 
 describe('Login Test', () => {
+  before(() => {
+    cy.task('seed');
+  });
+
   beforeEach(() => {
     cy.visit('/');
   });
