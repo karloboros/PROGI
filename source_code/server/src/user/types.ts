@@ -8,7 +8,7 @@ enum Gender {
 enum Role {
   Administrator,
   ClubOwner,
-  Coach,
+  Trainer,
   User,
 }
 

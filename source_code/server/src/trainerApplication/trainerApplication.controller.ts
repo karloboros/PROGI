@@ -41,7 +41,7 @@ const updateStatus = async (req: Request, res: Response, next: NextFunction) => 
     if (isApproved) {
       const trainer = await User.findOne({ where: { id: application.trainerId } });
       if (!trainer) return next(new HttpError(NOT_FOUND, errorMessages.NOT_FOUND));
-      trainer.role = Role.Coach;
+      trainer.role = Role.Trainer;
       await trainer.save();
     }
     return res.status(OK).send('Approval status changed successfully');
