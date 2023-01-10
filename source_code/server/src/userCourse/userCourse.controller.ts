@@ -50,7 +50,7 @@ const getApproved = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-const getPending = async (req: Request, res: Response, next: NextFunction) => {
+const fetchPending = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { courseId } = req.params;
     const userCourses = await UserCourse.scope(['pending', 'includeUser']).findAll({ where: { courseId } });
@@ -70,4 +70,4 @@ const getUsersApplications = async (req: Request, res: Response, next: NextFunct
   }
 };
 
-export { apply, updateStatus, getApproved, getPending, getUsersApplications };
+export { apply, updateStatus, getApproved, fetchPending, getUsersApplications };

@@ -9,10 +9,10 @@ const urls = {
   get updateStatus() {
     return this.root + '/update-status';
   },
-  getAccepted(courseId) {
+  fetchAccepted(courseId) {
     return `${urls.root}/approved/${courseId}`;
   },
-  getPending(courseId) {
+  fetchPending(courseId) {
     return `${urls.root}/pending/${courseId}`;
   },
   getYourApplications(userId) {
@@ -28,16 +28,16 @@ const updateStatus = params => {
   return request.post(urls.updateStatus, params).then(extractData);
 };
 
-const getAccepted = courseId => {
-  return request.get(urls.getAccepted(courseId)).then(extractData);
+const fetchAccepted = courseId => {
+  return request.get(urls.fetchAccepted(courseId)).then(extractData);
 };
 
-const getPending = courseId => {
-  return request.get(urls.getPending(courseId)).then(extractData);
+const fetchPending = courseId => {
+  return request.get(urls.fetchPending(courseId)).then(extractData);
 };
 
 const getYourApplications = userId => {
   return request.get(urls.getYourApplications(userId)).then(extractData);
 };
 
-export default { apply, updateStatus, getAccepted, getPending, getYourApplications };
+export default { apply, updateStatus, fetchAccepted, fetchPending, getYourApplications };

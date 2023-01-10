@@ -9,14 +9,14 @@ const urls = {
   get updateStatus() {
     return this.root + '/update-status';
   },
-  get upload() {
-    return this.root + '/upload';
-  },
-  getAccepted(clubId) {
+  fetchAccepted(clubId) {
     return `${urls.root}/approved/${clubId}`;
   },
-  getPending(clubId) {
+  fetchPending(clubId) {
     return `${urls.root}/pending/${clubId}`;
+  },
+  get upload() {
+    return this.root + '/upload';
   },
 };
 
@@ -28,16 +28,16 @@ const updateStatus = (params = {}) => {
   return request.post(urls.updateStatus, params).then(extractData);
 };
 
+const fetchAccepted = clubId => {
+  return request.get(urls.fetchAccepted(clubId)).then(extractData);
+};
+
+const fetchPending = clubId => {
+  return request.get(urls.fetchPending(clubId)).then(extractData);
+};
+
 const upload = (params = {}) => {
   return customRequest(headers.fileUpload).post(urls.upload, params).then(extractData);
 };
 
-const getAccepted = clubId => {
-  return request.get(urls.getAccepted(clubId)).then(extractData);
-};
-
-const getPending = clubId => {
-  return request.get(urls.getPending(clubId)).then(extractData);
-};
-
-export default { apply, updateStatus, getAccepted, upload, getPending };
+export default { apply, updateStatus, fetchAccepted, fetchPending, upload };

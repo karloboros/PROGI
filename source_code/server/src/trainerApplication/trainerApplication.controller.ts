@@ -50,7 +50,7 @@ const updateStatus = async (req: Request, res: Response, next: NextFunction) => 
   }
 };
 
-const getPending = async (req: Request, res: Response) => {
+const fetchPending = async (req: Request, res: Response) => {
   const { clubId } = req.params;
   const pendingApplications = await TrainerApplication.scope(['pending', 'includeTrainer']).findAll({
     where: { clubId },
@@ -58,7 +58,7 @@ const getPending = async (req: Request, res: Response) => {
   return res.send(pendingApplications);
 };
 
-const getAccepted = async (req: Request, res: Response) => {
+const fetchAccepted = async (req: Request, res: Response) => {
   const { clubId } = req.params;
   const acceptedApplications = await TrainerApplication.scope(['accepted', 'includeTrainer']).findAll({
     where: { clubId },
@@ -73,4 +73,4 @@ const uploadPDF = (req: Request, res: Response, next: NextFunction) => {
   return res.status(OK);
 };
 
-export { apply, updateStatus, getPending, getAccepted, uploadPDF };
+export { apply, updateStatus, fetchPending, fetchAccepted, uploadPDF };
