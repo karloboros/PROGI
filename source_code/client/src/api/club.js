@@ -35,6 +35,7 @@ const fetchPending = () => {
 const fetchApproved = () => {
   return request.get(urls.fetchApproved).then(extractData);
 };
+
 const updateApprovalStatus = params => {
   return request.post(urls.updateApprovalStatus, params).then(extractData);
 };

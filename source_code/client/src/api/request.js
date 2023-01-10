@@ -22,7 +22,6 @@ req.interceptors.response.use(
       useAuthStore().removeUser();
       return window.location.reload();
     }
-
     throw err;
   },
 );

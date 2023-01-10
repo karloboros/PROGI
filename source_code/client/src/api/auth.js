@@ -58,6 +58,7 @@ const remove = () => {
 const upload = params => {
   return customRequest(headers.fileUpload).post(urls.upload, params).then(extractData);
 };
+
 const fetchTrainers = () => {
   return request.get(urls.fetchTrainers).then(extractData);
 };
