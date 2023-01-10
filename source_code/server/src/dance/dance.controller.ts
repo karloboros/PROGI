@@ -10,14 +10,14 @@ const fetchAll = async (_req: Request, res: Response) => {
   return res.send(dances);
 };
 
+const fetchDanceEvents = async (req: Request, res: Response) => {
+  const events = await Dance.findAll({ include: [Event] });
+  return res.send(events);
+};
+
 const fetchById = async (req: Request, res: Response) => {
   const dance = await Dance.findByPk(+req.params.id);
   return res.send(dance);
-};
-
-const fetchDanceEvent = async (req: Request, res: Response) => {
-  const events = await Dance.findAll({ include: [Event] });
-  return res.send(events);
 };
 
 const create = async (req: Request, res: Response, next: NextFunction) => {
@@ -55,6 +55,13 @@ const edit = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
+const uploadDanceImage = (req: Request, res: Response, next: NextFunction) => {
+  const { file } = req;
+  if (!file) return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
+
+  return res.status(OK).json({ path: `/images/dances/${file.filename}` });
+};
+
 const remove = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const danceId = JSON.parse(req.params.id);
@@ -72,11 +79,4 @@ const remove = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-const uploadDanceImage = (req: Request, res: Response, next: NextFunction) => {
-  const { file } = req;
-  if (!file) return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
-
-  return res.status(OK).json({ path: `/images/dances/${file.filename}` });
-};
-
-export { create, edit, fetchAll, fetchById, fetchDanceEvent, remove, uploadDanceImage };
+export { fetchAll, fetchDanceEvents, fetchById, create, edit, uploadDanceImage, remove };
