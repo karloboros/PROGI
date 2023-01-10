@@ -91,10 +91,8 @@ const rules = {
   name: required,
   description: required,
   capacity: number,
-  // dance: required,
   address: required,
   coordinates: coordinatesRequired,
-  // trainer: required,
   minAge: number,
   maxAge: number,
   applicationDeadline: dateRequired,
@@ -139,9 +137,4 @@ const submit = async () => {
     }
   });
 };
-
-// eslint-disable-next-line no-unused-vars
-/* const error = error => {
-  message.error(error);
-}; */
 </script>

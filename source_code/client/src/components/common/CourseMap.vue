@@ -48,29 +48,7 @@ const layerChanged = dance => {
     }
     map.value.addLayer(coursesToMap);
   }
-  /*
-  coursesToChangeDisplay.value.forEach(course => {
-    if (!course.active) {
-      map.value.addLayer(course);
-    } else {
-      map.value.removeFrom(course);
-    }
-  });
-  */
 };
-/*
-const layerChanged = (layerId, active) => {
-  const layer = layers.find(layer => layer.id === layerId);
-
-  layer.features.forEach(feature => {
-    if (active) {
-      feature.leafletObject.addTo(map.value);
-    } else {
-      feature.leafletObject.removeFrom(map.value);
-    }
-  });
-};
-*/
 
 const initLayers = async () => {
   const data = await courseApi.fetchAll();
@@ -114,14 +92,6 @@ const initLayers = async () => {
       ),
     );
   }
-  /*
-  layers.forEach(layer => {
-    layer.features.forEach(feature => {
-      feature.leafletObject = L.marker(feature.coords).bindPopup(`
-        ${feature.name}</br><a href="/profile"><button>Go to</button></a>`);
-    });
-  });
-  */
 };
 const initMap = () => {
   map.value = L.map('map').setView(view, 12);

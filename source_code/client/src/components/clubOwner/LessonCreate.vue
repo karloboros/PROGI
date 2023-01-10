@@ -68,9 +68,4 @@ const submit = async () => {
     }
   });
 };
-/*
-const error = error => {
-message.error(error);
-};
-*/
 </script>
