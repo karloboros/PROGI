@@ -23,7 +23,7 @@
       </n-form-item>
 
       <n-form-item>
-        <n-button type="primary" attr-type="submit">Create</n-button>
+        <n-button type="primary" attr-type="submit">Save</n-button>
       </n-form-item>
     </n-form>
   </n-card>
@@ -35,16 +35,24 @@ import { clubApi } from '@/api';
 import { computed } from '@vue/reactivity';
 import { ref } from 'vue';
 import { useMessage } from 'naive-ui';
+import { useRoute } from 'vue-router';
 
 const emit = defineEmits(['created']);
 
-const initialValues = {
-  name: '',
-  address: '',
-  email: '',
-  phone: '',
-  description: '',
-};
+const props = defineProps({
+  initialValues: {
+    type: Object,
+    default: () => ({
+      name: '',
+      address: '',
+      email: '',
+      phone: '',
+      description: '',
+    }),
+  },
+});
+
+const values = ref(props.initialValues);
 
 const { required, emailRequired, phoneRequired } = validationRules;
 const rules = {
@@ -54,19 +62,21 @@ const rules = {
   phone: phoneRequired,
 };
 
-const values = ref(initialValues);
 const formRef = ref(null);
+const route = useRoute();
 
 const emailOptions = computed(() => emailSuggestions(values.value.email));
 
 const message = useMessage();
 
 const submit = async () => {
+  const { id } = route.params;
   formRef.value?.validate(async errors => {
     if (!errors) {
       try {
-        await clubApi.create({ ...values.value });
-        message.success('Club successfully created!');
+        if (id) await clubApi.edit({ ...values.value, id });
+        else await clubApi.create({ ...values.value });
+        message.success('Club successfully saved!');
         emit('created');
       } catch (err) {
         message.error(err.response.data.message);
