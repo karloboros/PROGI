@@ -65,11 +65,10 @@
 <script setup>
 import 'leaflet/dist/leaflet.css';
 import { attribution, mapBackground, view } from '@/constants';
+import { onMounted, ref } from 'vue';
 import { authApi } from '@/api';
 import { defaultRoute } from '@/router';
 import L from 'leaflet';
-// eslint-disable-next-line sort-imports
-import { onMounted, ref } from 'vue';
 import { useAuthStore } from '@/store';
 import { useMessage } from 'naive-ui';
 import { useRouter } from 'vue-router';

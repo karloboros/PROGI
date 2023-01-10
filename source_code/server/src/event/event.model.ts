@@ -1,8 +1,7 @@
-import { IEvent } from './types';
-import { Model } from 'sequelize';
-// eslint-disable-next-line sort-imports
 import { IFields, IModels } from 'shared/database/types';
 import { IDance } from 'dance/types';
+import { IEvent } from './types';
+import { Model } from 'sequelize';
 
 class EventModel extends Model implements IEvent {
   id!: number;
