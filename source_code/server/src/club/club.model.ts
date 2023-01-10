@@ -1,7 +1,5 @@
 import { ApprovalStatus, IClub } from './types';
 import { IFields, IModels } from 'shared/database/types';
-import { ICourse } from 'course/types';
-import { IUser } from 'user/types';
 import { Model } from 'sequelize';
 
 class ClubModel extends Model implements IClub {
@@ -13,8 +11,6 @@ class ClubModel extends Model implements IClub {
   approvalStatus!: ApprovalStatus;
   ownerId!: number;
   locationId!: number;
-  courses?: ICourse[];
-  trainers?: IUser[];
 
   static fields({ INTEGER, STRING, TEXT }: IFields) {
     return {
@@ -60,9 +56,11 @@ class ClubModel extends Model implements IClub {
   static associate({ Course, Event, Location, User, TrainerApplication }: IModels) {
     this.hasMany(Course, {
       foreignKey: { name: 'clubId', field: 'clubId' },
-      as: 'courses',
     });
     this.hasMany(Event, {
+      foreignKey: { name: 'clubId', field: 'clubId' },
+    });
+    this.hasMany(TrainerApplication, {
       foreignKey: { name: 'clubId', field: 'clubId' },
     });
     this.belongsTo(Location, {
@@ -71,10 +69,6 @@ class ClubModel extends Model implements IClub {
     this.belongsTo(User, {
       foreignKey: { name: 'ownerId', field: 'ownerId' },
       as: 'owner',
-    });
-    this.hasMany(TrainerApplication, {
-      foreignKey: { name: 'clubId', field: 'clubId' },
-      as: 'trainerApplications',
     });
   }
 
@@ -86,11 +80,11 @@ class ClubModel extends Model implements IClub {
       includeLocation: {
         include: ['location'],
       },
-      pending: {
-        where: { approvalStatus: ApprovalStatus.Pending },
-      },
       approved: {
         where: { approvalStatus: ApprovalStatus.Approved },
+      },
+      pending: {
+        where: { approvalStatus: ApprovalStatus.Pending },
       },
     };
   }
