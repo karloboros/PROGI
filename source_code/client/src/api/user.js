@@ -4,19 +4,13 @@ import request from './request';
 const urls = {
   root: '/users',
   get fetchAll() {
-    return this.root + '/all';
+    return this.root;
   },
   fetchById(id) {
     return `${urls.root}/${id}`;
   },
   get fetchTrainers() {
     return this.root + '/trainers';
-  },
-  get fetchDanceEvents() {
-    return '/dances' + '/dance-events';
-  },
-  get fetchEventLocation() {
-    return '/events' + '/events-with-location';
   },
   removeById(id) {
     return `${urls.root}/${id}`;
@@ -35,14 +29,6 @@ const fetchTrainers = () => {
   return request.get(urls.fetchTrainers).then(extractData);
 };
 
-const fetchDanceEvents = () => {
-  return request.get(urls.fetchDanceEvents).then(extractData);
-};
-
-const fetchEventLocation = () => {
-  return request.get(urls.fetchEventLocation).then(extractData);
-};
-
 const removeById = id => {
   return request.delete(urls.removeById(id));
 };
@@ -51,7 +37,5 @@ export default {
   fetchAll,
   fetchById,
   fetchTrainers,
-  fetchDanceEvents,
-  fetchEventLocation,
   removeById,
 };

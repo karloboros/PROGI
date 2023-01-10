@@ -43,6 +43,30 @@ const logout = (_req: Request, res: Response) => {
   res.status(OK).send();
 };
 
+const uploadProfileImage = (req: Request, res: Response, next: NextFunction) => {
+  const { file } = req;
+  if (!file) return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
+
+  return res.status(OK).json({ path: `/images/users/${file.filename}` });
+};
+
+const fetchAll = async (_req: Request, res: Response) => {
+  const users = await User.scope('orderByRole').findAll();
+  const usersToReturn = users.map(user => user.profile);
+  return res.send(usersToReturn);
+};
+
+const fetchById = async (req: Request, res: Response, next: NextFunction) => {
+  const user = await User.findByPk(+req.params.id);
+  if (!user) return next(new HttpError(NOT_FOUND, errorMessages.NOT_FOUND));
+  return res.send(user.profile);
+};
+
+const fetchTrainers = async (req: Request, res: Response) => {
+  const trainers = await User.scope(['trainers']).findAll();
+  return res.send(trainers);
+};
+
 const edit = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const user = req.body;
@@ -83,30 +107,6 @@ const remove = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-const uploadProfileImage = (req: Request, res: Response, next: NextFunction) => {
-  const { file } = req;
-  if (!file) return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
-
-  return res.status(OK).json({ path: `/images/users/${file.filename}` });
-};
-
-const fetchTrainers = async (req: Request, res: Response) => {
-  const trainers = await User.scope(['trainers']).findAll();
-  return res.send(trainers);
-};
-
-const fetchAll = async (_req: Request, res: Response) => {
-  const users = await User.scope('orderByRole').findAll();
-  const usersToReturn = users.map(user => user.profile);
-  return res.send(usersToReturn);
-};
-
-const fetchById = async (req: Request, res: Response, next: NextFunction) => {
-  const user = await User.findByPk(+req.params.id);
-  if (!user) return next(new HttpError(NOT_FOUND, errorMessages.NOT_FOUND));
-  return res.send(user.profile);
-};
-
 const removeById = async (req: Request, res: Response, next: NextFunction) => {
   const { id } = req.params;
   try {
@@ -128,4 +128,4 @@ const removeById = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-export { login, register, logout, edit, remove, uploadProfileImage, fetchTrainers, fetchAll, fetchById, removeById };
+export { login, register, logout, uploadProfileImage, fetchAll, fetchById, fetchTrainers, edit, remove, removeById };

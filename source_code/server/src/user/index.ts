@@ -39,11 +39,11 @@ router
   .post('/upload', upload.single('file'), uploadProfileImage)
   .use(authenticate)
   .use(refresh)
+  .get('/', fetchAll)
+  .get('/:id', fetchById)
+  .get('/trainers', fetchTrainers)
   .post('/edit', edit)
   .delete('/', remove)
-  .get('/trainers', fetchTrainers)
-  .get('/all', fetchAll)
-  .get('/:id', fetchById)
   .delete('/:id', removeById);
 
 export default { router, path };
