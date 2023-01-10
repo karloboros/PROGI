@@ -1,6 +1,8 @@
 import { IFields, IModels } from 'shared/database/types';
 import { Gender } from 'user/types';
 import { ICourse } from './types';
+import { ILesson } from 'lesson/types';
+import { IUserCourse } from 'userCourse/types';
 import { Model } from 'sequelize';
 
 class CourseModel extends Model implements ICourse {
@@ -17,6 +19,8 @@ class CourseModel extends Model implements ICourse {
   danceId!: number;
   locationId!: number;
   trainerId!: number;
+  lessons?: ILesson[];
+  userCourses?: IUserCourse[];
 
   static fields({ INTEGER, STRING, TEXT, DATE }: IFields) {
     return {
@@ -107,11 +111,17 @@ class CourseModel extends Model implements ICourse {
       includeDance: {
         include: ['dance'],
       },
+      includeClubOwner: {
+        include: ['clubOwner'],
+      },
       includeLocation: {
         include: ['location'],
       },
       includeTrainer: {
         include: ['trainer'],
+      },
+      includeLesson: {
+        include: ['lessons'],
       },
     };
   }

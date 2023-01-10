@@ -1,4 +1,4 @@
-import { create, fetchApproved, fetchPending, updateApprovalStatus } from './club.controller';
+import { create, fetchAll, fetchApproved, fetchPending, updateApprovalStatus } from './club.controller';
 import authenticate from 'shared/auth/authenticate';
 import refresh from 'shared/auth/refresh';
 import { Router } from 'express';
@@ -11,6 +11,7 @@ router
   .use(refresh)
   .post('/create', create)
   .get('/pending', fetchPending)
+  .get('/all', fetchAll)
   .get('/approved', fetchApproved)
   .post('/update-approval', updateApprovalStatus);
 

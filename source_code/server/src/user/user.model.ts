@@ -132,6 +132,12 @@ class UserModel extends Model implements IUser {
       includeClub: {
         include: ['clubs'],
       },
+      trainers: {
+        where: { role: Role.Coach },
+      },
+      orderByRole: {
+        order: [['role', 'ASC']],
+      },
     };
   }
 

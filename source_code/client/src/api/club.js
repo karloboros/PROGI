@@ -6,6 +6,9 @@ const urls = {
   get create() {
     return this.root + '/create';
   },
+  get fetchAll() {
+    return this.root + '/all';
+  },
   get fetchPending() {
     return this.root + '/pending';
   },
@@ -21,6 +24,10 @@ const create = (params = {}) => {
   return request.post(urls.create, params).then(extractData);
 };
 
+const fetchAll = () => {
+  return request.get(urls.fetchAll).then(extractData);
+};
+
 const fetchPending = () => {
   return request.get(urls.fetchPending).then(extractData);
 };
@@ -34,6 +41,7 @@ const updateApprovalStatus = params => {
 
 export default {
   create,
+  fetchAll,
   fetchPending,
   fetchApproved,
   updateApprovalStatus,

@@ -2,15 +2,12 @@ import { extractData } from './helpers';
 import request from './request';
 
 const urls = {
-  root: '/courses',
-  get fetchAll() {
-    return this.root + '/all';
+  root: '/lessons',
+  fetchAll(courseId) {
+    return `${urls.root}/${courseId}`;
   },
   fetchById(id) {
-    return `${urls.root}/${id}`;
-  },
-  fetchByClub(clubId) {
-    return `${urls.root}/byClub/${clubId}`;
+    return `${urls.root}/one/${id}`;
   },
   get create() {
     return this.root + '/create';
@@ -23,31 +20,25 @@ const urls = {
   },
 };
 
-const fetchAll = () => {
-  return request.get(urls.fetchAll).then(extractData);
+const fetchAll = courseId => {
+  return request.get(urls.fetchAll(courseId)).then(extractData);
 };
+
 const fetchById = id => {
   return request.get(urls.fetchById(id)).then(extractData);
 };
-const fetchByClub = clubId => {
-  return request.get(urls.fetchByClub(clubId)).then(extractData);
-};
-
 const create = (params = {}) => {
   return request.post(urls.create, params).then(extractData);
 };
-
 const edit = (params = {}) => {
   return request.post(urls.edit(params.id), params).then(extractData);
 };
 const remove = id => {
   return request.delete(urls.remove(id));
 };
-
 export default {
   fetchAll,
   fetchById,
-  fetchByClub,
   create,
   edit,
   remove,

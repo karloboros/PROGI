@@ -21,6 +21,18 @@ const urls = {
   get upload() {
     return this.root + '/upload';
   },
+  get fetchTrainers() {
+    return this.root + '/trainers';
+  },
+  get fetchAll() {
+    return this.root + '/all';
+  },
+  fetchById(id) {
+    return `${urls.root}/${id}`;
+  },
+  removeById(id) {
+    return `${urls.root}/${id}`;
+  },
 };
 
 const login = credentials => {
@@ -46,6 +58,21 @@ const remove = () => {
 const upload = params => {
   return customRequest(headers.fileUpload).post(urls.upload, params).then(extractData);
 };
+const fetchTrainers = () => {
+  return request.get(urls.fetchTrainers).then(extractData);
+};
+
+const fetchAll = () => {
+  return request.get(urls.fetchAll).then(extractData);
+};
+
+const fetchById = id => {
+  return request.get(urls.fetchById(id)).then(extractData);
+};
+
+const removeById = id => {
+  return request.delete(urls.removeById(id));
+};
 
 export default {
   login,
@@ -54,4 +81,8 @@ export default {
   edit,
   remove,
   upload,
+  fetchTrainers,
+  fetchAll,
+  fetchById,
+  removeById,
 };
