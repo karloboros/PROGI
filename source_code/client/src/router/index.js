@@ -1,5 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import ClubApproval from '@/components/admin/ClubApproval.vue';
+import ClubEdit from '@/components/admin/ClubEdit.vue';
+import ClubsList from '@/components/admin/ClubsList.vue';
 import DanceCreate from '@/components/admin/DanceCreate.vue';
 import DanceEdit from '@/components/admin/DanceEdit.vue';
 import DancesList from '@/components/admin/DancesList.vue';
@@ -52,6 +54,18 @@ const routes = [
     name: 'DanceEdit',
     meta: { role: Role.Administrator },
     component: DanceEdit,
+  },
+  {
+    path: '/admin/clubs/all',
+    name: 'ClubsList',
+    meta: { role: Role.Administrator },
+    component: ClubsList,
+  },
+  {
+    path: '/admin/clubs/edit/:id',
+    name: 'ClubEdit',
+    meta: { role: Role.Administrator },
+    component: ClubEdit,
   },
   {
     path: '/admin',
