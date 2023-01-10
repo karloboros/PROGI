@@ -4,6 +4,13 @@ import sequelize, { Club, Event, EventDance, Location } from 'shared/database';
 import errorMessages from 'shared/constants/errorMessages';
 import HttpError from 'shared/error/httpError';
 
+const fetchEventLocation = async (req: Request, res: Response) => {
+  const events = await Event.findAll({
+    include: [{ model: Club }, { model: Location }],
+  });
+  return res.send(events);
+};
+
 const create = async (req: Request, res: Response, next: NextFunction) => {
   const transaction = await sequelize.transaction();
   try {
@@ -46,4 +53,4 @@ const uploadEventImage = (req: Request, res: Response, next: NextFunction) => {
 
   return res.status(OK).json({ path: `/images/events/${file.filename}` });
 };
-export { create, uploadEventImage };
+export { create, fetchEventLocation, uploadEventImage };

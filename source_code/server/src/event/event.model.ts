@@ -1,6 +1,8 @@
-import { IFields, IModels } from 'shared/database/types';
 import { IEvent } from './types';
 import { Model } from 'sequelize';
+// eslint-disable-next-line sort-imports
+import { IFields, IModels } from 'shared/database/types';
+import { IDance } from 'dance/types';
 
 class EventModel extends Model implements IEvent {
   id!: number;
@@ -9,6 +11,7 @@ class EventModel extends Model implements IEvent {
   image!: string;
   clubId!: number;
   locationId!: number;
+  dances?: IDance[];
 
   static fields({ INTEGER, STRING, TEXT }: IFields) {
     return {
@@ -40,7 +43,7 @@ class EventModel extends Model implements IEvent {
     };
   }
 
-  static associate({ Location, Club, EventDance }: IModels) {
+  static associate({ Location, Club, EventDance, Dance }: IModels) {
     this.belongsTo(Club, {
       foreignKey: { name: 'clubId', field: 'clubId' },
     });
@@ -50,6 +53,15 @@ class EventModel extends Model implements IEvent {
     this.hasMany(EventDance, {
       foreignKey: { name: 'eventId', field: 'eventId' },
     });
+    this.belongsToMany(Dance, { through: EventDance });
+  }
+
+  static scopes() {
+    return {
+      includeEventDances: {
+        include: 'event_dances',
+      },
+    };
   }
 
   static dbOptions() {

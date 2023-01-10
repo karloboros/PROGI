@@ -15,5 +15,8 @@
     "ava": "^5.1.0",
     "enforce-branch-name": "^1.1.2",
     "husky": "^8.0.2"
+  },
+  "dependencies": {
+    "start": "^5.1.0"
   }
 }

@@ -33,6 +33,15 @@ const urls = {
   removeById(id) {
     return `${urls.root}/${id}`;
   },
+  get fetchDanceEvents() {
+    return '/dances' + '/dance-events';
+  },
+  get fetchEventDance() {
+    return '/events' + '/event-Dance';
+  },
+  get fetchEventLocation() {
+    return '/events' + '/events-with-location';
+  },
 };
 
 const login = credentials => {
@@ -49,6 +58,14 @@ const logout = () => {
 
 const edit = user => {
   return request.post(urls.edit, user).then(extractData);
+};
+
+const fetchDanceEvents = () => {
+  return request.get(urls.fetchDanceEvents).then(extractData);
+};
+
+const fetchEventLocation = () => {
+  return request.get(urls.fetchEventLocation).then(extractData);
 };
 
 const remove = () => {
@@ -80,6 +97,8 @@ export default {
   register,
   logout,
   edit,
+  fetchDanceEvents,
+  fetchEventLocation,
   remove,
   upload,
   fetchTrainers,

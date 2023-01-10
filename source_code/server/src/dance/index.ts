@@ -1,4 +1,4 @@
-import { create, edit, fetchAll, fetchById, remove, uploadDanceImage } from './dance.controller';
+import { create, edit, fetchAll, fetchById, fetchDanceEvent, remove, uploadDanceImage } from './dance.controller';
 import authenticate from 'shared/auth/authenticate';
 import fs from 'fs';
 import multer from 'multer';
@@ -22,9 +22,10 @@ const path = '/dances';
 const upload = multer({ storage });
 
 router
+  .get('/dance-events', fetchDanceEvent)
+  .get('/all', fetchAll)
   .use(authenticate)
   .use(refresh)
-  .get('/all', fetchAll)
   .get('/:id', fetchById)
   .post('/create', create)
   .post('/edit/:id', edit)
