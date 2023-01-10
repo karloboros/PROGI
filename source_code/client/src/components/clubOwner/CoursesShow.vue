@@ -63,7 +63,6 @@ const columns = [
 const courses = ref([]);
 const route = useRoute();
 const clubId = route.params.clubId;
-console.log(clubId);
 
 onMounted(async () => {
   const data = await courseApi.fetchByClub(clubId);

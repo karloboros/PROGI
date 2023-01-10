@@ -27,7 +27,6 @@ const lesson = ref(null);
 
 onMounted(async () => {
   const lessonData = await lessonApi.fetchById(id);
-  console.log(lessonData);
   lesson.value = { startTime: toDatePicker(lessonData.startTime), endTime: toDatePicker(lessonData.endTime) };
 });
 

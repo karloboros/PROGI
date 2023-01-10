@@ -31,10 +31,8 @@ const coursesToMap = L.layerGroup();
 const layerChanged = dance => {
   const coursesToChangeDisplay = courses.value.find(course => course.danceId === dance.id);
 
-  console.log(coursesToChangeDisplay.value);
   for (const course in coursesToChangeDisplay.value) {
     if (course.active) {
-      console.log(course.coordinates);
       const coords = course.coordinates.split(',');
       const x = Number(coords[0]);
       const y = Number(coords[1]);
@@ -134,7 +132,6 @@ const initMap = () => {
 onMounted(async () => {
   initMap();
   await initLayers();
-  console.log(coursesToMap);
   map.value.addLayer(coursesToMap);
 });
 </script>

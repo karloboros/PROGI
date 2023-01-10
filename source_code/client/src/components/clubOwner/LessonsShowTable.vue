@@ -38,7 +38,6 @@ const columns = [
 const lessons = ref([]);
 const route = useRoute();
 const courseId = route.params.courseId;
-console.log(courseId);
 
 onMounted(async () => {
   const data = await lessonApi.fetchAll(courseId);

@@ -27,7 +27,6 @@ const course = ref(null);
 
 onMounted(async () => {
   const courseData = await courseApi.fetchById(id);
-  console.log(courseData);
   course.value = { ...courseData, applicationDeadline: toDatePicker(courseData.applicationDeadline) };
 });
 

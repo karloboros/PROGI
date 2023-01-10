@@ -35,7 +35,6 @@ onMounted(async () => {
       disableDnD: ['month', 'week', 'day'],
       disableResize: ['week', 'day'],
     };
-    console.log(lesson.value);
     events.value.push(lesson.value);
   }
 });
