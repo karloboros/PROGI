@@ -76,7 +76,7 @@ const submit = async () => {
       try {
         const method = id ? clubApi.edit : clubApi.create;
         await method({ ...values.value, id });
-        message.success('Successfully saved!');
+        message.success('Club saved successfully!');
         emit('created');
       } catch (err) {
         message.error(err.response.data.message);
