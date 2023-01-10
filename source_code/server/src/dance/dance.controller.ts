@@ -10,7 +10,7 @@ const fetchAll = async (_req: Request, res: Response) => {
   return res.send(dances);
 };
 
-const fetchDanceEvents = async (req: Request, res: Response) => {
+const fetchDanceEvents = async (_req: Request, res: Response) => {
   const events = await Dance.findAll({ include: [Event] });
   return res.send(events);
 };

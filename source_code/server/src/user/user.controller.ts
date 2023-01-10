@@ -62,7 +62,7 @@ const fetchById = async (req: Request, res: Response, next: NextFunction) => {
   return res.send(user.profile);
 };
 
-const fetchTrainers = async (req: Request, res: Response) => {
+const fetchTrainers = async (_req: Request, res: Response) => {
   const trainers = await User.scope(['trainers']).findAll();
   return res.send(trainers);
 };
