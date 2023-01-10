@@ -10,7 +10,7 @@ const urls = {
     return `${urls.root}/${id}`;
   },
   fetchByClub(clubId) {
-    return `${urls.root}/club-id/${clubId}`;
+    return `${urls.root}/club/${clubId}`;
   },
   get create() {
     return this.root + '/create';
