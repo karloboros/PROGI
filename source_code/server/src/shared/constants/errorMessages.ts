@@ -11,6 +11,8 @@ const errorMessages = {
   CLUB_OWNER_DELETE_ADMIN: 'This user is club owner, in order to delete this profile, delete clubs first.',
   COURSE_USER_DELETE: 'To be able to delete this user, delete his courses applications first.',
   TRAINER_USER_DELETE: 'To be able to delete this user, delete his trainer applications first.',
+  COURSE_CLUB_DELETE: 'To be able to delete this club, delete its courses applications first.',
+  TRAINER_CLUB_DELETE: 'To be able to delete this club, delete its trainer applications first.',
 };
 
 export default errorMessages;
