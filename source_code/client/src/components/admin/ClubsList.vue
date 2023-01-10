@@ -50,11 +50,11 @@ const clubs = ref([]);
 const loading = ref(true);
 
 onMounted(async () => {
-  clubs.value = await clubApi.fetchAll();
-  clubs.value = clubs.value.map(club => ({
+  const data = await clubApi.fetchAll();
+  clubs.value = data.map(club => ({
     ...club,
     address: club.location.name,
-    owner: `${club.owner.firstName} ${club.owner.lastName}`,
+    owner: club.owner.fullName,
   }));
   loading.value = false;
 });

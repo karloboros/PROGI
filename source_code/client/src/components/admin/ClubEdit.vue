@@ -18,7 +18,6 @@ import { useRoute } from 'vue-router';
 
 const message = useMessage();
 const dialog = useDialog();
-
 const route = useRoute();
 const { id } = route.params;
 

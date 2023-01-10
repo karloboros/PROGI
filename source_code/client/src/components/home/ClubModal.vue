@@ -74,9 +74,9 @@ const submit = async () => {
   formRef.value?.validate(async errors => {
     if (!errors) {
       try {
-        if (id) await clubApi.edit({ ...values.value, id });
-        else await clubApi.create({ ...values.value });
-        message.success('Club successfully saved!');
+        const method = id ? clubApi.edit : clubApi.create;
+        await method({ ...values.value, id });
+        message.success('Successfully saved!');
         emit('created');
       } catch (err) {
         message.error(err.response.data.message);
