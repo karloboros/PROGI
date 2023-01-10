@@ -5,6 +5,26 @@ import { ApprovalStatus } from 'club/types';
 import errorMessages from 'shared/constants/errorMessages';
 import HttpError from 'shared/error/httpError';
 
+const fetchApproved = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { courseId } = req.params;
+    const userCourses = await UserCourse.scope(['accepted', 'includeUser']).findAll({ where: { courseId } });
+    return res.status(OK).json(userCourses);
+  } catch {
+    return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
+  }
+};
+
+const fetchPending = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { courseId } = req.params;
+    const userCourses = await UserCourse.scope(['pending', 'includeUser']).findAll({ where: { courseId } });
+    return res.status(OK).json(userCourses);
+  } catch {
+    return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
+  }
+};
+
 const apply = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { user } = req;
@@ -25,7 +45,8 @@ const apply = async (req: Request, res: Response, next: NextFunction) => {
 
 const updateStatus = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { id, isApproved } = req.body;
+    const { isApproved } = req.body;
+    const { id } = req.params;
     const userCourse = await UserCourse.scope('includeCourse').findByPk(id);
     if (!userCourse) return next(new HttpError(NOT_FOUND, errorMessages.NOT_FOUND));
 
@@ -40,34 +61,4 @@ const updateStatus = async (req: Request, res: Response, next: NextFunction) => 
   }
 };
 
-const getApproved = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const { courseId } = req.params;
-    const userCourses = await UserCourse.scope(['accepted', 'includeUser']).findAll({ where: { courseId } });
-    return res.status(OK).json(userCourses);
-  } catch {
-    return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
-  }
-};
-
-const fetchPending = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const { courseId } = req.params;
-    const userCourses = await UserCourse.scope(['pending', 'includeUser']).findAll({ where: { courseId } });
-    return res.status(OK).json(userCourses);
-  } catch {
-    return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
-  }
-};
-
-const getUsersApplications = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const { userId } = req.params;
-    const applications = await UserCourse.scope('includeCourse').findAll({ where: { userId } });
-    return res.status(OK).json(applications);
-  } catch {
-    return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
-  }
-};
-
-export { apply, updateStatus, getApproved, fetchPending, getUsersApplications };
+export { fetchApproved, fetchPending, apply, updateStatus };

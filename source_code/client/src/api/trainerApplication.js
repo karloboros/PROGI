@@ -33,7 +33,7 @@ const apply = (params = {}) => {
 };
 
 const updateStatus = (params = {}) => {
-  return request.post(urls.updateStatus, params).then(extractData);
+  return request.post(urls.updateStatus(params.id), params).then(extractData);
 };
 
 const upload = (params = {}) => {

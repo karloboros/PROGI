@@ -3,29 +3,18 @@ import request from './request';
 
 const urls = {
   root: '/user-courses',
-  apply(courseId) {
-    return `${urls.root}/apply/${courseId}`;
-  },
-  get updateStatus() {
-    return this.root + '/update-status';
-  },
   fetchAccepted(courseId) {
     return `${urls.root}/approved/${courseId}`;
   },
   fetchPending(courseId) {
     return `${urls.root}/pending/${courseId}`;
   },
-  getYourApplications(userId) {
-    return `${urls.root}/${userId}`;
+  apply(courseId) {
+    return `${urls.root}/apply/${courseId}`;
   },
-};
-
-const apply = (params = {}) => {
-  return request.post(urls.apply(params.courseId), params).then(extractData);
-};
-
-const updateStatus = params => {
-  return request.post(urls.updateStatus, params).then(extractData);
+  updateStatus(id) {
+    return `${urls.root}/update-status/${id}`;
+  },
 };
 
 const fetchAccepted = courseId => {
@@ -36,8 +25,12 @@ const fetchPending = courseId => {
   return request.get(urls.fetchPending(courseId)).then(extractData);
 };
 
-const getYourApplications = userId => {
-  return request.get(urls.getYourApplications(userId)).then(extractData);
+const apply = (params = {}) => {
+  return request.post(urls.apply(params.courseId), params).then(extractData);
 };
 
-export default { apply, updateStatus, fetchAccepted, fetchPending, getYourApplications };
+const updateStatus = params => {
+  return request.post(urls.updateStatus(params.id), params).then(extractData);
+};
+
+export default { apply, updateStatus, fetchAccepted, fetchPending };
