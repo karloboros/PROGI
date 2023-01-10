@@ -18,14 +18,13 @@ const path = '/clubs';
 router
   .use(authenticate)
   .use(refresh)
-  .get('/all', fetchAll)
+  .get('/', fetchAll)
   .get('/:id', fetchById)
+  .get('/approved', fetchApproved)
+  .get('/pending', fetchPending)
   .post('/create', create)
   .post('/edit/:id', edit)
-  .delete('/remove/:id', remove)
-  .get('/pending', fetchPending)
-  .get('/all', fetchAll)
-  .get('/approved', fetchApproved)
-  .post('/update-approval', updateApprovalStatus);
+  .post('/update-approval', updateApprovalStatus)
+  .delete('/:id', remove);
 
 export default { router, path };

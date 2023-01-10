@@ -4,7 +4,7 @@ import request from './request';
 const urls = {
   root: '/clubs',
   get fetchAll() {
-    return this.root + '/all';
+    return this.root;
   },
   fetchById(id) {
     return `${urls.root}/${id}`;
@@ -25,7 +25,7 @@ const urls = {
     return this.root + '/update-approval';
   },
   remove(id) {
-    return `${urls.root}/remove/${id}`;
+    return `${urls.root}/${id}`;
   },
 };
 
