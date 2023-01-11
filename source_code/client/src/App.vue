@@ -21,7 +21,7 @@ import {
   SunnyOutline as SunIcon,
 } from '@vicons/ionicons5';
 import { computed } from '@vue/reactivity';
-import PlesNav from '@/components/layout/PlesNav.vue';
+import PlesNav from '@/components/common/PlesNav.vue';
 import { ref } from 'vue';
 import { useStorage } from '@vueuse/core';
 
