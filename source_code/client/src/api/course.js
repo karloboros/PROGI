@@ -39,7 +39,7 @@ const fetchByClub = clubId => {
 };
 
 const fetchByTrainerId = trainerId => {
-  return request.get(urls.fetchByTrainer(trainerId)).then(extractData);
+  return request.get(urls.fetchByTrainerId(trainerId)).then(extractData);
 };
 
 const create = (params = {}) => {
