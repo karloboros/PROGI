@@ -6,8 +6,16 @@
       </template>
       <template #extra>
         <n-space align="center">
-          <n-button v-if="isLandingRoute" @click="redirectToAuth" type="warning" text>Login</n-button>
-          <n-button v-else-if="isNotAuthRoute" @click="logout" type="warning" text>Logout</n-button>
+          <slot v-if="isNotAuthRoute">
+            <slot v-if="!isLoggedIn">
+              <n-button @click="redirectToAuth" type="warning" text>Login</n-button>
+            </slot>
+            <slot v-else>
+              <n-button @click="redirectToHome" type="warning" text>Home</n-button>
+              <n-button @click="redirectToLanding" type="warning" text>Landing</n-button>
+              <n-button @click="logout" type="warning" text>Logout</n-button>
+            </slot>
+          </slot>
           <n-button @click="$emit('switch')" type="warning" text style="font-size: 24px">
             <n-icon class="m-12">
               <component :is="icon" />
@@ -29,9 +37,16 @@ defineProps({
 });
 
 const router = useRouter();
-const logout = () => useAuthStore().logout(router);
-const isLandingRoute = computed(() => router.currentRoute.value.name === 'Landing');
+const authStore = useAuthStore();
+
+const isLoggedIn = computed(() => authStore.isLoggedIn);
 const isNotAuthRoute = computed(() => router.currentRoute.value.name !== 'Auth');
+
+const logout = () => authStore.logout(router);
+
+const redirectToHome = () => {
+  router.push({ name: 'Home' });
+};
 
 const redirectToLanding = () => {
   router.push({ name: 'Landing' });
