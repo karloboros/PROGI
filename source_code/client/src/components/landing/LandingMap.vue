@@ -1,8 +1,8 @@
 <template>
   <n-spin v-if="!items.length" class="spinner">
-    <ples-map :items="items" :filters="filters" height="78vh" />
+    <ples-map :items="items" :filters="filters" height="75vh" />
   </n-spin>
-  <ples-map v-else :items="items" :filters="filters" height="78vh" />
+  <ples-map v-else :items="items" :filters="filters" height="75vh" />
 </template>
 
 <script setup>
