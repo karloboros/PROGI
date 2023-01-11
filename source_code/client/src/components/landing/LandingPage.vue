@@ -1,31 +1,37 @@
 <template>
-  <n-spin v-if="!layers.length">
-    <ples-map :layers="layers" />
+  <n-spin v-if="!items.length">
+    <ples-map :items="items" :filters="filters" />
   </n-spin>
-  <ples-map v-else :layers="layers" />
+  <ples-map v-else :items="items" :filters="filters" />
 </template>
 
 <script setup>
+import { clubApi, danceApi, eventApi } from '@/api';
+import { createFilterOptions, formatCoordinates, getIds } from '@/utils';
 import { onMounted, ref } from 'vue';
-import { eventApi } from '@/api';
 import PlesMap from '@/components/common/PlesMap.vue';
 
-const layers = ref([]);
+const items = ref([]);
+const filters = ref([]);
 
 onMounted(async () => {
   const events = await eventApi.fetchAll();
-  const eventsLocations = events.map(({ id, name: content, location }) => {
-    const coordinates = location.coordinates.split(',');
-    return { id, content, coordinates };
-  });
+  items.value = events.map(({ id, name, location, dances, clubId }) => ({
+    id,
+    content: name,
+    coordinates: formatCoordinates(location.coordinates),
+    dances: getIds(dances),
+    clubs: [clubId],
+  }));
 
-  layers.value = [
-    {
-      id: 0,
-      name: 'Events',
-      active: false,
-      locations: eventsLocations,
-    },
+  const dances = await danceApi.fetchAll();
+  const dancesOptions = createFilterOptions(dances);
+  const clubs = await clubApi.fetchAll();
+  const clubsOptions = createFilterOptions(clubs);
+
+  filters.value = [
+    { name: 'dances', options: dancesOptions },
+    { name: 'clubs', options: clubsOptions },
   ];
 });
 </script>
