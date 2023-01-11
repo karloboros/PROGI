@@ -7,6 +7,7 @@ module.exports = {
       name: `Event #1`,
       description: `bla bla`,
       image: `image one`,
+      startTime: new Date('2023'),
       clubId: 1,
       locationId: 1,
     });
@@ -14,6 +15,7 @@ module.exports = {
       name: `Event #2`,
       description: `bla bla`,
       image: `image one`,
+      startTime: new Date('2023'),
       clubId: 2,
       locationId: 2,
     });
@@ -21,6 +23,7 @@ module.exports = {
       name: `Event #3`,
       description: `bla bla`,
       image: `image one`,
+      startTime: new Date('2023'),
       clubId: 2,
       locationId: 3,
     });
@@ -28,6 +31,7 @@ module.exports = {
       name: `Event #4`,
       description: `bla bla`,
       image: `image one`,
+      startTime: new Date('2023'),
       clubId: 3,
       locationId: 4,
     });
@@ -35,6 +39,7 @@ module.exports = {
       name: `Event #5`,
       description: `bla bla`,
       image: `image one`,
+      startTime: new Date('2023'),
       clubId: 4,
       locationId: 5,
     });
@@ -42,6 +47,7 @@ module.exports = {
       name: `Ples studenata`,
       description: `tango`,
       image: `image one`,
+      startTime: new Date('2023'),
       clubId: 5,
       locationId: 4,
     });
@@ -49,6 +55,7 @@ module.exports = {
       name: `Ples u domu`,
       description: `valcer`,
       image: `image two`,
+      startTime: new Date('2023'),
       clubId: 5,
       locationId: 5,
     });

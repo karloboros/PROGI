@@ -21,6 +21,10 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      startTime: {
+        type: Sequelize.DATE,
+        allowNull: false,
+      },
       clubId: {
         type: Sequelize.INTEGER,
         allowNull: false,
