@@ -1,55 +1,24 @@
 <template>
   <div class="container">
     <div id="map" class="map" />
-    <n-popselect v-model:value="selectedLayers" :options="layers" multiple>
-      <n-button type="warning" class="filters z-1000">
-        Filters: {{ selectedLayers.length ? selectedDisplay : '-' }}
-      </n-button>
-    </n-popselect>
   </div>
 </template>
 
 <script setup>
 import { attribution, mapBackground, view } from '@/constants/map';
-import { computed, onMounted, ref, watch } from 'vue';
-import { arrayDifference } from '@/utils';
+import { onMounted, ref } from 'vue';
 import L from 'leaflet';
 
 const props = defineProps({
-  layers: {
+  items: {
     type: Array,
     default: () => [],
   },
 });
 
-const mapLayers = layers => {
-  return layers.map(layer => ({
-    ...layer,
-    value: layer.name,
-    label: layer.name,
-  }));
-};
-
-const layers = ref(mapLayers(props.layers));
+const items = ref(props.items);
 let map;
 let tileLayer;
-
-const selectedLayers = ref([]);
-const selectedDisplay = computed(() => selectedLayers.value.toString().replace('"', '').replace(',', ', '));
-
-const refreshLayer = name => {
-  const data = layers.value.find(layer => layer.name === name);
-  data.active = !data.active;
-  data.locations.forEach(location => {
-    if (data.active) location.marker.addTo(map);
-    else location.marker.removeFrom(map);
-  });
-};
-
-watch(selectedLayers, (newValue, prevValue) => {
-  const [difference] = arrayDifference(newValue, prevValue);
-  refreshLayer(difference);
-});
 
 const initMap = () => {
   map = L.map('map').setView(view, 12);
@@ -61,11 +30,14 @@ const createMarker = location => {
   location.marker = L.marker(location.coordinates).bindPopup(location.content);
 };
 
+const showLocation = location => {
+  location.marker.addTo(map);
+};
+
 const initLayers = () => {
-  layers.value.forEach(layer => {
-    layer.locations.forEach(location => {
-      createMarker(location);
-    });
+  items.value.forEach(location => {
+    createMarker(location);
+    showLocation(location);
   });
 };
 
