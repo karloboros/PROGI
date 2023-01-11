@@ -15,7 +15,7 @@ onMounted(async () => {
   const events = await eventApi.fetchAll();
   items.value = events.map(({ id, name, location, dances, clubId }) => ({
     id,
-    content: name,
+    content: `<a href='/events/${id}'>${name}</a>`,
     coordinates: formatCoordinates(location.coordinates),
     dances: getIds(dances),
     clubs: [clubId],
