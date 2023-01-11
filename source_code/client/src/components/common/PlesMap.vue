@@ -1,16 +1,18 @@
 <template>
-  <div id="map" class="map" />
-  <div v-for="layer in layers" :key="layer.id">
-    <label>
-      <input v-model="layer.active" @change="refreshLayer(layer)" type="checkbox" />
-      {{ layer.name }}
-    </label>
+  <div class="container">
+    <div id="map" class="map" />
+    <n-popselect v-model:value="selectedLayers" :options="layers" multiple>
+      <n-button type="warning" class="filters z-1000">
+        Filters: {{ selectedLayers.length ? selectedDisplay : '-' }}
+      </n-button>
+    </n-popselect>
   </div>
 </template>
 
 <script setup>
 import { attribution, mapBackground, view } from '@/constants/map';
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
+import { arrayDifference } from '@/utils';
 import L from 'leaflet';
 
 const props = defineProps({
@@ -20,21 +22,43 @@ const props = defineProps({
   },
 });
 
-const layers = ref(props.layers);
+const mapLayers = layers => {
+  return layers.map(layer => ({
+    ...layer,
+    value: layer.name,
+    label: layer.name,
+  }));
+};
+
+const layers = ref(mapLayers(props.layers));
 let map;
 let tileLayer;
 
-const refreshLayer = layer => {
-  layer.locations.forEach(location => {
-    if (layer.active) location.marker.addTo(map);
+const selectedLayers = ref([]);
+const selectedDisplay = computed(() => selectedLayers.value.toString().replace('"', '').replace(',', ', '));
+
+const refreshLayer = name => {
+  const data = layers.value.find(layer => layer.name === name);
+  data.active = !data.active;
+  data.locations.forEach(location => {
+    if (data.active) location.marker.addTo(map);
     else location.marker.removeFrom(map);
   });
 };
+
+watch(selectedLayers, (newValue, prevValue) => {
+  const [difference] = arrayDifference(newValue, prevValue);
+  refreshLayer(difference);
+});
 
 const initMap = () => {
   map = L.map('map').setView(view, 12);
   tileLayer = L.tileLayer(mapBackground, { attribution });
   tileLayer.addTo(map);
+};
+
+const createMarker = location => {
+  location.marker = L.marker(location.coordinates).bindPopup(location.content);
 };
 
 const initLayers = () => {
@@ -45,10 +69,6 @@ const initLayers = () => {
   });
 };
 
-const createMarker = location => {
-  location.marker = L.marker(location.coordinates).bindPopup(location.content);
-};
-
 onMounted(() => {
   initMap();
   initLayers();
@@ -56,8 +76,18 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.container {
+  position: relative;
+}
+
 .map {
   height: 600px;
   width: 100%;
+}
+
+.filters {
+  position: absolute !important;
+  top: 0 !important;
+  right: 0 !important;
 }
 </style>
