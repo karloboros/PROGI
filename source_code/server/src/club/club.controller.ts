@@ -13,8 +13,8 @@ const fetchAll = async (_req: Request, res: Response) => {
 };
 
 const fetchById = async (req: Request, res: Response) => {
-  const club = await Club.scope(['includeOwner', 'includeLocation']).findByPk(+req.params.id);
-  return res.send(club);
+  const club = await Club.scope(['includeLocation', 'includeOwner']).findByPk(+req.params.id);
+  return res.status(OK).json(club);
 };
 
 const fetchWithDances = async (_req: Request, res: Response) => {
