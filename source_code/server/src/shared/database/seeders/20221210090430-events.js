@@ -1,57 +1,27 @@
 const TABLE_NAME = 'events';
 
+const createEvent = (name, clubId, locationId) => {
+  return {
+    name,
+    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt',
+    image: '/images/dances/thumbnail.png',
+    clubId,
+    locationId,
+  };
+};
+
 module.exports = {
   up(queryInterface) {
     const events = [];
-    events.push({
-      name: `Event #1`,
-      description: `bla bla`,
-      image: `image one`,
-      clubId: 1,
-      locationId: 1,
-    });
-    events.push({
-      name: `Event #2`,
-      description: `bla bla`,
-      image: `image one`,
-      clubId: 2,
-      locationId: 2,
-    });
-    events.push({
-      name: `Event #3`,
-      description: `bla bla`,
-      image: `image one`,
-      clubId: 2,
-      locationId: 3,
-    });
-    events.push({
-      name: `Event #4`,
-      description: `bla bla`,
-      image: `image one`,
-      clubId: 3,
-      locationId: 4,
-    });
-    events.push({
-      name: `Event #5`,
-      description: `bla bla`,
-      image: `image one`,
-      clubId: 4,
-      locationId: 5,
-    });
-    events.push({
-      name: `Ples studenata`,
-      description: `tango`,
-      image: `image one`,
-      clubId: 5,
-      locationId: 4,
-    });
-    events.push({
-      name: `Ples u domu`,
-      description: `valcer`,
-      image: `image two`,
-      clubId: 5,
-      locationId: 5,
-    });
+    events.push(createEvent('Event Fun', 1, 1));
+    events.push(createEvent('Dance party', 2, 2));
+    events.push(createEvent('Tango night', 2, 3));
+    events.push(createEvent('Valcer', 3, 4));
+    events.push(createEvent('Dance, dance, dance', 4, 5));
+    events.push(createEvent('Formal dance ball', 5, 5));
+    events.push(createEvent('Dance festival Zagreb', 5, 6));
+    events.push(createEvent('Just dance', 5, 7));
+    events.push(createEvent('Party', 5, 8));
     return queryInterface.bulkInsert(TABLE_NAME, events);
   },
 
