@@ -1,13 +1,11 @@
 import { BAD_REQUEST, OK } from 'http-status';
 import { NextFunction, Request, Response } from 'express';
-import sequelize, { Club, Dance, Event, EventDance, Location } from 'shared/database';
+import sequelize, { Club, Event, EventDance, Location } from 'shared/database';
 import errorMessages from 'shared/constants/errorMessages';
 import HttpError from 'shared/error/httpError';
 
 const fetchAll = async (_req: Request, res: Response) => {
-  const events = await Event.findAll({
-    include: [{ model: Club }, { model: Location }, { model: Dance }],
-  });
+  const events = await Event.scope('includeAll').findAll();
   return res.send(events);
 };
 

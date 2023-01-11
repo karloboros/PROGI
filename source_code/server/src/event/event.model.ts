@@ -53,6 +53,14 @@ class EventModel extends Model implements IEvent {
     this.belongsToMany(Dance, { through: EventDance });
   }
 
+  static scopes() {
+    return {
+      includeAll: {
+        include: ['club', 'location', 'dances'],
+      },
+    };
+  }
+
   static dbOptions() {
     return {
       modelName: 'event',
