@@ -1,6 +1,16 @@
 <template>
   <div class="container">
     <div id="map" class="map" />
+    <n-popselect
+      v-for="{ name, options } in filters"
+      :key="name"
+      v-model:value="selected"
+      :on-update:value="newValue => selectFilter(newValue, name)"
+      :options="options"
+      multiple
+    >
+      <n-button type="warning" class="filters z-1000">{{ name }}</n-button>
+    </n-popselect>
   </div>
 </template>
 
@@ -14,11 +24,30 @@ const props = defineProps({
     type: Array,
     default: () => [],
   },
+  filters: {
+    type: Array,
+    default: () => [],
+  },
 });
 
-const items = ref(props.items);
 let map;
 let tileLayer;
+const items = ref(props.items);
+
+const selected = ref([0]);
+
+const selectFilter = (newValue, filterName) => {
+  selected.value = newValue;
+  clearMap();
+  if (newValue.includes(0)) return populateMap();
+  newValue.forEach(value => {
+    items.value.forEach(location => {
+      location[filterName].forEach(id => {
+        if (id === value) showLocation(location);
+      });
+    });
+  });
+};
 
 const initMap = () => {
   map = L.map('map').setView(view, 12);
@@ -32,6 +61,18 @@ const createMarker = location => {
 
 const showLocation = location => {
   location.marker.addTo(map);
+};
+
+const clearMap = () => {
+  items.value.forEach(location => {
+    location.marker.removeFrom(map);
+  });
+};
+
+const populateMap = () => {
+  items.value.forEach(location => {
+    location.marker.addTo(map);
+  });
 };
 
 const initLayers = () => {
