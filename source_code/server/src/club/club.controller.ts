@@ -19,13 +19,13 @@ const fetchById = async (req: Request, res: Response) => {
 
 const fetchWithDances = async (_req: Request, res: Response) => {
   const clubs = await Club.scope(['includeCourseEventLocation']).findAll();
-  const clubsWithDances = clubs.map(({ id, name, location, events, courses }) => {
+  const clubsWithDances = clubs.map(({ id, name, description, location, events, courses }) => {
     const danceIds: number[] = [];
     courses?.forEach(({ danceId }) => danceIds.indexOf(danceId) === -1 && danceIds.push(danceId));
     events?.forEach(({ dances }) => {
       dances?.forEach(({ id: danceId }) => danceIds.indexOf(danceId) === -1 && danceIds.push(danceId));
     });
-    return { id, name, location, danceIds };
+    return { id, name, description, location, danceIds };
   });
   return res.status(OK).json(clubsWithDances);
 };

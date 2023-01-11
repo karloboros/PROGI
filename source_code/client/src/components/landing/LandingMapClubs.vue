@@ -13,9 +13,9 @@ const filters = ref([]);
 
 onMounted(async () => {
   const clubs = await clubApi.fetchWithDances();
-  items.value = clubs.map(({ id, name, location, danceIds }) => ({
+  items.value = clubs.map(({ id, name, description, location, danceIds }) => ({
     id,
-    content: `<a href='/clubs/${id}'>${name}</a>`,
+    content: `<h4>${name}</h4><p>${description}</p><a href='/club/${id}'>More details...</a>`,
     coordinates: formatCoordinates(location.coordinates),
     dances: danceIds,
   }));
