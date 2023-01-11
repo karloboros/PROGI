@@ -12,6 +12,7 @@
           <n-layout-content content-style="padding: 24px;"> Club: {{ course.clubName }} </n-layout-content>
           <n-layout-content content-style="padding: 24px;"> Location: {{ course.locationName }} </n-layout-content>
           <n-layout-content content-style="padding: 24px;"> Trainer: {{ course.trainerName }} </n-layout-content>
+          <n-layout-content content-style="padding: 24px;"> Dance: {{ course.danceName }} </n-layout-content>
           <n-layout-content content-style="padding: 24px;">
             Capacity: {{ course.capacity ? course.capacity : '-' }}
           </n-layout-content>
@@ -48,6 +49,7 @@ const id = route.params.id;
 
 onMounted(async () => {
   const data = await courseApi.fetchById(id);
+  console.log(data);
   course.value = {
     ...data,
     applicationDeadline: new Date(data.applicationDeadline).toLocaleDateString(),

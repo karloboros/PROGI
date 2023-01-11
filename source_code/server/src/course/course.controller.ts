@@ -11,7 +11,9 @@ const fetchAll = async (_req: Request, res: Response) => {
 };
 
 const fetchById = async (req: Request, res: Response) => {
-  const course = await Course.findByPk(+req.params.id);
+  const course = await Course.scope(['includeLocation', 'includeTrainer', 'includeClub', 'includeDance']).findByPk(
+    +req.params.id,
+  );
   return res.send(course);
 };
 
@@ -20,6 +22,16 @@ const fetchByClub = async (req: Request, res: Response) => {
   const courses = await Course.findAll({
     where: {
       clubId: club,
+    },
+  });
+  return res.send(courses);
+};
+
+const fetchByTrainer = async (req: Request, res: Response) => {
+  const trainerId = req.params.trainerId;
+  const courses = await Course.findAll({
+    where: {
+      trainerId,
     },
   });
   return res.send(courses);
@@ -104,4 +116,4 @@ const remove = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-export { fetchAll, fetchById, fetchByClub, create, edit, remove };
+export { fetchAll, fetchById, fetchByClub, fetchByTrainer, create, edit, remove };
