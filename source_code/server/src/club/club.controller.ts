@@ -9,21 +9,21 @@ import { UniqueConstraintError } from 'sequelize';
 
 const fetchAll = async (_req: Request, res: Response) => {
   const clubs = await Club.scope(['includeLocation', 'includeOwner']).findAll();
-  return res.send(clubs);
+  return res.status(OK).json(clubs);
 };
 
 const fetchById = async (req: Request, res: Response) => {
   const club = await Club.findByPk(+req.params.id);
-  return res.send(club);
+  return res.status(OK).json(club);
 };
 
 const fetchApproved = async (_req: Request, res: Response) => {
   const clubs = await Club.scope(['approved', 'includeOwner']).findAll();
-  return res.send(clubs);
+  return res.status(OK).json(clubs);
 };
 const fetchPending = async (_req: Request, res: Response) => {
   const pendingClubs = await Club.scope(['pending', 'includeOwner', 'includeLocation']).findAll();
-  return res.send(pendingClubs);
+  return res.status(OK).json(pendingClubs);
 };
 
 const create = async (req: Request, res: Response, next: NextFunction) => {

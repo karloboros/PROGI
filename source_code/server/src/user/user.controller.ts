@@ -53,18 +53,18 @@ const uploadProfileImage = (req: Request, res: Response, next: NextFunction) => 
 const fetchAll = async (_req: Request, res: Response) => {
   const users = await User.scope('orderByRole').findAll();
   const usersToReturn = users.map(user => user.profile);
-  return res.send(usersToReturn);
+  return res.status(OK).json(usersToReturn);
 };
 
 const fetchById = async (req: Request, res: Response, next: NextFunction) => {
   const user = await User.findByPk(+req.params.id);
   if (!user) return next(new HttpError(NOT_FOUND, errorMessages.NOT_FOUND));
-  return res.send(user.profile);
+  return res.status(OK).json(user.profile);
 };
 
 const fetchTrainers = async (_req: Request, res: Response) => {
   const trainers = await User.scope(['trainers']).findAll();
-  return res.send(trainers);
+  return res.status(OK).json(trainers);
 };
 
 const edit = async (req: Request, res: Response, next: NextFunction) => {

@@ -7,12 +7,12 @@ import { UniqueConstraintError } from 'sequelize';
 
 const fetchAll = async (_req: Request, res: Response) => {
   const courses = await Course.findAll();
-  return res.send(courses);
+  return res.status(OK).json(courses);
 };
 
 const fetchById = async (req: Request, res: Response) => {
   const course = await Course.findByPk(+req.params.id);
-  return res.send(course);
+  return res.status(OK).json(course);
 };
 
 const fetchByClub = async (req: Request, res: Response) => {
@@ -22,7 +22,7 @@ const fetchByClub = async (req: Request, res: Response) => {
       clubId: club,
     },
   });
-  return res.send(courses);
+  return res.status(OK).json(courses);
 };
 
 const create = async (req: Request, res: Response, next: NextFunction) => {

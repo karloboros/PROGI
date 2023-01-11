@@ -11,7 +11,7 @@ const fetchApproved = async (req: Request, res: Response) => {
   const approvedApplications = await TrainerApplication.scope(['approved', 'includeTrainer']).findAll({
     where: { clubId },
   });
-  return res.send(approvedApplications);
+  return res.status(OK).json(approvedApplications);
 };
 
 const fetchPending = async (req: Request, res: Response) => {
@@ -19,7 +19,7 @@ const fetchPending = async (req: Request, res: Response) => {
   const pendingApplications = await TrainerApplication.scope(['pending', 'includeTrainer']).findAll({
     where: { clubId },
   });
-  return res.send(pendingApplications);
+  return res.status(OK).json(pendingApplications);
 };
 
 const apply = async (req: Request, res: Response, next: NextFunction) => {
