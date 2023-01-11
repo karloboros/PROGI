@@ -1,5 +1,3 @@
-<template>
-  <div>Landing</div>
-</template>
+<template>landing</template>
 
 <script setup></script>
