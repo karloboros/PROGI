@@ -1,3 +1,7 @@
+import { ICourse } from 'course/types';
+import { IEvent } from 'event/types';
+import { ILocation } from 'location/types';
+
 enum ApprovalStatus {
   Pending,
   Approved,
@@ -13,6 +17,9 @@ interface IClub {
   description?: string;
   ownerId: number;
   locationId: number;
+  courses?: ICourse[];
+  events?: IEvent[];
+  location?: ILocation;
 }
 
 export { ApprovalStatus, IClub };
