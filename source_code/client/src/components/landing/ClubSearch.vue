@@ -34,10 +34,7 @@ const searchClubs = debounce(query => {
 }, 500);
 
 const redirectToClub = id => {
-  router.push({
-    name: 'Club',
-    params: { id },
-  });
+  router.push({ name: 'Club', params: { id } });
 };
 
 onMounted(async () => {
