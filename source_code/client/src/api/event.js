@@ -4,7 +4,7 @@ import request, { request as customRequest } from './request';
 const urls = {
   root: '/events',
   get fetchAll() {
-    return this.urls;
+    return this.root;
   },
   get create() {
     return this.root + '/create';
