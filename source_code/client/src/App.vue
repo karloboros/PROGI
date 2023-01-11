@@ -4,7 +4,7 @@
     <ples-nav @switch="switchTheme" :icon="currentTheme.icon" class="ples-navigation" />
     <n-dialog-provider>
       <n-message-provider>
-        <n-space class="ples-main" align="center" justify="center" item-style="width: 100%">
+        <n-space class="ples-main" justify="center" item-style="width: 100%">
           <router-view />
         </n-space>
       </n-message-provider>
@@ -44,7 +44,7 @@ const switchTheme = () => {
 
 .ples-main {
   height: calc(100% - 56px);
-  margin-top: 56px;
+  padding-top: 56px;
 }
 </style>
 

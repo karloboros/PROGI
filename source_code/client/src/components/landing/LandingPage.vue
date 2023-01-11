@@ -2,7 +2,7 @@
   <n-spin v-if="!items.length">
     <ples-map :items="items" :filters="filters" />
   </n-spin>
-  <ples-map v-else :items="items" :filters="filters" />
+  <ples-map v-else :items="items" :filters="filters" height="80%" />
 </template>
 
 <script setup>
