@@ -1,6 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import ClubInfo from '@/components/common/ClubInfo.vue';
-import ClubSearch from '@/components/common/ClubSearch.vue';
 import Home from '@/components/home/HomePage.vue';
 import Landing from '@/components/landing/LandingPage.vue';
 import { Role } from '@/constants';
@@ -22,16 +20,6 @@ const routes = [
     path: '/auth',
     name: 'Auth',
     component: UserAuth,
-  },
-  {
-    path: '/club-search',
-    name: 'ClubSearch',
-    component: ClubSearch,
-  },
-  {
-    path: '/club-info/:id',
-    name: 'ClubInfo',
-    component: ClubInfo,
   },
   {
     path: '/:catchAll(.*)',
