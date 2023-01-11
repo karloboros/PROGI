@@ -51,7 +51,7 @@ const selectFilter = (newValue, filterName) => {
 };
 
 const initMap = () => {
-  map = L.map('map').setView(view, 12);
+  map = L.map('map').setView(view, 13);
   tileLayer = L.tileLayer(mapBackground, { attribution });
   tileLayer.addTo(map);
 };
