@@ -1,22 +1,24 @@
 <template>
   <div class="container">
     <div id="map" class="map" />
-    <n-popselect
-      v-for="{ name, options } in filters"
-      :key="name"
-      v-model:value="selected"
-      :on-update:value="newValue => selectFilter(newValue, name)"
-      :options="options"
-      multiple
-    >
-      <n-button type="warning" class="filters z-1000">{{ name }}</n-button>
-    </n-popselect>
+    <n-space class="filters z-1000">
+      <n-popselect
+        v-for="{ name, options } in filters"
+        :key="name"
+        v-model:value="selected[name]"
+        :on-update:value="newValue => selectFilter(newValue, name)"
+        :options="options"
+        multiple
+      >
+        <n-button type="warning">{{ name }}</n-button>
+      </n-popselect>
+    </n-space>
   </div>
 </template>
 
 <script setup>
 import { attribution, mapBackground, view } from '@/constants/map';
-import { onMounted, ref } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import L from 'leaflet';
 
 const props = defineProps({
@@ -33,17 +35,20 @@ const props = defineProps({
 let map;
 let tileLayer;
 const items = ref(props.items);
-
-const selected = ref([0]);
+const selected = reactive([]);
 
 const selectFilter = (newValue, filterName) => {
-  selected.value = newValue;
+  clearFilters();
   clearMap();
-  if (newValue.includes(0)) return populateMap();
+  selected[filterName] = newValue;
+
+  const isAllOptionSelected = newValue.includes(0);
+  if (isAllOptionSelected) return populateMap();
+
   newValue.forEach(value => {
     items.value.forEach(location => {
       location[filterName].forEach(id => {
-        if (id === value) showLocation(location);
+        if (id === value) showLocationOnMap(location);
       });
     });
   });
@@ -55,11 +60,24 @@ const initMap = () => {
   tileLayer.addTo(map);
 };
 
+const initItems = () => {
+  items.value.forEach(location => {
+    createMarker(location);
+    showLocationOnMap(location);
+  });
+};
+
+const clearFilters = () => {
+  props.filters.forEach(filter => {
+    selected[filter.name] = [];
+  });
+};
+
 const createMarker = location => {
   location.marker = L.marker(location.coordinates).bindPopup(location.content);
 };
 
-const showLocation = location => {
+const showLocationOnMap = location => {
   location.marker.addTo(map);
 };
 
@@ -71,20 +89,13 @@ const clearMap = () => {
 
 const populateMap = () => {
   items.value.forEach(location => {
-    location.marker.addTo(map);
-  });
-};
-
-const initLayers = () => {
-  items.value.forEach(location => {
-    createMarker(location);
-    showLocation(location);
+    showLocationOnMap(location);
   });
 };
 
 onMounted(() => {
   initMap();
-  initLayers();
+  initItems();
 });
 </script>
 
@@ -99,8 +110,12 @@ onMounted(() => {
 }
 
 .filters {
-  position: absolute !important;
-  top: 0 !important;
-  right: 0 !important;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.filters button {
+  text-transform: capitalize;
 }
 </style>
