@@ -1,5 +1,5 @@
 <template>
-  <n-space class="user-approval" align="center" justify="center" item-style="width: 80%">
+  <n-space class="trainer-users" align="center" justify="center" item-style="width: 80%">
     <n-card title="Users who applied to the course" size="huge">
       <n-skeleton v-if="loading" text :repeat="6" />
       <n-data-table v-else :columns="columns" :data="userCourses" :bordered="false" />
@@ -38,8 +38,8 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-.user-approval ::v-deep(.n-data-table-th),
-.user-approval ::v-deep(.n-data-table-td) {
+.trainer-users ::v-deep(.n-data-table-th),
+.trainer-users ::v-deep(.n-data-table-td) {
   white-space: nowrap;
 }
 </style>

@@ -49,7 +49,6 @@ const id = route.params.id;
 
 onMounted(async () => {
   const data = await courseApi.fetchById(id);
-  console.log(data);
   course.value = {
     ...data,
     applicationDeadline: new Date(data.applicationDeadline).toLocaleDateString(),

@@ -54,7 +54,7 @@ const courses = ref([]);
 const trainerId = authStore.user.id;
 
 onMounted(async () => {
-  const data = await courseApi.fetchByTrainer(trainerId);
+  const data = await courseApi.fetchByTrainerId(trainerId);
   courses.value = data.map(course => ({
     ...course,
     name: course.name,

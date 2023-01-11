@@ -27,13 +27,9 @@ const fetchByClub = async (req: Request, res: Response) => {
   return res.send(courses);
 };
 
-const fetchByTrainer = async (req: Request, res: Response) => {
+const fetchByTrainerId = async (req: Request, res: Response) => {
   const trainerId = req.params.trainerId;
-  const courses = await Course.findAll({
-    where: {
-      trainerId,
-    },
-  });
+  const courses = await Course.findAll({ where: { trainerId } });
   return res.send(courses);
 };
 
@@ -116,4 +112,4 @@ const remove = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-export { fetchAll, fetchById, fetchByClub, fetchByTrainer, create, edit, remove };
+export { fetchAll, fetchById, fetchByClub, fetchByTrainerId, create, edit, remove };
