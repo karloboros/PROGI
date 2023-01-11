@@ -59,4 +59,8 @@ const switchTheme = () => {
 .d-none {
   display: none;
 }
+
+.z-1000 {
+  z-index: 1000;
+}
 </style>

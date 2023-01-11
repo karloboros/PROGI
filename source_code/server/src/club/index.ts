@@ -16,9 +16,9 @@ const router = Router();
 const path = '/clubs';
 
 router
+  .get('/', fetchAll)
   .use(authenticate)
   .use(refresh)
-  .get('/', fetchAll)
   .get('/:id', fetchById)
   .get('/approved', fetchApproved)
   .get('/pending', fetchPending)
