@@ -1,6 +1,7 @@
 import { IFields, IModels } from 'shared/database/types';
 import { Gender } from 'user/types';
 import { ICourse } from './types';
+import { ILesson } from 'lesson/types';
 import { Model } from 'sequelize';
 
 class CourseModel extends Model implements ICourse {
@@ -17,6 +18,7 @@ class CourseModel extends Model implements ICourse {
   danceId!: number;
   locationId!: number;
   trainerId!: number;
+  lessons?: ILesson[];
 
   static fields({ INTEGER, STRING, TEXT, DATE }: IFields) {
     return {
@@ -77,23 +79,33 @@ class CourseModel extends Model implements ICourse {
     };
   }
 
-  static associate({ Club, Lesson, Location, User, UserCourse }: IModels) {
+  static associate({ Club, Dance, Lesson, Location, User, UserCourse }: IModels) {
+    this.hasMany(Lesson, {
+      foreignKey: { name: 'courseId', field: 'courseId' },
+    });
+    this.hasMany(UserCourse, {
+      foreignKey: { name: 'courseId', field: 'courseId' },
+    });
     this.belongsTo(Club, {
       foreignKey: { name: 'clubId', field: 'clubId' },
     });
-    this.hasMany(Lesson, {
-      foreignKey: { name: 'courseId', field: 'courseId' },
+    this.belongsTo(Dance, {
+      foreignKey: { name: 'danceId', field: 'danceId' },
     });
     this.belongsTo(Location, {
       foreignKey: { name: 'locationId', field: 'locationId' },
     });
     this.belongsTo(User, {
       foreignKey: { name: 'trainerId', field: 'trainerId' },
-      as: 'trainer',
     });
-    this.hasMany(UserCourse, {
-      foreignKey: { name: 'courseId', field: 'courseId' },
-    });
+  }
+
+  static scopes() {
+    return {
+      includeLesson: {
+        include: ['lessons'],
+      },
+    };
   }
 
   static dbOptions() {

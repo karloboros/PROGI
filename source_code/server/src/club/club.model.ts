@@ -53,8 +53,14 @@ class ClubModel extends Model implements IClub {
     };
   }
 
-  static associate({ Course, Location, User, TrainerApplication }: IModels) {
+  static associate({ Course, Event, Location, User, TrainerApplication }: IModels) {
     this.hasMany(Course, {
+      foreignKey: { name: 'clubId', field: 'clubId' },
+    });
+    this.hasMany(Event, {
+      foreignKey: { name: 'clubId', field: 'clubId' },
+    });
+    this.hasMany(TrainerApplication, {
       foreignKey: { name: 'clubId', field: 'clubId' },
     });
     this.belongsTo(Location, {
@@ -63,9 +69,6 @@ class ClubModel extends Model implements IClub {
     this.belongsTo(User, {
       foreignKey: { name: 'ownerId', field: 'ownerId' },
       as: 'owner',
-    });
-    this.hasMany(TrainerApplication, {
-      foreignKey: { name: 'clubId', field: 'clubId' },
     });
   }
 
@@ -77,11 +80,11 @@ class ClubModel extends Model implements IClub {
       includeLocation: {
         include: ['location'],
       },
-      pending: {
-        where: { approvalStatus: ApprovalStatus.Pending },
-      },
       approved: {
         where: { approvalStatus: ApprovalStatus.Approved },
+      },
+      pending: {
+        where: { approvalStatus: ApprovalStatus.Pending },
       },
     };
   }

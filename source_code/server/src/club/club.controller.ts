@@ -7,6 +7,25 @@ import HttpError from 'shared/error/httpError';
 import { Role } from 'user/types';
 import { UniqueConstraintError } from 'sequelize';
 
+const fetchAll = async (_req: Request, res: Response) => {
+  const clubs = await Club.scope(['includeLocation', 'includeOwner']).findAll();
+  return res.send(clubs);
+};
+
+const fetchById = async (req: Request, res: Response) => {
+  const club = await Club.findByPk(+req.params.id);
+  return res.send(club);
+};
+
+const fetchApproved = async (_req: Request, res: Response) => {
+  const clubs = await Club.scope(['approved', 'includeOwner']).findAll();
+  return res.send(clubs);
+};
+const fetchPending = async (_req: Request, res: Response) => {
+  const pendingClubs = await Club.scope(['pending', 'includeOwner', 'includeLocation']).findAll();
+  return res.send(pendingClubs);
+};
+
 const create = async (req: Request, res: Response, next: NextFunction) => {
   const transaction = await sequelize.transaction();
   try {
@@ -39,26 +58,6 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-const fetchPending = async (_req: Request, res: Response) => {
-  const pendingClubs = await Club.scope(['pending', 'includeOwner', 'includeLocation']).findAll();
-  return res.send(pendingClubs);
-};
-
-const fetchApproved = async (_req: Request, res: Response) => {
-  const clubs = await Club.scope(['approved', 'includeOwner']).findAll();
-  return res.send(clubs);
-};
-
-const fetchAll = async (_req: Request, res: Response) => {
-  const clubs = await Club.scope(['includeLocation', 'includeOwner']).findAll();
-  return res.send(clubs);
-};
-
-const fetchById = async (req: Request, res: Response) => {
-  const club = await Club.findByPk(+req.params.id);
-  return res.send(club);
-};
-
 const edit = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id, name, description, address, email, phone } = req.body;
@@ -85,6 +84,23 @@ const edit = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
+const updateApprovalStatus = async (req: Request, res: Response, next: NextFunction) => {
+  const { id, approvalStatus } = req.body;
+  if (!approvalStatus) return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
+
+  const club = await Club.findByPk(id);
+  if (!club) return next(new HttpError(NOT_FOUND, errorMessages.NOT_FOUND));
+
+  try {
+    club.approvalStatus = approvalStatus;
+    club.save();
+
+    return res.sendStatus(OK);
+  } catch {
+    return next();
+  }
+};
+
 const remove = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const clubId = JSON.parse(req.params.id);
@@ -105,21 +121,4 @@ const remove = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-const updateApprovalStatus = async (req: Request, res: Response, next: NextFunction) => {
-  const { id, approvalStatus } = req.body;
-  if (!approvalStatus) return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
-
-  const club = await Club.findByPk(id);
-  if (!club) return next(new HttpError(NOT_FOUND, errorMessages.NOT_FOUND));
-
-  try {
-    club.approvalStatus = approvalStatus;
-    club.save();
-
-    return res.sendStatus(OK);
-  } catch {
-    return next();
-  }
-};
-
-export { create, edit, fetchAll, fetchApproved, fetchById, fetchPending, remove, updateApprovalStatus };
+export { fetchAll, fetchById, fetchApproved, fetchPending, create, edit, updateApprovalStatus, remove };

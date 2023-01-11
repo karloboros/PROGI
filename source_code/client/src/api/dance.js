@@ -4,7 +4,10 @@ import request, { request as customRequest } from './request';
 const urls = {
   root: '/dances',
   get fetchAll() {
-    return this.root + '/all';
+    return this.root;
+  },
+  get fetchDanceEvents() {
+    return this.root + '/events';
   },
   fetchById(id) {
     return `${urls.root}/${id}`;
@@ -15,16 +18,20 @@ const urls = {
   edit(id) {
     return `${urls.root}/edit/${id}`;
   },
-  remove(id) {
-    return `${urls.root}/remove/${id}`;
-  },
   get upload() {
     return this.root + '/upload';
+  },
+  remove(id) {
+    return `${urls.root}/${id}`;
   },
 };
 
 const fetchAll = () => {
   return request.get(urls.fetchAll).then(extractData);
+};
+
+const fetchDanceEvents = () => {
+  return request.get(urls.fetchDanceEvents).then(extractData);
 };
 
 const fetchById = id => {
@@ -39,19 +46,20 @@ const edit = (params = {}) => {
   return request.post(urls.edit(params.id), params).then(extractData);
 };
 
-const remove = id => {
-  return request.delete(urls.remove(id));
-};
-
 const upload = (params = {}) => {
   return customRequest(headers.fileUpload).post(urls.upload, params).then(extractData);
 };
 
+const remove = id => {
+  return request.delete(urls.remove(id));
+};
+
 export default {
   fetchAll,
+  fetchDanceEvents,
   fetchById,
   create,
   edit,
-  remove,
   upload,
+  remove,
 };

@@ -7,6 +7,9 @@ export const WRONG_EMAIL_FORMAT_MESSAGE = 'Wrong email format';
 export const UNDER_AGE_MINIMUM_MESSAGE = `You need to be at least ${AGE_MINIMUM} years old to register`;
 export const WRONG_PHONE_FORMAT_MESSAGE = 'Wrong number format';
 export const WRONG_URL_FORMAT_MESSAGE = 'Wrong url format';
+const NOT_A_NUMBER_MESSAGE = 'Not a number';
+const WRONG_COORDINATES_MESSAGE =
+  'Wrong coordinates format. Input two decimal numbers divided by comma. Example: 2.3456, 1.3456';
 
 const emailRegex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
 const phoneNumberRegex = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{3,4})$/;
@@ -37,6 +40,21 @@ export const phoneNumberValidator = (_rule, value) => {
     return new Error(REQUIRED_MESSAGE);
   } else if (!phoneNumberRegex.test(value)) {
     return new Error(WRONG_PHONE_FORMAT_MESSAGE);
+  }
+  return true;
+};
+const numberValidator = (_rule, value) => {
+  if (!/^\(?(\d+)$/.test(value)) {
+    return new Error(NOT_A_NUMBER_MESSAGE);
+  }
+  return true;
+};
+
+const coordinatesValidator = (_rule, value) => {
+  if (!value) {
+    return new Error(REQUIRED_MESSAGE);
+  } else if (!/[0-9]+.[0-9]+, [0-9]+.[0-9]+$/.test(value)) {
+    return new Error(WRONG_COORDINATES_MESSAGE);
   }
   return true;
 };
@@ -75,6 +93,15 @@ const validationRules = {
   phoneRequired: {
     required: true,
     validator: phoneNumberValidator,
+    trigger: ['blur', 'input'],
+  },
+  number: {
+    validator: numberValidator,
+    trigger: ['blur', 'input'],
+  },
+  coordinatesRequired: {
+    required: true,
+    validator: coordinatesValidator,
     trigger: ['blur', 'input'],
   },
   urlRequired: {

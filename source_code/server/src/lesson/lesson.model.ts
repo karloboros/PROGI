@@ -36,6 +36,14 @@ class LessonModel extends Model implements ILesson {
     });
   }
 
+  static scopes() {
+    return {
+      includeCourse: {
+        include: ['course'],
+      },
+    };
+  }
+
   static dbOptions() {
     return {
       modelName: 'lesson',

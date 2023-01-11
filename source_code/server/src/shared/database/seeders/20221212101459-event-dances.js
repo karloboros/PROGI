@@ -16,6 +16,9 @@ module.exports = {
       createEventDance(3, 3),
       createEventDance(4, 4),
       createEventDance(5, 5),
+      createEventDance(6, 5),
+      createEventDance(7, 4),
+      createEventDance(7, 1),
     ];
     return queryInterface.bulkInsert(TABLE_NAME, eventDances);
   },

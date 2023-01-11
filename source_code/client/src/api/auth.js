@@ -12,23 +12,14 @@ const urls = {
   get logout() {
     return this.root + '/logout';
   },
+  get upload() {
+    return this.root + '/upload';
+  },
   get edit() {
     return this.root + '/edit';
   },
   get remove() {
     return this.root;
-  },
-  get upload() {
-    return this.root + '/upload';
-  },
-  get fetchAll() {
-    return this.root + '/all';
-  },
-  fetchById(id) {
-    return `${urls.root}/${id}`;
-  },
-  removeById(id) {
-    return `${urls.root}/${id}`;
   },
 };
 
@@ -44,6 +35,10 @@ const logout = () => {
   return request.post(urls.logout).then(extractData);
 };
 
+const upload = params => {
+  return customRequest(headers.fileUpload).post(urls.upload, params).then(extractData);
+};
+
 const edit = user => {
   return request.post(urls.edit, user).then(extractData);
 };
@@ -52,30 +47,11 @@ const remove = () => {
   return request.delete(urls.remove);
 };
 
-const upload = params => {
-  return customRequest(headers.fileUpload).post(urls.upload, params).then(extractData);
-};
-
-const fetchAll = () => {
-  return request.get(urls.fetchAll).then(extractData);
-};
-
-const fetchById = id => {
-  return request.get(urls.fetchById(id)).then(extractData);
-};
-
-const removeById = id => {
-  return request.delete(urls.removeById(id));
-};
-
 export default {
   login,
   register,
   logout,
+  upload,
   edit,
   remove,
-  upload,
-  fetchAll,
-  fetchById,
-  removeById,
 };

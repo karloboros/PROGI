@@ -1,5 +1,5 @@
 import { BAD_REQUEST, CONFLICT, CREATED, NOT_FOUND, OK } from 'http-status';
-import { Dance, EventDance } from 'shared/database';
+import { Dance, Event, EventDance } from 'shared/database';
 import { NextFunction, Request, Response } from 'express';
 import errorMessages from 'shared/constants/errorMessages';
 import HttpError from 'shared/error/httpError';
@@ -8,6 +8,11 @@ import { UniqueConstraintError } from 'sequelize';
 const fetchAll = async (_req: Request, res: Response) => {
   const dances = await Dance.findAll();
   return res.send(dances);
+};
+
+const fetchDanceEvents = async (_req: Request, res: Response) => {
+  const events = await Dance.findAll({ include: [Event] });
+  return res.send(events);
 };
 
 const fetchById = async (req: Request, res: Response) => {
@@ -50,6 +55,13 @@ const edit = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
+const uploadDanceImage = (req: Request, res: Response, next: NextFunction) => {
+  const { file } = req;
+  if (!file) return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
+
+  return res.status(OK).json({ path: `/images/dances/${file.filename}` });
+};
+
 const remove = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const danceId = JSON.parse(req.params.id);
@@ -67,11 +79,4 @@ const remove = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-const uploadDanceImage = (req: Request, res: Response, next: NextFunction) => {
-  const { file } = req;
-  if (!file) return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
-
-  return res.status(OK).json({ path: `/images/dances/${file.filename}` });
-};
-
-export { fetchAll, fetchById, create, edit, remove, uploadDanceImage };
+export { fetchAll, fetchDanceEvents, fetchById, create, edit, uploadDanceImage, remove };
