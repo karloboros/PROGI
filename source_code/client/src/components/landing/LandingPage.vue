@@ -7,9 +7,11 @@
       <map-clubs />
     </n-tab-pane>
   </n-tabs>
+  <club-search />
 </template>
 
 <script setup>
+import ClubSearch from './ClubSearch.vue';
 import MapClubs from './LandingMapClubs.vue';
 import MapEvents from './LandingMapEvents.vue';
 </script>
