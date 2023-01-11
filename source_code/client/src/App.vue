@@ -1,7 +1,7 @@
 <template>
   <n-config-provider class="ples-provider" :theme="currentTheme.theme">
     <n-global-style />
-    <ples-nav @switch="switchTheme" :icon="currentTheme.icon" />
+    <ples-nav @switch="switchTheme" :icon="currentTheme.icon" class="ples-navigation" />
     <n-dialog-provider>
       <n-message-provider>
         <n-space class="ples-main" align="center" justify="center" item-style="width: 100%">
@@ -38,8 +38,13 @@ const switchTheme = () => {
   height: 100%;
 }
 
+.ples-navigation {
+  height: 56px;
+}
+
 .ples-main {
-  height: 100%;
+  height: calc(100% - 56px);
+  margin-top: 56px;
 }
 </style>
 
