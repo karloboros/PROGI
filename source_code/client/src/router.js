@@ -41,10 +41,12 @@ router.beforeEach((to, _from) => {
   const isAuthRoute = to.name === 'Auth';
   const isAdminRoute = to.meta.role === Role.Administrator;
   const isClubOwnerRoute = to.meta.role === Role.ClubOwner;
+  const isTrainerRoute = to.meta.role === Role.Trainer;
 
   const isLoggedIn = authStore.isLoggedIn;
   const isAdmin = authStore.isAdmin;
   const isClubOwner = authStore.isClubOwner;
+  const isTrainer = authStore.isTrainer;
 
   if (!isLandingRoute && !isAuthRoute && !isLoggedIn) {
     return { name: 'Auth' };
@@ -59,6 +61,10 @@ router.beforeEach((to, _from) => {
   }
 
   if (isClubOwnerRoute && !isClubOwner) {
+    return defaultRoute;
+  }
+
+  if (isTrainerRoute && !isTrainer) {
     return defaultRoute;
   }
 });
