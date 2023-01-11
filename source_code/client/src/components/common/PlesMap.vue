@@ -22,14 +22,10 @@ import { onMounted, reactive, ref } from 'vue';
 import L from 'leaflet';
 
 const props = defineProps({
-  items: {
-    type: Array,
-    default: () => [],
-  },
-  filters: {
-    type: Array,
-    default: () => [],
-  },
+  items: { type: Array, default: () => [] },
+  filters: { type: Array, default: () => [] },
+  width: { type: String, default: '100%' },
+  height: { type: String, default: '600px' },
 });
 
 let map;
@@ -102,17 +98,18 @@ onMounted(() => {
 <style scoped>
 .container {
   position: relative;
+  height: 100%;
 }
 
 .map {
-  height: 600px;
-  width: 100%;
+  width: v-bind('width');
+  height: v-bind('height');
 }
 
 .filters {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 12px;
+  right: 12px;
 }
 
 .filters button {
