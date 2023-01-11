@@ -5,7 +5,15 @@
 		
 			\textbf{\textit{dio 2. revizije}}
 			
-			 \textit{Detaljno navesti sve tehnologije i alate koji su primijenjeni pri izradi dokumentacije i aplikacije. Ukratko ih opisati, te navesti njihovo značenje i mjesto primjene. Za svaki navedeni alat i tehnologiju je potrebno \textbf{navesti internet poveznicu} gdje se mogu preuzeti ili više saznati o njima}.
+\noindent Komunikacija u timu realizirana je korištenjem aplikacije Slack\footnote{\url{https://slack.com/}} koja omogućuje jednostavnu i veoma organiziranu komunikaciju kroz „channel“ i „therad“ mogućnosti komuniciranja. Za izradu UML dijagrama korišten je alat Astah UML\footnote{\url{https://astah.net/products/astah-uml/}}, a kao sustav za upravljanje izvornim kodom Git\footnote{\url{https://git-scm.com/}}. Udaljeni repozitorij projekta dostupan je na web platformi GitLab\footnote{\url{https://about.gitlab.com/}}.
+
+\noindent Kao razvojno okruženje korišten je Visual Studio Code\footnote{\url{https://code.visualstudio.com/}} – integrirano razvojno okruženje (IDE) tvrtke Microsoft\footnote{\url{https://www.microsoft.com/hr-hr/}} koje dolazi sa ugrađenom podrškom za JavaScript\footnote{\url{https://www.javascript.com/}}, TypeScript\footnote{\url{https://www.microsoft.com/hr-hr/}} i Node.js\footnote{\url{https://nodejs.org/en/}} te pruža IntelliSense\footnote{\url{https://code.visualstudio.com/docs/editor/intellisense}} (inteligentno dovršavanje koda obzirom na kontekst), podršku za otklanjanje pogrešaka, refaktoriranje koda, ugrađene naredbe za Git i mnogobrojna proširenja za ostale programske jezike i alate.
+
+\noindent Klijentska strana aplikacije \textit{(frontend)} napisana je koristeći radni okvir Vue.js\footnote{\url{https://vuejs.org/}} zasnovan na JavaScriptu odnosno TypeScriptu (JavaScript s podrškom za tipove) koji pruža učinkoviti razvoj klijentskog sučelja koristeći već dostupne web komponente i predloške.
+
+\noindent Poslužiteljska strana aplikacije \textit{(backend)} napisana je u programskom jeziku TypeScript koristeći radni okvir Express\footnote{\url{https://expressjs.com/}} koji pojednostavljuje proces izgradnje i razvoja web aplikacija koristeći Node.js. Express pruža funkcionalnosti posredničke arhitekture \textit{(middleware)} i usmjeravanja, jedan je od najpopularnijih okvira za Node.js te se široko koristi za izgradnju malih i velikih web aplikacija. Također, korištena je i ORM \textit{(Object-Relational Mapping)} bilblioteka Sequlize\footnote{\url{https://sequelize.org/}} koja omogućuje interakciju s relacijskim bazama podataka koristeći objektno orijentiranu sintaksu, umjesto izravnih SQL upita.
+
+\noindent Jednostavno pokretanje, konfiguraciju i puštanje u pogon te neovisnost o računalu na kojem se kod izvršava omogućava korištenje platforme Docker\footnote{\url{https://www.docker.com/}}. Kroz tri Docker kontejnera pokriveni su svi ključni dijelovi/slojevi aplikacije – klijent, poslužitelj i PostgreSQL\footnote{\url{https://www.postgresql.org/}} baza podataka te su osigurane točne verzije svih vanjskih biblioteka i alata.
 			
 			
 			\eject 
