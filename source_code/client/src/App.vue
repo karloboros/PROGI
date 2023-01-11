@@ -14,12 +14,7 @@
 
 <script setup>
 import { darkTheme, lightTheme } from 'naive-ui';
-import {
-  HomeOutline as HomeDarkIcon,
-  Home as HomeLightIcon,
-  Moon as MoonIcon,
-  SunnyOutline as SunIcon,
-} from '@vicons/ionicons5';
+import { Moon as MoonIcon, SunnyOutline as SunIcon } from '@vicons/ionicons5';
 import { computed } from '@vue/reactivity';
 import PlesNav from '@/components/common/PlesNav.vue';
 import { ref } from 'vue';
@@ -27,8 +22,8 @@ import { useStorage } from '@vueuse/core';
 
 const themeIndex = ref(useStorage('themeIndex', 0));
 const themes = [
-  { theme: darkTheme, icon: SunIcon, homeIcon: HomeDarkIcon },
-  { theme: lightTheme, icon: MoonIcon, homeIcon: HomeLightIcon },
+  { theme: darkTheme, icon: SunIcon },
+  { theme: lightTheme, icon: MoonIcon },
 ];
 
 const currentTheme = computed(() => themes[themeIndex.value]);
