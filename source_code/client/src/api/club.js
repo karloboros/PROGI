@@ -9,6 +9,9 @@ const urls = {
   fetchById(id) {
     return `${urls.root}/${id}`;
   },
+  get fetchWithDances() {
+    return urls.root + '/dances';
+  },
   get fetchApproved() {
     return this.root + '/approved';
   },
@@ -35,6 +38,10 @@ const fetchAll = () => {
 
 const fetchById = id => {
   return request.get(urls.fetchById(id)).then(extractData);
+};
+
+const fetchWithDances = () => {
+  return request.get(urls.fetchWithDances).then(extractData);
 };
 
 const fetchApproved = () => {
@@ -64,6 +71,7 @@ const remove = id => {
 export default {
   fetchAll,
   fetchById,
+  fetchWithDances,
   fetchApproved,
   fetchPending,
   create,

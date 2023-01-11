@@ -5,6 +5,7 @@ import {
   fetchApproved,
   fetchById,
   fetchPending,
+  fetchWithDances,
   remove,
   updateApprovalStatus,
 } from './club.controller';
@@ -17,6 +18,7 @@ const path = '/clubs';
 
 router
   .get('/', fetchAll)
+  .get('/dances', fetchWithDances)
   .use(authenticate)
   .use(refresh)
   .get('/:id', fetchById)
