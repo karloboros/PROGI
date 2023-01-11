@@ -9,7 +9,6 @@
       <n-button @click="router.push({ name: 'EventAdd' })">Create event</n-button>
     </n-form-item>
     <n-button @click="authStore.logout(router)">Logout</n-button>
-    <courses-map></courses-map>
   </n-space>
 </template>
 
