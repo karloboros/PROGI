@@ -79,7 +79,6 @@ const fetchUserCourseStatus = async () => {
 };
 
 onMounted(async () => {
-  message.success('Course');
   await fetchCourses();
   await fetchUserCourseStatus();
 });
