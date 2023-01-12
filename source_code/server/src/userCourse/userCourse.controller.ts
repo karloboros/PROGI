@@ -1,5 +1,5 @@
 import { BAD_REQUEST, CREATED, NOT_FOUND, OK } from 'http-status';
-import { Club, User, UserCourse } from 'shared/database';
+import { Club, UserCourse } from 'shared/database';
 import { NextFunction, Request, Response } from 'express';
 import { ApprovalStatus } from 'club/types';
 import errorMessages from 'shared/constants/errorMessages';
@@ -27,19 +27,17 @@ const fetchPending = async (req: Request, res: Response, next: NextFunction) => 
 
 const apply = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { user } = req;
-    const foundUser = await User.findOne({ where: { id: user.id } });
-    if (!foundUser) return next(new HttpError(NOT_FOUND, errorMessages.NOT_FOUND));
+    const userId = req.user.id;
     const { courseId } = req.params;
-    const application = {
+    const userCourseToAdd = {
       status: ApprovalStatus.Pending,
-      userId: user.id,
+      userId,
       courseId,
     };
-    const userApplication = await UserCourse.create(application);
-    return res.status(CREATED).json(userApplication);
-  } catch {
-    return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
+    await UserCourse.create(userCourseToAdd);
+    return res.status(CREATED).send();
+  } catch (err) {
+    return next(err);
   }
 };
 

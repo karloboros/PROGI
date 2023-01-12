@@ -25,8 +25,8 @@ const fetchPending = courseId => {
   return request.get(urls.fetchPending(courseId)).then(extractData);
 };
 
-const apply = (params = {}) => {
-  return request.post(urls.apply(params.courseId), params).then(extractData);
+const apply = courseId => {
+  return request.post(urls.apply(courseId));
 };
 
 const updateStatus = params => {
