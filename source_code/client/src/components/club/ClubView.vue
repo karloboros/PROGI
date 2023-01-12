@@ -1,22 +1,38 @@
 <template>
-  <n-space align="center" justify="center" item-style="width: 60%">
-    <template v-if="!club"> <n-skeleton text :repeat="2" /><n-skeleton text style="width: 60%" /> </template>
-    <template v-else>
-      <n-card title="Club info" size="huge">
+  <n-space align="center" justify="center" item-style="width: 60%" class="h-100">
+    <template v-if="!club">
+      <n-card>
         <n-layout>
-          <n-h1>
-            <n-text>
-              {{ club.name }}
-            </n-text>
-          </n-h1>
-          <n-layout-content content-style="padding: 24px;"> Phone: {{ club.phone }} </n-layout-content>
-          <n-layout-content content-style="padding: 24px;"> Email: {{ club.email }} </n-layout-content>
-          <n-layout-content content-style="padding: 24px;"> Description: {{ club.description }} </n-layout-content>
-          <n-layout-content content-style="padding: 24px;"> Owner: {{ club.owner }} </n-layout-content>
-          <n-layout-content content-style="padding: 24px;"> Location: {{ club.address }} </n-layout-content>
+          <n-layout-content>
+            <n-skeleton text :repeat="2" style="width: 60%" />
+          </n-layout-content>
+          <n-layout-content>
+            <n-skeleton text :repeat="2" style="width: 70%" />
+          </n-layout-content>
+          <n-layout-content>
+            <n-skeleton text :repeat="2" style="width: 80%" />
+          </n-layout-content>
+          <n-layout-content>
+            <n-skeleton text :repeat="2" style="width: 50%" />
+          </n-layout-content>
+          <n-layout-content>
+            <n-skeleton text :repeat="2" style="width: 80%" />
+          </n-layout-content>
         </n-layout>
       </n-card>
     </template>
+    <n-card v-else :title="club.name">
+      <n-layout>
+        <n-layout-content><n-h4>Phone:</n-h4> {{ club.phone }}</n-layout-content>
+        <n-layout-content><n-h4>Email</n-h4>: {{ club.email }}</n-layout-content>
+        <n-layout-content><n-h4>Description</n-h4>: {{ club.description }}</n-layout-content>
+        <n-layout-content><n-h4>Owner</n-h4>: {{ club.owner }}</n-layout-content>
+        <n-layout-content><n-h4>Location</n-h4>: {{ club.address }}</n-layout-content>
+        <n-layout-content>
+          <n-h4>Dances</n-h4>: <n-tag v-for="name in club.dances" :key="name" checkable disabled>{{ name }}</n-tag>
+        </n-layout-content>
+      </n-layout>
+    </n-card>
   </n-space>
 </template>
 
@@ -30,23 +46,21 @@ const route = useRoute();
 const id = route.params.id;
 
 onMounted(async () => {
-  const data = await clubApi.fetchById(id);
-  club.value = {
-    ...data,
-    address: data.location.name,
-    owner: data.owner.fullName,
-  };
+  const data = await clubApi.fetchByIdWithDances(id);
+  const address = data.location.name;
+  const owner = data.owner.fullName;
+  club.value = { ...data, address, owner };
 });
 </script>
 
-<style>
-n-card {
-  margin-top: 10px;
-}
-.n-layout {
-  background-color: rgb(24, 24, 28);
-}
+<style scoped>
+.n-layout,
 .n-layout-content {
-  font-size: 20px;
+  background-color: transparent !important;
+  padding: 16px 8px;
+}
+
+.n-layout-content h4 {
+  display: inline;
 }
 </style>

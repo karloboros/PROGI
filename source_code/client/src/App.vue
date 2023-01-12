@@ -68,4 +68,8 @@ const switchTheme = () => {
 .z-1000 {
   z-index: 1000;
 }
+
+.h-100 {
+  height: 100%;
+}
 </style>
