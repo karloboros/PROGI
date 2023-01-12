@@ -1,5 +1,9 @@
 <template>
   <ples-view :title="title" :data="course" class="py-3">
+    <template #header-extra>
+      <n-button @click="apply" type="warning"> Apply to this course </n-button>
+    </template>
+
     <n-space vertical>
       <n-image width="100" :src="trainerImage" />
       <ples-calendar :lessons="lessons" class="py-7" />
@@ -8,11 +12,12 @@
 </template>
 
 <script setup>
+import { courseApi, userCourseApi } from '@/api';
 import { onMounted, ref } from 'vue';
-import { courseApi } from '@/api';
 import { Gender } from '@/constants';
 import PlesCalendar from '@/components/common/PlesCalendar.vue';
 import PlesView from '@/components/common/PlesView.vue';
+import { useMessage } from 'naive-ui';
 
 const props = defineProps({
   routeId: { type: Number, required: true },
@@ -23,7 +28,19 @@ const course = ref(null);
 const trainerImage = ref(null);
 const lessons = ref(null);
 
+const message = useMessage();
+
+const apply = async () => {
+  try {
+    await userCourseApi.apply(props.routeId);
+    message.success('Successfully applied!');
+  } catch (err) {
+    message.error(err.response.data.message);
+  }
+};
+
 onMounted(async () => {
+  message.success('Course');
   const {
     name,
     description,
