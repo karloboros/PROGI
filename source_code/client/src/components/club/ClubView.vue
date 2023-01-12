@@ -11,7 +11,7 @@ import ClubMap from './ClubMap.vue';
 import PlesView from '@/components/common/PlesView.vue';
 
 const props = defineProps({
-  routeId: { type: Number, required: true },
+  clubId: { type: Number, required: true },
 });
 
 const title = ref('');
@@ -19,7 +19,7 @@ const club = ref(null);
 const clubLocation = ref(null);
 
 onMounted(async () => {
-  const { name, phone, email, description, owner, location, dances } = await clubApi.fetchByIdWithDances(props.routeId);
+  const { name, phone, email, description, owner, location, dances } = await clubApi.fetchByIdWithDances(props.clubId);
   title.value = name;
   clubLocation.value = location;
   club.value = [

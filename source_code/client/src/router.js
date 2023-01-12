@@ -23,13 +23,13 @@ const routes = [
     path: '/club/:id',
     name: 'Club',
     component: ClubView,
-    props: route => ({ routeId: Number(route.params.id) }),
+    props: route => ({ clubId: Number(route.params.id) }),
   },
   {
     path: '/course/:id',
     name: 'Course',
     component: CourseView,
-    props: route => ({ routeId: Number(route.params.id) }),
+    props: route => ({ courseId: Number(route.params.id) }),
   },
   {
     path: '/profile',

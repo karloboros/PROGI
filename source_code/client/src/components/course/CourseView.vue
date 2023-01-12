@@ -20,7 +20,7 @@ import { useMessage } from 'naive-ui';
 import { useRouter } from 'vue-router';
 
 const props = defineProps({
-  routeId: { type: Number, required: true },
+  courseId: { type: Number, required: true },
 });
 
 const title = ref('');
@@ -34,7 +34,7 @@ const router = useRouter();
 
 const apply = async () => {
   try {
-    await userCourseApi.apply(props.routeId);
+    await userCourseApi.apply(props.courseId);
     isAlreadyApplied.value = true;
     message.success('Successfully applied!');
   } catch (err) {
@@ -43,7 +43,7 @@ const apply = async () => {
 };
 
 const fetchCourses = async () => {
-  const data = await courseApi.fetchById(props.routeId);
+  const data = await courseApi.fetchById(props.courseId);
   if (!data) return router.push({ name: 'Home' });
   const {
     name,
@@ -78,7 +78,7 @@ const fetchCourses = async () => {
 };
 
 const fetchUserCourseStatus = async () => {
-  const userCourse = await userCourseApi.fetchByCourseId(props.routeId);
+  const userCourse = await userCourseApi.fetchByCourseId(props.courseId);
   isAlreadyApplied.value = !!userCourse;
 };
 
