@@ -5,10 +5,12 @@ import errorMessages from 'shared/constants/errorMessages';
 import HttpError from 'shared/error/httpError';
 import { UniqueConstraintError } from 'sequelize';
 
-const fetchAll = async (_req: Request, res: Response) => {
+const fetchActive = async (_req: Request, res: Response) => {
   const courses = await Course.scope(['includeLocation', 'includeLessons']).findAll();
-  const coursesWithLessons = courses.filter(({ lessons }) => !!lessons?.length);
-  return res.status(OK).json(coursesWithLessons);
+  const activeCourses = courses.filter(
+    ({ lessons, applicationDeadline }) => !!lessons?.length && new Date() < new Date(applicationDeadline),
+  );
+  return res.status(OK).json(activeCourses);
 };
 
 const fetchById = async (req: Request, res: Response) => {
@@ -113,4 +115,4 @@ const remove = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-export { fetchAll, fetchById, fetchByClub, fetchByTrainerId, create, edit, remove };
+export { fetchActive, fetchById, fetchByClub, fetchByTrainerId, create, edit, remove };
