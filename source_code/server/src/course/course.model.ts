@@ -79,6 +79,11 @@ class CourseModel extends Model implements ICourse {
     };
   }
 
+  get isActive() {
+    const { lessons, applicationDeadline } = this;
+    return !!lessons?.length && new Date() < new Date(applicationDeadline);
+  }
+
   static associate({ Club, Dance, Lesson, Location, User, UserCourse }: IModels) {
     this.hasMany(Lesson, {
       foreignKey: { name: 'courseId', field: 'courseId' },

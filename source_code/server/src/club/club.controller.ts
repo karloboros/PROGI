@@ -31,11 +31,6 @@ const fetchByIdWithDances = async (req: Request, res: Response, next: NextFuncti
   return res.status(OK).json({ ...club.get({ plain: true }), dances });
 };
 
-const fetchById = async (req: Request, res: Response) => {
-  const club = await Club.scope(['includeLocation', 'includeOwner']).findByPk(+req.params.id);
-  return res.status(OK).json(club);
-};
-
 const fetchApproved = async (_req: Request, res: Response) => {
   const clubs = await Club.scope(['approved', 'includeOwner']).findAll();
   return res.status(OK).json(clubs);
@@ -44,6 +39,11 @@ const fetchApproved = async (_req: Request, res: Response) => {
 const fetchPending = async (_req: Request, res: Response) => {
   const pendingClubs = await Club.scope(['pending', 'includeOwner', 'includeLocation']).findAll();
   return res.status(OK).json(pendingClubs);
+};
+
+const fetchById = async (req: Request, res: Response) => {
+  const club = await Club.scope(['includeLocation', 'includeOwner']).findByPk(+req.params.id);
+  return res.status(OK).json(club);
 };
 
 const create = async (req: Request, res: Response, next: NextFunction) => {
@@ -145,9 +145,9 @@ export {
   fetchAll,
   fetchWithDances,
   fetchByIdWithDances,
-  fetchById,
   fetchApproved,
   fetchPending,
+  fetchById,
   create,
   edit,
   updateApprovalStatus,

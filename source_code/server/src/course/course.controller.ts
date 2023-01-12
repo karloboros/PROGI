@@ -7,9 +7,7 @@ import { UniqueConstraintError } from 'sequelize';
 
 const fetchActive = async (_req: Request, res: Response) => {
   const courses = await Course.scope(['includeLocation', 'includeLessons']).findAll();
-  const activeCourses = courses.filter(
-    ({ lessons, applicationDeadline }) => !!lessons?.length && new Date() < new Date(applicationDeadline),
-  );
+  const activeCourses = courses.filter(course => course.isActive);
   return res.status(OK).json(activeCourses);
 };
 
@@ -21,6 +19,7 @@ const fetchById = async (req: Request, res: Response) => {
     'includeDance',
     'includeLessons',
   ]).findByPk(+req.params.id);
+  if (!course?.isActive) return res.status(OK).json(null);
   return res.status(OK).json(course);
 };
 
