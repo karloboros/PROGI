@@ -16,6 +16,9 @@
           <n-tag v-if="!Array.isArray(value)" checkable disabled>{{ value }}</n-tag>
           <n-tag v-for="name in value" v-else :key="name" checkable disabled>{{ name }}</n-tag>
         </n-layout-content>
+        <n-layout-content>
+          <slot></slot>
+        </n-layout-content>
       </n-layout>
     </n-card>
   </n-space>
