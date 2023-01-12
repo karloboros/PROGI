@@ -6,8 +6,9 @@ import HttpError from 'shared/error/httpError';
 import { UniqueConstraintError } from 'sequelize';
 
 const fetchAll = async (_req: Request, res: Response) => {
-  const courses = await Course.findAll();
-  return res.status(OK).json(courses);
+  const courses = await Course.scope(['includeLocation', 'includeLessons']).findAll();
+  const coursesWithLessons = courses.filter(({ lessons }) => !!lessons?.length);
+  return res.status(OK).json(coursesWithLessons);
 };
 
 const fetchById = async (req: Request, res: Response) => {
@@ -101,7 +102,7 @@ const edit = async (req: Request, res: Response, next: NextFunction) => {
 const remove = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params;
-    const courseToRemove = await Course.scope('includeLesson').findByPk(id);
+    const courseToRemove = await Course.scope('includeLessons').findByPk(id);
     if (!courseToRemove) return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
     if (courseToRemove.lessons?.length) return next(new HttpError(CONFLICT, errorMessages.COURSE_DELETE));
 

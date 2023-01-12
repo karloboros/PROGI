@@ -103,7 +103,7 @@ class CourseModel extends Model implements ICourse {
 
   static scopes() {
     return {
-      includeLesson: {
+      includeLessons: {
         include: ['lessons'],
       },
       includeLocation: {
