@@ -12,14 +12,14 @@ const urls = {
   fetchByIdWithDances(id) {
     return `${urls.root}/dances/${id}`;
   },
-  fetchById(id) {
-    return `${urls.root}/${id}`;
-  },
   get fetchApproved() {
     return this.root + '/approved';
   },
   get fetchPending() {
     return this.root + '/pending';
+  },
+  fetchById(id) {
+    return `${urls.root}/${id}`;
   },
   get create() {
     return this.root + '/create';
@@ -47,16 +47,16 @@ const fetchByIdWithDances = id => {
   return request.get(urls.fetchByIdWithDances(id)).then(extractData);
 };
 
-const fetchById = id => {
-  return request.get(urls.fetchById(id)).then(extractData);
-};
-
 const fetchApproved = () => {
   return request.get(urls.fetchApproved).then(extractData);
 };
 
 const fetchPending = () => {
   return request.get(urls.fetchPending).then(extractData);
+};
+
+const fetchById = id => {
+  return request.get(urls.fetchById(id)).then(extractData);
 };
 
 const create = (params = {}) => {
