@@ -13,7 +13,7 @@ const filters = ref([]);
 
 onMounted(async () => {
   const events = await eventApi.fetchAll();
-  items.value = events.map(({ id, name, description, location, dances, clubId, startTime }) => ({
+  items.value = events.map(({ id, name, description, startTime, location, dances, clubId }) => ({
     id,
     content: `<h4>${name}</h4><p>${description}</p><span>${location.name} - ${new Date(startTime)}</span>`,
     coordinates: formatCoordinates(location.coordinates),

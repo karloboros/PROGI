@@ -14,9 +14,14 @@ const filters = ref([]);
 
 onMounted(async () => {
   const courses = await courseApi.fetchActive();
-  items.value = courses.map(({ id, name, description, location, danceId, lessons }) => ({
+  items.value = courses.map(({ id, name, description, applicationDeadline, location, danceId, lessons }) => ({
     id,
-    content: `<h4>${name}</h4><p>${description}</p><a href='/course/${id}'>More details...</a>`,
+    content: `
+    <h4>${name}</h4>
+    <p>${description}</p>
+    <p>Application deadline: ${new Date(applicationDeadline)}</p>
+    <a href='/course/${id}'>More details...</a>
+    `,
     coordinates: formatCoordinates(location.coordinates),
     dances: [danceId],
     hours: getTimespanIds(lessons),
