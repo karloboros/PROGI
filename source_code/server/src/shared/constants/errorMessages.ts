@@ -16,6 +16,7 @@ const errorMessages = {
   TRAINER_USER_DELETE: 'To be able to delete this user, delete his trainer applications first.',
   COURSE_CLUB_DELETE: 'To be able to delete this club, delete its courses applications first.',
   TRAINER_CLUB_DELETE: 'To be able to delete this club, delete its trainer applications first.',
+  UNIQUE_USER_COURSE: 'You have already applied to this course.',
 };
 
 export default errorMessages;

@@ -10,11 +10,17 @@
       </n-card>
     </template>
     <n-card v-else :title="title">
+      <template #header-extra>
+        <slot name="header-extra"></slot>
+      </template>
       <n-layout>
-        <n-layout-content v-for="{ label, value } in data" :key="label">
+        <n-layout-content v-for="{ label, value } in data" v-show="!!value" :key="label">
           <n-h4>{{ label }}:</n-h4>
           <n-tag v-if="!Array.isArray(value)" checkable disabled>{{ value }}</n-tag>
           <n-tag v-for="name in value" v-else :key="name" checkable disabled>{{ name }}</n-tag>
+        </n-layout-content>
+        <n-layout-content>
+          <slot></slot>
         </n-layout-content>
       </n-layout>
     </n-card>
@@ -37,5 +43,9 @@ defineProps({
 
 .n-layout-content h4 {
   display: inline;
+}
+
+.n-tag {
+  cursor: text !important;
 }
 </style>

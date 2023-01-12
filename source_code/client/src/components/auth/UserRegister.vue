@@ -1,5 +1,5 @@
 <template>
-  <n-form ref="formRef" @submit.prevent="submit" :model="values" :rules="rules" style="padding: 7% 0">
+  <n-form ref="formRef" @submit.prevent="submit" :model="values" :rules="rules" class="py-7">
     <n-form-item label="Username" path="username">
       <n-input v-model:value="values.username" placeholder="Username..." autofocus />
     </n-form-item>

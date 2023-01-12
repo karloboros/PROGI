@@ -1,4 +1,4 @@
-import { apply, fetchApproved, fetchPending, updateStatus } from './userCourse.controller';
+import { apply, fetchApproved, fetchByCourseId, fetchPending, updateStatus } from './userCourse.controller';
 import authenticate from 'shared/auth/authenticate';
 import refresh from 'shared/auth/refresh';
 import { Router } from 'express';
@@ -11,6 +11,7 @@ router
   .use(refresh)
   .get('/approved/:courseId', fetchApproved)
   .get('/pending/:courseId', fetchPending)
+  .get('/:courseId', fetchByCourseId)
   .post('/apply/:courseId', apply)
   .post('/update-status/:id', updateStatus);
 

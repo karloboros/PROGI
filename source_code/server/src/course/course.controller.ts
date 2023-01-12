@@ -14,9 +14,13 @@ const fetchActive = async (_req: Request, res: Response) => {
 };
 
 const fetchById = async (req: Request, res: Response) => {
-  const course = await Course.scope(['includeLocation', 'includeTrainer', 'includeClub', 'includeDance']).findByPk(
-    +req.params.id,
-  );
+  const course = await Course.scope([
+    'includeLocation',
+    'includeTrainer',
+    'includeClub',
+    'includeDance',
+    'includeLessons',
+  ]).findByPk(+req.params.id);
   return res.status(OK).json(course);
 };
 
