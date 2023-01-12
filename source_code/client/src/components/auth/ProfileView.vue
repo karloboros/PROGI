@@ -4,7 +4,7 @@
       <template #header-extra>
         <n-button @click="confirm" type="error">Delete account</n-button>
       </template>
-      <user-register :initial-values="user" />
+      <user-register :initial-values="user" style="padding: 0" />
     </n-card>
   </n-space>
 </template>
