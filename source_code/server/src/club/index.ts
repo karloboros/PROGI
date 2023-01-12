@@ -4,6 +4,7 @@ import {
   fetchAll,
   fetchApproved,
   fetchById,
+  fetchByIdWithDances,
   fetchPending,
   fetchWithDances,
   remove,
@@ -19,9 +20,10 @@ const path = '/clubs';
 router
   .get('/', fetchAll)
   .get('/dances', fetchWithDances)
-  .get('/:id', fetchById)
+  .get('/dances/:id', fetchByIdWithDances)
   .use(authenticate)
   .use(refresh)
+  .get('/:id', fetchById)
   .get('/approved', fetchApproved)
   .get('/pending', fetchPending)
   .post('/create', create)
