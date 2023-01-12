@@ -11,7 +11,7 @@
     </template>
     <n-card v-else :title="title">
       <n-layout>
-        <n-layout-content v-for="{ label, value } in data" :key="label">
+        <n-layout-content v-for="{ label, value } in data" v-show="!!value" :key="label">
           <n-h4>{{ label }}:</n-h4>
           <n-tag v-if="!Array.isArray(value)" checkable disabled>{{ value }}</n-tag>
           <n-tag v-for="name in value" v-else :key="name" checkable disabled>{{ name }}</n-tag>
