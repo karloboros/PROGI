@@ -1,3 +1,5 @@
+import 'cypress-file-upload';
+
 Cypress.Commands.add('findByAriaLabel', ariaLabel => {
   cy.get(`[aria-label="${ariaLabel}"]`);
 });
@@ -20,6 +22,9 @@ Cypress.Commands.add('register', newUser => {
   cy.findByAriaLabel('form').click();
   cy.findByAriaLabel('phone').type(newUser.phoneNumber);
   cy.findByAriaLabel('experience').type(newUser.experienceDescription);
+
+  const picture = 'preuzmi.png';
+  cy.get('input[type="file"]').attachFile(picture);
+  
   cy.contains('Register').click();
 });
-
