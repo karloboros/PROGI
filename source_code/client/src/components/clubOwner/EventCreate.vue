@@ -11,6 +11,9 @@
         <n-form-item label="Event image" path="image">
           <ples-file-upload @update="update" @error="error" accept="image/png, image/jpeg" :api="eventapi" />
         </n-form-item>
+        <n-form-item label="Start date and time" path="startTime">
+          <n-date-picker v-model:value="values.startTime" type="datetime" clearable />
+        </n-form-item>
         <n-form-item label="Club" path="club">
           <n-select v-model:value="values.clubName" :options="clubs" :loading="loading" placeholder="Club..." />
         </n-form-item>
@@ -50,16 +53,18 @@ const initialValues = {
   description: '',
   clubName: null,
   image: '',
+  startTime: null,
   dances: [],
 };
 
-const { required } = validationRules;
+const { required, dateRequired } = validationRules;
 const rules = {
   name: required,
   address: required,
   description: required,
   clubName: required,
   image: required,
+  startTime: dateRequired,
 };
 const authStore = useAuthStore();
 

@@ -5,6 +5,7 @@ interface IEvent {
   name: string;
   description: string;
   image: string;
+  startTime: Date;
   clubId: number;
   locationId: number;
   dances?: IDance[];

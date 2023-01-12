@@ -8,11 +8,12 @@ class EventModel extends Model implements IEvent {
   name!: string;
   description!: string;
   image!: string;
+  startTime!: Date;
   clubId!: number;
   locationId!: number;
   dances?: IDance[];
 
-  static fields({ INTEGER, STRING, TEXT }: IFields) {
+  static fields({ INTEGER, STRING, TEXT, DATE }: IFields) {
     return {
       id: {
         type: INTEGER,
@@ -29,6 +30,10 @@ class EventModel extends Model implements IEvent {
       },
       image: {
         type: STRING,
+        allowNull: false,
+      },
+      startTime: {
+        type: DATE,
         allowNull: false,
       },
       clubId: {
