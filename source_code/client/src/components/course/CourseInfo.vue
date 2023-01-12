@@ -12,6 +12,7 @@
           <n-layout-content content-style="padding: 24px;"> Club: {{ course.clubName }} </n-layout-content>
           <n-layout-content content-style="padding: 24px;"> Location: {{ course.locationName }} </n-layout-content>
           <n-layout-content content-style="padding: 24px;"> Trainer: {{ course.trainerName }} </n-layout-content>
+          <n-layout-content content-style="padding: 24px;"> Dance: {{ course.danceName }} </n-layout-content>
           <n-layout-content content-style="padding: 24px;">
             Capacity: {{ course.capacity ? course.capacity : '-' }}
           </n-layout-content>

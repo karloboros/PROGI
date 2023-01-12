@@ -1,5 +1,10 @@
 import { ApprovalStatus, IClub } from './types';
 import { IFields, IModels } from 'shared/database/types';
+import DanceModel from 'dance/dance.model';
+import EventModel from 'event/event.model';
+import { ICourse } from 'course/types';
+import { IEvent } from 'event/types';
+import { ILocation } from 'location/types';
 import { Model } from 'sequelize';
 
 class ClubModel extends Model implements IClub {
@@ -11,6 +16,9 @@ class ClubModel extends Model implements IClub {
   approvalStatus!: ApprovalStatus;
   ownerId!: number;
   locationId!: number;
+  courses?: ICourse[];
+  events?: IEvent[];
+  location?: ILocation;
 
   static fields({ INTEGER, STRING, TEXT }: IFields) {
     return {
@@ -79,6 +87,9 @@ class ClubModel extends Model implements IClub {
       },
       includeLocation: {
         include: ['location'],
+      },
+      includeCourseEventLocation: {
+        include: ['courses', 'location', { model: EventModel, include: [DanceModel] }],
       },
       approved: {
         where: { approvalStatus: ApprovalStatus.Approved },

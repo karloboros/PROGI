@@ -5,10 +5,8 @@ import errorMessages from 'shared/constants/errorMessages';
 import HttpError from 'shared/error/httpError';
 
 const fetchAll = async (_req: Request, res: Response) => {
-  const events = await Event.findAll({
-    include: [{ model: Club }, { model: Location }],
-  });
-  return res.send(events);
+  const events = await Event.scope('includeAll').findAll();
+  return res.status(OK).json(events);
 };
 
 const create = async (req: Request, res: Response, next: NextFunction) => {

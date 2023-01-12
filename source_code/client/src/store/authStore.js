@@ -15,6 +15,8 @@ const useAuthStore = defineStore('auth', () => {
 
   const isClubOwner = computed(() => user.value.role === Role.ClubOwner);
 
+  const isTrainer = computed(() => user.value.role === Role.Trainer);
+
   const setUser = userToSet => {
     user.value = userToSet;
   };
@@ -29,7 +31,7 @@ const useAuthStore = defineStore('auth', () => {
     router.push({ name: 'Auth' });
   };
 
-  return { user, isLoggedIn, isAdmin, isClubOwner, setUser, logout };
+  return { user, isLoggedIn, isAdmin, isClubOwner, isTrainer, setUser, logout };
 });
 
 export default useAuthStore;

@@ -97,6 +97,7 @@ class CourseModel extends Model implements ICourse {
     });
     this.belongsTo(User, {
       foreignKey: { name: 'trainerId', field: 'trainerId' },
+      as: 'trainer',
     });
   }
 
@@ -104,6 +105,18 @@ class CourseModel extends Model implements ICourse {
     return {
       includeLesson: {
         include: ['lessons'],
+      },
+      includeLocation: {
+        include: ['location'],
+      },
+      includeClub: {
+        include: ['club'],
+      },
+      includeTrainer: {
+        include: ['trainer'],
+      },
+      includeDance: {
+        include: ['dance'],
       },
     };
   }
