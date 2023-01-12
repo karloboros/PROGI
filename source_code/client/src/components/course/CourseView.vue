@@ -17,6 +17,7 @@ import { Gender } from '@/constants';
 import PlesCalendar from '@/components/common/PlesCalendar.vue';
 import PlesView from '@/components/common/PlesView.vue';
 import { useMessage } from 'naive-ui';
+import { useRouter } from 'vue-router';
 
 const props = defineProps({
   routeId: { type: Number, required: true },
@@ -29,6 +30,7 @@ const lessons = ref(null);
 const isAlreadyApplied = ref(false);
 
 const message = useMessage();
+const router = useRouter();
 
 const apply = async () => {
   try {
@@ -41,6 +43,9 @@ const apply = async () => {
 };
 
 const fetchCourses = async () => {
+  const data = await courseApi.fetchById(props.routeId);
+  if (!data || new Date(data.applicationDeadline) < new Date() || !data.lessonsList.length)
+    return router.push({ name: 'Home' });
   const {
     name,
     description,
@@ -55,7 +60,7 @@ const fetchCourses = async () => {
     location,
     trainer,
     lessons: lessonsList,
-  } = await courseApi.fetchById(props.routeId);
+  } = data;
   title.value = name;
   trainerImage.value = trainer.image;
   lessons.value = lessonsList.map(lesson => ({ ...lesson, location: location.name }));
