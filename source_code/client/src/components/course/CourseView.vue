@@ -44,7 +44,7 @@ const apply = async () => {
 
 const fetchCourses = async () => {
   const data = await courseApi.fetchById(props.routeId);
-  if (!data || new Date(data.applicationDeadline) < new Date() || !data.lessonsList.length)
+  if (!data || new Date(data?.applicationDeadline) < new Date() || !data?.lessonsList?.length)
     return router.push({ name: 'Home' });
   const {
     name,
