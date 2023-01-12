@@ -8,7 +8,7 @@ import { createFilterOptions, formatCoordinates } from '@/utils';
 import { onMounted, ref } from 'vue';
 import LandingMap from './LandingMap.vue';
 
-const items = ref([]);
+const items = ref(null);
 const filters = ref([]);
 
 onMounted(async () => {
