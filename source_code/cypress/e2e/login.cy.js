@@ -31,4 +31,23 @@ describe('Login Test', () => {
   it('Admin should be able to log in', () => {
     cy.login(adminUsername);
   });
+
+  it('User with username field missing should not be able to log in', () => {
+    cy.findByAriaLabel('password').type('123');
+    cy.contains('Login').click();
+    const caught = {
+      message: null,
+    }
+
+    Cypress.on('uncaught:exception', (err, runnable, promise) => {
+      caught.message = err.message;
+      if (promise) return false;
+    });
+
+    cy.wrap(caught).should((c) => {
+      expect(c.message).to.include('unhandled promise rejection');
+    })
+
+    cy.url().should('be.equal', 'http://localhost:3000/auth');
+  });
 });
