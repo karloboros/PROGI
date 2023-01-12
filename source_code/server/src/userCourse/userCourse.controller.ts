@@ -1,4 +1,4 @@
-import { BAD_REQUEST, CREATED, NOT_FOUND, OK } from 'http-status';
+import { BAD_REQUEST, CONFLICT, CREATED, NOT_FOUND, OK } from 'http-status';
 import { Club, UserCourse } from 'shared/database';
 import { NextFunction, Request, Response } from 'express';
 import { ApprovalStatus } from 'club/types';
@@ -48,7 +48,7 @@ const apply = async (req: Request, res: Response, next: NextFunction) => {
     await UserCourse.create(userCourseToAdd);
     return res.status(CREATED).send();
   } catch (err) {
-    return next(err);
+    return next(new HttpError(CONFLICT, errorMessages.UNIQUE_USER_COURSE));
   }
 };
 
