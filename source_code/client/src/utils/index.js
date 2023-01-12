@@ -1,3 +1,4 @@
+export * from './components';
 export * from './dates';
 export { default as emailSuggestions } from './emailSuggestions';
 export * from './map';
