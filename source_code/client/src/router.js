@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import ClubView from '@/components/club/ClubView.vue';
 import Home from '@/components/home/HomePage.vue';
 import Landing from '@/components/landing/LandingPage.vue';
 import { Role } from '@/constants';
@@ -15,6 +16,11 @@ const routes = [
     path: '/home',
     name: 'Home',
     component: Home,
+  },
+  {
+    path: '/club/:id',
+    name: 'Club',
+    component: ClubView,
   },
   {
     path: '/auth',
@@ -37,7 +43,7 @@ export const defaultRoute = { name: 'Home' };
 router.beforeEach((to, _from) => {
   const authStore = useAuthStore();
 
-  const isLandingRoute = to.name === 'Landing';
+  const isLandingRoute = to.name === 'Landing' || 'Club';
   const isAuthRoute = to.name === 'Auth';
   const isAdminRoute = to.meta.role === Role.Administrator;
   const isClubOwnerRoute = to.meta.role === Role.ClubOwner;

@@ -9,21 +9,35 @@ import { UniqueConstraintError } from 'sequelize';
 
 const fetchAll = async (_req: Request, res: Response) => {
   const clubs = await Club.scope(['includeLocation', 'includeOwner']).findAll();
-  return res.send(clubs);
+  return res.status(OK).json(clubs);
+};
+
+const fetchWithDances = async (_req: Request, res: Response) => {
+  const clubs = await Club.scope(['includeCourseEventLocation']).findAll();
+  const clubsWithDances = clubs.map(({ id, name, description, location, events, courses }) => {
+    const danceIds: number[] = [];
+    courses?.forEach(({ danceId }) => danceIds.indexOf(danceId) === -1 && danceIds.push(danceId));
+    events?.forEach(({ dances }) => {
+      dances?.forEach(({ id: danceId }) => danceIds.indexOf(danceId) === -1 && danceIds.push(danceId));
+    });
+    return { id, name, description, location, danceIds };
+  });
+  return res.status(OK).json(clubsWithDances);
 };
 
 const fetchById = async (req: Request, res: Response) => {
-  const club = await Club.scope(['includeOwner', 'includeLocation']).findByPk(+req.params.id);
-  return res.send(club);
+  const club = await Club.scope(['includeLocation', 'includeOwner']).findByPk(+req.params.id);
+  return res.status(OK).json(club);
 };
 
 const fetchApproved = async (_req: Request, res: Response) => {
   const clubs = await Club.scope(['approved', 'includeOwner']).findAll();
-  return res.send(clubs);
+  return res.status(OK).json(clubs);
 };
+
 const fetchPending = async (_req: Request, res: Response) => {
   const pendingClubs = await Club.scope(['pending', 'includeOwner', 'includeLocation']).findAll();
-  return res.send(pendingClubs);
+  return res.status(OK).json(pendingClubs);
 };
 
 const create = async (req: Request, res: Response, next: NextFunction) => {
@@ -121,4 +135,14 @@ const remove = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-export { fetchAll, fetchById, fetchApproved, fetchPending, create, edit, updateApprovalStatus, remove };
+export {
+  fetchAll,
+  fetchWithDances,
+  fetchById,
+  fetchApproved,
+  fetchPending,
+  create,
+  edit,
+  updateApprovalStatus,
+  remove,
+};

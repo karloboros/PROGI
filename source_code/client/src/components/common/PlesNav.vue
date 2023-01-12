@@ -1,29 +1,31 @@
 <template>
   <n-affix :top="0" class="ples-nav">
-    <n-page-header>
-      <template #title>
-        <n-button @click="redirectToLanding" text class="ples-title">Ples</n-button>
-      </template>
-      <template #extra>
-        <n-space align="center">
-          <slot v-if="isNotAuthRoute">
-            <slot v-if="!isLoggedIn">
-              <n-button @click="redirectToAuth" type="warning" text>Login</n-button>
+    <n-el tag="div" style="background: var(--card-color)">
+      <n-page-header>
+        <template #title>
+          <n-button @click="redirectToLanding" text class="ples-title">Ples</n-button>
+        </template>
+        <template #extra>
+          <n-space align="center">
+            <slot v-if="isNotAuthRoute">
+              <slot v-if="!isLoggedIn">
+                <n-button @click="redirectToAuth" type="warning" text>Login</n-button>
+              </slot>
+              <slot v-else>
+                <n-button @click="redirectToHome" type="warning" text>Home</n-button>
+                <n-button @click="redirectToLanding" type="warning" text>Landing</n-button>
+                <n-button @click="logout" type="warning" text>Logout</n-button>
+              </slot>
             </slot>
-            <slot v-else>
-              <n-button @click="redirectToHome" type="warning" text>Home</n-button>
-              <n-button @click="redirectToLanding" type="warning" text>Landing</n-button>
-              <n-button @click="logout" type="warning" text>Logout</n-button>
-            </slot>
-          </slot>
-          <n-button @click="$emit('switch')" type="warning" text style="font-size: 24px">
-            <n-icon class="m-12">
-              <component :is="icon" />
-            </n-icon>
-          </n-button>
-        </n-space>
-      </template>
-    </n-page-header>
+            <n-button @click="$emit('switch')" type="warning" text style="font-size: 24px">
+              <n-icon class="m-12">
+                <component :is="icon" />
+              </n-icon>
+            </n-button>
+          </n-space>
+        </template>
+      </n-page-header>
+    </n-el>
   </n-affix>
 </template>
 
@@ -60,6 +62,7 @@ const redirectToAuth = () => {
 <style scoped>
 .ples-nav {
   width: 100%;
+  z-index: 10000;
 }
 
 .ples-title {

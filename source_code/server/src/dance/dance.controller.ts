@@ -7,17 +7,17 @@ import { UniqueConstraintError } from 'sequelize';
 
 const fetchAll = async (_req: Request, res: Response) => {
   const dances = await Dance.findAll();
-  return res.send(dances);
+  return res.status(OK).json(dances);
 };
 
 const fetchDanceEvents = async (_req: Request, res: Response) => {
   const events = await Dance.findAll({ include: [Event] });
-  return res.send(events);
+  return res.status(OK).json(events);
 };
 
 const fetchById = async (req: Request, res: Response) => {
   const dance = await Dance.findByPk(+req.params.id);
-  return res.send(dance);
+  return res.status(OK).json(dance);
 };
 
 const create = async (req: Request, res: Response, next: NextFunction) => {

@@ -8,7 +8,7 @@ const createClub = index => {
     description: `Short club description`,
     approvalStatus: 0,
     ownerId: 4,
-    locationId: (index % 3) + 1,
+    locationId: index,
   };
 };
 
