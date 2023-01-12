@@ -25,6 +25,17 @@ const fetchPending = async (req: Request, res: Response, next: NextFunction) => 
   }
 };
 
+const fetchByCourseId = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const userId = req.user.id;
+    const { courseId } = req.params;
+    const userCourse = await UserCourse.findOne({ where: { userId, courseId } });
+    return res.status(OK).json(userCourse);
+  } catch {
+    return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
+  }
+};
+
 const apply = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const userId = req.user.id;
@@ -59,4 +70,4 @@ const updateStatus = async (req: Request, res: Response, next: NextFunction) => 
   }
 };
 
-export { fetchApproved, fetchPending, apply, updateStatus };
+export { fetchApproved, fetchPending, fetchByCourseId, apply, updateStatus };
