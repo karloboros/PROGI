@@ -33,7 +33,7 @@ const routes = [
     props: route => ({ courseId: Number(route.params.id) }),
   },
   {
-    path: '/courses/:clubId',
+    path: '/courses/:id?',
     name: 'CourseList',
     component: CourseList,
     props: route => ({ clubId: Number(route.params.id) }),
