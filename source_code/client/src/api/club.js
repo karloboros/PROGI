@@ -6,11 +6,11 @@ const urls = {
   get fetchAll() {
     return this.root;
   },
-  fetchById(id) {
-    return `${urls.root}/${id}`;
-  },
   get fetchWithDances() {
     return urls.root + '/dances';
+  },
+  fetchById(id) {
+    return `${urls.root}/${id}`;
   },
   get fetchApproved() {
     return this.root + '/approved';
@@ -36,12 +36,12 @@ const fetchAll = () => {
   return request.get(urls.fetchAll).then(extractData);
 };
 
-const fetchById = id => {
-  return request.get(urls.fetchById(id)).then(extractData);
-};
-
 const fetchWithDances = () => {
   return request.get(urls.fetchWithDances).then(extractData);
+};
+
+const fetchById = id => {
+  return request.get(urls.fetchById(id)).then(extractData);
 };
 
 const fetchApproved = () => {

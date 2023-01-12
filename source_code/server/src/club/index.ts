@@ -18,8 +18,8 @@ const path = '/clubs';
 
 router
   .get('/', fetchAll)
-  .get('/:id', fetchById)
   .get('/dances', fetchWithDances)
+  .get('/:id', fetchById)
   .use(authenticate)
   .use(refresh)
   .get('/approved', fetchApproved)
