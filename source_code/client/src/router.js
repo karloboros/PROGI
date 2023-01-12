@@ -21,6 +21,7 @@ const routes = [
     path: '/club/:id',
     name: 'Club',
     component: ClubView,
+    props: route => ({ routeId: Number(route.params.id) }),
   },
   {
     path: '/auth',
