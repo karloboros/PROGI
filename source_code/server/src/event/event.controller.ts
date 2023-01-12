@@ -12,7 +12,7 @@ const fetchAll = async (_req: Request, res: Response) => {
 const create = async (req: Request, res: Response, next: NextFunction) => {
   const transaction = await sequelize.transaction();
   try {
-    const { name, description, image, clubName, address, dances } = req.body;
+    const { name, description, image, startTime, clubName, address, dances } = req.body;
 
     if (!dances) return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
 
@@ -26,6 +26,7 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
       name,
       description,
       image,
+      startTime,
       locationId: location.id,
       clubId: club.id,
     };
