@@ -22,4 +22,6 @@ interface IClub {
   location?: ILocation;
 }
 
-export { ApprovalStatus, IClub };
+type DanceParamType = 'danceId' | 'name';
+
+export { ApprovalStatus, IClub, DanceParamType };

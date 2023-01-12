@@ -88,8 +88,11 @@ class ClubModel extends Model implements IClub {
       includeLocation: {
         include: ['location'],
       },
-      includeCourseEventLocation: {
-        include: ['courses', 'location', { model: EventModel, include: [DanceModel] }],
+      includeCourses: {
+        include: ['courses'],
+      },
+      includeEvents: {
+        include: [{ model: EventModel, include: [DanceModel] }],
       },
       approved: {
         where: { approvalStatus: ApprovalStatus.Approved },
@@ -106,6 +109,28 @@ class ClubModel extends Model implements IClub {
       tableName: 'clubs',
       timestamps: false,
     };
+  }
+
+  getDanceIds() {
+    const { courses, events } = this;
+    const danceIds: number[] = [];
+    const pushIfNew = (danceId: number) => danceIds.indexOf(danceId) === -1 && danceIds.push(danceId);
+    courses?.forEach(({ danceId }) => pushIfNew(danceId));
+    events?.forEach(({ dances }) => {
+      dances?.forEach(({ id: danceId }) => pushIfNew(danceId));
+    });
+    return danceIds;
+  }
+
+  getDanceNames() {
+    const { courses, events } = this;
+    const danceNames: string[] = [];
+    const pushIfNew = (danceName: string) => danceNames.indexOf(danceName) === -1 && danceNames.push(danceName);
+    courses?.forEach(({ name }) => pushIfNew(name));
+    events?.forEach(({ dances }) => {
+      dances?.forEach(({ name }) => pushIfNew(name));
+    });
+    return danceNames;
   }
 }
 
