@@ -1,5 +1,6 @@
 import { ApprovalStatus, IClub } from './types';
 import { IFields, IModels } from 'shared/database/types';
+import CourseModel from 'course/course.model';
 import DanceModel from 'dance/dance.model';
 import EventModel from 'event/event.model';
 import { ICourse } from 'course/types';
@@ -91,7 +92,10 @@ class ClubModel extends Model implements IClub {
       includeCourses: {
         include: ['courses'],
       },
-      includeEvents: {
+      includeCoursesWithDances: {
+        include: [{ model: CourseModel, include: [DanceModel] }],
+      },
+      includeEventsWithDances: {
         include: [{ model: EventModel, include: [DanceModel] }],
       },
       approved: {
@@ -126,7 +130,7 @@ class ClubModel extends Model implements IClub {
     const { courses, events } = this;
     const danceNames: string[] = [];
     const pushIfNew = (danceName: string) => danceNames.indexOf(danceName) === -1 && danceNames.push(danceName);
-    courses?.forEach(({ name }) => pushIfNew(name));
+    courses?.forEach(({ dance }) => dance && pushIfNew(dance.name));
     events?.forEach(({ dances }) => {
       dances?.forEach(({ name }) => pushIfNew(name));
     });
