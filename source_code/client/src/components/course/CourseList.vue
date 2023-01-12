@@ -34,7 +34,7 @@ const columns = [
 
 onMounted(async () => {
   const data = await courseApi.fetchActive();
-  const filteredData = data.filter(({ clubId }) => clubId === props.clubId);
+  const filteredData = data.filter(({ clubId }) => !props.clubId || clubId === props.clubId);
   courses.value = filteredData.map(({ applicationDeadline, ...course }) => ({
     ...course,
     applicationDeadline: formatDate(applicationDeadline),
