@@ -18,7 +18,7 @@ const courses = ref([]);
 const isLoading = ref(true);
 
 const DetailsButton = course => {
-  const type = 'primary';
+  const type = 'warning';
   const label = 'Details';
   const onClick = () => router.push({ name: 'Course', params: { id: course.id } });
   return createButton({ type, label, onClick });
