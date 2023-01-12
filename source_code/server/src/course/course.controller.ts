@@ -5,9 +5,12 @@ import errorMessages from 'shared/constants/errorMessages';
 import HttpError from 'shared/error/httpError';
 import { UniqueConstraintError } from 'sequelize';
 
-const fetchAll = async (_req: Request, res: Response) => {
-  const courses = await Course.findAll();
-  return res.status(OK).json(courses);
+const fetchActive = async (_req: Request, res: Response) => {
+  const courses = await Course.scope(['includeLocation', 'includeLessons']).findAll();
+  const activeCourses = courses.filter(
+    ({ lessons, applicationDeadline }) => !!lessons?.length && new Date() < new Date(applicationDeadline),
+  );
+  return res.status(OK).json(activeCourses);
 };
 
 const fetchById = async (req: Request, res: Response) => {
@@ -101,7 +104,7 @@ const edit = async (req: Request, res: Response, next: NextFunction) => {
 const remove = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params;
-    const courseToRemove = await Course.scope('includeLesson').findByPk(id);
+    const courseToRemove = await Course.scope('includeLessons').findByPk(id);
     if (!courseToRemove) return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
     if (courseToRemove.lessons?.length) return next(new HttpError(CONFLICT, errorMessages.COURSE_DELETE));
 
@@ -112,4 +115,4 @@ const remove = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-export { fetchAll, fetchById, fetchByClub, fetchByTrainerId, create, edit, remove };
+export { fetchActive, fetchById, fetchByClub, fetchByTrainerId, create, edit, remove };

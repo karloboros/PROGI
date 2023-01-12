@@ -3,7 +3,7 @@ import request from './request';
 
 const urls = {
   root: '/courses',
-  get fetchAll() {
+  get fetchActive() {
     return this.root;
   },
   fetchById(id) {
@@ -26,8 +26,8 @@ const urls = {
   },
 };
 
-const fetchAll = () => {
-  return request.get(urls.fetchAll).then(extractData);
+const fetchActive = () => {
+  return request.get(urls.fetchActive).then(extractData);
 };
 
 const fetchById = id => {
@@ -55,7 +55,7 @@ const remove = id => {
 };
 
 export default {
-  fetchAll,
+  fetchActive,
   fetchById,
   fetchByClub,
   fetchByTrainerId,
