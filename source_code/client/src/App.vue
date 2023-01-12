@@ -72,4 +72,12 @@ const switchTheme = () => {
 .h-100 {
   height: 100%;
 }
+
+.py-3 {
+  padding: 3% 0;
+}
+
+.py-7 {
+  padding: 7% 0;
+}
 </style>

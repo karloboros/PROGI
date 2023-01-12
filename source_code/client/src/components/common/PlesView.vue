@@ -38,4 +38,8 @@ defineProps({
 .n-layout-content h4 {
   display: inline;
 }
+
+.n-tag {
+  cursor: text !important;
+}
 </style>
