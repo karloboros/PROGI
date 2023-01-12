@@ -13,7 +13,7 @@ req.interceptors.response.use(
   res => res,
   err => {
     if (isAuthError(err)) {
-      useAuthStore().removeUser();
+      useAuthStore().logout();
       return window.location.reload();
     }
     throw err;
