@@ -1,9 +1,8 @@
 <template>
   <ples-view :title="title" :data="course" class="py-3">
     <template #header-extra>
-      <n-button @click="apply" type="warning"> Apply to this course </n-button>
+      <n-button @click="apply" :disabled="isAlreadyApplied" type="warning">Apply to this course</n-button>
     </template>
-
     <n-space vertical>
       <n-image width="100" :src="trainerImage" />
       <ples-calendar :lessons="lessons" class="py-7" />
@@ -27,6 +26,7 @@ const title = ref('');
 const course = ref(null);
 const trainerImage = ref(null);
 const lessons = ref(null);
+const isAlreadyApplied = ref(false);
 
 const message = useMessage();
 
@@ -39,8 +39,7 @@ const apply = async () => {
   }
 };
 
-onMounted(async () => {
-  message.success('Course');
+const fetchCourses = async () => {
   const {
     name,
     description,
@@ -71,5 +70,16 @@ onMounted(async () => {
     { label: 'Location', value: location.name },
     { label: 'Trainer', value: trainer.fullName },
   ];
+};
+
+const fetchUserCourseStatus = async () => {
+  const userCourse = await userCourseApi.fetchByCourseId(props.routeId);
+  isAlreadyApplied.value = !!userCourse;
+};
+
+onMounted(async () => {
+  message.success('Course');
+  await fetchCourses();
+  await fetchUserCourseStatus();
 });
 </script>
