@@ -1,55 +1,30 @@
 <template>
-  <n-space align="center" justify="center" item-style="width: 60%" class="h-100">
-    <template v-if="!club">
-      <n-card>
-        <n-layout>
-          <n-layout-content>
-            <n-skeleton text :repeat="2" style="width: 60%" />
-          </n-layout-content>
-          <n-layout-content>
-            <n-skeleton text :repeat="2" style="width: 70%" />
-          </n-layout-content>
-          <n-layout-content>
-            <n-skeleton text :repeat="2" style="width: 80%" />
-          </n-layout-content>
-          <n-layout-content>
-            <n-skeleton text :repeat="2" style="width: 50%" />
-          </n-layout-content>
-          <n-layout-content>
-            <n-skeleton text :repeat="2" style="width: 80%" />
-          </n-layout-content>
-        </n-layout>
-      </n-card>
-    </template>
-    <n-card v-else :title="club.name">
-      <n-layout>
-        <n-layout-content><n-h4>Phone:</n-h4> {{ club.phone }}</n-layout-content>
-        <n-layout-content><n-h4>Email</n-h4>: {{ club.email }}</n-layout-content>
-        <n-layout-content><n-h4>Description</n-h4>: {{ club.description }}</n-layout-content>
-        <n-layout-content><n-h4>Owner</n-h4>: {{ club.owner }}</n-layout-content>
-        <n-layout-content><n-h4>Location</n-h4>: {{ club.address }}</n-layout-content>
-        <n-layout-content>
-          <n-h4>Dances</n-h4>: <n-tag v-for="name in club.dances" :key="name" checkable disabled>{{ name }}</n-tag>
-        </n-layout-content>
-      </n-layout>
-    </n-card>
-  </n-space>
+  <ples-view :title="title" :data="club" />
 </template>
 
 <script setup>
 import { onMounted, ref } from 'vue';
 import { clubApi } from '@/api';
-import { useRoute } from 'vue-router';
+import PlesView from '@/components/common/PlesView.vue';
 
+const props = defineProps({
+  routeId: { type: Number, required: true },
+});
+
+const title = ref('');
 const club = ref(null);
-const route = useRoute();
-const id = route.params.id;
 
 onMounted(async () => {
-  const data = await clubApi.fetchByIdWithDances(id);
-  const address = data.location.name;
-  const owner = data.owner.fullName;
-  club.value = { ...data, address, owner };
+  const { name, phone, email, description, owner, location, dances } = await clubApi.fetchByIdWithDances(props.routeId);
+  title.value = name;
+  club.value = [
+    { label: 'Phone', value: phone },
+    { label: 'Email', value: email },
+    { label: 'Description', value: description },
+    { label: 'Owner', value: owner.fullName },
+    { label: 'Location', value: location.name },
+    { label: 'Dances', value: dances },
+  ];
 });
 </script>
 
