@@ -13,7 +13,7 @@ const fetchAll = async (_req: Request, res: Response) => {
 };
 
 const fetchWithDances = async (_req: Request, res: Response) => {
-  const clubs = await Club.scope(['includeCourses', 'includeEvents', 'includeLocation']).findAll();
+  const clubs = await Club.scope(['includeCourses', 'includeEventsWithDances', 'includeLocation']).findAll();
   const clubsWithDances = clubs.map(club => {
     const danceIds = club.getDanceIds();
     const { id, name, description, location } = club;
@@ -23,9 +23,12 @@ const fetchWithDances = async (_req: Request, res: Response) => {
 };
 
 const fetchByIdWithDances = async (req: Request, res: Response, next: NextFunction) => {
-  const club = await Club.scope(['includeOwner', 'includeCourses', 'includeEvents', 'includeLocation']).findByPk(
-    +req.params.id,
-  );
+  const club = await Club.scope([
+    'includeOwner',
+    'includeCoursesWithDances',
+    'includeEventsWithDances',
+    'includeLocation',
+  ]).findByPk(+req.params.id);
   if (!club) return next(new HttpError(NOT_FOUND, errorMessages.NOT_FOUND));
   const dances = club?.getDanceNames();
   return res.status(OK).json({ ...club.get({ plain: true }), dances });
