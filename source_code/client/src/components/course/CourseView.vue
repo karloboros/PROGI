@@ -33,6 +33,7 @@ const message = useMessage();
 const apply = async () => {
   try {
     await userCourseApi.apply(props.routeId);
+    isAlreadyApplied.value = true;
     message.success('Successfully applied!');
   } catch (err) {
     message.error(err.response.data.message);
