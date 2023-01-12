@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import ClubView from '@/components/club/ClubView.vue';
 import Home from '@/components/home/HomePage.vue';
 import Landing from '@/components/landing/LandingPage.vue';
+import ProfileView from '@/components/auth/ProfileView.vue';
 import { Role } from '@/constants';
 import { useAuthStore } from '@/store';
 import UserAuth from '@/components/auth/UserAuth.vue';
@@ -22,6 +23,11 @@ const routes = [
     name: 'Club',
     component: ClubView,
     props: route => ({ routeId: Number(route.params.id) }),
+  },
+  {
+    path: '/profile',
+    name: 'Profile',
+    component: ProfileView,
   },
   {
     path: '/auth',

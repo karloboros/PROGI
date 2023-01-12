@@ -3,17 +3,18 @@
     <n-el tag="div" style="background: var(--card-color)">
       <n-page-header>
         <template #title>
-          <n-button @click="redirectToLanding" text class="ples-title">Ples</n-button>
+          <n-button @click="router.push({ name: 'Landing' })" text class="ples-title">Ples</n-button>
         </template>
         <template #extra>
           <n-space align="center">
             <slot v-if="isNotAuthRoute">
               <slot v-if="!isLoggedIn">
-                <n-button @click="redirectToAuth" type="warning" text>Login</n-button>
+                <n-button @click="router.push({ name: 'Auth' })" type="warning" text>Login</n-button>
               </slot>
               <slot v-else>
-                <n-button @click="redirectToHome" type="warning" text>Home</n-button>
-                <n-button @click="redirectToLanding" type="warning" text>Landing</n-button>
+                <n-button @click="router.push({ name: 'Home' })" type="warning" text>Home</n-button>
+                <n-button @click="router.push({ name: 'Landing' })" type="warning" text>Landing</n-button>
+                <n-button @click="router.push({ name: 'Profile' })" type="warning" text>Profile</n-button>
                 <n-button @click="logout" type="warning" text>Logout</n-button>
               </slot>
             </slot>
@@ -45,18 +46,6 @@ const isLoggedIn = computed(() => authStore.isLoggedIn);
 const isNotAuthRoute = computed(() => router.currentRoute.value.name !== 'Auth');
 
 const logout = () => authStore.logout(router);
-
-const redirectToHome = () => {
-  router.push({ name: 'Home' });
-};
-
-const redirectToLanding = () => {
-  router.push({ name: 'Landing' });
-};
-
-const redirectToAuth = () => {
-  router.push({ name: 'Auth' });
-};
 </script>
 
 <style scoped>
