@@ -27,15 +27,3 @@ onMounted(async () => {
   ];
 });
 </script>
-
-<style scoped>
-.n-layout,
-.n-layout-content {
-  background-color: transparent !important;
-  padding: 16px 8px;
-}
-
-.n-layout-content h4 {
-  display: inline;
-}
-</style>
