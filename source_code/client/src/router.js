@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import ClubView from '@/components/club/ClubView.vue';
+import CourseList from '@/components/course/CourseList.vue';
 import CourseView from '@/components/course/CourseView.vue';
 import Home from '@/components/home/HomePage.vue';
 import Landing from '@/components/landing/LandingPage.vue';
@@ -30,6 +31,12 @@ const routes = [
     name: 'Course',
     component: CourseView,
     props: route => ({ courseId: Number(route.params.id) }),
+  },
+  {
+    path: '/courses/:clubId',
+    name: 'CourseList',
+    component: CourseList,
+    props: route => ({ clubId: Number(route.params.id) }),
   },
   {
     path: '/profile',
