@@ -71,7 +71,7 @@ const uploadPDF = (req: Request, res: Response, next: NextFunction) => {
   const { file } = req;
   if (!file) return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
 
-  return res.status(OK);
+  return res.status(OK).json({ path: `/pdf/trainerApplications/${file.filename}` });
 };
 
 export { fetchApproved, fetchPending, apply, updateStatus, uploadPDF };
