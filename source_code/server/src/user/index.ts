@@ -2,7 +2,6 @@ import {
   edit,
   fetchAll,
   fetchById,
-  fetchTrainers,
   login,
   logout,
   register,
@@ -29,7 +28,6 @@ router
   .use(refresh)
   .get('/', fetchAll)
   .get('/:id', fetchById)
-  .get('/trainers', fetchTrainers)
   .post('/edit', edit)
   .delete('/', remove)
   .delete('/:id', removeById);
