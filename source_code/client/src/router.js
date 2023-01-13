@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import ClubOwnerCourseList from '@/components/clubOwner/ClubOwnerCourseList.vue';
+import ClubOwnerCourseList from '@/components/clubOwner/CourseList.vue';
 import ClubView from '@/components/club/ClubView.vue';
 import CourseList from '@/components/course/CourseList.vue';
 import CourseView from '@/components/course/CourseView.vue';
