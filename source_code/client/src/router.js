@@ -50,9 +50,11 @@ const routes = [
     component: Trainer,
   },
   {
-    path: '/club-owner/courses',
+    path: '/club-owner/courses/:id',
     name: 'ClubOwnerCourseList',
     component: ClubOwnerCourseList,
+    meta: { role: Role.ClubOwner },
+    props: route => ({ clubId: Number(route.params.id) }),
   },
   {
     path: '/:catchAll(.*)',
@@ -99,6 +101,10 @@ router.beforeEach((to, _from) => {
 
   if (isTrainerRoute && !isTrainer) {
     return defaultRoute;
+  }
+
+  if (isClubOwner && to.name === 'CourseList') {
+    return { name: 'ClubOwnerCourseList', params: { id: to.params.id } };
   }
 });
 

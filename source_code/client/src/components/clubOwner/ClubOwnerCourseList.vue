@@ -15,7 +15,7 @@
 import { createButton, formatDate } from '@/utils';
 import { onMounted, ref } from 'vue';
 import { courseApi } from '@/api';
-import CourseCreate from '@/components/course/CourseCreate.vue';
+import CourseCreate from './CourseCreate.vue';
 import PlesList from '@/components/common/PlesList.vue';
 import PlesModal from '@/components/common/PlesModal.vue';
 
