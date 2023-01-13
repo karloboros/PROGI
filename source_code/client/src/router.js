@@ -106,7 +106,7 @@ const routes = [
     props: route => ({ clubId: Number(route.params.id) }),
   },
   {
-    path: '/club-owner/pending-applications',
+    path: '/club-owner/pending-applications/:id',
     name: 'TrainerApplications',
     component: PendingTrainerApplications,
     meta: { role: Role.ClubOwner },
