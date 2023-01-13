@@ -24,7 +24,12 @@ const { id } = route.params;
 const club = ref(null);
 
 onMounted(async () => {
-  club.value = await clubApi.fetchById(id);
+  const data = await clubApi.fetchById(id);
+  club.value = {
+    ...data,
+    locationName: data.location.name,
+    coordinates: data.location.coordinates,
+  };
 });
 
 const confirm = () => {

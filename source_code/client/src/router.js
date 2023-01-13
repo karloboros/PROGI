@@ -62,46 +62,55 @@ const routes = [
     path: '/admin/dances',
     name: 'DancesList',
     component: DancesList,
+    meta: { role: Role.Admin },
   },
   {
     path: '/admin/dances/create',
     name: 'DanceCreate',
     component: DanceCreate,
+    meta: { role: Role.Admin },
   },
   {
     path: '/admin/dances/edit/:id',
     name: 'DanceEdit',
     component: DanceEdit,
+    meta: { role: Role.Admin },
   },
   {
     path: '/admin/users',
     name: 'UsersList',
     component: UsersList,
+    meta: { role: Role.Admin },
   },
   {
     path: '/admin/users/edit/:id',
     name: 'UserEdit',
     component: UserEdit,
+    meta: { role: Role.Admin },
   },
   {
     path: '/admin/clubs',
     name: 'ClubsList',
     component: ClubsList,
+    meta: { role: Role.Admin },
   },
   {
     path: '/admin/clubs/edit/:id',
     name: 'ClubEdit',
     component: ClubEdit,
+    meta: { role: Role.Admin },
   },
   {
     path: '/admin/clubs/pending',
     name: 'ClubApproval',
     component: ClubApproval,
+    meta: { role: Role.Admin },
   },
   {
     path: '/trainer',
     name: 'Trainer',
     component: Trainer,
+    meta: { role: Role.Trainer },
   },
   {
     path: '/club-owner/courses/:id',
@@ -120,6 +129,7 @@ const routes = [
     path: '/club-owner/events/create',
     name: 'EventCreate',
     component: EventCreate,
+    meta: { role: Role.ClubOwner },
   },
   {
     path: '/club-owner/pending-applications/:id',
@@ -132,6 +142,7 @@ const routes = [
     path: '/club-owner/events/edit/:id',
     name: 'EventEdit',
     component: EventEdit,
+    meta: { role: Role.ClubOwner },
   },
   {
     path: '/club-owner/pending-course-applications/:id',
