@@ -1,7 +1,7 @@
 import { BAD_REQUEST, CONFLICT, CREATED, FORBIDDEN, NOT_FOUND, OK, UNAUTHORIZED } from 'http-status';
 import { clearAuthCookies, setAuthCookies } from 'shared/helpers/tokens';
+import { Course, TrainerApplication, User, UserCourse } from 'shared/database';
 import { NextFunction, Request, Response } from 'express';
-import { TrainerApplication, User, UserCourse } from 'shared/database';
 import errorMessages from 'shared/constants/errorMessages';
 import HttpError from 'shared/error/httpError';
 import { Role } from './types';
@@ -117,6 +117,9 @@ const removeById = async (req: Request, res: Response, next: NextFunction) => {
 
     const courses = await UserCourse.findOne({ where: { userId: id } });
     if (courses) return next(new HttpError(CONFLICT, errorMessages.COURSE_USER_DELETE));
+
+    const trainerCourses = await Course.findOne({ where: { trainerId: id } });
+    if (trainerCourses) return next(new HttpError(CONFLICT, errorMessages.COURSE_TRAINER_DELETE));
 
     const trainerApplications = await TrainerApplication.findOne({ where: { trainerId: id } });
     if (trainerApplications) return next(new HttpError(CONFLICT, errorMessages.TRAINER_USER_DELETE));
