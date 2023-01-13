@@ -27,6 +27,11 @@ export default defineConfig({
         changeOrigin: true,
         secure: false,
       },
+      '/pdf': {
+        target: `${process.env.VITE_SERVER_URL}/`,
+        changeOrigin: true,
+        secure: false,
+      },
     },
   },
 });
