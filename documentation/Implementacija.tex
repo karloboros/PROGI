@@ -53,13 +53,104 @@
 			\eject 
 		
 		\section{Upute za puštanje u pogon}
-		
-			\textbf{\textit{dio 2. revizije}}\\
-		
-			 \textit{U ovom poglavlju potrebno je dati upute za puštanje u pogon (engl. deployment) ostvarene aplikacije. Na primjer, za web aplikacije, opisati postupak kojim se od izvornog kôda dolazi do potpuno postavljene baze podataka i poslužitelja koji odgovara na upite korisnika. Za mobilnu aplikaciju, postupak kojim se aplikacija izgradi, te postavi na neku od trgovina. Za stolnu (engl. desktop) aplikaciju, postupak kojim se aplikacija instalira na računalo. Ukoliko mobilne i stolne aplikacije komuniciraju s poslužiteljem i/ili bazom podataka, opisati i postupak njihovog postavljanja. Pri izradi uputa preporučuje se \textbf{naglasiti korake instalacije uporabom natuknica} te koristiti što je više moguće \textbf{slike ekrana} (engl. screenshots) kako bi upute bile jasne i jednostavne za slijediti.}
+
+ Izvorni kod svih komponenti aplikacije potrebno je postaviti na „GitLab“ platformu jer će se koristiti pri izgradnji kontejnera potrebnih za puštanje aplikacije u pogon. Izvorni kod naše aplikacije dostupan je na adresi \url{https://gitlab.com/programtvogkompjutera1/ples}. 
+
+Deployment izvodimo koristeći „Render“ platformu u oblaku (platform-as-a-service provider) koja nudi infrastrukturu puštanja aplikacije u pogon u kodu. 
+		\begin{figure}[H]
+			\includegraphics[scale=1.0]{slike/render.PNG} %veličina slike u odnosu na originalnu datoteku i pozicija slike
+			\centering
+			\caption{Render platfroma}
+			\label{fig:render}
+		\end{figure}
+Prije prijave na „Render“ platformu i kreiranja poveznice prema našem repozitoriju, u korijenskoj mapi izvornog koda potrebno je kreirati "render.yaml" datoteku. Ta datoteka predstavlja „Blueprint spec“ - konfiguraciju potrebnu za izvođenje i puštanje aplikacije u pogon na „Render“ platformi.
+
+Unutar datoteke potrebno je definirati tri servisa koji predstavljaju komponente aplikacije – „server“, „client“ i „db“.  Svaki servis, osim servisa vezanog u „PostrgeSQL“ bazu, mora sadržavati svojstva "type", "name" i "env". 
+
+Servis vezan uz „PostrgeSQL“ bazu mora sadržavati samo svojstvo "name", a informacije za njegovo izvođenje dostupne su kroz već gotovi i dostupan servis „Render“ platforme. 
+\begin{figure}[H]
+			\includegraphics[scale=0.9]{slike/Slika2.PNG} %veličina slike u odnosu na originalnu datoteku i pozicija slike
+			\centering
+			\caption{Servis baze podataka}
+			\label{fig:dbServis}
+		\end{figure}
+
+Kod preostalih dvaju servisa - jednog za "frontend", jednog za "backend" navedena svojstva postavljamo kako je prikazano na slikama \ref{fig:ServerServis} i \ref{fig:ClientServis}:
+
+\begin{figure}[H]
+			\includegraphics[scale=0.9]{slike/Slika3.PNG} %veličina slike u odnosu na originalnu datoteku i pozicija slike
+			\centering
+			\caption{Servis servera}
+			\label{fig:ServerServis}
+		\end{figure}
+
+\begin{figure}[H]
+			\includegraphics[scale=0.9]{slike/Slika4.PNG} %veličina slike u odnosu na originalnu datoteku i pozicija slike
+			\centering
+			\caption{Servis klijenta}
+			\label{fig:ClientServis}
+		\end{figure}
+
+Svojstvo „env“, koje predstavlja okruženje izvođenja, potrebno je postaviti na „Docker“ čime definiramo izgradnju naše aplikacije kroz „Docker“ kontejnere.
+Svaki definirani servis zapravo predstavlja informacije o „Docker image“ datotekama. Sadržaj tih datoteka uključuje kod komponenti, alate sustava, biblioteke i sve ostale postavke potrebne za izgradnju kontejnera potrebnih za izvođenje aplikacije.
+
+Svaka „Docker image“ datoteka kreirana je koristeći skup naredbi definiran u datotekama naziva „Dockerfile" koje se nalaze u izvornom kodu aplikacije (jedna za „server“ - slika \ref{fig:ServerDoc}, jedna za „client“- slika \ref{fig:ClientDoc}). „Render“ iz tih datoteka dohvaća „startCommand“ svojstvo kojim se pokreće pojedini kontejner. 
+\begin{figure}[H]
+			\includegraphics[scale=0.9]{slike/Slika5.PNG} %veličina slike u odnosu na originalnu datoteku i pozicija slike
+			\centering
+			\caption{Dockerfile server}
+			\label{fig:ServerDoc}
 			
-			
-			 \textit{Dovršenu aplikaciju potrebno je pokrenuti na javno dostupnom poslužitelju. Studentima se preporuča korištenje neke od sljedećih besplatnih usluga: \href{https://aws.amazon.com/}{Amazon AWS}, \href{https://azure.microsoft.com/en-us/}{Microsoft Azure} ili \href{https://www.heroku.com/}{Heroku}. Mobilne aplikacije trebaju biti objavljene na F-Droid, Google Play ili Amazon App trgovini.}
+		\end{figure}
+\begin{figure}[H]
+			\includegraphics[scale=0.9]{slike/Slika6.PNG} %veličina slike u odnosu na originalnu datoteku i pozicija slike
+			\centering
+			\caption{Dockerfile klijent}
+			\label{fig:ClientDoc}
+		\end{figure}
+Svojstvo „repo" kod oba servisa postavljamo na putanju na kojoj je dostupan repozitorij sa izvornim kodom aplikacije. Ovo svojstvo govori „Render“ platformi gdje se nalazi izvorni kod aplikacije koja će biti puštena u pogon.
+
+Svojstvo „branch" postavljamo na „master" granu repozitorija definiranog pod "repo", dok svojstvom „rootDir" svakom servisu definiramo korijensku mapu unutar repozitorija gdje se nalazi sav kod potreban za izgradnju i izvođenje tog pojedinog servisa aplikacije. 
+
+Svojstvo „buildFilter" potrebno je za svaki servis postaviti na uzorak putanje koji predstavlja lokacije datoteka unutar repozitorija čije bi izmjene na „master“ grani  trebale uzrokovati ponovnu izgradnju pojedinog servisa (redeployment).
+\begin{figure}[H]
+			\includegraphics[scale=0.9]{slike/Slika7.PNG} %veličina slike u odnosu na originalnu datoteku i pozicija slike
+			\centering
+			\caption{Direkoriji servera}
+			\label{fig:ServerRepo}
+		\end{figure}
+\begin{figure}[H]
+			\includegraphics[scale=0.9]{slike/Slika8.PNG} %veličina slike u odnosu na originalnu datoteku i pozicija slike
+			\centering
+			\caption{Direktoriji klijenta}
+			\label{fig:ClientRepo}
+		\end{figure}
+
+Ova svojstva zapravo omogućuju automatski redeployment samo onog dijela aplikacije kod kojeg su na „master“ grani uvedene nove promjene u odnosu na zadnji deploy.  
+
+Uz dosad navedena svojstva, još je potrebno definirati varijable okruženja. 
+
+„Render“ nudi mogućnost ovisnosti varijabli okruženja jednog servisa o svojstvima već gotovih „Render“ servisa. Varijable okruženja koje koristimo za spajanje „backend“ servisa na bazu podataka dohvaćamo preko definiranih svojstava „Render“ gotovog servisa za „PostgreSQL“ bazu podataka. Ostale varijable okruženja, koje ne bi smjele biti dostupne svima, stavljamo direktno na „Render“ platformu prije spremanja promjena.
+\begin{figure}[H]
+			\includegraphics[scale=0.9]{slike/Slika9.PNG} %veličina slike u odnosu na originalnu datoteku i pozicija slike
+			\centering
+			\caption{Varijable okruženja za spajanje na bazu podataka}
+			\label{fig:EnvDb}
+		\end{figure}
+
+Za korištenje već navedene platforme, prvo je potrebno napraviti račun te se prijaviti na adresi \url{https://dashboard.render.com/}. Nakon izrade računa u navigaciji „Render“ web aplikacije potrebno je odabrati „Blueprints" te "New Blueprint Instance" - u ovom koraku potrebno je izabrati repozitorij i granu na kojoj se nalazi naš izvorni kod aplikacije u čijem se korijenskom direktoriju nalazi gore opisana "render.yaml" datoteka. („Render“ platforma nudi unošenje podataka o vlastitom računu na „GitLab“ platformi i povezivanje s dostupnim repozitorijima). 
+
+Nakon spremanja promjena, „Render“ web aplikacija povezana je s repozitorijem u kojem se nalazi izvorni kod aplikacije sa „render.yaml“ - slika \ref{fig:yaml} datotekom. „Render“ dohvaća i čita sadržaj te datoteke te na temelju definirane konfiguracije pušta aplikaciju u pogon.
+\begin{figure}[H]
+			\includegraphics[scale=0.7]{slike/Slika10.PNG} %veličina slike u odnosu na originalnu datoteku i pozicija slike
+			\centering
+			\caption{Prikaz cijele "render.yaml" datoteke}
+			\label{fig:yaml}
+		\end{figure}
+
+Aplikacija puštena u pogon se može pokrenuti na adresi \url{https://ples-prod-client1-goj4.onrender.com/}.
+
+			\eject 
 			
 			
 			\eject 
