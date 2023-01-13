@@ -13,6 +13,7 @@
               </slot>
               <slot v-else>
                 <nav-trainer v-if="isTrainer" />
+                <nav-club-owner v-else-if="isClubOwner" />
                 <nav-admin v-else-if="isAdmin" />
                 <nav-user v-else />
                 <n-button @click="logout" type="warning" text>Logout</n-button>
@@ -33,6 +34,7 @@
 <script setup>
 import { computed } from '@vue/reactivity';
 import NavAdmin from './nav/NavAdmin.vue';
+import NavClubOwner from './nav/NavClubOwner.vue';
 import NavTrainer from './nav/NavTrainer.vue';
 import NavUser from './nav/NavUser.vue';
 import { useAuthStore } from '@/store';
@@ -47,6 +49,7 @@ const authStore = useAuthStore();
 
 const isLoggedIn = computed(() => authStore.isLoggedIn);
 const isTrainer = computed(() => authStore.isTrainer);
+const isClubOwner = computed(() => authStore.isClubOwner);
 const isAdmin = computed(() => authStore.isAdmin);
 const isNotAuthRoute = computed(() => router.currentRoute.value.name !== 'Auth');
 

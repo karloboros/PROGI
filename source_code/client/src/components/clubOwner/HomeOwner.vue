@@ -9,7 +9,7 @@
 </template>
 
 <script setup>
-import CourseCreate from './CourseCreate.vue';
+import CourseCreate from '@/components/course/CourseCreate.vue';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 

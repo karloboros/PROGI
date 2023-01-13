@@ -10,17 +10,20 @@
       <n-form-item label="Capacity" path="capacity">
         <n-input-number v-model:value="values.capacity" placeholder="Capacity..." />
       </n-form-item>
-      <n-form-item label="Dance" path="dance">
-        <n-select v-model:value="values.dance" :options="dances" placeholder="Dance..." />
+      <n-form-item label="Application deadline" path="applicationDeadline">
+        <n-date-picker v-model:value="values.applicationDeadline" type="date" />
       </n-form-item>
-      <n-form-item label="Address" path="address">
-        <n-input v-model:value="values.address" placeholder="Address..." />
+      <n-form-item label="Location name" path="locationName">
+        <n-input v-model:value="values.locationName" placeholder="Location name..." />
       </n-form-item>
       <n-form-item label="Coordinates" path="coordinates">
         <n-input v-model:value="values.coordinates" placeholder="Coordinates..." />
       </n-form-item>
+      <n-form-item label="Dance" path="dance">
+        <n-select v-model:value="values.danceId" :options="dances" placeholder="Dance..." />
+      </n-form-item>
       <n-form-item label="Trainer" path="trainer">
-        <n-select v-model:value="values.trainer" :options="trainers" placeholder="Trainer..." />
+        <n-select v-model:value="values.trainerId" :options="trainers" placeholder="Trainer..." />
       </n-form-item>
       <n-form-item label="Minimal age" path="minAge">
         <n-input-number v-model:value="values.minAge" placeholder="Minimal age..." />
@@ -36,13 +39,9 @@
           </n-checkbox-group>
         </n-space>
       </n-form-item>
-      <n-form-item label="Application deadline" path="applicationDeadline">
-        <n-date-picker v-model:value="values.applicationDeadline" type="date" />
-      </n-form-item>
       <n-form-item label="Additional rules" path="additionalRules">
         <n-input v-model:value="values.additionalRules" type="textarea" placeholder="Additional rules..." />
       </n-form-item>
-
       <n-form-item v-if="!isCreateForm">
         <n-button type="primary" attr-type="submit">Create course</n-button>
       </n-form-item>
@@ -54,7 +53,7 @@
 </template>
 
 <script setup>
-import { courseApi, danceApi, userApi } from '@/api';
+import { clubApi, courseApi, danceApi } from '@/api';
 import { onMounted, ref } from 'vue';
 import { computed } from '@vue/reactivity';
 import { Gender } from '@/constants';
@@ -65,37 +64,38 @@ import { validationRules } from '@/utils';
 const emit = defineEmits(['created']);
 
 const props = defineProps({
+  clubId: { type: Number, required: true },
   initialValues: {
     type: Object,
     default: () => ({
-      name: '',
+      name: null,
       description: '',
-      capacity: 0,
-      dance: null,
-      address: '',
+      capacity: null,
+      applicationDeadline: null,
+      locationName: '',
       coordinates: '',
-      trainer: null,
+      danceId: null,
+      trainerId: null,
       minAge: 0,
       maxAge: 0,
       gender: null,
-      applicationDeadline: null,
-      additionalRules: '',
+      additionalRules: null,
     }),
   },
 });
 
-const isCreateForm = computed(() => !!props.initialValues.name);
+const isCreateForm = computed(() => props.clubId);
 
-const { required, dateRequired, number, coordinatesRequired } = validationRules;
+const { required, dateRequired, number, coordinatesRequired, numberNoTrigger } = validationRules;
 const rules = {
   name: required,
   description: required,
   capacity: number,
-  address: required,
-  coordinates: coordinatesRequired,
-  minAge: number,
-  maxAge: number,
   applicationDeadline: dateRequired,
+  locationName: required,
+  coordinates: coordinatesRequired,
+  minAge: numberNoTrigger,
+  maxAge: numberNoTrigger,
 };
 
 const dances = ref([]);
@@ -110,7 +110,7 @@ onMounted(async () => {
     label: name,
   }));
 
-  const trainersData = await userApi.fetchTrainers();
+  const trainersData = await clubApi.fetchTrainersByClubId(props.clubId);
   trainers.value = trainersData.map(({ id, fullName }) => ({
     value: id,
     label: fullName,
@@ -124,11 +124,8 @@ const submit = async () => {
   formRef.value?.validate(async errors => {
     if (!errors) {
       try {
-        if (route.params.id) {
-          await courseApi.edit({ ...values.value, id: route.params.id });
-        } else {
-          await courseApi.create({ ...values.value, clubId: route.params.clubId });
-        }
+        const method = isCreateForm.value ? courseApi.create : courseApi.edit;
+        await method({ ...values.value, clubId: props.clubId }, route.params.id);
         message.success('Success');
         emit('created');
       } catch (err) {
