@@ -1,0 +1,49 @@
+services:
+  - type: web
+    env: docker
+    name: ples-prod-server1
+    repo: https://gitlab.com/programtvogkompjutera1/ples
+    branch: master
+    rootDir: source_code/server
+    buildFilter:
+      paths:
+        - source_code/server/**
+    envVars:
+      - key: POSTGRES_HOST
+        fromDatabase:
+          name: ples-prod-db1
+          property: host
+      - key: POSTGRES_DB
+        fromDatabase:
+          name: ples-prod-db1
+          property: database
+      - key: POSTGRES_USER
+        fromDatabase:
+          name: ples-prod-db1
+          property: user
+      - key: POSTGRES_PASSWORD
+        fromDatabase:
+          name: ples-prod-db1
+          property: password
+      - key: POSTGRES_PORT
+        fromDatabase:
+          name: ples-prod-db1
+          property: port
+      - key: PORT
+        value: 3001
+
+  - type: web
+    env: docker
+    name: ples-prod-client1
+    repo: https://gitlab.com/programtvogkompjutera1/ples
+    branch: master
+    rootDir: source_code/client
+    buildFilter:
+      paths:
+        - source_code/client/**
+    envVars:
+      - key: PORT
+        value: 3000
+
+databases:
+  - name: ples-prod-db1

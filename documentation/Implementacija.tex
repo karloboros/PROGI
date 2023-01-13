@@ -217,14 +217,54 @@ U prva dva slučaja kada je ulaz ispravan test je ispravan, a u ostalim slučaje
 			
 			\subsection{Ispitivanje sustava}
 			
-			 \textit{Potrebno je provesti i opisati ispitivanje sustava koristeći radni okvir Selenium\footnote{\url{https://www.seleniumhq.org/}}. Razraditi \textbf{minimalno 4 ispitna slučaja} u kojima će se ispitati redovni slučajevi, rubni uvjeti te poziv funkcionalnosti koja nije implementirana/izaziva pogrešku kako bi se vidjelo na koji način sustav reagira kada nešto nije u potpunosti ostvareno. Ispitni slučaj se treba sastojati od ulaza (npr. korisničko ime i lozinka), očekivanog izlaza ili rezultata, koraka ispitivanja i dobivenog izlaza ili rezultata.\\ }
+			\textbf{\textit{Ispitni slučaj 1: provjera ispravnosti logina}}\\
+			\textbf{\textit{Ulaz:}}\\
+			
+			 \textit{1. Korisnik se ulogira u sustav kao user}\\
+			 \textit{2. Korisnik se ulogira u sustav kao trainer}\\
+			 \textit{3. Korisnik se ulogira u sustav kao club owner}\\
+			 \textit{4. Korisnik se ulogira u sustav kao admin}\\
+			 \textit{5. Korisnik, pri pokušaju logina, ostavi mjesto za username prazno}\\
+
+			 \textbf{\textit{Očekivani rezultat:}}\\
+
+			 \textit{1. Sustav korisnika prebacuje na početnu stranicu - login je prošao uspješno}\\
+			 \textit{2. Sustav korisnika prebacuje na početnu stranicu - login je prošao uspješno}\\
+			 \textit{3. Sustav korisnika prebacuje na početnu stranicu - login je prošao uspješno}\\
+			 \textit{4. Sustav korisnika prebacuje na početnu stranicu - login je prošao uspješno}\\
+			 \textit{5. Sustav javlja error i vraća korisnika na stranicu /auth}\\
+
+			 \textbf{\textit{Rezultat:}}\\
+			 \textit{Svi testovi su zadovoljeni, aplikacija je prošla test!}\\
+
+			 \textbf{\textit{Ispitni slučaj 2: provjera ispravnosti registracije}}\\
+			 \textbf{\textit{Ulaz:}}\\
 			 
-			 \textit{Izradu ispitnih slučajeva pomoću radnog okvira Selenium moguće je provesti pomoću jednog od sljedeća dva alata:}
-			 \begin{itemize}
-			 	\item \textit{dodatak za preglednik \textbf{Selenium IDE} - snimanje korisnikovih akcija radi automatskog ponavljanja ispita	}
-			 	\item \textit{\textbf{Selenium WebDriver} - podrška za pisanje ispita u jezicima Java, C\#, PHP koristeći posebno programsko sučelje.}
-			 \end{itemize}
-		 	\textit{Detalji o korištenju alata Selenium bit će prikazani na posebnom predavanju tijekom semestra.}
+			  \textit{1. Korisnik se pokušava registrirati u sustav sa ispravnim podacima}\\
+			  \textit{2. Korisnik se pokušava registrirati u sustav sa pogrešno unesenim mailom}\\
+ 
+			  \textbf{\textit{Očekivani rezultat:}}\\
+ 
+			  \textit{1. Sustav korisnika prebacuje na početnu stranicu - registracija je prošla uspješno!}\\
+			  \textit{2. Sustav javlja error i vraća korisnika na stranicu /auth}\\
+ 
+			  \textbf{\textit{Rezultat:}}\\
+			  \textit{Svi testovi su zadovoljeni, aplikacija je prošla test!}\\
+
+			  \textbf{\textit{Ispitni slučaj 3: provjera ispravnosti kreacije kluba}}\\
+             \textbf{\textit{Ulaz:}}\\
+             
+              \textit{1. Korisnik se pokušava registrirati u sustav sa ispravnim podacima}\\
+              \textit{2. Korisnik se pokušava registrirati u sustav krajnjim datumom prijave koji je u prošlosti}\\
+ 
+              \textbf{\textit{Očekivani rezultat:}}\\
+ 
+              \textit{1. Sustav korisnika prebacuje na početnu stranicu - registracija je prošla uspješno!}\\
+              \textit{2. Sustav javlja error i vraća korisnika na stranicu za unos podataka}\\
+ 
+              \textbf{\textit{Rezultat:}}\\
+              \textit{Svi testovi su zadovoljeni, aplikacija je prošla test!}\\
+			 
 			
 			\eject 
 		
