@@ -69,11 +69,6 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
       locationId: location.id,
     };
     const club = await Club.create(newClub, { transaction });
-    const user = await User.findByPk(req.user.id);
-    if (!user) return next(new HttpError(NOT_FOUND, errorMessages.NOT_FOUND));
-    user.role = Role.ClubOwner;
-    user.save();
-
     await transaction.commit();
     return res.status(OK).json(club);
   } catch (err) {
@@ -118,13 +113,22 @@ const updateApprovalStatus = async (req: Request, res: Response, next: NextFunct
 
   const club = await Club.findByPk(id);
   if (!club) return next(new HttpError(NOT_FOUND, errorMessages.NOT_FOUND));
+  const transaction = await sequelize.transaction();
 
   try {
     club.approvalStatus = approvalStatus;
-    club.save();
+    await club.save({ transaction });
 
+    if (approvalStatus === ApprovalStatus.Approved) {
+      const user = await User.findByPk(club.ownerId);
+      if (!user) return next(new HttpError(NOT_FOUND, errorMessages.NOT_FOUND));
+      user.role = Role.ClubOwner;
+      await user.save({ transaction });
+    }
+    await transaction.commit();
     return res.sendStatus(OK);
   } catch {
+    await transaction.rollback();
     return next();
   }
 };
