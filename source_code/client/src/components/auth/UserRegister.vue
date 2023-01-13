@@ -1,5 +1,5 @@
 <template>
-  <n-form ref="formRef" @submit.prevent="submit" :model="values" :rules="rules" aria-label="form">
+  <n-form ref="formRef" @submit.prevent="submit" :model="values" :rules="rules" aria-label="form" class="py-7">
     <n-form-item label="Username" path="username">
       <n-input v-model:value="values.username" placeholder="Username..." aria-label="username" autofocus />
     </n-form-item>

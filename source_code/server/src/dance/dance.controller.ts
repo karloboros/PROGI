@@ -1,5 +1,5 @@
-import { BAD_REQUEST, CONFLICT, CREATED, FORBIDDEN, OK } from 'http-status';
-import { Dance, EventDance } from 'shared/database';
+import { BAD_REQUEST, CONFLICT, CREATED, NOT_FOUND, OK } from 'http-status';
+import { Course, Dance, Event, EventDance } from 'shared/database';
 import { NextFunction, Request, Response } from 'express';
 import errorMessages from 'shared/constants/errorMessages';
 import HttpError from 'shared/error/httpError';
@@ -7,12 +7,17 @@ import { UniqueConstraintError } from 'sequelize';
 
 const fetchAll = async (_req: Request, res: Response) => {
   const dances = await Dance.findAll();
-  return res.send(dances);
+  return res.status(OK).json(dances);
+};
+
+const fetchDanceEvents = async (_req: Request, res: Response) => {
+  const events = await Dance.findAll({ include: [Event] });
+  return res.status(OK).json(events);
 };
 
 const fetchById = async (req: Request, res: Response) => {
   const dance = await Dance.findByPk(+req.params.id);
-  return res.send(dance);
+  return res.status(OK).json(dance);
 };
 
 const create = async (req: Request, res: Response, next: NextFunction) => {
@@ -33,7 +38,7 @@ const edit = async (req: Request, res: Response, next: NextFunction) => {
     const { id, name, description, videoUrl, image } = req.body;
 
     const danceToEdit = await Dance.findByPk(id);
-    if (!danceToEdit) return next(new HttpError(FORBIDDEN, errorMessages.FORBIDDEN));
+    if (!danceToEdit) return next(new HttpError(NOT_FOUND, errorMessages.NOT_FOUND));
 
     danceToEdit.name = name;
     danceToEdit.description = description;
@@ -50,12 +55,22 @@ const edit = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
+const uploadDanceImage = (req: Request, res: Response, next: NextFunction) => {
+  const { file } = req;
+  if (!file) return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
+
+  return res.status(OK).json({ path: `/images/dances/${file.filename}` });
+};
+
 const remove = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const danceId = JSON.parse(req.params.id);
 
     const events = await EventDance.findOne({ where: { danceId } });
     if (events) return next(new HttpError(CONFLICT, errorMessages.EVENT_DANCE_DELETE));
+
+    const course = await Course.scope(['includeDance']).findOne({ where: { danceId } });
+    if (course) return next(new HttpError(CONFLICT, errorMessages.COURSE_DANCE_DELETE));
 
     const danceToRemove = await Dance.findByPk(danceId);
     if (!danceToRemove) return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
@@ -67,11 +82,4 @@ const remove = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-const uploadDanceImage = (req: Request, res: Response, next: NextFunction) => {
-  const { file } = req;
-  if (!file) return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
-
-  return res.status(OK).json({ path: `/images/dances/${file.filename}` });
-};
-
-export { fetchAll, fetchById, create, edit, remove, uploadDanceImage };
+export { fetchAll, fetchDanceEvents, fetchById, create, edit, uploadDanceImage, remove };

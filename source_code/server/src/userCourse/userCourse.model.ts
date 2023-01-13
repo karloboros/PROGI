@@ -24,10 +24,12 @@ class UserCourseModel extends Model implements IUserCourse {
       },
       userId: {
         type: INTEGER,
+        unique: 'unique_user_course',
         allowNull: false,
       },
       courseId: {
         type: INTEGER,
+        unique: 'unique_user_course',
         allowNull: false,
       },
     };
@@ -52,14 +54,11 @@ class UserCourseModel extends Model implements IUserCourse {
       includeUser: {
         include: ['user'],
       },
-      pending: {
-        where: { status: ApprovalStatus.Pending },
-      },
-      accepted: {
+      approved: {
         where: { status: ApprovalStatus.Approved },
       },
-      rejected: {
-        where: { status: ApprovalStatus.Rejected },
+      pending: {
+        where: { status: ApprovalStatus.Pending },
       },
     };
   }

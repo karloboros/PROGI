@@ -1,4 +1,5 @@
 import { IFields, IModels } from 'shared/database/types';
+import { IDance } from 'dance/types';
 import { IEvent } from './types';
 import { Model } from 'sequelize';
 
@@ -7,10 +8,12 @@ class EventModel extends Model implements IEvent {
   name!: string;
   description!: string;
   image!: string;
+  startTime!: Date;
   clubId!: number;
   locationId!: number;
+  dances?: IDance[];
 
-  static fields({ INTEGER, STRING, TEXT }: IFields) {
+  static fields({ INTEGER, STRING, TEXT, DATE }: IFields) {
     return {
       id: {
         type: INTEGER,
@@ -29,6 +32,10 @@ class EventModel extends Model implements IEvent {
         type: STRING,
         allowNull: false,
       },
+      startTime: {
+        type: DATE,
+        allowNull: false,
+      },
       clubId: {
         type: INTEGER,
         allowNull: false,
@@ -40,7 +47,7 @@ class EventModel extends Model implements IEvent {
     };
   }
 
-  static associate({ Location, Club, EventDance }: IModels) {
+  static associate({ Location, Club, EventDance, Dance }: IModels) {
     this.belongsTo(Club, {
       foreignKey: { name: 'clubId', field: 'clubId' },
     });
@@ -50,6 +57,15 @@ class EventModel extends Model implements IEvent {
     this.hasMany(EventDance, {
       foreignKey: { name: 'eventId', field: 'eventId' },
     });
+    this.belongsToMany(Dance, { through: EventDance });
+  }
+
+  static scopes() {
+    return {
+      includeAll: {
+        include: ['club', 'location', 'dances'],
+      },
+    };
   }
 
   static dbOptions() {

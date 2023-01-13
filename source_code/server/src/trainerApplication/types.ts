@@ -1,4 +1,5 @@
-import { ApprovalStatus, IClub } from 'club/types';
+import { ApprovalStatus } from 'club/types';
+import { IUser } from 'user/types';
 
 interface ITrainerApplication {
   id: number;
@@ -7,7 +8,7 @@ interface ITrainerApplication {
   status: ApprovalStatus;
   trainerId: number;
   clubId: number;
-  club?: IClub;
+  trainer?: IUser;
 }
 
 export { ITrainerApplication };

@@ -54,7 +54,12 @@ module.exports = {
       danceId: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        // TODO: add reference when dances table is added
+        references: {
+          model: {
+            tableName: 'dances',
+          },
+          key: 'id',
+        },
       },
       locationId: {
         type: Sequelize.INTEGER,

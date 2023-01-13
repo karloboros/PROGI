@@ -11,11 +11,17 @@
         <n-form-item label="Event image" path="image">
           <ples-file-upload @update="update" @error="error" accept="image/png, image/jpeg" :api="eventapi" />
         </n-form-item>
+        <n-form-item label="Start date and time" path="startTime">
+          <n-date-picker v-model:value="values.startTime" type="datetime" clearable />
+        </n-form-item>
         <n-form-item label="Club" path="club">
           <n-select v-model:value="values.clubName" :options="clubs" :loading="loading" placeholder="Club..." />
         </n-form-item>
-        <n-form-item label="Address" path="address">
-          <n-input v-model:value="values.address" placeholder="Address..." />
+        <n-form-item label="Location name" path="locationName">
+          <n-input v-model:value="values.locationName" placeholder="Location name..." />
+        </n-form-item>
+        <n-form-item label="Coordinates" path="coordinates">
+          <n-input v-model:value="values.coordinates" placeholder="Coordinates (lat, long)..." />
         </n-form-item>
         <n-form-item label="Dances" path="dances">
           <n-select
@@ -44,22 +50,33 @@ import { validationRules } from '@/utils';
 
 const emit = defineEmits(['created']);
 
-const initialValues = {
-  name: '',
-  address: '',
-  description: '',
-  clubName: null,
-  image: '',
-  dances: [],
-};
+const props = defineProps({
+  initialValues: {
+    type: Object,
+    default: () => ({
+      name: '',
+      locationName: '',
+      coordinates: '',
+      description: '',
+      clubName: null,
+      image: '',
+      startTime: null,
+      dances: [],
+    }),
+  },
+});
 
-const { required } = validationRules;
+const values = ref(props.initialValues);
+
+const { required, dateRequired, coordinatesRequired } = validationRules;
 const rules = {
   name: required,
-  address: required,
+  locationName: required,
+  coordinates: coordinatesRequired,
   description: required,
   clubName: required,
   image: required,
+  startTime: dateRequired,
 };
 const authStore = useAuthStore();
 
@@ -89,7 +106,6 @@ onMounted(async () => {
   loading.value = false;
 });
 
-const values = ref(initialValues);
 const formRef = ref(null);
 
 const message = useMessage();

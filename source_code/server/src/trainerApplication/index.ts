@@ -1,33 +1,29 @@
-import { apply, getAccepted, getPending, updateStatus, uploadPDF } from './trainerApplication.controller';
+import {
+  apply,
+  fetchApproved,
+  fetchByClubId,
+  fetchPending,
+  updateStatus,
+  uploadPDF,
+} from './trainerApplication.controller';
 import authenticate from 'shared/auth/authenticate';
-import fs from 'fs';
-import multer from 'multer';
+import { createUpload } from 'shared/helpers/upload';
 import refresh from 'shared/auth/refresh';
 import { Router } from 'express';
-
-const storage = multer.diskStorage({
-  destination: (_req, _file, cb) => {
-    const filePath = '.tmp/pdf/trainerApplications';
-    fs.mkdirSync(filePath, { recursive: true });
-    cb(null, filePath);
-  },
-  filename: (_req, file, cb) => {
-    cb(null, Date.now() + '_' + file.originalname);
-  },
-});
-
-const upload = multer({ storage });
 
 const router = Router();
 const path = '/trainer-applications';
 
+const upload = createUpload('pdf', 'trainerApplications');
+
 router
   .use(authenticate)
   .use(refresh)
+  .get('/approved/:clubId', fetchApproved)
+  .get('/pending/:clubId', fetchPending)
+  .get('/:clubId', fetchByClubId)
   .post('/apply/:clubId', apply)
-  .post('/update-status', updateStatus)
-  .post('/upload', upload.single('file'), uploadPDF)
-  .get('/accepted/:clubId', getAccepted)
-  .get('/pending/:clubId', getPending);
+  .post('/update-status/:id', updateStatus)
+  .post('/upload', upload.single('file'), uploadPDF);
 
 export default { router, path };

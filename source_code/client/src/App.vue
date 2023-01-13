@@ -1,26 +1,14 @@
 <template>
   <n-config-provider class="ples-provider" :theme="currentTheme.theme">
     <n-global-style />
-    <n-space class="ples-nav" align="center">
-      <n-affix :top="0">
-        <n-button @click="switchTheme" type="warning" text style="font-size: 24px">
-          <n-icon class="m-12">
-            <component :is="currentTheme.icon" />
-          </n-icon>
-        </n-button>
-        <n-button v-if="isAuthRoute" @click="goHome" type="warning" text style="font-size: 24px">
-          <n-icon>
-            <component :is="currentTheme.homeIcon" />
-          </n-icon>
-        </n-button>
-      </n-affix>
-    </n-space>
-
+    <ples-nav @switch="switchTheme" :icon="currentTheme.icon" class="ples-navigation" />
     <n-dialog-provider>
       <n-message-provider>
-        <n-space class="ples-main" align="center" justify="center" item-style="width: 100%">
-          <router-view />
-        </n-space>
+        <n-notification-provider placement="top">
+          <n-space class="ples-main" justify="center" item-style="width: 100%">
+            <router-view />
+          </n-space>
+        </n-notification-provider>
       </n-message-provider>
     </n-dialog-provider>
   </n-config-provider>
@@ -28,32 +16,16 @@
 
 <script setup>
 import { darkTheme, lightTheme } from 'naive-ui';
-import {
-  HomeOutline as HomeDarkIcon,
-  Home as HomeLightIcon,
-  Moon as MoonIcon,
-  SunnyOutline as SunIcon,
-} from '@vicons/ionicons5';
+import { Moon as MoonIcon, SunnyOutline as SunIcon } from '@vicons/ionicons5';
 import { computed } from '@vue/reactivity';
+import PlesNav from '@/components/common/PlesNav.vue';
 import { ref } from 'vue';
-import { useRouter } from 'vue-router';
 import { useStorage } from '@vueuse/core';
-
-const router = useRouter();
-
-const isAuthRoute = computed(() => {
-  const { name } = router.currentRoute.value;
-  return name !== 'Auth' && name !== 'Home';
-});
-
-const goHome = () => {
-  router.push({ name: 'Home' });
-};
 
 const themeIndex = ref(useStorage('themeIndex', 0));
 const themes = [
-  { theme: darkTheme, icon: SunIcon, homeIcon: HomeDarkIcon },
-  { theme: lightTheme, icon: MoonIcon, homeIcon: HomeLightIcon },
+  { theme: darkTheme, icon: SunIcon },
+  { theme: lightTheme, icon: MoonIcon },
 ];
 
 const currentTheme = computed(() => themes[themeIndex.value]);
@@ -67,12 +39,14 @@ const switchTheme = () => {
 .ples-provider {
   height: 100%;
 }
-.ples-nav {
-  height: 36px;
+
+.ples-navigation {
+  height: 56px;
 }
 
 .ples-main {
-  height: calc(100% - 36px);
+  height: calc(100% - 56px);
+  padding-top: 56px;
 }
 </style>
 
@@ -85,7 +59,39 @@ const switchTheme = () => {
   margin: 12px;
 }
 
+.m-0 {
+  margin: 0;
+}
+
 .d-none {
   display: none;
+}
+
+.z-1000 {
+  z-index: 1000;
+}
+
+.h-100 {
+  height: 100%;
+}
+
+.py-3 {
+  padding: 3% 0;
+}
+
+.py-7 {
+  padding: 7% 0;
+}
+
+.n-message-container {
+  z-index: 100000;
+}
+
+.n-notification-container {
+  z-index: 100000;
+}
+
+.n-modal-container {
+  z-index: 100000 !important;
 }
 </style>
