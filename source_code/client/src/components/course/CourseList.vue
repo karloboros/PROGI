@@ -6,7 +6,7 @@
   </ples-list>
   <n-modal v-model:show="showCreateModal">
     <ples-modal class="py-3">
-      <course-create :club-id="clubId" />
+      <course-create @created="showCreateModal = false" :club-id="clubId" />
     </ples-modal>
   </n-modal>
 </template>
