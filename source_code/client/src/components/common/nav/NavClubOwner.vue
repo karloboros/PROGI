@@ -3,6 +3,7 @@
     <n-button @click="router.push({ name: 'CourseList', params: { id: clubId } })" type="warning" text>
       Courses
     </n-button>
+    <n-button @click="router.push({ name: 'TrainerApplications' })" type="warning" text>Applications</n-button>
     <n-button @click="router.push({ name: 'Profile' })" type="warning" text>Profile</n-button>
   </n-space>
 </template>
