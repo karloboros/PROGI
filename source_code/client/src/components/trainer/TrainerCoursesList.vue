@@ -31,23 +31,9 @@ const ShowButton = course => {
   );
 };
 
-const ShowUsersButton = course => {
-  return h(
-    NButton,
-    {
-      secondary: true,
-      type: 'info',
-      size: 'small',
-      onClick: () => showUsers(course.id),
-    },
-    { default: () => 'View students' },
-  );
-};
-
 const columns = [
   { title: 'Course', key: 'name' },
   { title: 'View more', key: 'show', render: ShowButton },
-  { title: 'Student', key: 'student', render: ShowUsersButton },
 ];
 
 const courses = ref([]);
@@ -64,15 +50,9 @@ onMounted(async () => {
 
 const viewCourseInfo = id => {
   router.push({
-    name: 'CourseInfo',
+    name: 'Course',
     params: { id },
-  });
-};
-
-const showUsers = id => {
-  router.push({
-    name: 'TrainerUsersList',
-    params: { courseId: id },
+    props: route => ({ courseId: Number(route.params.id) }),
   });
 };
 </script>
