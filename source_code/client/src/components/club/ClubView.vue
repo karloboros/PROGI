@@ -7,7 +7,7 @@
     </template>
     <n-space vertical>
       <club-map :location="clubLocation" />
-      <n-space v-if="!isAlreadyApplied" align="center" style="margin-top: 32px">
+      <n-space v-if="shouldDisplayApply" align="center" style="margin-top: 32px">
         <n-h4 style="margin: 0">Want to be a trainer? </n-h4>
         <n-button @click="showModal = true" type="warning" text>Apply for a trainer position at this club</n-button>
       </n-space>
@@ -35,11 +35,11 @@ const title = ref('');
 const club = ref(null);
 const clubLocation = ref(null);
 const showModal = ref(false);
-const isAlreadyApplied = ref(false);
+const shouldDisplayApply = ref(false);
 
 const applied = () => {
   showModal.value = false;
-  isAlreadyApplied.value = true;
+  shouldDisplayApply.value = false;
 };
 
 const fetchClub = async () => {
@@ -58,7 +58,7 @@ const fetchClub = async () => {
 
 const fetchTrainerApplicationStatus = async () => {
   const trainerApplication = await trainerApplicationApi.fetchByClubId(props.clubId);
-  isAlreadyApplied.value = !!trainerApplication;
+  shouldDisplayApply.value = !trainerApplication;
 };
 
 onMounted(async () => {

@@ -1,7 +1,7 @@
 <template>
   <ples-view :title="title" :data="course" class="py-3">
     <template #header-extra>
-      <n-button v-if="!isAlreadyApplied" @click="apply" type="warning">Apply to this course</n-button>
+      <n-button v-if="shouldDisplayApply" @click="apply" type="warning">Apply to this course</n-button>
     </template>
     <n-space vertical>
       <n-image width="100" :src="trainerImage" />
@@ -27,7 +27,7 @@ const title = ref('');
 const course = ref(null);
 const trainerImage = ref(null);
 const lessons = ref(null);
-const isAlreadyApplied = ref(false);
+const shouldDisplayApply = ref(false);
 
 const message = useMessage();
 const router = useRouter();
@@ -35,7 +35,7 @@ const router = useRouter();
 const apply = async () => {
   try {
     await userCourseApi.apply(props.courseId);
-    isAlreadyApplied.value = true;
+    shouldDisplayApply.value = false;
     message.success('Successfully applied!');
   } catch (err) {
     message.error(err.response.data.message);
@@ -79,7 +79,7 @@ const fetchCourses = async () => {
 
 const fetchUserCourseStatus = async () => {
   const userCourse = await userCourseApi.fetchByCourseId(props.courseId);
-  isAlreadyApplied.value = !!userCourse;
+  shouldDisplayApply.value = !userCourse;
 };
 
 onMounted(async () => {
