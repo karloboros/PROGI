@@ -28,10 +28,7 @@ const event = ref(null);
 onMounted(async () => {
   const data = await eventApi.fetchById(id);
   const { name, description, image, startTime, club, dances, location } = data;
-  const dancesToSend = dances.map(({ id, name }) => ({
-    value: id,
-    label: name,
-  }));
+  const dancesToSend = dances.map(({ id }) => id);
   event.value = {
     name,
     description,
