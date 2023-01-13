@@ -3,6 +3,7 @@ import { NextFunction, Request, Response } from 'express';
 import sequelize, { Course, Dance, Location, User } from 'shared/database';
 import errorMessages from 'shared/constants/errorMessages';
 import HttpError from 'shared/error/httpError';
+import { Role } from 'user/types';
 import { UniqueConstraintError } from 'sequelize';
 
 const fetchActive = async (_req: Request, res: Response) => {
@@ -19,7 +20,9 @@ const fetchById = async (req: Request, res: Response) => {
     'includeDance',
     'includeLessons',
   ]).findByPk(+req.params.id);
-  if (!course?.isActive) return res.status(OK).json(null);
+
+  if (req.user.role === Role.Trainer && course?.isTrainerActive) return res.status(OK).json(course);
+  else if (!course?.isActive) return res.status(OK).json(null);
   return res.status(OK).json(course);
 };
 
@@ -35,7 +38,9 @@ const fetchByClub = async (req: Request, res: Response) => {
 
 const fetchByTrainerId = async (req: Request, res: Response) => {
   const trainerId = req.params.trainerId;
-  const courses = await Course.findAll({ where: { trainerId } });
+  const courses = (await Course.scope(['includeLessons', 'includeLocation']).findAll({ where: { trainerId } })).filter(
+    course => course.isTrainerActive,
+  );
   return res.send(courses);
 };
 
