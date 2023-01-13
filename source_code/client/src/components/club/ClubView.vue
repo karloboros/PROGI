@@ -9,18 +9,20 @@
       <club-map :location="clubLocation" />
       <n-space align="center" style="margin-top: 32px">
         <n-h4 style="margin: 0">Want to be a trainer? </n-h4>
-        <n-button @click="router.push({ name: 'CourseList', params: { id: clubId } })" type="warning" text>
-          Apply for a trainer position at this club
-        </n-button>
+        <n-button @click="showModal = true" type="warning" text>Apply for a trainer position at this club</n-button>
       </n-space>
     </n-space>
   </ples-view>
+  <n-modal v-model:show="showModal">
+    <club-trainer-apply />
+  </n-modal>
 </template>
 
 <script setup>
 import { onMounted, ref } from 'vue';
 import { clubApi } from '@/api';
 import ClubMap from './ClubMap.vue';
+import ClubTrainerApply from './ClubTrainerApply.vue';
 import PlesView from '@/components/common/PlesView.vue';
 import { useRouter } from 'vue-router';
 
@@ -32,6 +34,7 @@ const router = useRouter();
 const title = ref('');
 const club = ref(null);
 const clubLocation = ref(null);
+const showModal = ref(false);
 
 onMounted(async () => {
   const { name, phone, email, description, owner, location, dances } = await clubApi.fetchByIdWithDances(props.clubId);
