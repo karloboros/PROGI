@@ -11,7 +11,7 @@ const invalidDate = '12-12';
 
 describe('Create Course Test', () => {
   before(() => {
-    // cy.task('seed');
+    cy.task('seed');
   });
 
   beforeEach(() => {
