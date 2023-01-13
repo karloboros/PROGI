@@ -95,7 +95,7 @@ const fetchCourses = async () => {
 };
 
 const fetchUserCourseStatus = async () => {
-  if (authStore.isTrainer) return (shouldDisplayApply.value = false);
+  if (authStore.isTrainer || authStore.isClubOwner) return (shouldDisplayApply.value = false);
   if (!canCurrentUserApply.value) {
     notification.warning({ content: 'You do not meet the requirements to apply, but you can still view the course' });
     return;
