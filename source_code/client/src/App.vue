@@ -4,9 +4,11 @@
     <ples-nav @switch="switchTheme" :icon="currentTheme.icon" class="ples-navigation" />
     <n-dialog-provider>
       <n-message-provider>
-        <n-space class="ples-main" justify="center" item-style="width: 100%">
-          <router-view />
-        </n-space>
+        <n-notification-provider placement="top">
+          <n-space class="ples-main" justify="center" item-style="width: 100%">
+            <router-view />
+          </n-space>
+        </n-notification-provider>
       </n-message-provider>
     </n-dialog-provider>
   </n-config-provider>
@@ -83,5 +85,13 @@ const switchTheme = () => {
 
 .n-message-container {
   z-index: 100000;
+}
+
+.n-notification-container {
+  z-index: 100000;
+}
+
+.n-modal-container {
+  z-index: 100000 !important;
 }
 </style>

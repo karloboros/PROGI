@@ -70,7 +70,7 @@ export const defaultRoute = { name: 'Home' };
 router.beforeEach((to, _from) => {
   const authStore = useAuthStore();
 
-  const isLandingRoute = to.name === 'Landing' || 'Club';
+  const isLandingRoute = to.name === 'Landing' || to.name === 'Club';
   const isAuthRoute = to.name === 'Auth';
   const isAdminRoute = to.meta.role === Role.Administrator;
   const isClubOwnerRoute = to.meta.role === Role.ClubOwner;
