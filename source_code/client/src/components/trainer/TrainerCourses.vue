@@ -1,54 +1,29 @@
 <template>
-  <n-skeleton v-if="loading" text :repeat="6" />
+  <n-skeleton v-if="isLoading" text :repeat="6" />
   <n-data-table v-else :columns="columns" :data="courses" />
 </template>
 
 <script setup>
-import { h, onMounted, ref } from 'vue';
-import { courseApi } from '@/api';
-import { NButton } from 'naive-ui';
-import { useAuthStore } from '@/store';
+import { createButton } from '@/utils';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
-const authStore = useAuthStore();
-const loading = ref(true);
 
-const ShowButton = course => {
-  return h(
-    NButton,
-    {
-      secondary: true,
-      type: 'info',
-      size: 'small',
-      onClick: () => viewCourseInfo(course.id),
-    },
-    { default: () => 'View more' },
-  );
+defineProps({
+  courses: { type: Array, default: () => [] },
+  isLoading: { type: Boolean, default: false },
+});
+
+const DetailsButton = course => {
+  const type = 'warning';
+  const label = 'Details';
+  const onClick = () => router.push({ name: 'Course', params: { id: course.id } });
+  return createButton({ type, label, onClick });
 };
 
 const columns = [
   { title: 'Course', key: 'name' },
-  { title: 'View more', key: 'show', render: ShowButton },
+  { title: 'Location', key: 'location' },
+  { title: 'Details', key: 'details', render: DetailsButton },
 ];
-
-const courses = ref([]);
-const trainerId = authStore.user.id;
-
-onMounted(async () => {
-  const data = await courseApi.fetchByTrainerId(trainerId);
-  courses.value = data.map(course => ({
-    ...course,
-    name: course.name,
-  }));
-  loading.value = false;
-});
-
-const viewCourseInfo = id => {
-  router.push({
-    name: 'Course',
-    params: { id },
-    props: route => ({ courseId: Number(route.params.id) }),
-  });
-};
 </script>
