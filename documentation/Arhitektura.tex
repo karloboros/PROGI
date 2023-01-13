@@ -375,6 +375,17 @@ Osnovna karakteristika ovog stila je nezavisan razvoj pojedinih dijelova aplikac
 		
 		\section{Dijagram komponenti}
 		
-		% 	\textbf{\textit{dio 2. revizije}}\\
+			\noindent Dijagram komponenti opisuje organizaciju i međuovisnost komponenti, interne strukture i odnose prema okolini. 
+Postoje 3 Docker konteinera: jedan za bazu podataka ( port 3002), jedan za poslužiteljsku stranu (port 3001 ) i jedan za klijentsku stranu ( port 3000 ).
+Klijentska strana podigne jedan html dokument i podigne virtualni DOM. View napravi virtualni DOM, provjerava podatke i pošalje na fizički DOM. View automatski puni fizički DOM s .json file-om. Nema slanja html dokumenta između klijentske i poslužiteljske strane. Klijentska strana preko http requestova traži od poslužiteljske strane informacije iz baze podataka. 
+Postoji 10 „Controllera“ (za klub, tecaj, ples, dogadaj, dogadajPles, lekciju, lokaciju, trenerAplikaciju, korisnika i korisnikaTecaja) i njihovih 10 „Modela“.  Svaki entitet je model. Modeli su zadužni za dobavljanje podataka iz baze podataka. „Controller“  se nalazi na poslužiteljskoj strani i prima informaciju od „View“ komponente. On validira primljenu informaciju iz zahtjeva s klijentske strane, obavi sve što je potrebno za taj zadatak napraviti te vrati povratnu informaciju klijentu je li akcija uspješno obavljena. 
+JavaScript „leaflet“ biblioteka služi za prikaz interaktivnih mapa
+„Bycrpt“ je biblioteka koja služi za kriptiranje lozinke.
+
 		
-		% 	 \textit{Potrebno je priložiti dijagram komponenti s pripadajućim opisom. Dijagram komponenti treba prikazivati strukturu cijele aplikacije.}
+		\begin{figure}[H]
+			\includegraphics[scale=0.4]{slike/DijagramKomponenti.PNG} %veličina slike u odnosu na originalnu datoteku i pozicija slike
+			\centering
+			\caption{Dijagram komponenti}
+			\label{fig:stanje}
+		\end{figure}
