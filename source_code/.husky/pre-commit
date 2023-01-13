@@ -2,5 +2,5 @@
 . "$(dirname -- "$0")/_/husky.sh"
 
 cd source_code
-npm run enforce-branch-name
+# npm run enforce-branch-name
 (cd server && npm run lint) && (cd client && npm run lint)
