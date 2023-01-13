@@ -10,6 +10,7 @@ import DanceCreate from '@/components/admin/DanceCreate.vue';
 import DanceEdit from '@/components/admin/DanceEdit.vue';
 import DancesList from '@/components/admin/DancesList.vue';
 import Landing from '@/components/landing/LandingPage.vue';
+import PendingTrainerApplications from '@/components/trainerApplication/PendingTrainerApplications.vue';
 import ProfileView from '@/components/auth/ProfileView.vue';
 import { Role } from '@/constants';
 import Trainer from '@/components/trainer/TrainerPage.vue';
@@ -101,6 +102,13 @@ const routes = [
     path: '/club-owner/courses/:id',
     name: 'ClubOwnerCourseList',
     component: ClubOwnerCourseList,
+    meta: { role: Role.ClubOwner },
+    props: route => ({ clubId: Number(route.params.id) }),
+  },
+  {
+    path: '/club-owner/pending-applications/:id',
+    name: 'TrainerApplications',
+    component: PendingTrainerApplications,
     meta: { role: Role.ClubOwner },
     props: route => ({ clubId: Number(route.params.id) }),
   },

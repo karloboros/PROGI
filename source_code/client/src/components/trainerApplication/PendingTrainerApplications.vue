@@ -11,7 +11,10 @@
 import { h, onMounted, ref } from 'vue';
 import { NButton, useMessage } from 'naive-ui';
 import { trainerApplicationApi } from '@/api';
-import { useRoute } from 'vue-router';
+
+const props = defineProps({
+  clubId: { type: Number, required: true },
+});
 
 const ApproveButton = trainerApplication => {
   return h(
@@ -65,13 +68,11 @@ const columns = [
 
 const trainerApplications = ref([]);
 const loading = ref(true);
-const route = useRoute();
-const clubId = route.params.clubId;
 
 const message = useMessage();
 
 onMounted(async () => {
-  const data = await trainerApplicationApi.fetchPending(clubId);
+  const data = await trainerApplicationApi.fetchPending(props.clubId);
   trainerApplications.value = data.map(trainerApplication => ({
     ...trainerApplication,
     firstName: trainerApplication.trainer.firstName,
