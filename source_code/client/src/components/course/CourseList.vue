@@ -32,12 +32,18 @@ const columns = [
   { title: 'Details', key: 'details', render: DetailsButton },
 ];
 
+const mapApplicationDeadline = applicationDeadline => {
+  const deadline = new Date(applicationDeadline);
+  const now = new Date();
+  return now < deadline ? formatDate(applicationDeadline) : 'Expired';
+};
+
 onMounted(async () => {
   const data = await courseApi.fetchActive();
   const filteredData = data.filter(({ clubId }) => !props.clubId || clubId === props.clubId);
   courses.value = filteredData.map(({ applicationDeadline, ...course }) => ({
     ...course,
-    applicationDeadline: formatDate(applicationDeadline),
+    applicationDeadline: mapApplicationDeadline(applicationDeadline),
   }));
   isLoading.value = false;
 });

@@ -58,6 +58,12 @@ const setCanCurrentUserApply = (minAge, maxAge, gender) => {
   if (minAge && !maxAge) return (canCurrentUserApply.value = isBottomLimit);
 };
 
+const mapApplicationDeadline = applicationDeadline => {
+  const deadline = new Date(applicationDeadline);
+  const now = new Date();
+  return now < deadline ? deadline : 'Expired';
+};
+
 const fetchCourses = async () => {
   const data = await courseApi.fetchById(props.courseId);
   if (!data) return router.push({ name: 'Landing' });
@@ -85,7 +91,7 @@ const fetchCourses = async () => {
     { label: 'Capacity', value: capacity },
     { label: 'Age group', value: minAge && maxAge ? `${minAge} - ${maxAge}` : null },
     { label: 'Gender', value: Object.keys(Gender)[gender] },
-    { label: 'Application deadline', value: new Date(applicationDeadline) },
+    { label: 'Application deadline', value: mapApplicationDeadline(applicationDeadline) },
     { label: 'Additional rules', value: additionalRules },
     { label: 'Club', value: club.name },
     { label: 'Dance', value: dance.name },
