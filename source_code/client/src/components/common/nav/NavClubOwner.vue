@@ -1,6 +1,5 @@
 <template>
   <n-space>
-    <n-button @click="router.push({ name: 'Landing' })" type="warning" text>Landing</n-button>
     <n-button @click="router.push({ name: 'CourseList', params: { id: clubId } })" type="warning" text>
       Courses
     </n-button>
