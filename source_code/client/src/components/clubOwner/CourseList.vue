@@ -55,6 +55,20 @@ const AddLessonButton = course => {
   return createButton({ type, label, onClick });
 };
 
+const ApproveUsersButton = course => {
+  const type = 'warning';
+  const label = 'Pending applicants';
+  const onClick = () => router.push({ name: 'PendingCourseApplications', params: { courseId: course.id } });
+  return createButton({ type, label, onClick });
+};
+
+const UsersButton = course => {
+  const type = 'warning';
+  const label = 'Accepted applicants';
+  const onClick = () => router.push({ name: 'ApprovedCourseApplications', params: { courseId: course.id } });
+  return createButton({ type, label, onClick });
+};
+
 const columns = [
   { title: 'Name', key: 'name' },
   { title: 'Description', key: 'description' },
@@ -62,6 +76,8 @@ const columns = [
   { title: 'Application deadline', key: 'applicationDeadline' },
   { title: '', key: 'details', render: DetailsButton },
   { title: '', key: 'lesson', render: AddLessonButton },
+  { title: '', key: 'application', render: ApproveUsersButton },
+  { title: '', key: 'accepted', render: UsersButton },
 ];
 
 const mapApplicationDeadline = applicationDeadline => {
