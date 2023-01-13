@@ -7,7 +7,7 @@ const createClub = index => {
     email: `club${index}@gmail.com`,
     description: `Short club description`,
     approvalStatus: 0,
-    ownerId: 4,
+    ownerId: 7,
     locationId: index,
   };
 };
