@@ -134,14 +134,16 @@ const routes = [
     component: EventEdit,
   },
   {
-    path: '/club-owner/pending-course-applications/:courseId',
+    path: '/club-owner/pending-course-applications/:id',
     name: 'PendingCourseApplications',
     component: PendingCourseApplications,
+    props: route => ({ courseId: Number(route.params.id) }),
   },
   {
-    path: '/club-owner/approved-course-applications/:courseId',
+    path: '/club-owner/approved-course-applications/:id',
     name: 'ApprovedCourseApplications',
     component: ApprovedCourseApplications,
+    props: route => ({ courseId: Number(route.params.id) }),
   },
   {
     path: '/:catchAll(.*)',
