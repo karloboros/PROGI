@@ -11,10 +11,10 @@
 </template>
 
 <script setup>
+import { ApprovalStatus, Gender } from '@/constants';
 import { courseApi, userCourseApi } from '@/api';
 import { onMounted, ref } from 'vue';
 import { useMessage, useNotification } from 'naive-ui';
-import { Gender } from '@/constants';
 import PlesCalendar from '@/components/common/PlesCalendar.vue';
 import PlesView from '@/components/common/PlesView.vue';
 import { useAuthStore } from '@/store';
@@ -97,9 +97,14 @@ const fetchUserCourseStatus = async () => {
     notification.warning({ content: 'You do not meet the requirements to apply, but you can still view the course' });
     return;
   }
-
   const userCourse = await userCourseApi.fetchByCourseId(props.courseId);
   shouldDisplayApply.value = !userCourse;
+  if (shouldDisplayApply.value) return;
+  if (userCourse.status === ApprovalStatus.Pending)
+    notification.warning({ content: 'You have already applied, but you can still view the course' });
+  else if (userCourse.status === ApprovalStatus.Rejected)
+    notification.error({ content: 'Your application to this course has been rejected' });
+  else notification.info({ content: 'You are applied to this course' });
 };
 
 onMounted(async () => {
