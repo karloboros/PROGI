@@ -1,14 +1,22 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import ClubApproval from '@/components/admin/ClubApproval.vue';
+import ClubEdit from '@/components/admin/ClubEdit.vue';
 import ClubOwnerCourseList from '@/components/clubOwner/CourseList.vue';
+import ClubsList from '@/components/admin/ClubsList.vue';
 import ClubView from '@/components/club/ClubView.vue';
 import CourseList from '@/components/course/CourseList.vue';
 import CourseView from '@/components/course/CourseView.vue';
+import DanceCreate from '@/components/admin/DanceCreate.vue';
+import DanceEdit from '@/components/admin/DanceEdit.vue';
+import DancesList from '@/components/admin/DancesList.vue';
 import Landing from '@/components/landing/LandingPage.vue';
 import ProfileView from '@/components/auth/ProfileView.vue';
 import { Role } from '@/constants';
 import Trainer from '@/components/trainer/TrainerPage.vue';
 import { useAuthStore } from '@/store';
 import UserAuth from '@/components/auth/UserAuth.vue';
+import UserEdit from '@/components/admin/UserEdit.vue';
+import UsersList from '@/components/admin/UsersList.vue';
 
 const routes = [
   {
@@ -43,6 +51,46 @@ const routes = [
     path: '/auth',
     name: 'Auth',
     component: UserAuth,
+  },
+  {
+    path: '/admin/dances',
+    name: 'DancesList',
+    component: DancesList,
+  },
+  {
+    path: '/admin/dances/create',
+    name: 'DanceCreate',
+    component: DanceCreate,
+  },
+  {
+    path: '/admin/dances/edit/:id',
+    name: 'DanceEdit',
+    component: DanceEdit,
+  },
+  {
+    path: '/admin/users',
+    name: 'UsersList',
+    component: UsersList,
+  },
+  {
+    path: '/admin/users/edit/:id',
+    name: 'UserEdit',
+    component: UserEdit,
+  },
+  {
+    path: '/admin/clubs',
+    name: 'ClubsList',
+    component: ClubsList,
+  },
+  {
+    path: '/admin/clubs/edit/:id',
+    name: 'ClubEdit',
+    component: ClubEdit,
+  },
+  {
+    path: '/admin/clubs/pending',
+    name: 'ClubApproval',
+    component: ClubApproval,
   },
   {
     path: '/trainer',

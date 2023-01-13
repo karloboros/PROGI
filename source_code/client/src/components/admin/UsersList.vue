@@ -8,38 +8,25 @@
 </template>
 
 <script setup>
-import { h, onMounted, ref } from 'vue';
-import { NButton } from 'naive-ui';
+import { onMounted, ref } from 'vue';
+import { createButton } from '@/utils';
 import { userApi } from '@/api';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
 
-const editButton = user => {
-  return h(
-    NButton,
-    {
-      secondary: true,
-      type: 'primary',
-      size: 'small',
-      onClick: () => editUser(user.id),
-    },
-    { default: () => 'View more' },
-  );
-};
-
-const editUser = id => {
-  router.push({
-    name: 'UserEdit',
-    params: { id },
-  });
+const EditButton = user => {
+  const type = 'warning';
+  const label = 'Edit';
+  const onClick = () => router.push({ name: 'UserEdit', params: { id: user.id } });
+  return createButton({ type, label, onClick });
 };
 
 const columns = [
   { title: 'Username', key: 'username' },
   { title: 'First name', key: 'firstName' },
   { title: 'Last name', key: 'lastName' },
-  { title: 'View more', key: 'edit', render: editButton },
+  { title: 'Edit', key: 'edit', render: EditButton },
 ];
 
 const users = ref([]);
