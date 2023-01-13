@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import ApprovedCourseApplications from '@/components/userCourse/ApprovedCourseApplications.vue';
 import ClubApproval from '@/components/admin/ClubApproval.vue';
 import ClubEdit from '@/components/admin/ClubEdit.vue';
 import ClubOwnerCourseList from '@/components/clubOwner/CourseList.vue';
@@ -9,7 +10,11 @@ import CourseView from '@/components/course/CourseView.vue';
 import DanceCreate from '@/components/admin/DanceCreate.vue';
 import DanceEdit from '@/components/admin/DanceEdit.vue';
 import DancesList from '@/components/admin/DancesList.vue';
+import EventCreate from '@/components/clubOwner/EventCreate.vue';
+import EventEdit from '@/components/clubOwner/EventEdit.vue';
+import EventsList from '@/components/clubOwner/EventsList.vue';
 import Landing from '@/components/landing/LandingPage.vue';
+import PendingCourseApplications from '@/components/userCourse/PendingCourseApplications.vue';
 import PendingTrainerApplications from '@/components/trainerApplication/PendingTrainerApplications.vue';
 import ProfileView from '@/components/auth/ProfileView.vue';
 import { Role } from '@/constants';
@@ -57,46 +62,55 @@ const routes = [
     path: '/admin/dances',
     name: 'DancesList',
     component: DancesList,
+    meta: { role: Role.Admin },
   },
   {
     path: '/admin/dances/create',
     name: 'DanceCreate',
     component: DanceCreate,
+    meta: { role: Role.Admin },
   },
   {
     path: '/admin/dances/edit/:id',
     name: 'DanceEdit',
     component: DanceEdit,
+    meta: { role: Role.Admin },
   },
   {
     path: '/admin/users',
     name: 'UsersList',
     component: UsersList,
+    meta: { role: Role.Admin },
   },
   {
     path: '/admin/users/edit/:id',
     name: 'UserEdit',
     component: UserEdit,
+    meta: { role: Role.Admin },
   },
   {
     path: '/admin/clubs',
     name: 'ClubsList',
     component: ClubsList,
+    meta: { role: Role.Admin },
   },
   {
     path: '/admin/clubs/edit/:id',
     name: 'ClubEdit',
     component: ClubEdit,
+    meta: { role: Role.Admin },
   },
   {
     path: '/admin/clubs/pending',
     name: 'ClubApproval',
     component: ClubApproval,
+    meta: { role: Role.Admin },
   },
   {
     path: '/trainer',
     name: 'Trainer',
     component: Trainer,
+    meta: { role: Role.Trainer },
   },
   {
     path: '/club-owner/courses/:id',
@@ -106,11 +120,41 @@ const routes = [
     props: route => ({ clubId: Number(route.params.id) }),
   },
   {
+    path: '/club-owner/events',
+    name: 'EventsList',
+    component: EventsList,
+    meta: { role: Role.ClubOwner },
+  },
+  {
+    path: '/club-owner/events/create',
+    name: 'EventCreate',
+    component: EventCreate,
+    meta: { role: Role.ClubOwner },
+  },
+  {
     path: '/club-owner/pending-applications/:id',
     name: 'TrainerApplications',
     component: PendingTrainerApplications,
     meta: { role: Role.ClubOwner },
     props: route => ({ clubId: Number(route.params.id) }),
+  },
+  {
+    path: '/club-owner/events/edit/:id',
+    name: 'EventEdit',
+    component: EventEdit,
+    meta: { role: Role.ClubOwner },
+  },
+  {
+    path: '/club-owner/pending-course-applications/:id',
+    name: 'PendingCourseApplications',
+    component: PendingCourseApplications,
+    props: route => ({ courseId: Number(route.params.id) }),
+  },
+  {
+    path: '/club-owner/approved-course-applications/:id',
+    name: 'ApprovedCourseApplications',
+    component: ApprovedCourseApplications,
+    props: route => ({ courseId: Number(route.params.id) }),
   },
   {
     path: '/:catchAll(.*)',

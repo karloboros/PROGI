@@ -18,6 +18,13 @@ module.exports = {
     locations.push(createLocation('Park Voltino', `45.8024060269027, 15.929989622562529`));
     locations.push(createLocation('Uciteljski fakultet', `45.797497275287135, 15.962135121668695`));
     locations.push(createLocation('Studentski dom Cvjetno naselje', `45.79172233419013, 15.961341187737135`));
+    locations.push(createLocation('Crossfit Maksimir', `45.823925053371234, 16.02304826622902`));
+    locations.push(createLocation('Arena centar', '45.77485723099025, 15.939964165164337'));
+    locations.push(createLocation('King Kros', '45.80023428026051, 15.855850091680164'));
+    locations.push(createLocation('Supernova Zagreb Buzin', '45.75692321793225, 15.987423986714274'));
+    locations.push(createLocation('Zagrebački Velesajam', '45.77908757614907, 15.96908356837057'));
+    locations.push(createLocation('SD Stjepan radić', '45.78617893696327, 15.947359186742968'));
+    locations.push(createLocation('Rooseveltov Trg 5, 10000 Zagreb', '45.808672508731014, 15.967185694264957'));
     return queryInterface.bulkInsert(TABLE_NAME, locations);
   },
   down(queryInterface) {

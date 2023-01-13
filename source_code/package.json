@@ -7,12 +7,16 @@
   "scripts": {
     "prepare": "cd ../ && husky install source_code/.husky",
     "enforce-branch-name": "enforce-branch-name '(feature|task|chore|fix)/.+' --ignore 'staging'",
-    "test": "ava"
+    "test": "ava",
+    "cy:open": "npx cypress open",
+    "cy:run": "npx cypress run"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "ava": "^5.1.0",
+    "cypress": "^12.3.0",
+    "cypress-file-upload": "^5.0.8",
     "enforce-branch-name": "^1.1.2",
     "husky": "^8.0.2"
   },

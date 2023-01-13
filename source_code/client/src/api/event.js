@@ -6,11 +6,20 @@ const urls = {
   get fetchAll() {
     return this.root;
   },
+  fetchById(id) {
+    return `${urls.root}/${id}`;
+  },
   get create() {
     return this.root + '/create';
   },
+  edit(id) {
+    return `${urls.root}/edit/${id}`;
+  },
   get upload() {
     return this.root + '/upload';
+  },
+  remove(id) {
+    return `${urls.root}/${id}`;
   },
 };
 
@@ -18,16 +27,31 @@ const fetchAll = () => {
   return request.get(urls.fetchAll).then(extractData);
 };
 
+const fetchById = id => {
+  return request.get(urls.fetchById(id)).then(extractData);
+};
+
 const create = (params = {}) => {
   return request.post(urls.create, params).then(extractData);
+};
+
+const edit = (params = {}) => {
+  return request.post(urls.edit(params.id), params).then(extractData);
 };
 
 const upload = (params = {}) => {
   return customRequest(headers.fileUpload).post(urls.upload, params).then(extractData);
 };
 
+const remove = id => {
+  return request.delete(urls.remove(id));
+};
+
 export default {
   fetchAll,
+  fetchById,
   create,
+  edit,
   upload,
+  remove,
 };

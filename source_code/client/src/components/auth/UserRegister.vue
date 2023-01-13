@@ -1,13 +1,13 @@
 <template>
-  <n-form ref="formRef" @submit.prevent="submit" :model="values" :rules="rules" class="py-7">
+  <n-form ref="formRef" @submit.prevent="submit" :model="values" :rules="rules" aria-label="form" class="py-7">
     <n-form-item label="Username" path="username">
-      <n-input v-model:value="values.username" placeholder="Username..." autofocus />
+      <n-input v-model:value="values.username" placeholder="Username..." aria-label="username" autofocus />
     </n-form-item>
     <n-form-item label="First name" path="firstName">
-      <n-input v-model:value="values.firstName" placeholder="First name..." />
+      <n-input v-model:value="values.firstName" placeholder="First name..." aria-label="firstName" />
     </n-form-item>
     <n-form-item label="Last name" path="lastName">
-      <n-input v-model:value="values.lastName" placeholder="Last name..." />
+      <n-input v-model:value="values.lastName" placeholder="Last name..." aria-label="lastName" />
     </n-form-item>
     <n-form-item label="Email" path="email">
       <n-auto-complete
@@ -15,10 +15,17 @@
         :input-props="{ autocomplete: 'disabled' }"
         :options="emailOptions"
         placeholder="Email..."
+        aria-label="email"
       />
     </n-form-item>
     <n-form-item v-if="!isProfileForm" label="Password" path="password">
-      <n-input v-model:value="values.password" type="password" show-password-on="mousedown" placeholder="Password..." />
+      <n-input
+        v-model:value="values.password"
+        type="password"
+        show-password-on="mousedown"
+        placeholder="Password..."
+        aria-label="password"
+      />
     </n-form-item>
     <n-form-item label="Gender" path="gender">
       <n-space>
@@ -27,6 +34,7 @@
           :checked="values.gender === Gender.Male"
           :value="Gender.Male"
           name="gender"
+          aria-label="male"
         >
           Male
         </n-radio>
@@ -35,22 +43,28 @@
           :checked="values.gender === Gender.Female"
           :value="Gender.Female"
           name="gender"
+          aria-label="female"
         >
           Female
         </n-radio>
       </n-space>
     </n-form-item>
     <n-form-item label="Date of birth" path="dateOfBirth">
-      <n-date-picker v-model:value="values.dateOfBirth" type="date" />
+      <n-date-picker v-model:value="values.dateOfBirth" type="date" aria-label="date" />
     </n-form-item>
     <n-form-item label="Phone number" path="phone">
-      <n-input v-model:value="values.phone" placeholder="e.g. 098 234 5678..." />
+      <n-input v-model:value="values.phone" placeholder="e.g. 098 234 5678..." aria-label="phone" />
     </n-form-item>
     <n-form-item label="Dance experience" path="experienceDescription">
-      <n-input v-model:value="values.experienceDescription" type="textarea" placeholder="Dance experience..." />
+      <n-input
+        v-model:value="values.experienceDescription"
+        type="textarea"
+        placeholder="Dance experience..."
+        aria-label="experience"
+      />
     </n-form-item>
     <n-form-item label="Profile image">
-      <ples-file-upload @update="update" @error="error" accept="image/png, image/jpeg" />
+      <ples-file-upload @update="update" @error="error" accept="image/png, image/jpeg" aria-label="image" />
     </n-form-item>
 
     <n-form-item v-if="!isProfileForm">

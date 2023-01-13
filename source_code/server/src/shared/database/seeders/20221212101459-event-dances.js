@@ -11,6 +11,7 @@ module.exports = {
   async up(queryInterface) {
     const eventDances = [
       createEventDance(1, 1),
+      createEventDance(1, 2),
       createEventDance(1, 5),
       createEventDance(2, 2),
       createEventDance(3, 3),
@@ -18,7 +19,9 @@ module.exports = {
       createEventDance(5, 5),
       createEventDance(6, 5),
       createEventDance(7, 4),
-      createEventDance(7, 1),
+      createEventDance(8, 1),
+      createEventDance(9, 1),
+      createEventDance(9, 2),
     ];
     return queryInterface.bulkInsert(TABLE_NAME, eventDances);
   },
