@@ -29,7 +29,6 @@ onMounted(async () => {
   const data = await courseApi.fetchByTrainerId(authStore.user.id);
   courses.value = data.map(({ location, ...course }) => ({ ...course, location: location.name }));
   lessons.value = data.map(({ lessons, location }) => mapLessons(lessons, location.name)).flat();
-  console.log(lessons.value);
   isLoading.value = false;
 });
 </script>
