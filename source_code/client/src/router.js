@@ -6,7 +6,7 @@ import Home from '@/components/home/HomePage.vue';
 import Landing from '@/components/landing/LandingPage.vue';
 import ProfileView from '@/components/auth/ProfileView.vue';
 import { Role } from '@/constants';
-import TrainerPage from '@/components/trainer/TrainerPage.vue';
+import Trainer from '@/components/trainer/TrainerPage.vue';
 import { useAuthStore } from '@/store';
 import UserAuth from '@/components/auth/UserAuth.vue';
 
@@ -51,8 +51,8 @@ const routes = [
   },
   {
     path: '/trainer',
-    name: 'TrainerPage',
-    component: TrainerPage,
+    name: 'Trainer',
+    component: Trainer,
   },
   {
     path: '/:catchAll(.*)',
