@@ -1,6 +1,7 @@
 import { IFields, IModels } from 'shared/database/types';
 import { ApprovalStatus } from 'club/types';
 import { ITrainerApplication } from './types';
+import { IUser } from 'user/types';
 import { Model } from 'sequelize';
 
 class TrainerApplicationModel extends Model implements ITrainerApplication {
@@ -10,6 +11,7 @@ class TrainerApplicationModel extends Model implements ITrainerApplication {
   status!: ApprovalStatus;
   trainerId!: number;
   clubId!: number;
+  trainer?: IUser;
 
   static fields({ INTEGER, STRING, TEXT }: IFields) {
     return {
@@ -47,6 +49,7 @@ class TrainerApplicationModel extends Model implements ITrainerApplication {
     });
     this.belongsTo(User, {
       foreignKey: { name: 'trainerId', field: 'trainerId' },
+      as: 'trainer',
     });
   }
 

@@ -49,6 +49,16 @@ const fetchPending = async (_req: Request, res: Response) => {
   return res.status(OK).json(pendingClubs);
 };
 
+const fetchTrainersByClubId = async (req: Request, res: Response) => {
+  const { clubId } = req.params;
+  const trainerApplications = await TrainerApplication.scope(['includeTrainer']).findAll({
+    where: { clubId, status: ApprovalStatus.Approved },
+  });
+  const trainers = trainerApplications.map(({ trainer }) => trainer);
+  const fileredTrainers = trainers.filter((value, index, self) => self.indexOf(value) === index);
+  return res.status(OK).json(fileredTrainers);
+};
+
 const fetchByOwner = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const ownerId = req.user.id;
@@ -169,6 +179,7 @@ export {
   fetchByIdWithDances,
   fetchApproved,
   fetchPending,
+  fetchTrainersByClubId,
   fetchByOwner,
   fetchById,
   create,

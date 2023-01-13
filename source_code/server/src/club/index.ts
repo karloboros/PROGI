@@ -7,6 +7,7 @@ import {
   fetchByIdWithDances,
   fetchByOwner,
   fetchPending,
+  fetchTrainersByClubId,
   fetchWithDances,
   remove,
   updateApprovalStatus,
@@ -26,6 +27,7 @@ router
   .use(refresh)
   .get('/approved', fetchApproved)
   .get('/pending', fetchPending)
+  .get('/trainers/:clubId', fetchTrainersByClubId)
   .get('/owner', fetchByOwner)
   .get('/:id', fetchById)
   .post('/create', create)
