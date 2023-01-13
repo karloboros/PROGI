@@ -43,3 +43,9 @@ onMounted(async () => {
   finishedInitialLoad.value = true;
 });
 </script>
+
+<style scoped>
+:deep(.n-base-selection .n-base-selection-overlay) {
+  padding: 0 !important;
+}
+</style>
