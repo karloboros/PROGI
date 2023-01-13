@@ -5,6 +5,7 @@
     </template>
     <n-space vertical>
       <n-image width="100" :src="trainerImage" />
+      <course-users :course-id="courseId" />
       <ples-calendar :lessons="lessons" class="py-7" />
     </n-space>
   </ples-view>
@@ -15,6 +16,7 @@ import { ApprovalStatus, Gender } from '@/constants';
 import { courseApi, userCourseApi } from '@/api';
 import { onMounted, ref } from 'vue';
 import { useMessage, useNotification } from 'naive-ui';
+import CourseUsers from './CourseUsers.vue';
 import PlesCalendar from '@/components/common/PlesCalendar.vue';
 import PlesView from '@/components/common/PlesView.vue';
 import { useAuthStore } from '@/store';
@@ -93,6 +95,7 @@ const fetchCourses = async () => {
 };
 
 const fetchUserCourseStatus = async () => {
+  if (authStore.isTrainer) return (shouldDisplayApply.value = false);
   if (!canCurrentUserApply.value) {
     notification.warning({ content: 'You do not meet the requirements to apply, but you can still view the course' });
     return;
