@@ -1,29 +1,34 @@
 <template>
   <n-space align="center" justify="center" item-style="width: 80%">
-    <n-form ref="formRef" @submit.prevent="submit" :model="values" :rules="rules">
+    <n-form ref="formRef" @submit.prevent="submit" :model="values" :rules="rules" aria-label="form">
       <n-form-item label="Name" path="name">
-        <n-input v-model:value="values.name" placeholder="Name..." autofocus />
+        <n-input v-model:value="values.name" placeholder="Name..." autofocus aria-label="name" />
       </n-form-item>
       <n-form-item label="Description" path="description">
-        <n-input v-model:value="values.description" type="textarea" placeholder="Course description..." />
+        <n-input
+          v-model:value="values.description"
+          type="textarea"
+          placeholder="Course description..."
+          aria-label="description"
+        />
       </n-form-item>
       <n-form-item label="Capacity" path="capacity">
-        <n-input-number v-model:value="values.capacity" placeholder="Capacity..." />
+        <n-input-number v-model:value="values.capacity" placeholder="Capacity..." aria-label="capacity" />
       </n-form-item>
       <n-form-item label="Application deadline" path="applicationDeadline">
-        <n-date-picker v-model:value="values.applicationDeadline" type="date" />
+        <n-date-picker v-model:value="values.applicationDeadline" type="date" aria-label="applicationDeadline" />
       </n-form-item>
       <n-form-item label="Location name" path="locationName">
-        <n-input v-model:value="values.locationName" placeholder="Location name..." />
+        <n-input v-model:value="values.locationName" placeholder="Location name..." aria-label="locationName" />
       </n-form-item>
       <n-form-item label="Coordinates" path="coordinates">
-        <n-input v-model:value="values.coordinates" placeholder="Coordinates..." />
+        <n-input v-model:value="values.coordinates" placeholder="Coordinates..." aria-label="coordinates" />
       </n-form-item>
       <n-form-item label="Dance" path="dance">
-        <n-select v-model:value="values.danceId" :options="dances" placeholder="Dance..." />
+        <n-select v-model:value="values.danceId" :options="dances" placeholder="Dance..." aria-label="dance" />
       </n-form-item>
       <n-form-item label="Trainer" path="trainer">
-        <n-select v-model:value="values.trainerId" :options="trainers" placeholder="Trainer..." />
+        <n-select v-model:value="values.trainerId" :options="trainers" placeholder="Trainer..." aria-label="trainer" />
       </n-form-item>
       <n-form-item label="Minimal age" path="minAge">
         <n-input-number v-model:value="values.minAge" placeholder="Minimal age..." />

@@ -25,6 +25,24 @@ Cypress.Commands.add('register', newUser => {
 
   const picture = 'preuzmi.png';
   cy.get('input[type="file"]').attachFile(picture);
-  
+
   cy.contains('Register').click();
 });
+
+Cypress.Commands.add(
+  'createCourse',
+  ({ name, description, capacity, applicationDeadline, locationName, coordinates, dance, trainer }) => {
+    cy.findByAriaLabel('name').type(name);
+    cy.findByAriaLabel('description').type(description);
+    cy.findByAriaLabel('capacity').type(capacity);
+    cy.findByAriaLabel('applicationDeadline').type(applicationDeadline);
+    cy.findByAriaLabel('form').click();
+    cy.findByAriaLabel('locationName').type(locationName);
+    cy.findByAriaLabel('coordinates').type(coordinates);
+    cy.findByAriaLabel('dance').click();
+    cy.contains(dance).click();
+    cy.findByAriaLabel('trainer').click();
+    cy.contains(trainer).click();
+    cy.contains('Save changes').click();
+  },
+);
