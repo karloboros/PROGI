@@ -111,29 +111,14 @@ const updateApprovalStatus = async (req: Request, res: Response, next: NextFunct
   const transaction = await sequelize.transaction();
 
   try {
-    await Club.update(
-      { approvalStatus },
-      {
-        where: {
-          id: club.id,
-        },
-        transaction,
-      },
-    );
+    club.approvalStatus = approvalStatus;
+    club.save({ transaction });
 
     if (approvalStatus === ApprovalStatus.Approved) {
       const user = await User.findByPk(club.ownerId);
       if (!user) return next(new HttpError(NOT_FOUND, errorMessages.NOT_FOUND));
-      const role = Role.ClubOwner;
-      await User.update(
-        { role },
-        {
-          where: {
-            id: user.id,
-          },
-          transaction,
-        },
-      );
+      user.role = Role.ClubOwner;
+      user.save({ transaction });
     }
     await transaction.commit();
     return res.sendStatus(OK);
