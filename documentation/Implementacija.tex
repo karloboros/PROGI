@@ -3,20 +3,17 @@
 		
 		\section{Korištene tehnologije i alati}
 		
-		\textit{Pri izradi ove aplikacije koristili smo brojne alate. To su redom: }\\
-		\textbf{\textit{LaTex}}\\
-		\textit{LaTeX je programski jezik za pisanje strukturiranih tekstova i njihov automatski slog i prijelom u dokumente profesionalne kvalitete spremne za tisak. Nadogradnja je makro-jezika TeX Donalda Knutha. Za razliku od programa za obradu teksta s grafičkim sučeljem poput Microsoft Word ili LibreOffice Writer koji prikazuju tekst onako kako će izgledati u konačnom dokumentu, dokumenti se za LaTeX pišu kao običan tekst s dodanom semantičkom strukturom. Ovime se, posebno u većim dokumentima, postiže usredotečenost na sadržaj umjesto na izgled, ujednačenost izgleda, te brži i stabilniji rad.}\\
-		\textbf{\textit{GitLab}}\\
-		\textit{GitLab je internet stranica koja korisnicima omlakšava grupne radove na zajedničkim kodovima. Lakoću korištenja GitLaba osigurava mogućnost izrade više različitih brancheva u kojima jedan ili više korisnika mogu odvojeno od ostatka tima raditi svoj dio projekta. GitLab je jedna od najkorištenijih web stranica u svom području}\\
-		\textbf{\textit{Docker}}\\
-		\textit{Docker je primjer PaaS (platform as a service) koji korisnicima omogućava virtualizaciju softvera u vidu kontejnera. Docker omogućava korisnicima da isti softver mogu pokrenuti na više operacijskih sustava, što znatno olakšava korištenje aplikacije}\\
-		\textbf{\textit{PostgreSQL}}\\
-		\textit{PostgreSQL (poznat i kao Postgres ili pgsql) je besplatan sustav za upravljanje bazama podataka otvorenog koda. Sustav poštuje ACID principe pri izvođenju transakcija. PostgreSQL je jedan od najkorištenijih sustava za upravljanje bazama podataka}\\
-		\textbf{\textit{Vue.js}}\\
-		\textit{Vue.js je 'open source' MVC frontend JavaScript framework za izradu aplikacija. Vue koristi sintaksu baziranu na HTML-u.}\\
-	   \eject 
-			
-			
+ Komunikacija u timu realizirana je korištenjem aplikacije Slack\footnote{\url{https://slack.com/}} koja omogućuje jednostavnu i veoma organiziranu komunikaciju kroz „channel“ i „therad“ mogućnosti komuniciranja. Za izradu UML dijagrama korišten je alat Astah UML\footnote{\url{https://astah.net/products/astah-uml/}}, a kao sustav za upravljanje izvornim kodom Git\footnote{\url{https://git-scm.com/}}. Udaljeni repozitorij projekta dostupan je na web platformi GitLab\footnote{\url{https://about.gitlab.com/}}.
+
+ Kao razvojno okruženje korišten je Visual Studio Code\footnote{\url{https://code.visualstudio.com/}} – integrirano razvojno okruženje (IDE) tvrtke Microsoft\footnote{\url{https://www.microsoft.com/hr-hr/}} koje dolazi sa ugrađenom podrškom za JavaScript\footnote{\url{https://www.javascript.com/}}, TypeScript\footnote{\url{https://www.microsoft.com/hr-hr/}} i Node.js\footnote{\url{https://nodejs.org/en/}} te pruža IntelliSense\footnote{\url{https://code.visualstudio.com/docs/editor/intellisense}} (inteligentno dovršavanje koda obzirom na kontekst), podršku za otklanjanje pogrešaka, refaktoriranje koda, ugrađene naredbe za Git i mnogobrojna proširenja za ostale programske jezike i alate.
+
+ Klijentska strana aplikacije \textit{(frontend)} napisana je koristeći radni okvir Vue.js\footnote{\url{https://vuejs.org/}} zasnovan na JavaScriptu odnosno TypeScriptu (JavaScript s podrškom za tipove) koji pruža učinkoviti razvoj klijentskog sučelja koristeći već dostupne web komponente i predloške.
+
+ Poslužiteljska strana aplikacije \textit{(backend)} napisana je u programskom jeziku TypeScript koristeći radni okvir Express\footnote{\url{https://expressjs.com/}} koji pojednostavljuje proces izgradnje i razvoja web aplikacija koristeći Node.js. Express pruža funkcionalnosti posredničke arhitekture \textit{(middleware)} i usmjeravanja, jedan je od najpopularnijih okvira za Node.js te se široko koristi za izgradnju malih i velikih web aplikacija. Također, korištena je i ORM \textit{(Object-Relational Mapping)} bilblioteka Sequlize\footnote{\url{https://sequelize.org/}} koja omogućuje interakciju s relacijskim bazama podataka koristeći objektno orijentiranu sintaksu, umjesto izravnih SQL upita.
+
+Jednostavno pokretanje, konfiguraciju i puštanje u pogon te neovisnost o računalu na kojem se kod izvršava omogućava korištenje platforme Docker\footnote{\url{https://www.docker.com/}}. Kroz tri Docker kontejnera pokriveni su svi ključni dijelovi/slojevi aplikacije – klijent, poslužitelj i PostgreSQL\footnote{\url{https://www.postgresql.org/}} baza podataka te su osigurane točne verzije svih vanjskih biblioteka i alata.
+
+
 			\eject 
 		
 	
@@ -28,7 +25,193 @@
 	
 			
 			\subsection{Ispitivanje komponenti}
-			\textit{Potrebno je provesti ispitivanje jedinica (engl. unit testing) nad razredima koji implementiraju temeljne funkcionalnosti. Razraditi \textbf{minimalno 6 ispitnih slučajeva} u kojima će se ispitati redovni slučajevi, rubni uvjeti te izazivanje pogreške (engl. exception throwing). Poželjno je stvoriti i ispitni slučaj koji koristi funkcionalnosti koje nisu implementirane. Potrebno je priložiti izvorni kôd svih ispitnih slučajeva te prikaz rezultata izvođenja ispita u razvojnom okruženju (prolaz/pad ispita). }
+Unit testovima provjeravamo ispravnost funkcionalnosti „utils“ funkcija koje su korištene kao pomoćne funkcije na više različitih dijelova koda.
+Proveli smo sedam unit testova te u nastavku slijede njihovi kratki opisi i odgovarajući kodovi, na kraju slijedi slika izvođenja rezultata testova.
+
+ \textbf{Ispitni slučaj 1. : Unos e-mail adrese}  
+
+                \textbf{Ulaz:}
+
+                1. Unos ispravne e-mail adrese.
+
+                2. Unos adrese bez domene.
+
+                3. Unos domene bez username-a.
+
+                4. U upisanome e-mailu nedostaje '@'.
+
+                5. Nedostaje točka koja razdvaja domenu i esktenziju.
+
+                6. Nedostaje ekstenzija.
+
+                7. Ekstenzija je predugačka.
+
+                \textbf{Očekivani rezultat:}
+
+                1. Provjera je prošla i e-mail adresa je validna.
+
+                2.-7. Sustav javlja grešku kako je i predviđeno kao cilj ovog testa. 
+
+                \textbf{Rezultat:} 
+
+                Svi testovi su zadovoljeni, aplikacija je prošla test!
+
+	\begin{figure}[H]
+			\includegraphics[scale=0.5]{slike/EmailTest.PNG} %veličina slike u odnosu na originalnu datoteku i pozicija slike
+			\centering
+			\caption{Test unosa e-mail adrese}
+			\label{fig:ppp}
+			
+		\end{figure}
+
+ \textbf{Ispitni slučaj 2. : Funkcija „subtractYears“ – funkcije koja oduzima zadan broj godina od nekog određenog datuma}
+
+U svrhu tog testiranja definiramo novi datum od kojeg ćemo oduzeti zadan broj godina, definiramo očekivani datum te u varijablu spremamo rezultat funkcije. Naredbom „deepEqual“ provjeravamo jesu li rezultat funkcije i očekivana vrijednost jednaki. 
+
+\textbf{Ulaz:}
+
+	1.Slobodno izabran datum, očekivani rezultat funkcije, broj godina koje oduzimamo
+
+ \textbf{Očekivani rezultat:} 
+
+	1. Slobodno izabran datum umanjen za zadani broj godina, provjera je prošla
+
+ \textbf{Rezultat:}  
+
+Svi testovi su zadovoljeni, aplikacija je prošla test!
+
+
+
+\textbf{Ispitni slučaj: Funkcija „toDatePicker“ koja zadano vrijeme vraća u milisekundama}
+
+U svrhu tog testiranja definiramo dva datuma čija je vremenska razlika u milisekundama jednaka poznatoj vrijednosti, te provjeravamo rezultat vremenske razlike dvaju datuma pretvorenih funkcijom „toDatePicker“ u milisekunde, ako rezultat funkcije „is“ bude potvrdan, funkcija „toDatePicker“ radi kako je očekivano.
+
+\textbf{Ulaz:}
+
+1.Dva datuma čija je razlika poznat broj milisekundi, poznat broj milisekundi
+
+ \textbf{Očekivani rezultat:}  
+
+1.Rezultat razlike poziva funkcije koja datume pretvara u milisekunde, provjera je prošla
+
+\textbf{Rezultat:} 
+
+ Svi testovi su zadovoljeni, aplikacija je prošla test!
+
+\begin{figure}[H]
+			\includegraphics[scale=0.5]{slike/EmailTest.PNG} %veličina slike u odnosu na originalnu datoteku i pozicija slike
+			\centering
+			\caption{Test unosa e-mail adrese}
+			\label{fig:ppp}
+			
+		\end{figure}
+
+
+ \textbf{\textit{Ispitni slučaj: provjera zadovoljenosti dobne granice}}\\
+
+            \textbf{\textit{Ulaz:}}\\
+            
+             1. Korisnik unosi današnji datum u mjesto za unos datuma rođenja
+
+             2. Korisnik unosi datum točno 15 godina stariji od današnjeg
+
+             3. Korisnik unosi datum točno 12 godina stariji od današnjeg
+
+             \textbf{\textit{Očekivani rezultat:}}
+
+             1. Sustav javlja error - uneseni datum rođenja nije dozvoljen!
+
+             2. i 3. Sustav ne javlja error - uneseni datum rođenja je dozvoljen!
+
+             \textbf{\textit{Rezultat:}}
+
+             Svi testovi su zadovoljeni, aplikacija je prošla test!
+
+\begin{figure}[H]
+			\includegraphics[scale=0.5]{slike/ageTest.PNG} %veličina slike u odnosu na originalnu datoteku i pozicija slike
+			\centering
+			\caption{Test zadovoljenosti dobne granice}
+			\label{fig:aaa}
+			
+		\end{figure}
+	
+	 \textbf{\textit{Ispitni slučaj: provjera ispravnosti broja mobitela}}
+
+            \textbf{\textit{Ulaz:}}
+
+             1. Korisnik u odgovarajuće mjesto upisuje broj mobitela sa 9 znamenki
+
+             2. Korisnik u odgovarajuće mjesto upisuje broj mobitela sa 10 znamenki
+
+             3. Korisnik u odgovarajuće mjesto upisuje broj mobitela sa 9 znamenki čije su znamenke odvojene u grupe po 3 koje su razdvojene razmakom
+
+             4. Korisnik u odgovarajuće mjesto upisuje broj mobitela sa 10 znamenki čije su znamenke odvojene u dvije grupe po 3 i jednu grupu po 4 znamenke te su grupe razdvojene znakom 
+
+             5. Korisnik u odgovarajuće mjesto upisuje broj mobitela sa više od 10 znamenki
+
+             6. Korisnik u odgovarajuće mjesto upisuje broj mobitela sa manje od 9 znamenki
+
+             7. Korisnik u odgovarajuće mjesto upisuje broj mobitela koji sadrži slovo
+
+             8. Korisnik u odgovarajuće mjesto upisuje broj mobitela koji sadrži znak 
+
+            \textbf{\textit{Očekivani rezultat:}}
+
+             1. - 4. Sustav ne javlja error - broj mobitela je validan!
+
+             5. - 8. Sustav javlja error - broj mobitela nije validan!
+
+             6. Sustav javlja error - broj mobitela nije validan!
+
+             \textbf{\textit{Rezultat:}}
+
+             Svi testovi su zadovoljeni, aplikacija je prošla test!
+
+\begin{figure}[H]
+			\includegraphics[scale=0.5]{slike/numberTest.PNG} %veličina slike u odnosu na originalnu datoteku i pozicija slike
+			\centering
+			\caption{Test ispravnosti broja mobitela}
+			\label{fig:bbb}
+			
+		\end{figure}
+
+
+\textbf{\textit{Ispitni slučaj: provjera valjanosti poslanih url adresa}}
+
+Testiramo kako će aplikacija reagirati kada joj šaljemo raličite url destinacije, odnosno testovima definiramo ispravne destinacije i pogrešne destinacije u kojima je učinjena pogreška ili fali neki logički dio url adrese.
+U prva dva slučaja kada je ulaz ispravan test je ispravan, a u ostalim slučajevima testni slučaj ne prolazi.
+
+            \textbf{\textit{Ulaz:}}
+
+             1. i 2. Unos ispravne url adrese     
+        
+             3. Unos  url adrese bez protokola
+
+	     4. unos url adrese bez dvotočke
+
+	     5. unos url adrese bez /
+
+             6. unos rla adrese bez //
+
+             7. unos url adrese bez .com domene
+
+             \textbf{\textit{Očekivani rezultat:}}
+
+             1. i 2. Sustav ne javlja error - url adresa je ispravna
+
+             3.-7. Sustav  javlja error - url adresa je nesipravna
+
+             \textbf{\textit{Rezultat:}}
+
+             Svi testovi su zadovoljeni, aplikacija je prošla test!
+
+\begin{figure}[H]
+			\includegraphics[scale=0.5]{slike/urlTest.PNG} %veličina slike u odnosu na originalnu datoteku i pozicija slike
+			\centering
+			\caption{Test valjanosti url adresa}
+			\label{fig:ajoj}
+			
+		\end{figure}
 			
 			
 			
@@ -100,6 +283,78 @@
 
 
 			\eject 
+\section{Setup projekta}}
+			
+			 \textit{Koraci za setup cijelog projekta su:
+
+1.	Otvoriti terminal u folderu u kojem želimo klonirati projekt. U terminalu pokrenuti naredbu „git config –global core.autocrlf input"
+
+2.	Klonirati projekt u navedeni folder
+
+3.	Pozicionirati se u source_code u našem projektu. Tamo otvoriti terminal i pokrenuti naredbu docker compose up –build
+
+4.	Daljne detaljne upute se nalaze u README.md datoteci 
+
+
+Potrebno je instalirati docker i dodati lokalne varijable ( .env dokument u „root" projekta slijedeći primjer u .env.example)
+Pokrenuti docker compose up u terminalu iz „source_code"-a.
+Upute za razvojno okruženje:
+
+Preduvjeti – instalirana zadnja verzija Node.js-a
+
+-	instalirana zadnja verzija Node.js-a
+
+-	instaliran Docker
+
+Pozicionirati se u:
+
+-	source code i pokrenuti npm install
+
+-	server i pokrenuti npm install
+
+-	client i pokrenuti npm install
+
+-	source code i docker compose up
+
+Za instalirat/deinstalirati paket:
+
+-	pozicionirati se u server/client
+
+-	pokrenuti npm install package-name ili npm uninstall package-name
+
+Upute za pokretanje migracija i seedova:
+
+-	pozicionirati se u server
+ 
+-	pokrenuti npm run db:migration:up  
+
+-	potom npm run db:seed
+
+Ekstenzije na projektu su slijedeće:
+
+-	Prettier
+
+-	Editor config
+
+-	Vue Language Feature (Volar)
+
+Pokretanje projetka bez instaliranog Dockera nije moguće!
+Kako bi projekt radio u datoteku server/src/shared/database/config/config.json treba zamijeniti postojeće i dodati slijedeće :
+{
+  "development": {
+    "username": "ples",
+    "password": "ples",
+    "database": "ples",
+    "host": "localhost",
+    "port": 3002,
+    "dialect": "postgres"
+  }
+}
+}
+			
+			\eject 
+
+
 		
 		\section{Upute za puštanje u pogon}
 
