@@ -90,4 +90,8 @@ const switchTheme = () => {
 .n-notification-container {
   z-index: 100000;
 }
+
+.n-modal-container {
+  z-index: 100000 !important;
+}
 </style>

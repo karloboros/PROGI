@@ -11,15 +11,24 @@
     </n-tab-pane>
   </n-tabs>
   <club-search />
+  <n-modal v-model:show="navigationStore.showClubCreateModal">
+    <ples-modal>
+      <club-create @saved="navigationStore.toggleShowClubCreateModal" />
+    </ples-modal>
+  </n-modal>
 </template>
 
 <script setup>
+import { useAuthStore, useNavigationStore } from '@/store';
+import ClubCreate from '@/components/club/ClubCreate.vue';
 import ClubSearch from './ClubSearch.vue';
 import { computed } from 'vue';
 import MapClubs from './LandingMapClubs.vue';
 import MapCourses from './LandingMapCourses.vue';
 import MapEvents from './LandingMapEvents.vue';
-import { useAuthStore } from '@/store';
+import PlesModal from '@/components/common/PlesModal.vue';
+
+const navigationStore = useNavigationStore();
 
 const isLoggedIn = computed(() => useAuthStore().isLoggedIn);
 </script>

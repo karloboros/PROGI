@@ -13,7 +13,12 @@ const fetchAll = async (_req: Request, res: Response) => {
 };
 
 const fetchWithDances = async (_req: Request, res: Response) => {
-  const clubs = await Club.scope(['includeCourses', 'includeEventsWithDances', 'includeLocation']).findAll();
+  const clubs = await Club.scope([
+    'includeCourses',
+    'includeEventsWithDances',
+    'includeLocation',
+    'approved',
+  ]).findAll();
   const clubsWithDances = clubs.map(club => {
     const danceIds = club.getDanceIds();
     const { id, name, description, location } = club;
@@ -52,10 +57,10 @@ const fetchById = async (req: Request, res: Response) => {
 const create = async (req: Request, res: Response, next: NextFunction) => {
   const transaction = await sequelize.transaction();
   try {
-    const { address } = req.body;
+    const { locationName, coordinates } = req.body;
 
-    let location = await Location.findOne({ where: { name: address } });
-    if (!location) location = await Location.create({ name: address }, { transaction });
+    let location = await Location.findOne({ where: { name: locationName } });
+    if (!location) location = await Location.create({ name: locationName, coordinates }, { transaction });
 
     const newClub = {
       ...req.body,
@@ -83,13 +88,13 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
 
 const edit = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { id, name, description, address, email, phone } = req.body;
+    const { id, name, description, locationName, coordinates, email, phone } = req.body;
 
     const clubToEdit = await Club.findByPk(id);
     if (!clubToEdit) return next(new HttpError(NOT_FOUND, errorMessages.NOT_FOUND));
 
-    let location = await Location.findOne({ where: { name: address } });
-    if (!location) location = await Location.create({ name: address });
+    let location = await Location.findOne({ where: { name: locationName } });
+    if (!location) location = await Location.create({ name: locationName, coordinates });
 
     clubToEdit.name = name;
     clubToEdit.description = description;
