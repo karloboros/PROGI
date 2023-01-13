@@ -13,6 +13,7 @@ import EventCreate from '@/components/clubOwner/EventCreate.vue';
 import EventEdit from '@/components/clubOwner/EventEdit.vue';
 import EventsList from '@/components/clubOwner/EventsList.vue';
 import Landing from '@/components/landing/LandingPage.vue';
+import PendingTrainerApplications from '@/components/trainerApplication/PendingTrainerApplications.vue';
 import ProfileView from '@/components/auth/ProfileView.vue';
 import { Role } from '@/constants';
 import Trainer from '@/components/trainer/TrainerPage.vue';
@@ -117,6 +118,11 @@ const routes = [
     path: '/club-owner/events/create',
     name: 'EventCreate',
     component: EventCreate,
+  },
+  {
+    path: '/club-owner/pending-applications/:id',
+    name: 'TrainerApplications',
+    component: PendingTrainerApplications,
     meta: { role: Role.ClubOwner },
     props: route => ({ clubId: Number(route.params.id) }),
   },
