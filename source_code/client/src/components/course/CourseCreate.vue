@@ -54,7 +54,7 @@
 </template>
 
 <script setup>
-import { courseApi, danceApi, userApi } from '@/api';
+import { clubApi, courseApi, danceApi } from '@/api';
 import { onMounted, ref } from 'vue';
 import { computed } from '@vue/reactivity';
 import { Gender } from '@/constants';
@@ -65,6 +65,7 @@ import { validationRules } from '@/utils';
 const emit = defineEmits(['created']);
 
 const props = defineProps({
+  clubId: { type: Number, required: true },
   initialValues: {
     type: Object,
     default: () => ({
@@ -110,7 +111,7 @@ onMounted(async () => {
     label: name,
   }));
 
-  const trainersData = await userApi.fetchTrainers();
+  const trainersData = await clubApi.fetchTrainersByClubId(props.clubId);
   trainers.value = trainersData.map(({ id, fullName }) => ({
     value: id,
     label: fullName,
