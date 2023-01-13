@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import ApprovedCourseApplications from '@/components/userCourse/ApprovedCourseApplications.vue';
 import ClubApproval from '@/components/admin/ClubApproval.vue';
 import ClubEdit from '@/components/admin/ClubEdit.vue';
 import ClubOwnerCourseList from '@/components/clubOwner/CourseList.vue';
@@ -13,6 +14,7 @@ import EventCreate from '@/components/clubOwner/EventCreate.vue';
 import EventEdit from '@/components/clubOwner/EventEdit.vue';
 import EventsList from '@/components/clubOwner/EventsList.vue';
 import Landing from '@/components/landing/LandingPage.vue';
+import PendingCourseApplications from '@/components/userCourse/PendingCourseApplications.vue';
 import PendingTrainerApplications from '@/components/trainerApplication/PendingTrainerApplications.vue';
 import ProfileView from '@/components/auth/ProfileView.vue';
 import { Role } from '@/constants';
@@ -130,6 +132,18 @@ const routes = [
     path: '/club-owner/events/edit/:id',
     name: 'EventEdit',
     component: EventEdit,
+  },
+  {
+    path: '/club-owner/pending-course-applications/:id',
+    name: 'PendingCourseApplications',
+    component: PendingCourseApplications,
+    props: route => ({ courseId: Number(route.params.id) }),
+  },
+  {
+    path: '/club-owner/approved-course-applications/:id',
+    name: 'ApprovedCourseApplications',
+    component: ApprovedCourseApplications,
+    props: route => ({ courseId: Number(route.params.id) }),
   },
   {
     path: '/:catchAll(.*)',
