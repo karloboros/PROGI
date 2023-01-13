@@ -4,6 +4,7 @@
       Courses
     </n-button>
     <n-button @click="router.push({ name: 'Profile' })" type="warning" text>Profile</n-button>
+    <n-button @click="router.push({ name: 'EventsList' })" type="warning" text>Events</n-button>
   </n-space>
 </template>
 
