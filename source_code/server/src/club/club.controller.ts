@@ -13,7 +13,12 @@ const fetchAll = async (_req: Request, res: Response) => {
 };
 
 const fetchWithDances = async (_req: Request, res: Response) => {
-  const clubs = await Club.scope(['includeCourses', 'includeEventsWithDances', 'includeLocation']).findAll();
+  const clubs = await Club.scope([
+    'includeCourses',
+    'includeEventsWithDances',
+    'includeLocation',
+    'approved',
+  ]).findAll();
   const clubsWithDances = clubs.map(club => {
     const danceIds = club.getDanceIds();
     const { id, name, description, location } = club;
