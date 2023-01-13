@@ -9,7 +9,7 @@ export const WRONG_PHONE_FORMAT_MESSAGE = 'Wrong number format';
 export const WRONG_URL_FORMAT_MESSAGE = 'Wrong url format';
 const NOT_A_NUMBER_MESSAGE = 'Not a number';
 const WRONG_COORDINATES_MESSAGE =
-  'Wrong coordinates format. Input two decimal numbers divided by comma. Example: 2.3456, 1.3456';
+  'Wrong coordinates format. Input two decimal numbers divided by comma. Example: 45.3456, 15.3456';
 
 const emailRegex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
 const phoneNumberRegex = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{3,4})$/;
@@ -43,6 +43,7 @@ export const phoneNumberValidator = (_rule, value) => {
   }
   return true;
 };
+
 const numberValidator = (_rule, value) => {
   if (!/^\(?(\d+)$/.test(value)) {
     return new Error(NOT_A_NUMBER_MESSAGE);
