@@ -12,18 +12,7 @@
                 <n-button @click="router.push({ name: 'Auth' })" type="warning" text>Login</n-button>
               </slot>
               <slot v-else>
-                <n-button @click="router.push({ name: 'Home' })" type="warning" text>Home</n-button>
-                <n-button @click="router.push({ name: 'Landing' })" type="warning" text>Landing</n-button>
-                <n-button @click="router.push({ name: 'Profile' })" type="warning" text>Profile</n-button>
-                <n-button @click="router.push({ name: 'CourseList' })" type="warning" text>Courses</n-button>
-                <n-button
-                  v-if="isLandingRoute"
-                  @click="navigationStore.toggleShowClubCreateModal()"
-                  type="primary"
-                  text
-                >
-                  Create a club
-                </n-button>
+                <nav-user />
                 <n-button @click="logout" type="warning" text>Logout</n-button>
               </slot>
             </slot>
@@ -40,8 +29,9 @@
 </template>
 
 <script setup>
-import { useAuthStore, useNavigationStore } from '@/store';
 import { computed } from '@vue/reactivity';
+import NavUser from './nav/NavUser.vue';
+import { useAuthStore } from '@/store';
 import { useRouter } from 'vue-router';
 
 defineProps({
@@ -50,11 +40,9 @@ defineProps({
 
 const router = useRouter();
 const authStore = useAuthStore();
-const navigationStore = useNavigationStore();
 
 const isLoggedIn = computed(() => authStore.isLoggedIn);
 const isNotAuthRoute = computed(() => router.currentRoute.value.name !== 'Auth');
-const isLandingRoute = computed(() => router.currentRoute.value.name === 'Landing');
 
 const logout = () => authStore.logout(router);
 </script>
