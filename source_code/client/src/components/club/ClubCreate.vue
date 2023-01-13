@@ -63,6 +63,7 @@ const formRef = ref(null);
 const route = useRoute();
 
 const emailOptions = computed(() => emailSuggestions(values.value.email));
+const isCreate = computed(() => route.name === 'Landing');
 
 const message = useMessage();
 
@@ -73,7 +74,9 @@ const submit = async () => {
       try {
         const method = id ? clubApi.edit : clubApi.create;
         await method({ ...values.value, id });
-        message.success('Club saved successfully!');
+        if (isCreate.value)
+          message.success('Club created successfully! Wait for the admins to review your club to manage it.');
+        else message.success('Club saved successfully');
         emit('saved');
       } catch (err) {
         message.error(err.response.data.message);
