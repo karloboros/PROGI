@@ -3,8 +3,11 @@
     <n-form-item label="Club name" path="name">
       <n-input v-model:value="values.name" placeholder="Club name..." />
     </n-form-item>
-    <n-form-item label="Address" path="address">
-      <n-input v-model:value="values.address" placeholder="Address..." />
+    <n-form-item label="Location name" path="locationName">
+      <n-input v-model:value="values.locationName" placeholder="Location name..." />
+    </n-form-item>
+    <n-form-item label="Coordinates" path="coordinates">
+      <n-input v-model:value="values.coordinates" placeholder="Coordinates (lat, long)..." />
     </n-form-item>
     <n-form-item label="Email" path="email">
       <n-auto-complete
@@ -41,7 +44,8 @@ const props = defineProps({
     type: Object,
     default: () => ({
       name: '',
-      address: '',
+      locationName: '',
+      coordinates: '',
       email: '',
       phone: '',
       description: '',
@@ -51,10 +55,11 @@ const props = defineProps({
 
 const values = ref(props.initialValues);
 
-const { required, emailRequired, phoneRequired } = validationRules;
+const { required, coordinatesRequired, emailRequired, phoneRequired } = validationRules;
 const rules = {
   name: required,
-  address: required,
+  locationName: required,
+  coordinates: coordinatesRequired,
   email: emailRequired,
   phone: phoneRequired,
 };
