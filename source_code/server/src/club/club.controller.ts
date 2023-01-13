@@ -112,13 +112,13 @@ const updateApprovalStatus = async (req: Request, res: Response, next: NextFunct
 
   try {
     club.approvalStatus = approvalStatus;
-    club.save({ transaction });
+    await club.save({ transaction });
 
     if (approvalStatus === ApprovalStatus.Approved) {
       const user = await User.findByPk(club.ownerId);
       if (!user) return next(new HttpError(NOT_FOUND, errorMessages.NOT_FOUND));
       user.role = Role.ClubOwner;
-      user.save({ transaction });
+      await user.save({ transaction });
     }
     await transaction.commit();
     return res.sendStatus(OK);
