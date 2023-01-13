@@ -36,12 +36,16 @@ const fetchByClub = async (req: Request, res: Response) => {
   return res.status(OK).json(courses);
 };
 
-const fetchByTrainerId = async (req: Request, res: Response) => {
-  const trainerId = req.params.trainerId;
-  const courses = (await Course.scope(['includeLessons', 'includeLocation']).findAll({ where: { trainerId } })).filter(
-    course => course.isTrainerActive,
-  );
-  return res.send(courses);
+const fetchByTrainerId = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    if (req.user.role !== Role.Trainer) throw Error();
+    const trainerId = req.user.id;
+    const courses = await Course.scope(['includeLessons', 'includeLocation']).findAll({ where: { trainerId } });
+    const filteredCourses = courses.filter(course => course.isTrainerActive);
+    return res.status(OK).json(filteredCourses);
+  } catch (err) {
+    return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
+  }
 };
 
 const create = async (req: Request, res: Response, next: NextFunction) => {
