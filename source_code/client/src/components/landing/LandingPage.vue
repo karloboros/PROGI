@@ -13,7 +13,7 @@
   <club-search />
   <n-modal v-model:show="navigationStore.showClubCreateModal">
     <ples-modal>
-      <club-create />
+      <club-create @saved="navigationStore.toggleShowClubCreateModal" />
     </ples-modal>
   </n-modal>
 </template>
