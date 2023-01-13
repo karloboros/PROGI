@@ -1,10 +1,6 @@
 <template>
-  <n-space align="center" justify="center" item-style="width: 80%">
-    <n-card title="My courses" size="huge">
-      <n-skeleton v-if="loading" text :repeat="6" />
-      <n-data-table v-else :columns="columns" :data="courses" :bordered="false" />
-    </n-card>
-  </n-space>
+  <n-skeleton v-if="loading" text :repeat="6" />
+  <n-data-table v-else :columns="columns" :data="courses" />
 </template>
 
 <script setup>
