@@ -21,10 +21,10 @@ const fetchById = async (req: Request, res: Response) => {
 
 const create = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const newLesson = {
-      ...req.body,
-    };
-    const lesson = await Lesson.create(newLesson);
+    const { startTime, endTime, courseId } = req.body;
+    if (startTime > endTime) return next(new HttpError(BAD_REQUEST, errorMessages.DATES_ORDER));
+    if (startTime < new Date()) return next(new HttpError(BAD_REQUEST, errorMessages.DATES_FUTURE));
+    const lesson = await Lesson.create({ startTime, endTime, courseId });
     return res.status(OK).json(lesson);
   } catch (err) {
     if (err instanceof UniqueConstraintError) {
