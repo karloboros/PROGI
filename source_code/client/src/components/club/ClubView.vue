@@ -14,7 +14,7 @@
     </n-space>
   </ples-view>
   <n-modal v-model:show="showModal">
-    <club-trainer-apply />
+    <club-trainer-apply @close="showModal = false" :club-id="clubId" />
   </n-modal>
 </template>
 

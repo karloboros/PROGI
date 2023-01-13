@@ -12,7 +12,6 @@
           accept="application/pdf"
         />
       </n-form-item>
-
       <n-form-item>
         <n-button type="primary" attr-type="submit">Send application</n-button>
       </n-form-item>
@@ -26,10 +25,13 @@ import PlesModal from '@/components/common/PlesModal.vue';
 import { ref } from 'vue';
 import { trainerApplicationApi } from '@/api';
 import { useMessage } from 'naive-ui';
-import { useRoute } from 'vue-router';
 import { validationRules } from '@/utils';
 
-const route = useRoute();
+const props = defineProps({
+  clubId: { type: Number, required: true },
+});
+
+const emit = defineEmits(['close']);
 
 const initialValues = {
   motivationalLetter: '',
@@ -51,9 +53,10 @@ const submit = async () => {
   formRef.value?.validate(async errors => {
     if (!errors) {
       try {
-        const { clubId } = route.params;
+        const { clubId } = props;
         await trainerApplicationApi.apply({ ...values.value, clubId });
-        message.success('Sent');
+        message.success('Application sent!');
+        emit('close');
       } catch (err) {
         message.error(err.message);
       }
