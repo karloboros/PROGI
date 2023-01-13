@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import ClubOwnerCourseList from '@/components/clubOwner/ClubOwnerCourseList.vue';
 import ClubView from '@/components/club/ClubView.vue';
 import CourseList from '@/components/course/CourseList.vue';
 import CourseView from '@/components/course/CourseView.vue';
@@ -47,6 +48,11 @@ const routes = [
     path: '/trainer',
     name: 'Trainer',
     component: Trainer,
+  },
+  {
+    path: '/club-owner/courses',
+    name: 'ClubOwnerCourseList',
+    component: ClubOwnerCourseList,
   },
   {
     path: '/:catchAll(.*)',
