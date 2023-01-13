@@ -1,10 +1,10 @@
 {
   "development": {
-    "username": "ples",
-    "password": "ples",
-    "database": "ples",
-    "host": "localhost",
-    "port": 3002,
+    "username": "ples_prod_db1_uoay_user",
+    "password": "dgw0GjyDueibQC0bTppaX6YVvZbvrxy8",
+    "database": "ples_prod_db1_uoay",
+    "host": "dpg-cf0qb86n6mpjivk9iuo0-a",
+    "port": 5432,
     "dialect": "postgres"
   }
 }

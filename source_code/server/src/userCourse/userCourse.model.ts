@@ -24,10 +24,12 @@ class UserCourseModel extends Model implements IUserCourse {
       },
       userId: {
         type: INTEGER,
+        unique: 'unique_user_course',
         allowNull: false,
       },
       courseId: {
         type: INTEGER,
+        unique: 'unique_user_course',
         allowNull: false,
       },
     };

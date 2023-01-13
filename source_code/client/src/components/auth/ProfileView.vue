@@ -1,5 +1,5 @@
 <template>
-  <n-space align="center" justify="center" item-style="width: 80%" style="padding: 7% 0">
+  <n-space align="center" justify="center" item-style="width: 80%" class="py-7">
     <n-card title="Profile" size="huge">
       <template #header-extra>
         <n-button @click="confirm" type="error">Delete account</n-button>

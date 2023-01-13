@@ -1,6 +1,7 @@
 import { IFields, IModels } from 'shared/database/types';
 import { Gender } from 'user/types';
 import { ICourse } from './types';
+import { IDance } from 'dance/types';
 import { ILesson } from 'lesson/types';
 import { Model } from 'sequelize';
 
@@ -19,6 +20,7 @@ class CourseModel extends Model implements ICourse {
   locationId!: number;
   trainerId!: number;
   lessons?: ILesson[];
+  dance?: IDance;
 
   static fields({ INTEGER, STRING, TEXT, DATE }: IFields) {
     return {
@@ -77,6 +79,16 @@ class CourseModel extends Model implements ICourse {
         allowNull: false,
       },
     };
+  }
+
+  get isApplicationActive() {
+    const { lessons, applicationDeadline } = this;
+    return !!lessons?.length && new Date() < new Date(applicationDeadline);
+  }
+
+  get isActive() {
+    const { lessons } = this;
+    return !!lessons?.length;
   }
 
   static associate({ Club, Dance, Lesson, Location, User, UserCourse }: IModels) {

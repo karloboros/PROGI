@@ -1,5 +1,5 @@
-import { BAD_REQUEST, CREATED, NOT_FOUND, OK } from 'http-status';
-import { Club, User, UserCourse } from 'shared/database';
+import { BAD_REQUEST, CONFLICT, CREATED, NOT_FOUND, OK } from 'http-status';
+import { Club, UserCourse } from 'shared/database';
 import { NextFunction, Request, Response } from 'express';
 import { ApprovalStatus } from 'club/types';
 import errorMessages from 'shared/constants/errorMessages';
@@ -25,21 +25,30 @@ const fetchPending = async (req: Request, res: Response, next: NextFunction) => 
   }
 };
 
-const apply = async (req: Request, res: Response, next: NextFunction) => {
+const fetchByCourseId = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { user } = req;
-    const foundUser = await User.findOne({ where: { id: user.id } });
-    if (!foundUser) return next(new HttpError(NOT_FOUND, errorMessages.NOT_FOUND));
+    const userId = req.user.id;
     const { courseId } = req.params;
-    const application = {
-      status: ApprovalStatus.Pending,
-      userId: user.id,
-      courseId,
-    };
-    const userApplication = await UserCourse.create(application);
-    return res.status(CREATED).json(userApplication);
+    const userCourse = await UserCourse.findOne({ where: { userId, courseId } });
+    return res.status(OK).json(userCourse);
   } catch {
     return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
+  }
+};
+
+const apply = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const userId = req.user.id;
+    const { courseId } = req.params;
+    const userCourseToAdd = {
+      status: ApprovalStatus.Pending,
+      userId,
+      courseId,
+    };
+    await UserCourse.create(userCourseToAdd);
+    return res.status(CREATED).send();
+  } catch (err) {
+    return next(new HttpError(CONFLICT, errorMessages.UNIQUE_USER_COURSE));
   }
 };
 
@@ -61,4 +70,4 @@ const updateStatus = async (req: Request, res: Response, next: NextFunction) => 
   }
 };
 
-export { fetchApproved, fetchPending, apply, updateStatus };
+export { fetchApproved, fetchPending, fetchByCourseId, apply, updateStatus };

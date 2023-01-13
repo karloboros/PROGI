@@ -22,6 +22,13 @@ const fetchPending = async (req: Request, res: Response) => {
   return res.status(OK).json(pendingApplications);
 };
 
+const fetchByClubId = async (req: Request, res: Response) => {
+  const { clubId } = req.params;
+  const trainerId = req.user.id;
+  const application = await TrainerApplication.findOne({ where: { clubId, trainerId } });
+  return res.status(OK).json(application);
+};
+
 const apply = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { motivationalLetter, certificate } = req.body;
@@ -71,7 +78,7 @@ const uploadPDF = (req: Request, res: Response, next: NextFunction) => {
   const { file } = req;
   if (!file) return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
 
-  return res.status(OK);
+  return res.status(OK).json({ path: `/pdf/trainerApplications/${file.filename}` });
 };
 
-export { fetchApproved, fetchPending, apply, updateStatus, uploadPDF };
+export { fetchApproved, fetchPending, fetchByClubId, apply, updateStatus, uploadPDF };

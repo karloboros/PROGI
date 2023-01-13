@@ -12,15 +12,15 @@ const fetchAll = async (_req: Request, res: Response) => {
 const create = async (req: Request, res: Response, next: NextFunction) => {
   const transaction = await sequelize.transaction();
   try {
-    const { name, description, image, startTime, clubName, address, dances } = req.body;
+    const { name, description, image, startTime, clubName, locationName, coordinates, dances } = req.body;
 
     if (!dances) return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
 
     const club = await Club.findOne({ where: { name: clubName } });
     if (!club) return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
 
-    let location = await Location.findOne({ where: { name: address } });
-    if (!location) location = await Location.create({ name: address }, { transaction });
+    let location = await Location.findOne({ where: { name: locationName } });
+    if (!location) location = await Location.create({ name: locationName, coordinates }, { transaction });
 
     const newEvent = {
       name,

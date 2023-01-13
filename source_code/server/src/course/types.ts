@@ -1,4 +1,5 @@
 import { Gender } from 'user/types';
+import { IDance } from 'dance/types';
 import { ILesson } from 'lesson/types';
 
 interface ICourse {
@@ -16,6 +17,7 @@ interface ICourse {
   locationId: number;
   trainerId: number;
   lessons?: ILesson[];
+  dance?: IDance;
 }
 
 export { ICourse };
