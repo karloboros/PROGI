@@ -1,6 +1,6 @@
 <template>
   <n-space class="user-approval" align="center" justify="center" item-style="width: 80%">
-    <n-card title="Users who applied to a course" size="huge">
+    <n-card title="Pending applicants" size="huge">
       <n-skeleton v-if="loading" text :repeat="6" />
       <n-data-table v-else :columns="columns" :data="userCourses" :bordered="false" />
     </n-card>
@@ -8,35 +8,24 @@
 </template>
 
 <script setup>
-import { h, onMounted, ref } from 'vue';
-import { NButton, useMessage } from 'naive-ui';
+import { onMounted, ref } from 'vue';
+import { createButton } from '@/utils';
+import { useMessage } from 'naive-ui';
 import { userCourseApi } from '@/api';
 import { useRoute } from 'vue-router';
 
 const ApproveButton = userCourse => {
-  return h(
-    NButton,
-    {
-      secondary: true,
-      type: 'primary',
-      size: 'small',
-      onClick: () => updateApprovalStatus(userCourse.id, true),
-    },
-    { default: () => 'Approve' },
-  );
+  const type = 'success';
+  const label = 'Approve';
+  const onClick = () => updateApprovalStatus(userCourse.id, true);
+  return createButton({ type, label, onClick });
 };
 
 const RejectButton = userCourse => {
-  return h(
-    NButton,
-    {
-      secondary: true,
-      type: 'error',
-      size: 'small',
-      onClick: () => updateApprovalStatus(userCourse.id, false),
-    },
-    { default: () => 'Reject' },
-  );
+  const type = 'error';
+  const label = 'Reject';
+  const onClick = () => updateApprovalStatus(userCourse.id, false);
+  return createButton({ type, label, onClick });
 };
 
 const columns = [

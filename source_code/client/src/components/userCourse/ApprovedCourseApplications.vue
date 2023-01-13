@@ -1,6 +1,6 @@
 <template>
   <n-space class="user-approval" align="center" justify="center" item-style="width: 80%">
-    <n-card title="Users who applied to a course" size="huge">
+    <n-card title="Accepted applicants" size="huge">
       <n-skeleton v-if="loading" text :repeat="6" />
       <n-data-table v-else :columns="columns" :data="userCourses" :bordered="false" />
     </n-card>
@@ -8,22 +8,17 @@
 </template>
 
 <script setup>
-import { h, onMounted, ref } from 'vue';
-import { NButton, useMessage } from 'naive-ui';
+import { onMounted, ref } from 'vue';
+import { createButton } from '@/utils';
+import { useMessage } from 'naive-ui';
 import { userCourseApi } from '@/api';
 import { useRoute } from 'vue-router';
 
 const RemoveButton = userCourse => {
-  return h(
-    NButton,
-    {
-      secondary: true,
-      type: 'error',
-      size: 'small',
-      onClick: () => updateApprovalStatus(userCourse.id, false),
-    },
-    { default: () => 'Remove' },
-  );
+  const type = 'error';
+  const label = 'Remove';
+  const onClick = () => updateApprovalStatus(userCourse.id, false);
+  return createButton({ type, label, onClick });
 };
 
 const columns = [
