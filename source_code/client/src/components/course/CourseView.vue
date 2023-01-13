@@ -60,7 +60,7 @@ const setCanCurrentUserApply = (minAge, maxAge, gender) => {
 
 const fetchCourses = async () => {
   const data = await courseApi.fetchById(props.courseId);
-  if (!data) return router.push({ name: 'Home' });
+  if (!data) return router.push({ name: 'Landing' });
   const {
     name,
     description,

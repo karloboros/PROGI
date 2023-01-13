@@ -2,7 +2,6 @@ import { createRouter, createWebHistory } from 'vue-router';
 import ClubView from '@/components/club/ClubView.vue';
 import CourseList from '@/components/course/CourseList.vue';
 import CourseView from '@/components/course/CourseView.vue';
-import Home from '@/components/home/HomePage.vue';
 import Landing from '@/components/landing/LandingPage.vue';
 import ProfileView from '@/components/auth/ProfileView.vue';
 import { Role } from '@/constants';
@@ -15,11 +14,6 @@ const routes = [
     path: '/',
     name: 'Landing',
     component: Landing,
-  },
-  {
-    path: '/home',
-    name: 'Home',
-    component: Home,
   },
   {
     path: '/club/:id',
@@ -65,7 +59,7 @@ const router = createRouter({
   routes,
 });
 
-export const defaultRoute = { name: 'Home' };
+export const defaultRoute = { name: 'Landing' };
 
 router.beforeEach((to, _from) => {
   const authStore = useAuthStore();
