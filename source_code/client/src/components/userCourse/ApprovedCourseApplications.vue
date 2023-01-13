@@ -12,7 +12,6 @@ import { onMounted, ref } from 'vue';
 import { createButton } from '@/utils';
 import { useMessage } from 'naive-ui';
 import { userCourseApi } from '@/api';
-import { useRoute } from 'vue-router';
 
 const RemoveButton = userCourse => {
   const type = 'error';
@@ -29,15 +28,16 @@ const columns = [
   { title: 'Remove', key: 'remove', render: RemoveButton },
 ];
 
+const props = defineProps({
+  courseId: { type: Number, required: true },
+});
+
 const userCourses = ref([]);
 const loading = ref(true);
-const route = useRoute();
-const courseId = route.params.courseId;
-
 const message = useMessage();
 
 onMounted(async () => {
-  const data = await userCourseApi.fetchApproved(courseId);
+  const data = await userCourseApi.fetchApproved(props.courseId);
   userCourses.value = data.map(userCourse => ({
     ...userCourse,
     firstName: userCourse.user.firstName,

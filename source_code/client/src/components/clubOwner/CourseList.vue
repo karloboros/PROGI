@@ -58,14 +58,14 @@ const AddLessonButton = course => {
 const ApproveUsersButton = course => {
   const type = 'warning';
   const label = 'Pending applicants';
-  const onClick = () => router.push({ name: 'PendingCourseApplications', params: { courseId: course.id } });
+  const onClick = () => router.push({ name: 'PendingCourseApplications' });
   return createButton({ type, label, onClick });
 };
 
 const UsersButton = course => {
   const type = 'warning';
   const label = 'Accepted applicants';
-  const onClick = () => router.push({ name: 'ApprovedCourseApplications', params: { courseId: course.id } });
+  const onClick = () => router.push({ name: 'ApprovedCourseApplications' });
   return createButton({ type, label, onClick });
 };
 

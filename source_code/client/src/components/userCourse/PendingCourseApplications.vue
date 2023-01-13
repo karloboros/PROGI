@@ -12,7 +12,6 @@ import { onMounted, ref } from 'vue';
 import { createButton } from '@/utils';
 import { useMessage } from 'naive-ui';
 import { userCourseApi } from '@/api';
-import { useRoute } from 'vue-router';
 
 const ApproveButton = userCourse => {
   const type = 'success';
@@ -39,13 +38,14 @@ const columns = [
 
 const userCourses = ref([]);
 const loading = ref(true);
-const route = useRoute();
-const courseId = route.params.courseId;
-
 const message = useMessage();
 
+const props = defineProps({
+  courseId: { type: Number, required: true },
+});
+
 onMounted(async () => {
-  const data = await userCourseApi.fetchPending(courseId);
+  const data = await userCourseApi.fetchPending(props.courseId);
   userCourses.value = data.map(userCourse => ({
     ...userCourse,
     firstName: userCourse.user.firstName,
