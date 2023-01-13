@@ -1,26 +1,22 @@
 <template>
   <ples-view :title="title" :data="course" class="py-3">
-    <template v-if="!isTrainer" #header-extra>
+    <template #header-extra>
       <n-button v-if="shouldDisplayApply" @click="apply" type="warning">Apply to this course</n-button>
     </template>
     <n-space vertical>
       <n-image width="100" :src="trainerImage" />
+      <course-users :course-id="courseId" />
       <ples-calendar :lessons="lessons" class="py-7" />
     </n-space>
   </ples-view>
-  <n-space v-if="isTrainer" align="center" justify="center" item-style="width: 80%">
-    <n-card title="Users who applied to the course" size="huge">
-      <n-skeleton v-if="loading" text :repeat="6" />
-      <n-data-table v-else :columns="userColumns" :data="users" :bordered="false" />
-    </n-card>
-  </n-space>
 </template>
 
 <script setup>
 import { ApprovalStatus, Gender } from '@/constants';
-import { computed, onMounted, ref } from 'vue';
 import { courseApi, userCourseApi } from '@/api';
+import { onMounted, ref } from 'vue';
 import { useMessage, useNotification } from 'naive-ui';
+import CourseUsers from './CourseUsers.vue';
 import PlesCalendar from '@/components/common/PlesCalendar.vue';
 import PlesView from '@/components/common/PlesView.vue';
 import { useAuthStore } from '@/store';
@@ -41,8 +37,6 @@ const message = useMessage();
 const notification = useNotification();
 const router = useRouter();
 const authStore = useAuthStore();
-
-const isTrainer = computed(() => authStore.isTrainer);
 
 const apply = async () => {
   try {
@@ -101,6 +95,7 @@ const fetchCourses = async () => {
 };
 
 const fetchUserCourseStatus = async () => {
+  if (authStore.isTrainer) return (shouldDisplayApply.value = false);
   if (!canCurrentUserApply.value) {
     notification.warning({ content: 'You do not meet the requirements to apply, but you can still view the course' });
     return;
@@ -115,30 +110,8 @@ const fetchUserCourseStatus = async () => {
   else notification.info({ content: 'You are applied to this course' });
 };
 
-const users = ref([]);
-const loading = ref(true);
-const userColumns = [
-  { title: 'First name', key: 'firstName' },
-  { title: 'Last name', key: 'lastName' },
-  { title: 'Date of birth', key: 'dateOfBirth' },
-  { title: 'Phone number', key: 'userPhone' },
-];
-
-const fetchUsers = async () => {
-  const data = await userCourseApi.fetchApproved(props.courseId);
-  users.value = data.map(userCourse => ({
-    ...userCourse,
-    firstName: userCourse.user.firstName,
-    lastName: userCourse.user.lastName,
-    userPhone: userCourse.user.phone,
-    dateOfBirth: userCourse.user.dateOfBirth,
-  }));
-  loading.value = false;
-};
-
 onMounted(async () => {
   await fetchCourses();
   await fetchUserCourseStatus();
-  if (isTrainer) await fetchUsers();
 });
 </script>
