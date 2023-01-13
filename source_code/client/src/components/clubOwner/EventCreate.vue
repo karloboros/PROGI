@@ -61,11 +61,11 @@ const initialValues = {
   dances: [],
 };
 
-const { required, dateRequired } = validationRules;
+const { required, dateRequired, coordinatesRequired } = validationRules;
 const rules = {
   name: required,
   locationName: required,
-  coordinates: required,
+  coordinates: coordinatesRequired,
   description: required,
   clubName: required,
   image: required,
