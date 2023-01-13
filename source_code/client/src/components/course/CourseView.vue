@@ -1,7 +1,7 @@
 <template>
   <ples-view :title="title" :data="course" class="py-3">
     <template #header-extra>
-      <n-button v-if="!isAlreadyApplied" @click="apply" type="warning">Apply to this course</n-button>
+      <n-button v-if="shouldDisplayApply" @click="apply" type="warning">Apply to this course</n-button>
     </template>
     <n-space vertical>
       <n-image width="100" :src="trainerImage" />
@@ -11,12 +11,13 @@
 </template>
 
 <script setup>
+import { ApprovalStatus, Gender } from '@/constants';
 import { courseApi, userCourseApi } from '@/api';
 import { onMounted, ref } from 'vue';
-import { Gender } from '@/constants';
+import { useMessage, useNotification } from 'naive-ui';
 import PlesCalendar from '@/components/common/PlesCalendar.vue';
 import PlesView from '@/components/common/PlesView.vue';
-import { useMessage } from 'naive-ui';
+import { useAuthStore } from '@/store';
 import { useRouter } from 'vue-router';
 
 const props = defineProps({
@@ -27,19 +28,32 @@ const title = ref('');
 const course = ref(null);
 const trainerImage = ref(null);
 const lessons = ref(null);
-const isAlreadyApplied = ref(false);
+const canCurrentUserApply = ref(false);
+const shouldDisplayApply = ref(false);
 
 const message = useMessage();
+const notification = useNotification();
 const router = useRouter();
+const authStore = useAuthStore();
 
 const apply = async () => {
   try {
     await userCourseApi.apply(props.courseId);
-    isAlreadyApplied.value = true;
+    shouldDisplayApply.value = false;
     message.success('Successfully applied!');
   } catch (err) {
     message.error(err.response.data.message);
   }
+};
+
+const setCanCurrentUserApply = (minAge, maxAge, gender) => {
+  if (authStore.user.gender === gender) return (canCurrentUserApply.value = false);
+  const isTopLimit = authStore.userAge < maxAge;
+  const isBottomLimit = authStore.userAge > minAge;
+  if (minAge && maxAge) return (canCurrentUserApply.value = isTopLimit && isBottomLimit);
+  if (!minAge && !maxAge) return (canCurrentUserApply.value = true);
+  if (!minAge && maxAge) return (canCurrentUserApply.value = isTopLimit);
+  if (minAge && !maxAge) return (canCurrentUserApply.value = isBottomLimit);
 };
 
 const fetchCourses = async () => {
@@ -63,6 +77,7 @@ const fetchCourses = async () => {
   title.value = name;
   trainerImage.value = trainer.image;
   lessons.value = lessonsList.map(lesson => ({ ...lesson, location: location.name }));
+  setCanCurrentUserApply(minAge, maxAge, gender);
   course.value = [
     { label: 'Description', value: description },
     { label: 'Capacity', value: capacity },
@@ -78,8 +93,18 @@ const fetchCourses = async () => {
 };
 
 const fetchUserCourseStatus = async () => {
+  if (!canCurrentUserApply.value) {
+    notification.warning({ content: 'You do not meet the requirements to apply, but you can still view the course' });
+    return;
+  }
   const userCourse = await userCourseApi.fetchByCourseId(props.courseId);
-  isAlreadyApplied.value = !!userCourse;
+  shouldDisplayApply.value = !userCourse;
+  if (shouldDisplayApply.value) return;
+  if (userCourse.status === ApprovalStatus.Pending)
+    notification.warning({ content: 'You have already applied, but you can still view the course' });
+  else if (userCourse.status === ApprovalStatus.Rejected)
+    notification.error({ content: 'Your application to this course has been rejected' });
+  else notification.info({ content: 'You are applied to this course' });
 };
 
 onMounted(async () => {

@@ -7,7 +7,7 @@
     </template>
     <n-space vertical>
       <club-map :location="clubLocation" />
-      <n-space v-if="!isAlreadyApplied" align="center" style="margin-top: 32px">
+      <n-space v-if="shouldDisplayApply" align="center" style="margin-top: 32px">
         <n-h4 style="margin: 0">Want to be a trainer? </n-h4>
         <n-button @click="showModal = true" type="warning" text>Apply for a trainer position at this club</n-button>
       </n-space>
@@ -21,25 +21,29 @@
 <script setup>
 import { clubApi, trainerApplicationApi } from '@/api';
 import { onMounted, ref } from 'vue';
+import { ApprovalStatus } from '@/constants';
 import ClubMap from './ClubMap.vue';
 import ClubTrainerApply from './ClubTrainerApply.vue';
 import PlesView from '@/components/common/PlesView.vue';
+import { useNotification } from 'naive-ui';
 import { useRouter } from 'vue-router';
 
 const props = defineProps({
   clubId: { type: Number, required: true },
 });
 
-const router = useRouter();
 const title = ref('');
 const club = ref(null);
 const clubLocation = ref(null);
 const showModal = ref(false);
-const isAlreadyApplied = ref(false);
+const shouldDisplayApply = ref(false);
+
+const notification = useNotification();
+const router = useRouter();
 
 const applied = () => {
   showModal.value = false;
-  isAlreadyApplied.value = true;
+  shouldDisplayApply.value = false;
 };
 
 const fetchClub = async () => {
@@ -58,7 +62,12 @@ const fetchClub = async () => {
 
 const fetchTrainerApplicationStatus = async () => {
   const trainerApplication = await trainerApplicationApi.fetchByClubId(props.clubId);
-  isAlreadyApplied.value = !!trainerApplication;
+  shouldDisplayApply.value = !trainerApplication;
+  if (shouldDisplayApply.value) return;
+  if (trainerApplication.status === ApprovalStatus.Pending)
+    notification.warning({ content: 'You have already applied to be a trainer' });
+  else if (trainerApplication.status === ApprovalStatus.Rejected)
+    notification.error({ content: 'Your trainer application for this club has been rejected' });
 };
 
 onMounted(async () => {

@@ -1,4 +1,4 @@
-import { format } from 'date-fns';
+import { differenceInYears, format } from 'date-fns';
 
 const subtractYears = (date, years) => {
   date.setFullYear(date.getFullYear() - years);
@@ -14,4 +14,10 @@ const formatDate = dateString => {
   return format(date, 'yyyy-dd-MM hh:mm');
 };
 
-export { subtractYears, toDatePicker, formatDate };
+const getAge = dateOfBirthString => {
+  const now = new Date();
+  const dateOfBirth = new Date(dateOfBirthString);
+  return differenceInYears(now, dateOfBirth);
+};
+
+export { subtractYears, toDatePicker, formatDate, getAge };
