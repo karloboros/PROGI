@@ -16,6 +16,7 @@ import { onMounted, ref } from 'vue';
 import { Gender } from '@/constants';
 import PlesCalendar from '@/components/common/PlesCalendar.vue';
 import PlesView from '@/components/common/PlesView.vue';
+import { useAuthStore } from '@/store';
 import { useMessage } from 'naive-ui';
 import { useRouter } from 'vue-router';
 
@@ -27,10 +28,12 @@ const title = ref('');
 const course = ref(null);
 const trainerImage = ref(null);
 const lessons = ref(null);
+const canCurrentUserApply = ref(false);
 const shouldDisplayApply = ref(false);
 
 const message = useMessage();
 const router = useRouter();
+const authStore = useAuthStore();
 
 const apply = async () => {
   try {
@@ -40,6 +43,16 @@ const apply = async () => {
   } catch (err) {
     message.error(err.response.data.message);
   }
+};
+
+const setCanCurrentUserApply = (minAge, maxAge, gender) => {
+  if (authStore.user.gender === gender) return (canCurrentUserApply.value = false);
+  const isTopLimit = authStore.userAge < maxAge;
+  const isBottomLimit = authStore.userAge > minAge;
+  if (minAge && maxAge) return (canCurrentUserApply.value = isTopLimit && isBottomLimit);
+  if (!minAge && !maxAge) return (canCurrentUserApply.value = true);
+  if (!minAge && maxAge) return (canCurrentUserApply.value = isTopLimit);
+  if (minAge && !maxAge) return (canCurrentUserApply.value = isBottomLimit);
 };
 
 const fetchCourses = async () => {
@@ -63,6 +76,7 @@ const fetchCourses = async () => {
   title.value = name;
   trainerImage.value = trainer.image;
   lessons.value = lessonsList.map(lesson => ({ ...lesson, location: location.name }));
+  setCanCurrentUserApply(minAge, maxAge, gender);
   course.value = [
     { label: 'Description', value: description },
     { label: 'Capacity', value: capacity },
@@ -78,6 +92,7 @@ const fetchCourses = async () => {
 };
 
 const fetchUserCourseStatus = async () => {
+  if (!canCurrentUserApply.value) return;
   const userCourse = await userCourseApi.fetchByCourseId(props.courseId);
   shouldDisplayApply.value = !userCourse;
 };
