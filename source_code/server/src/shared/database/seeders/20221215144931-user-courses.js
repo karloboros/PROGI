@@ -17,7 +17,7 @@ module.exports = {
     userCourses.push(createUserCourse({ status: 1, userId: 18, courseId: 1 }));
     userCourses.push(createUserCourse({ status: 1, userId: 19, courseId: 1 }));
     userCourses.push(createUserCourse({ status: 0, userId: 1, courseId: 1 }));
-    userCourses.push(createUserCourse({ status: 2, userId: 2, courseId: 1 }));
+    userCourses.push(createUserCourse({ status: 0, userId: 2, courseId: 1 }));
 
     userCourses.push(createUserCourse({ status: 1, userId: 10, courseId: 2 }));
     userCourses.push(createUserCourse({ status: 1, userId: 21, courseId: 2 }));
