@@ -1,5 +1,11 @@
 import { ApprovalStatus, IClub } from './types';
 import { IFields, IModels } from 'shared/database/types';
+import CourseModel from 'course/course.model';
+import DanceModel from 'dance/dance.model';
+import EventModel from 'event/event.model';
+import { ICourse } from 'course/types';
+import { IEvent } from 'event/types';
+import { ILocation } from 'location/types';
 import { Model } from 'sequelize';
 
 class ClubModel extends Model implements IClub {
@@ -11,6 +17,9 @@ class ClubModel extends Model implements IClub {
   approvalStatus!: ApprovalStatus;
   ownerId!: number;
   locationId!: number;
+  courses?: ICourse[];
+  events?: IEvent[];
+  location?: ILocation;
 
   static fields({ INTEGER, STRING, TEXT }: IFields) {
     return {
@@ -53,7 +62,16 @@ class ClubModel extends Model implements IClub {
     };
   }
 
-  static associate({ Location, User }: IModels) {
+  static associate({ Course, Event, Location, User, TrainerApplication }: IModels) {
+    this.hasMany(Course, {
+      foreignKey: { name: 'clubId', field: 'clubId' },
+    });
+    this.hasMany(Event, {
+      foreignKey: { name: 'clubId', field: 'clubId' },
+    });
+    this.hasMany(TrainerApplication, {
+      foreignKey: { name: 'clubId', field: 'clubId' },
+    });
     this.belongsTo(Location, {
       foreignKey: { name: 'locationId', field: 'locationId' },
     });
@@ -71,6 +89,18 @@ class ClubModel extends Model implements IClub {
       includeLocation: {
         include: ['location'],
       },
+      includeCourses: {
+        include: ['courses'],
+      },
+      includeCoursesWithDances: {
+        include: [{ model: CourseModel, include: [DanceModel] }],
+      },
+      includeEventsWithDances: {
+        include: [{ model: EventModel, include: [DanceModel] }],
+      },
+      approved: {
+        where: { approvalStatus: ApprovalStatus.Approved },
+      },
       pending: {
         where: { approvalStatus: ApprovalStatus.Pending },
       },
@@ -83,6 +113,28 @@ class ClubModel extends Model implements IClub {
       tableName: 'clubs',
       timestamps: false,
     };
+  }
+
+  getDanceIds() {
+    const { courses, events } = this;
+    const danceIds: number[] = [];
+    const pushIfNew = (danceId: number) => danceIds.indexOf(danceId) === -1 && danceIds.push(danceId);
+    courses?.forEach(({ danceId }) => pushIfNew(danceId));
+    events?.forEach(({ dances }) => {
+      dances?.forEach(({ id: danceId }) => pushIfNew(danceId));
+    });
+    return danceIds;
+  }
+
+  getDanceNames() {
+    const { courses, events } = this;
+    const danceNames: string[] = [];
+    const pushIfNew = (danceName: string) => danceNames.indexOf(danceName) === -1 && danceNames.push(danceName);
+    courses?.forEach(({ dance }) => dance && pushIfNew(dance.name));
+    events?.forEach(({ dances }) => {
+      dances?.forEach(({ name }) => pushIfNew(name));
+    });
+    return danceNames;
   }
 }
 

@@ -26,8 +26,11 @@ class LocationModel extends Model implements ILocation {
     };
   }
 
-  static associate({ Club }: IModels) {
+  static associate({ Club, Course }: IModels) {
     this.hasMany(Club, {
+      foreignKey: { name: 'locationId', field: 'locationId' },
+    });
+    this.hasMany(Course, {
       foreignKey: { name: 'locationId', field: 'locationId' },
     });
   }

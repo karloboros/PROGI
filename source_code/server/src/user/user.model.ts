@@ -109,9 +109,18 @@ class UserModel extends Model implements IUser {
     };
   }
 
-  static associate({ Club }: IModels) {
+  static associate({ Club, Course, TrainerApplication, UserCourse }: IModels) {
     this.hasMany(Club, {
       foreignKey: { name: 'ownerId', field: 'ownerId' },
+    });
+    this.hasMany(Course, {
+      foreignKey: { name: 'trainerId', field: 'trainerId' },
+    });
+    this.hasMany(TrainerApplication, {
+      foreignKey: { name: 'trainerId', field: 'trainerId' },
+    });
+    this.hasMany(UserCourse, {
+      foreignKey: { name: 'userId', field: 'userId' },
     });
   }
 
@@ -122,6 +131,12 @@ class UserModel extends Model implements IUser {
       },
       includeClub: {
         include: ['clubs'],
+      },
+      trainers: {
+        where: { role: Role.Trainer },
+      },
+      orderByRole: {
+        order: [['role', 'ASC']],
       },
     };
   }

@@ -8,35 +8,24 @@
 </template>
 
 <script setup>
-import { h, onMounted, ref } from 'vue';
-import { NButton, useMessage } from 'naive-ui';
+import { onMounted, ref } from 'vue';
 import { ApprovalStatus } from '@/constants';
 import { clubApi } from '@/api';
+import { createButton } from '@/utils';
+import { useMessage } from 'naive-ui';
 
 const ApproveButton = club => {
-  return h(
-    NButton,
-    {
-      secondary: true,
-      type: 'primary',
-      size: 'small',
-      onClick: () => updateApprovalStatus(club.id, ApprovalStatus.Approved),
-    },
-    { default: () => 'Approve' },
-  );
+  const type = 'success';
+  const label = 'Approve';
+  const onClick = () => updateApprovalStatus(club.id, ApprovalStatus.Approved);
+  return createButton({ type, label, onClick });
 };
 
 const RejectButton = club => {
-  return h(
-    NButton,
-    {
-      secondary: true,
-      type: 'error',
-      size: 'small',
-      onClick: () => updateApprovalStatus(club.id, ApprovalStatus.Rejected),
-    },
-    { default: () => 'Reject' },
-  );
+  const type = 'error';
+  const label = 'Reject';
+  const onClick = () => updateApprovalStatus(club.id, ApprovalStatus.Rejected);
+  return createButton({ type, label, onClick });
 };
 
 const columns = [
@@ -62,7 +51,6 @@ onMounted(async () => {
     ownerName: club.owner.fullName,
     locationName: club.location.name,
   }));
-
   loading.value = false;
 });
 

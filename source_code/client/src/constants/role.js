@@ -1,7 +1,7 @@
 const Role = Object.freeze({
   Administrator: 0,
   ClubOwner: 1,
-  Coach: 2,
+  Trainer: 2,
   User: 3,
 });
 

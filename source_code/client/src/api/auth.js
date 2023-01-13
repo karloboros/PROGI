@@ -12,14 +12,14 @@ const urls = {
   get logout() {
     return this.root + '/logout';
   },
+  get upload() {
+    return this.root + '/upload';
+  },
   get edit() {
     return this.root + '/edit';
   },
   get remove() {
     return this.root;
-  },
-  get upload() {
-    return this.root + '/upload';
   },
 };
 
@@ -35,6 +35,10 @@ const logout = () => {
   return request.post(urls.logout).then(extractData);
 };
 
+const upload = params => {
+  return customRequest(headers.fileUpload).post(urls.upload, params).then(extractData);
+};
+
 const edit = user => {
   return request.post(urls.edit, user).then(extractData);
 };
@@ -43,15 +47,11 @@ const remove = () => {
   return request.delete(urls.remove);
 };
 
-const upload = params => {
-  return customRequest(headers.fileUpload).post(urls.upload, params).then(extractData);
-};
-
 export default {
   login,
   register,
   logout,
+  upload,
   edit,
   remove,
-  upload,
 };
