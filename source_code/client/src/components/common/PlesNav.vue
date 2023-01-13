@@ -12,7 +12,9 @@
                 <n-button @click="router.push({ name: 'Auth' })" type="warning" text>Login</n-button>
               </slot>
               <slot v-else>
-                <nav-user />
+                <nav-trainer v-if="isTrainer" />
+                <nav-admin v-else-if="isAdmin" />
+                <nav-user v-else />
                 <n-button @click="logout" type="warning" text>Logout</n-button>
               </slot>
             </slot>
@@ -30,6 +32,8 @@
 
 <script setup>
 import { computed } from '@vue/reactivity';
+import NavAdmin from './nav/NavAdmin.vue';
+import NavTrainer from './nav/NavTrainer.vue';
 import NavUser from './nav/NavUser.vue';
 import { useAuthStore } from '@/store';
 import { useRouter } from 'vue-router';
@@ -42,6 +46,8 @@ const router = useRouter();
 const authStore = useAuthStore();
 
 const isLoggedIn = computed(() => authStore.isLoggedIn);
+const isTrainer = computed(() => authStore.isTrainer);
+const isAdmin = computed(() => authStore.isAdmin);
 const isNotAuthRoute = computed(() => router.currentRoute.value.name !== 'Auth');
 
 const logout = () => authStore.logout(router);
