@@ -1,22 +1,28 @@
 <template>
-  <n-space class="create-application" align="center" justify="center" item-style="width: 80%">
+  <ples-modal>
     <n-form ref="formRef" @submit.prevent="submit" :model="values" :rules="rules">
       <n-form-item label="Motivational letter" path="motivationalLetter">
         <n-input v-model:value="values.motivationalLetter" type="textarea" placeholder="I want to..." />
       </n-form-item>
       <n-form-item label="Certificate" path="certificate">
-        <ples-file-upload @update="update" @error="error" accept="application/pdf" />
+        <ples-file-upload
+          @update="update"
+          @error="error"
+          :api="trainerApplicationApi.upload"
+          accept="application/pdf"
+        />
       </n-form-item>
 
       <n-form-item>
         <n-button type="primary" attr-type="submit">Send application</n-button>
       </n-form-item>
     </n-form>
-  </n-space>
+  </ples-modal>
 </template>
 
 <script setup>
 import PlesFileUpload from '@/components/common/PlesFileUpload.vue';
+import PlesModal from '@/components/common/PlesModal.vue';
 import { ref } from 'vue';
 import { trainerApplicationApi } from '@/api';
 import { useMessage } from 'naive-ui';
