@@ -1,6 +1,9 @@
 <template>
   <n-space class="container" align="center" justify="center" item-style="width: 80%">
     <n-card :title="title" size="huge">
+      <template #header-extra>
+        <slot name="header-extra"></slot>
+      </template>
       <n-skeleton v-if="loading" text :repeat="2" />
       <n-data-table v-else :columns="columns" :data="data" :bordered="false" />
     </n-card>
