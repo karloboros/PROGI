@@ -13,11 +13,11 @@
 <script setup>
 import { courseApi, userCourseApi } from '@/api';
 import { onMounted, ref } from 'vue';
+import { useMessage, useNotification } from 'naive-ui';
 import { Gender } from '@/constants';
 import PlesCalendar from '@/components/common/PlesCalendar.vue';
 import PlesView from '@/components/common/PlesView.vue';
 import { useAuthStore } from '@/store';
-import { useMessage } from 'naive-ui';
 import { useRouter } from 'vue-router';
 
 const props = defineProps({
@@ -32,6 +32,7 @@ const canCurrentUserApply = ref(false);
 const shouldDisplayApply = ref(false);
 
 const message = useMessage();
+const notification = useNotification();
 const router = useRouter();
 const authStore = useAuthStore();
 
@@ -92,7 +93,11 @@ const fetchCourses = async () => {
 };
 
 const fetchUserCourseStatus = async () => {
-  if (!canCurrentUserApply.value) return;
+  if (!canCurrentUserApply.value) {
+    notification.warning({ content: 'You do not meet the requirements to apply, but you can still view the course' });
+    return;
+  }
+
   const userCourse = await userCourseApi.fetchByCourseId(props.courseId);
   shouldDisplayApply.value = !userCourse;
 };
