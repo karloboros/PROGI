@@ -4,7 +4,7 @@
       <template #header-extra>
         <n-button @click="confirm" type="error">Delete club</n-button>
       </template>
-      <club-modal v-if="club" :initial-values="club" />
+      <club-create v-if="club" :initial-values="club" />
     </n-card>
   </n-space>
 </template>
@@ -13,7 +13,7 @@
 import { onMounted, ref } from 'vue';
 import { useDialog, useMessage } from 'naive-ui';
 import { clubApi } from '@/api';
-import ClubModal from '@/components/home/ClubModal.vue';
+import ClubCreate from '@/components/club/ClubCreate.vue';
 import { useRoute } from 'vue-router';
 
 const message = useMessage();
