@@ -1,4 +1,4 @@
-import { BAD_REQUEST, CONFLICT, NOT_FOUND, OK } from 'http-status';
+import { BAD_REQUEST, CONFLICT, FORBIDDEN, NOT_FOUND, OK } from 'http-status';
 import { NextFunction, Request, Response } from 'express';
 import sequelize, { Club, Course, Location, TrainerApplication, User } from 'shared/database';
 import { ApprovalStatus } from './types';
@@ -47,6 +47,16 @@ const fetchApproved = async (_req: Request, res: Response) => {
 const fetchPending = async (_req: Request, res: Response) => {
   const pendingClubs = await Club.scope(['pending', 'includeOwner', 'includeLocation']).findAll();
   return res.status(OK).json(pendingClubs);
+};
+
+const fetchByOwner = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const ownerId = req.user.id;
+    const club = await Club.scope(['includeLocation']).findOne({ where: { ownerId } });
+    return res.status(OK).json(club);
+  } catch (err) {
+    return next(new HttpError(FORBIDDEN, errorMessages.FORBIDDEN));
+  }
 };
 
 const fetchById = async (req: Request, res: Response) => {
@@ -159,6 +169,7 @@ export {
   fetchByIdWithDances,
   fetchApproved,
   fetchPending,
+  fetchByOwner,
   fetchById,
   create,
   edit,
