@@ -5,42 +5,27 @@
       <n-data-table v-else :columns="columns" :data="clubs" :bordered="false" />
     </n-card>
   </n-space>
-  <n-space class="club-approval" align="center" justify="center" item-style="width: 100%">
-    <dances-list />
-  </n-space>
 </template>
 
 <script setup>
-import { h, onMounted, ref } from 'vue';
-import { NButton, useMessage } from 'naive-ui';
+import { onMounted, ref } from 'vue';
 import { ApprovalStatus } from '@/constants';
 import { clubApi } from '@/api';
-import DancesList from '@/components/admin/DancesList.vue';
+import { createButton } from '@/utils';
+import { useMessage } from 'naive-ui';
 
 const ApproveButton = club => {
-  return h(
-    NButton,
-    {
-      secondary: true,
-      type: 'primary',
-      size: 'small',
-      onClick: () => updateApprovalStatus(club.id, ApprovalStatus.Approved),
-    },
-    { default: () => 'Approve' },
-  );
+  const type = 'success';
+  const label = 'Approve';
+  const onClick = () => updateApprovalStatus(club.id, ApprovalStatus.Approved);
+  return createButton({ type, label, onClick });
 };
 
 const RejectButton = club => {
-  return h(
-    NButton,
-    {
-      secondary: true,
-      type: 'error',
-      size: 'small',
-      onClick: () => updateApprovalStatus(club.id, ApprovalStatus.Rejected),
-    },
-    { default: () => 'Reject' },
-  );
+  const type = 'error';
+  const label = 'Reject';
+  const onClick = () => updateApprovalStatus(club.id, ApprovalStatus.Rejected);
+  return createButton({ type, label, onClick });
 };
 
 const columns = [
