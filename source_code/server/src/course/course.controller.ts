@@ -24,7 +24,8 @@ const fetchById = async (req: Request, res: Response) => {
     'includeLessons',
   ]).findByPk(+req.params.id);
 
-  if (req.user.role === Role.Trainer && course?.isActive) return res.status(OK).json(course);
+  if ((req.user.role === Role.Trainer || req.user.role === Role.ClubOwner) && course?.isActive)
+    return res.status(OK).json(course);
   else if (!course?.isApplicationActive) return res.status(OK).json(null);
   return res.status(OK).json(course);
 };
