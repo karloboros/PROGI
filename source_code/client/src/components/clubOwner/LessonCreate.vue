@@ -1,23 +1,18 @@
 <template>
-  <n-space align="center" justify="center">
-    <n-card style="width: 80%" title="Lesson" size="huge" role="dialog" aria-modal="true">
-      <n-form ref="formRef" @submit.prevent="submit" :model="values" :rules="rules">
-        <n-form-item label="startTime" path="startTime">
-          <n-date-picker v-model:value="values.startTime" type="date" />
-        </n-form-item>
-        <n-form-item label="endTime" path="endTime">
-          <n-date-picker v-model:value="values.endTime" type="date" />
-        </n-form-item>
-
-        <n-form-item v-if="!isCreateForm">
-          <n-button type="primary" attr-type="submit">Create lesson</n-button>
-        </n-form-item>
-        <n-form-item v-else>
-          <n-button type="primary" attr-type="submit">Save changes</n-button>
-        </n-form-item>
-      </n-form>
-    </n-card>
-  </n-space>
+  <n-form ref="formRef" @submit.prevent="submit" :model="values" :rules="rules">
+    <n-form-item label="Start Time" path="startTime">
+      <n-date-picker v-model:value="values.startTime" type="datetime" />
+    </n-form-item>
+    <n-form-item label="End Time" path="endTime">
+      <n-date-picker v-model:value="values.endTime" type="datetime" />
+    </n-form-item>
+    <n-form-item v-if="!isCreateForm">
+      <n-button type="primary" attr-type="submit">Create lesson</n-button>
+    </n-form-item>
+    <n-form-item v-else>
+      <n-button type="primary" attr-type="submit">Save changes</n-button>
+    </n-form-item>
+  </n-form>
 </template>
 
 <script setup>
@@ -28,7 +23,10 @@ import { useMessage } from 'naive-ui';
 import { useRoute } from 'vue-router';
 import { validationRules } from '@/utils';
 
+const emit = defineEmits(['saved']);
+
 const props = defineProps({
+  courseId: { type: Number, default: null },
   initialValues: {
     type: Object,
     default: () => ({
@@ -56,12 +54,13 @@ const submit = async () => {
   formRef.value?.validate(async errors => {
     if (!errors) {
       try {
-        if (route.params.id) {
+        if (!props.courseId) {
           await lessonApi.edit({ ...values.value, id: route.params.id });
         } else {
-          await lessonApi.create({ ...values.value, courseId: route.params.courseId });
+          await lessonApi.create({ ...values.value, courseId: props.courseId });
         }
         message.success('Success');
+        emit('saved');
       } catch (err) {
         message.error(err.response.data.message);
       }

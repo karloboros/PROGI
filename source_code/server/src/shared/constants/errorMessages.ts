@@ -19,6 +19,8 @@ const errorMessages = {
   COURSE_TRAINER_DELETE: 'Since this user is trainer to be able to delete the user, delete his courses first.',
   TRAINER_CLUB_DELETE: 'To be able to delete this club, delete its trainer applications first.',
   UNIQUE_USER_COURSE: 'You have already applied to this course.',
+  DATES_ORDER: 'The lesson cannot end before it starts :)',
+  DATES_FUTURE: 'Cannot add a lesson before today!',
   EVENT_CLUB_DELETE: 'To be able to delete this club, delete its events first.',
 };
 
