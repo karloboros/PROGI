@@ -15,16 +15,21 @@ import PlesCalendar from '@/components/common/PlesCalendar.vue';
 import TrainerCourses from './TrainerCourses.vue';
 import { useAuthStore } from '@/store';
 
-const authStore = useAuthStore();
 const lessons = ref([]);
+const courses = ref([]);
 const isLoading = ref(true);
 
-const courses = ref([]);
-const trainerId = authStore.user.id;
+const authStore = useAuthStore();
+
+const mapLessons = (lessonsList, location) => {
+  return (lessons.value = lessonsList.map(lesson => ({ ...lesson, location })));
+};
 
 onMounted(async () => {
-  const data = await courseApi.fetchByTrainerId(trainerId);
+  const data = await courseApi.fetchByTrainerId(authStore.user.id);
   courses.value = data.map(({ location, ...course }) => ({ ...course, location: location.name }));
+  lessons.value = data.map(({ lessons, location }) => mapLessons(lessons, location.name)).flat();
+  console.log(lessons.value);
   isLoading.value = false;
 });
 </script>
