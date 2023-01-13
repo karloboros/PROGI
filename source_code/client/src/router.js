@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import ClubApproval from '@/components/admin/ClubApproval.vue';
 import ClubEdit from '@/components/admin/ClubEdit.vue';
+import ClubOwnerCourseList from '@/components/clubOwner/CourseList.vue';
 import ClubsList from '@/components/admin/ClubsList.vue';
 import ClubView from '@/components/club/ClubView.vue';
 import CourseList from '@/components/course/CourseList.vue';
@@ -97,6 +98,13 @@ const routes = [
     component: Trainer,
   },
   {
+    path: '/club-owner/courses/:id',
+    name: 'ClubOwnerCourseList',
+    component: ClubOwnerCourseList,
+    meta: { role: Role.ClubOwner },
+    props: route => ({ clubId: Number(route.params.id) }),
+  },
+  {
     path: '/:catchAll(.*)',
     redirect: '/',
   },
@@ -141,6 +149,10 @@ router.beforeEach((to, _from) => {
 
   if (isTrainerRoute && !isTrainer) {
     return defaultRoute;
+  }
+
+  if (isClubOwner && to.name === 'CourseList') {
+    return { name: 'ClubOwnerCourseList', params: { id: to.params.id } };
   }
 });
 

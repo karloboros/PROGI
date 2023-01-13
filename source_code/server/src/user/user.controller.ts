@@ -62,11 +62,6 @@ const fetchById = async (req: Request, res: Response, next: NextFunction) => {
   return res.status(OK).json(user.profile);
 };
 
-const fetchTrainers = async (_req: Request, res: Response) => {
-  const trainers = await User.scope(['trainers']).findAll();
-  return res.status(OK).json(trainers);
-};
-
 const edit = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const user = req.body;
@@ -131,4 +126,4 @@ const removeById = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-export { login, register, logout, uploadProfileImage, fetchAll, fetchById, fetchTrainers, edit, remove, removeById };
+export { login, register, logout, uploadProfileImage, fetchAll, fetchById, edit, remove, removeById };

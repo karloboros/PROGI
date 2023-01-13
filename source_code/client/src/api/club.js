@@ -18,6 +18,12 @@ const urls = {
   get fetchPending() {
     return this.root + '/pending';
   },
+  fetchTrainersByClubId(clubId) {
+    return `${urls.root}/trainers/${clubId}`;
+  },
+  get fetchByOwner() {
+    return this.root + '/owner';
+  },
   fetchById(id) {
     return `${urls.root}/${id}`;
   },
@@ -55,6 +61,14 @@ const fetchPending = () => {
   return request.get(urls.fetchPending).then(extractData);
 };
 
+const fetchTrainersByClubId = clubId => {
+  return request.get(urls.fetchTrainersByClubId(clubId)).then(extractData);
+};
+
+const fetchByOwner = () => {
+  return request.get(urls.fetchByOwner).then(extractData);
+};
+
 const fetchById = id => {
   return request.get(urls.fetchById(id)).then(extractData);
 };
@@ -82,6 +96,8 @@ export default {
   fetchById,
   fetchApproved,
   fetchPending,
+  fetchTrainersByClubId,
+  fetchByOwner,
   create,
   edit,
   updateApprovalStatus,

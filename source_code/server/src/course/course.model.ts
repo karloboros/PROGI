@@ -81,12 +81,12 @@ class CourseModel extends Model implements ICourse {
     };
   }
 
-  get isActive() {
+  get isApplicationActive() {
     const { lessons, applicationDeadline } = this;
     return !!lessons?.length && new Date() < new Date(applicationDeadline);
   }
 
-  get isTrainerActive() {
+  get isActive() {
     const { lessons } = this;
     return !!lessons?.length;
   }
