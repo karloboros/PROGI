@@ -1,12 +1,23 @@
 <template>
-  <ples-list :columns="columns" :data="courses" :loading="isLoading" title="Available courses" class="py-3" />
+  <ples-list :columns="columns" :data="courses" :loading="isLoading" title="Available courses" class="py-3">
+    <template #header-extra>
+      <n-button @click="showCreateModal = true" type="warning">Create course</n-button>
+    </template>
+  </ples-list>
+  <n-modal v-model:show="showCreateModal">
+    <ples-modal class="py-3">
+      <course-create />
+    </ples-modal>
+  </n-modal>
 </template>
 
 <script setup>
 import { createButton, formatDate } from '@/utils';
 import { onMounted, ref } from 'vue';
 import { courseApi } from '@/api';
+import CourseCreate from './CourseCreate.vue';
 import PlesList from '@/components/common/PlesList.vue';
+import PlesModal from '@/components/common/PlesModal.vue';
 import { useRouter } from 'vue-router';
 
 const props = defineProps({
@@ -16,6 +27,7 @@ const props = defineProps({
 const router = useRouter();
 const courses = ref([]);
 const isLoading = ref(true);
+const showCreateModal = ref(false);
 
 const DetailsButton = course => {
   const type = 'warning';
