@@ -6,9 +6,12 @@ import HttpError from 'shared/error/httpError';
 import { Role } from 'user/types';
 import { UniqueConstraintError } from 'sequelize';
 
-const fetchActive = async (_req: Request, res: Response) => {
+const fetchActive = async (req: Request, res: Response) => {
   const courses = await Course.scope(['includeLocation', 'includeLessons']).findAll();
-  const activeCourses = courses.filter(course => course.isActive);
+  const activeCourses = courses.filter(course => {
+    if (req.user.role === Role.ClubOwner) return course.isActive;
+    return course.isApplicationActive;
+  });
   return res.status(OK).json(activeCourses);
 };
 
@@ -21,8 +24,8 @@ const fetchById = async (req: Request, res: Response) => {
     'includeLessons',
   ]).findByPk(+req.params.id);
 
-  if (req.user.role === Role.Trainer && course?.isTrainerActive) return res.status(OK).json(course);
-  else if (!course?.isActive) return res.status(OK).json(null);
+  if (req.user.role === Role.Trainer && course?.isActive) return res.status(OK).json(course);
+  else if (!course?.isApplicationActive) return res.status(OK).json(null);
   return res.status(OK).json(course);
 };
 
@@ -41,7 +44,7 @@ const fetchByTrainerId = async (req: Request, res: Response, next: NextFunction)
     if (req.user.role !== Role.Trainer) throw Error();
     const trainerId = req.user.id;
     const courses = await Course.scope(['includeLessons', 'includeLocation']).findAll({ where: { trainerId } });
-    const filteredCourses = courses.filter(course => course.isTrainerActive);
+    const filteredCourses = courses.filter(course => course.isActive);
     return res.status(OK).json(filteredCourses);
   } catch (err) {
     return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
