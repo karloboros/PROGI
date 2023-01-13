@@ -1,11 +1,19 @@
 <template>
   <ples-view :title="title" :data="club" class="py-3">
     <template #header-extra>
-      <n-button @click="router.push({ name: 'CourseList', params: { id: clubId } })" type="warning">
+      <n-button @click="router.push({ name: 'CourseList', params: { id: clubId } })" type="warning" secondary>
         Available courses
       </n-button>
     </template>
-    <club-map :location="clubLocation" />
+    <n-space vertical>
+      <club-map :location="clubLocation" />
+      <n-space align="center" style="margin-top: 32px">
+        <n-h4 style="margin: 0">Want to be a trainer? </n-h4>
+        <n-button @click="router.push({ name: 'CourseList', params: { id: clubId } })" type="warning" text>
+          Apply for a trainer position at this club
+        </n-button>
+      </n-space>
+    </n-space>
   </ples-view>
 </template>
 
