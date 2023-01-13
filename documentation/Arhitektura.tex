@@ -313,21 +313,20 @@ Osnovna karakteristika ovog stila je nezavisan razvoj pojedinih dijelova aplikac
 			logičku cjelinu ili nasljeđuju i implementiraju zajedničke enumeracuje ili sučelja.
 			Iz naziva i tipova atributa u razredima moze se zaključiti vrsta ovisnosti među različitim razredima. \\
 
-			\noindent Dijagram koji slijedi prikazuje modele Korisnika i Lokacije koji su implementirani u aplikaciji te 
-			model TecajModel koji još nije implemetirann te je sklon promjenama. Postoji mogućnost dodavanja novih metoda tijekom implementacije.
+			\noindent Dijagram koji slijedi prikazuje modele User i Location te 
+			model CourseModel.
 			Model User implementira sučelje IUser, koje definira njegove atribute, i koristi enumeraciju Role i Gender. Role definira ulogu korisnika, a
-			Gender spol korisnika. Model Tecaj implementira sučelje ITecaj i korisni enumeraciju Gender za definiranje spola kojem je tečaj namijenjen.
+			Gender spol korisnika. Model Course implementira sučelje ICourse i korisni enumeraciju Gender za definiranje spola kojem je tečaj namijenjen, ako je za tečaj definirano ograničenje po spolu.
 			\\
 			\begin{figure}[H]
 				\includegraphics[scale=1.0]{slike/class1.png}
 				\centering
-				\caption{Dio klasnog dijagrama vezan uz modele User, Tecaj i Location.}
+				\caption{Dio klasnog dijagrama vezan uz modele User, Course i Location.}
 				\label{fig:class1}
 			\end{figure}		
 			
-			\noindent Dijagram koji slijedi prikazuje model Kluba koji je implementiran u aplikaciji te modele TrainerApplication i KorisnikTecaj
-			koji još nisu implemetirani te su skloni promjenama. Postoji mogućnost dodavanja novih metoda tijekom implementacije.
-			Model Klub implemetnira sučelje IKlub koji definira njegove atribute te korisni enumeraciju ApprovalStatus koja opisuje je li 
+			\noindent Dijagram koji slijedi prikazuje modele Club, TrainerApplication i UserCourse.
+			Model Club implemetnira sučelje IClub koji definira njegove atribute te korisni enumeraciju ApprovalStatus koja opisuje je li 
 			administrator prihvatio tog kluba u sustavu ili ne. Klasa HttpError implementira sučelje IHttpError kojom lovimo moguće iznimke 
 			nastale u kodu.\\
 			\begin{figure}[H]
@@ -337,19 +336,16 @@ Osnovna karakteristika ovog stila je nezavisan razvoj pojedinih dijelova aplikac
 				\label{fig:class1}
 			\end{figure}
 
-			\noindent Dijagram koji slijedi prikazuje okvirno stanje modela zato što oni još nisu implementirani. Popisane metode su 
-			ugrubo navedene i sklone su promjenama. Postoji mogućnost dodavanja novih metoda tijekom implementacije.\\
+			\noindent Dijagram koji slijedi prikazuje modele Dance, Event, EventDance i Lesson. Svaki od modela implementira  svoje sučelje koje definira njegove atribute. \\
 			\begin{figure}[H]
 				\includegraphics[scale=1.0]{slike/class3.png}
 				\centering
-				\caption{Dio klasnog dijagrama vezan uz modele Dance, DanceBall i Training.}
+				\caption{Dio klasnog dijagrama vezan uz modele Dance, Event, EventDance i Lesson.}
 				\label{fig:class1}
 			\end{figure}
 
 		% 	\textit{Prilikom druge predaje projekta dijagram razreda i opisi moraju odgovarati stvarnom stanju implementacije}
-			
-			
-			
+					
 		\eject
 		
 		\section{Dijagram stanja}
