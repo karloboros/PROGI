@@ -3,7 +3,7 @@ const TABLE_NAME = 'trainer_applications';
 const createTrainerApplication = ({ status, clubId, trainerId }) => {
   return {
     motivationalLetter: 'Trust me, I am a good trainer!',
-    certificate: 'Polozen certifikat za profesionalnog plesača.',
+    certificate: '/pdf/trainerApplications/thumbnail.pdf',
     status,
     trainerId,
     clubId,
