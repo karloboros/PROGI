@@ -1,5 +1,5 @@
 import { BAD_REQUEST, CONFLICT, CREATED, NOT_FOUND, OK } from 'http-status';
-import { Dance, Event, EventDance } from 'shared/database';
+import { Course, Dance, Event, EventDance } from 'shared/database';
 import { NextFunction, Request, Response } from 'express';
 import errorMessages from 'shared/constants/errorMessages';
 import HttpError from 'shared/error/httpError';
@@ -68,6 +68,9 @@ const remove = async (req: Request, res: Response, next: NextFunction) => {
 
     const events = await EventDance.findOne({ where: { danceId } });
     if (events) return next(new HttpError(CONFLICT, errorMessages.EVENT_DANCE_DELETE));
+
+    const course = await Course.scope(['includeDance']).findOne({ where: { danceId } });
+    if (course) return next(new HttpError(CONFLICT, errorMessages.COURSE_DANCE_DELETE));
 
     const danceToRemove = await Dance.findByPk(danceId);
     if (!danceToRemove) return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
