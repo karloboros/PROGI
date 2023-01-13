@@ -1,6 +1,6 @@
 import { BAD_REQUEST, CONFLICT, NOT_FOUND, OK } from 'http-status';
 import { NextFunction, Request, Response } from 'express';
-import sequelize, { Club, Course, Location, TrainerApplication, User } from 'shared/database';
+import sequelize, { Club, Course, Event, Location, TrainerApplication, User } from 'shared/database';
 import { ApprovalStatus } from './types';
 import errorMessages from 'shared/constants/errorMessages';
 import HttpError from 'shared/error/httpError';
@@ -142,6 +142,9 @@ const remove = async (req: Request, res: Response, next: NextFunction) => {
 
     const trainerApplications = await TrainerApplication.findOne({ where: { clubId } });
     if (trainerApplications) return next(new HttpError(CONFLICT, errorMessages.TRAINER_CLUB_DELETE));
+
+    const event = await Event.findOne({ where: { clubId } });
+    if (event) return next(new HttpError(CONFLICT, errorMessages.EVENT_CLUB_DELETE));
 
     const clubToRemove = await Club.findByPk(clubId);
     if (!clubToRemove) return next(new HttpError(BAD_REQUEST, errorMessages.BAD_REQUEST));
