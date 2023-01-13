@@ -50,16 +50,23 @@ import { validationRules } from '@/utils';
 
 const emit = defineEmits(['created']);
 
-const initialValues = {
-  name: '',
-  locationName: '',
-  coordinates: '',
-  description: '',
-  clubName: null,
-  image: '',
-  startTime: null,
-  dances: [],
-};
+const props = defineProps({
+  initialValues: {
+    type: Object,
+    default: () => ({
+      name: '',
+      locationName: '',
+      coordinates: '',
+      description: '',
+      clubName: null,
+      image: '',
+      startTime: null,
+      dances: [],
+    }),
+  },
+});
+
+const values = ref(props.initialValues);
 
 const { required, dateRequired, coordinatesRequired } = validationRules;
 const rules = {
@@ -99,7 +106,6 @@ onMounted(async () => {
   loading.value = false;
 });
 
-const values = ref(initialValues);
 const formRef = ref(null);
 
 const message = useMessage();

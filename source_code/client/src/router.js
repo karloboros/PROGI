@@ -9,6 +9,9 @@ import CourseView from '@/components/course/CourseView.vue';
 import DanceCreate from '@/components/admin/DanceCreate.vue';
 import DanceEdit from '@/components/admin/DanceEdit.vue';
 import DancesList from '@/components/admin/DancesList.vue';
+import EventCreate from '@/components/clubOwner/EventCreate.vue';
+import EventEdit from '@/components/clubOwner/EventEdit.vue';
+import EventsList from '@/components/clubOwner/EventsList.vue';
 import Landing from '@/components/landing/LandingPage.vue';
 import PendingTrainerApplications from '@/components/trainerApplication/PendingTrainerApplications.vue';
 import ProfileView from '@/components/auth/ProfileView.vue';
@@ -106,11 +109,27 @@ const routes = [
     props: route => ({ clubId: Number(route.params.id) }),
   },
   {
+    path: '/club-owner/events',
+    name: 'EventsList',
+    component: EventsList,
+    meta: { role: Role.ClubOwner },
+  },
+  {
+    path: '/club-owner/events/create',
+    name: 'EventCreate',
+    component: EventCreate,
+  },
+  {
     path: '/club-owner/pending-applications/:id',
     name: 'TrainerApplications',
     component: PendingTrainerApplications,
     meta: { role: Role.ClubOwner },
     props: route => ({ clubId: Number(route.params.id) }),
+  },
+  {
+    path: '/club-owner/events/edit/:id',
+    name: 'EventEdit',
+    component: EventEdit,
   },
   {
     path: '/:catchAll(.*)',
