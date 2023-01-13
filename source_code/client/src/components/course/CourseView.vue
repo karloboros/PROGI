@@ -1,7 +1,7 @@
 <template>
   <ples-view :title="title" :data="course" class="py-3">
     <template #header-extra>
-      <n-button @click="apply" :disabled="isAlreadyApplied" type="warning">Apply to this course</n-button>
+      <n-button v-if="!isAlreadyApplied" @click="apply" type="warning">Apply to this course</n-button>
     </template>
     <n-space vertical>
       <n-image width="100" :src="trainerImage" />

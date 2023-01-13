@@ -9,6 +9,9 @@ const urls = {
   fetchPending(clubId) {
     return `${urls.root}/pending/${clubId}`;
   },
+  fetchByClubId(clubId) {
+    return `${urls.root}/${clubId}`;
+  },
   apply(clubId) {
     return `${urls.root}/apply/${clubId}`;
   },
@@ -28,6 +31,10 @@ const fetchPending = clubId => {
   return request.get(urls.fetchPending(clubId)).then(extractData);
 };
 
+const fetchByClubId = clubId => {
+  return request.get(urls.fetchByClubId(clubId)).then(extractData);
+};
+
 const apply = (params = {}) => {
   return request.post(urls.apply(params.clubId), params).then(extractData);
 };
@@ -40,4 +47,4 @@ const upload = (params = {}) => {
   return customRequest(headers.fileUpload).post(urls.upload, params).then(extractData);
 };
 
-export default { fetchApproved, fetchPending, apply, updateStatus, upload };
+export default { fetchApproved, fetchPending, fetchByClubId, apply, updateStatus, upload };

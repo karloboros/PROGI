@@ -1,4 +1,11 @@
-import { apply, fetchApproved, fetchPending, updateStatus, uploadPDF } from './trainerApplication.controller';
+import {
+  apply,
+  fetchApproved,
+  fetchByClubId,
+  fetchPending,
+  updateStatus,
+  uploadPDF,
+} from './trainerApplication.controller';
 import authenticate from 'shared/auth/authenticate';
 import { createUpload } from 'shared/helpers/upload';
 import refresh from 'shared/auth/refresh';
@@ -14,6 +21,7 @@ router
   .use(refresh)
   .get('/approved/:clubId', fetchApproved)
   .get('/pending/:clubId', fetchPending)
+  .get('/:clubId', fetchByClubId)
   .post('/apply/:clubId', apply)
   .post('/update-status/:id', updateStatus)
   .post('/upload', upload.single('file'), uploadPDF);
