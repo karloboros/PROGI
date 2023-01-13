@@ -4,6 +4,7 @@ services:
     name: ples-prod-server1
     repo: https://gitlab.com/programtvogkompjutera1/ples
     branch: master
+    plan: free
     rootDir: source_code/server
     buildFilter:
       paths:
