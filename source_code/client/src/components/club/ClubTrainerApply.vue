@@ -31,7 +31,7 @@ const props = defineProps({
   clubId: { type: Number, required: true },
 });
 
-const emit = defineEmits(['close']);
+const emit = defineEmits(['applied']);
 
 const initialValues = {
   motivationalLetter: '',
@@ -56,7 +56,7 @@ const submit = async () => {
         const { clubId } = props;
         await trainerApplicationApi.apply({ ...values.value, clubId });
         message.success('Application sent!');
-        emit('close');
+        emit('applied');
       } catch (err) {
         message.error(err.message);
       }
