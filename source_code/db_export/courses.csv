@@ -1,0 +1,8 @@
+"id","name","description","capacity","minAge","maxAge","gender","applicationDeadline","additionalRules","clubId","danceId","locationId","trainerId"
+1,"Cha cha","Plesemo i zabavljamo se.",5,,,0,"2023-05-01 22:00:00+00","Budite dobro raspoloženi!",1,1,1,8
+2,"PLesnjae party","Plesemo i zabavljamo se.",5,,,0,"2023-05-07 22:00:00+00","Budite dobro raspoloženi!",1,2,1,13
+3,"Loco","Plesemo i zabavljamo se.",5,,,0,"2023-08-07 22:00:00+00","Budite dobro raspoloženi!",2,3,2,13
+4,"Plesanje tecaj","Plesemo i zabavljamo se.",5,,,1,"2023-01-31 23:00:00+00","Budite dobro raspoloženi!",3,4,3,14
+5,"Tecaj suvremenog plesa","Plesemo i zabavljamo se.",5,20,,1,"2023-03-01 23:00:00+00","Budite dobro raspoloženi!",4,5,4,13
+6,"nauci plesati","Plesemo i zabavljamo se.",5,20,,,"2023-05-02 22:00:00+00","Budite dobro raspoloženi!",5,1,5,13
+7,"Cha cha cha","Plesemo i zabavljamo se.",5,20,,,"2023-03-02 23:00:00+00","Budite dobro raspoloženi!",6,2,6,14
