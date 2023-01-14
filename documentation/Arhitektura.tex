@@ -313,36 +313,38 @@ Osnovna karakteristika ovog stila je nezavisan razvoj pojedinih dijelova aplikac
 			logičku cjelinu ili nasljeđuju i implementiraju zajedničke enumeracuje ili sučelja.
 			Iz naziva i tipova atributa u razredima moze se zaključiti vrsta ovisnosti među različitim razredima. \\
 
-			\noindent Dijagram koji slijedi prikazuje modele Korisnika i Lokacije koji su implementirani u aplikaciji te 
-			model TecajModel koji još nije implemetirann te je sklon promjenama. Postoji mogućnost dodavanja novih metoda tijekom implementacije.
-			Model User implementira sučelje IUser, koje definira njegove atribute, i koristi enumeraciju Role i Gender. Role definira ulogu korisnika, a
-			Gender spol korisnika. Model Tecaj implementira sučelje ITecaj i korisni enumeraciju Gender za definiranje spola kojem je tečaj namijenjen.
+			\noindent Dijagram koji slijedi prikazuje modele User i Location te 
+			model CourseModel.
+			Model User implementira sučelje IUser, koje definira njegove atribute, i koristi enumeraciju Role i Gender. Role definira ulogu korisnika, a 
+			Gender spol korisnika. Model Course implementira sučelje ICourse i korisni enumeraciju Gender za definiranje spola kojem je tečaj namijenjen, ako je za tečaj definirano ograničenje po spolu.
 			\\
 			\begin{figure}[H]
 				\includegraphics[scale=1.0]{slike/class1.png}
 				\centering
-				\caption{Dio klasnog dijagrama vezan uz modele User, Tecaj i Location.}
+				\caption{Dio klasnog dijagrama vezan uz modele User, Course i Location.}
 				\label{fig:class1}
 			\end{figure}		
 			
-			\noindent Dijagram koji slijedi prikazuje model Kluba koji je implementiran u aplikaciji te modele TrainerApplication i KorisnikTecaj
-			koji još nisu implemetirani te su skloni promjenama. Postoji mogućnost dodavanja novih metoda tijekom implementacije.
-			Model Klub implemetnira sučelje IKlub koji definira njegove atribute te korisni enumeraciju ApprovalStatus koja opisuje je li 
+			\noindent 
+			Dijagram koji slijedi prikazuje modele Club, TrainerApplication i UserCourse.
+			Model Club implemetnira sučelje IClub koji definira njegove atribute te korisni enumeraciju ApprovalStatus koja opisuje je li 
 			administrator prihvatio tog kluba u sustavu ili ne. Klasa HttpError implementira sučelje IHttpError kojom lovimo moguće iznimke 
-			nastale u kodu.\\
+			nastale u kodu.
+			\\
 			\begin{figure}[H]
 				\includegraphics[scale=0.7]{slike/class2.png}
 				\centering
-				\caption{Dio klasnog dijagrama vezan uz modele Club, TrainerApplication i Korisniktecaj.}
+				\caption{Dio klasnog dijagrama vezan uz modele Club, TrainerApplication i UserCourse.}
 				\label{fig:class1}
 			\end{figure}
 
-			\noindent Dijagram koji slijedi prikazuje okvirno stanje modela zato što oni još nisu implementirani. Popisane metode su 
-			ugrubo navedene i sklone su promjenama. Postoji mogućnost dodavanja novih metoda tijekom implementacije.\\
+			\noindent 
+			Dijagram koji slijedi prikazuje modele Dance, Event, EventDance i Lesson. Svaki od modela implementira  svoje sučelje koje definira njegove atribute.
+			\\
 			\begin{figure}[H]
 				\includegraphics[scale=1.0]{slike/class3.png}
 				\centering
-				\caption{Dio klasnog dijagrama vezan uz modele Dance, DanceBall i Training.}
+				\caption{Dio klasnog dijagrama vezan uz modele Dance, Event, EventDance i Lesson.}
 				\label{fig:class1}
 			\end{figure}
 
@@ -371,7 +373,7 @@ Osnovna karakteristika ovog stila je nezavisan razvoj pojedinih dijelova aplikac
             \noindent Dijagram aktivnosti pokazuje proces prijave registriranog korisnika na tečaj. Prijavom u sustav njemu se prikazuje mapa sa listom tečajeva koji su slobodni za upis. Korištenjem filtera on može prilagoditi rezultate svojim preferencijama i pronaći tečaj koji njemu odgovara. Odabirom tečaja stranica ga odvodi na prikaz detalja istoga. Klikom na prijavu korisnik mora upisati tražene podatke i tada se njegova prijava šalje u bazu podataka, a stranica ga vraća na kartu sa prikazom svih tečaja. 
 
             \begin{figure}[H]
-			\includegraphics[scale=0.4]{slike/DijagramAktivnosti.PNG} %veličina slike u odnosu na originalnu datoteku i pozicija slike
+			\includegraphics[scale=0.8]{slike/DijagramAktivnosti.PNG} %veličina slike u odnosu na originalnu datoteku i pozicija slike
 			\centering
 			\caption{Dijagram aktivnosti - prijava na tečaj}
 			\label{fig:stanje}
@@ -379,6 +381,17 @@ Osnovna karakteristika ovog stila je nezavisan razvoj pojedinih dijelova aplikac
 		
 		\section{Dijagram komponenti}
 		
-		% 	\textbf{\textit{dio 2. revizije}}\\
+			\noindent Dijagram komponenti opisuje organizaciju i međuovisnost komponenti, interne strukture i odnose prema okolini. 
+Postoje 3 Docker konteinera: jedan za bazu podataka ( port 3002), jedan za poslužiteljsku stranu (port 3001 ) i jedan za klijentsku stranu ( port 3000 ).
+Klijentska strana podigne jedan html dokument i podigne virtualni DOM. View napravi virtualni DOM, provjerava podatke i pošalje na fizički DOM. View automatski puni fizički DOM s .json file-om. Nema slanja html dokumenta između klijentske i poslužiteljske strane. Klijentska strana preko http requestova traži od poslužiteljske strane informacije iz baze podataka. 
+Postoji 10 „Controllera“ (za klub, tecaj, ples, dogadaj, dogadajPles, lekciju, lokaciju, trenerAplikaciju, korisnika i korisnikaTecaja) i njihovih 10 „Modela“.  Svaki entitet je model. Modeli su zadužni za dobavljanje podataka iz baze podataka. „Controller“  se nalazi na poslužiteljskoj strani i prima informaciju od „View“ komponente. On validira primljenu informaciju iz zahtjeva s klijentske strane, obavi sve što je potrebno za taj zadatak napraviti te vrati povratnu informaciju klijentu je li akcija uspješno obavljena. 
+JavaScript „leaflet“ biblioteka služi za prikaz interaktivnih mapa
+„Bycrpt“ je biblioteka koja služi za kriptiranje lozinke.
+
 		
-		% 	 \textit{Potrebno je priložiti dijagram komponenti s pripadajućim opisom. Dijagram komponenti treba prikazivati strukturu cijele aplikacije.}
+		\begin{figure}[H]
+			\includegraphics[scale=0.3]{slike/DijagramKomponenti.PNG} %veličina slike u odnosu na originalnu datoteku i pozicija slike
+			\centering
+			\caption{Dijagram komponenti}
+			\label{fig:stanje}
+		\end{figure}
